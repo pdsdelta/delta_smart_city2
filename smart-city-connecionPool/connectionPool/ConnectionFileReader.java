@@ -23,7 +23,7 @@ public class ConnectionFileReader {
 		try {
 			
 			
-			input = new FileInputStream("E:/Cours/eclipse/delta-city/Ressources/bdd.properties");
+			input = new FileInputStream("../delta_smart_city2/Ressources/bdd.properties");
 
 			// load a properties file
 			pr.load(input);
