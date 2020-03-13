@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="smart-city-backend"/>
+	<classpathentry kind="src" path="smart-city-client"/>
+	<classpathentry kind="src" path="smart-city-client-common"/>
+	<classpathentry kind="src" path="smart-city-commons"/>
+	<classpathentry kind="src" path="smart-city-connecionPool"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
