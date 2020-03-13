@@ -47,14 +47,11 @@ public class TestConnexion {
 					i.remove(0);
 					break;
 				case "4":
-					ene.addUtilisateur(crud.ActionInsertUser());
-					if(ene.addUtilisateur(crud.ActionInsertUser())==1) {
-						System.out.println("Ajout réussi");
-					}
+					crud.addUtilisateur(crud.ActionInsertUser());
 					break;
 
 				case "5":
-					List<Users> lt = ene.getAllUtilisateur();
+					List<Users> lt = crud.getAllUtilisateur();
 					for (Users tab : lt) {
 						System.out.println(tab);
 					}
