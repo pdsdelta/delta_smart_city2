@@ -14,7 +14,8 @@ public class TestConnexion {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-
+			
+			CRUD_USERS crud = new CRUD_USERS();
 			DataSource ene = new DataSource();
 
 			System.out.println("**********");
@@ -29,12 +30,7 @@ public class TestConnexion {
 
 			while (true) {
 				String a = sc.nextLine();
-				Scanner read = new Scanner(System.in);
-				Scanner hey = new Scanner(System.in);
-				String nom = null;
-				String prenom = null;
-				String login = null;
-				Users util = new Users();
+				
 				switch (a) {
 
 				case "1":
@@ -51,23 +47,10 @@ public class TestConnexion {
 					i.remove(0);
 					break;
 				case "4":
-
-					System.out.println("veuillez entrez le nom: ");
-					nom = read.nextLine();
-					System.out.println("veuillez entrez le prenom: ");
-					prenom = read.nextLine();
-					System.out.println("veuillez entrez le login: ");
-					login = read.nextLine();
-					System.out.println("veuillez entrez le mot de passe: ");
-					String pass = read.nextLine();
-					System.out.println("veuillez entrez le profil: ");
-					int profil = hey.nextInt();
-					util.setNom(nom);
-					util.setPrenom(prenom);
-					util.setLogin(login);
-					util.setPwd(pass);
-					util.setProfil(profil);
-					ene.addUtilisateur(util);
+					ene.addUtilisateur(crud.ActionInsertUser());
+					if(ene.addUtilisateur(crud.ActionInsertUser())==1) {
+						System.out.println("Ajout réussi");
+					}
 					break;
 
 				case "5":
