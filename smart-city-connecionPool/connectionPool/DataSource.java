@@ -43,14 +43,20 @@ public class DataSource {
 	public List<Users> getAllUtilisateur(){
 		return connectionPool.getAllUtilisateur();
 	}
-	public void deleteUtilisateur(String ref) {
-		connectionPool.deleteUtilisateur(ref);
-		getAllUtilisateur();
-		}
+
+	/*
+	 * public void deleteUtilisateur(String ref) {
+	 * connectionPool.deleteUtilisateur(ref);
+	 * 
+	 * }
+	 */
 	public int addUtilisateur(Users util) { 
-		getAllUtilisateur();
+		
 		return connectionPool.addUtilisateur(util);
 	}
+	/*public int updateUtilisateur(Users util) {
+		return connectionPool.updateUtilisateur(util);
+	}*/
 
 }
 
