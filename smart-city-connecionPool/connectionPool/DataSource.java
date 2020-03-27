@@ -35,22 +35,5 @@ public class DataSource {
 	public static int getSize() {
 		return connectionPool.getSize();
 	}
-
-	public Users getUtilisateur(String log) {
-		return connectionPool.getUtilisateur(log);
-	}
-
-	public List<Users> getAllUtilisateur(){
-		return connectionPool.getAllUtilisateur();
-	}
-	public void deleteUtilisateur(String ref) {
-		connectionPool.deleteUtilisateur(ref);
-		getAllUtilisateur();
-		}
-	public int addUtilisateur(Users util) { 
-		getAllUtilisateur();
-		return connectionPool.addUtilisateur(util);
-	}
-
 }
 
