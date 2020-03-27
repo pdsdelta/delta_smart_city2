@@ -61,6 +61,13 @@ public class TestConnexion {
 					} 
 					break;
 					
+				case "6":
+					List<Users> list = crud.getUtilisateur();
+					for(Users tab:list) {
+						System.out.println(tab);
+					}
+					break;
+					
 				case "7":
 					crud.updateUtilisateur();
 					break; 

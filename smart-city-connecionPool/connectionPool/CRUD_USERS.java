@@ -110,25 +110,35 @@ public class CRUD_USERS {
 			return res;
 		}
 
+		
+		//SPECIAL READ
 		// To get a Specific user on the BD
-		public Users getUtilisateur(String log) {
-			Users res = null;
+		public List<Users> getUtilisateur() {
+			List<Users> res2 = new ArrayList<Users>();
+			System.out.println("Donner le login de l'utilisateur que vous souhaitez voir :\n");
+			Scanner userRead = new Scanner(System.in);
+			String newUserRead = userRead.nextLine(); 
 			String query = "SELECT * FROM Users WHERE login=?";
 			try {
 				pstmt = connect.prepareStatement(query);
-				pstmt.setString(1, log);
+				pstmt.setString(1, newUserRead);
 				rs = pstmt.executeQuery();
-				if (rs.next()) {
-					res = new Users();
-					res.setId(rs.getInt(1));
-					res.setLogin(rs.getString(4));
-					res.setPwd(rs.getString(5));
-					res.setProfil(rs.getInt(6));
+				
+				while(rs.next()) {
+				Users util = new Users();
+				util.setId(rs.getInt(1));
+				util.setNom(rs.getString(2));
+				util.setPrenom(rs.getString(3));
+				util.setLogin(rs.getString(4));
+				util.setPwd(rs.getString(5));
+				util.setProfil(rs.getInt(6));
+				res2.add(util);
+				System.out.println("Modification faite avec succès\n");
 				}
 			} catch (SQLException ex) {
-				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				System.out.println("Erreur, veuillez réessayer");
 			}
-			return res;
+			return res2;
 		}
 		
 	//UPDATE 
