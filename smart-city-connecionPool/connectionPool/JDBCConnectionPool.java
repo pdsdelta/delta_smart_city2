@@ -27,11 +27,10 @@ public class JDBCConnectionPool{
 
 	//instance pour pouvoir lire le fichier bdd.properties
 	private ConnectionFileReader fileData=new ConnectionFileReader();	
-	Connection connection;
 
-	//Connection connection = DriverManager.getConnection(fileData.getConnectionUrl(), fileData.getUser(),
-		//	fileData.getPassword());;
-	
+	Connection connection = DriverManager.getConnection(fileData.getConnectionUrl(), fileData.getUser(),
+			fileData.getPassword());
+	; 
 	//pour les connexions utilisées
 	private CopyOnWriteArrayList<Connection> connectionsUse;
 	//pour les connexions disponibles
@@ -105,6 +104,96 @@ public class JDBCConnectionPool{
 		// TODO Auto-generated method stub
 		return connectionsDispo.size()+connectionsUse.size();
 	}
+
+	//To get a Specific user on the BD
+	public Users getUtilisateur(String log) { 
+		Users res = null; 
+		String query = "SELECT * FROM Users WHERE login=?";
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, log); 
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				res = new Users();
+				res.setId(rs.getInt(1));
+				res.setLogin(rs.getString(4));
+				res.setPwd(rs.getString(5));
+				res.setProfil(rs.getInt(6));
+			}
+		} 
+		catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return res;
+	}
+
+	public void deleteUtilisateur(String ref) {
+
+		String query = "delete Users WHERE login=?";
+		try {
+			pstmt=connection.prepareStatement
+					(query);
+			pstmt.setString(1, ref); 
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+
+	}
+
+
+	//To Get a list of Users on the dataBase
+	public List<Users> getAllUtilisateur() { 
+		List<Users> res = new ArrayList<Users>(); 
+		String query = "SELECT * FROM Users";
+		try {
+			stm = connection.createStatement();
+			rs = stm.executeQuery(query);
+			while (rs.next()) {
+				Users util = new Users(); 
+				util.setId(rs.getInt(1));
+				util.setNom(rs.getString(2));
+
+				util.setPrenom(rs.getString(3));
+				util.setLogin(rs.getString(4));
+				util.setPwd(rs.getString(5));
+				util.setProfil(rs.getInt(6));
+
+				res.add(util);
+			}
+		} 
+		catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return res;
+	}
+
+
+	//To Add an user on the database
+	public int addUtilisateur(Users util) { 
+		int res = 0; 
+		String query = "INSERT INTO Users (nom, prenom, login, pass, profil) "
+				+ "VALUES (?, ?, ?, ?, ?)";
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, util.getNom());
+			pstmt.setString(2, util.getPrenom());
+			pstmt.setString(3, util.getLogin());
+			pstmt.setString(4, util.getPwd());
+			pstmt.setInt(5, util.getProfil());
+			res = pstmt.executeUpdate();            
+		} 
+		catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return res;
+	}
+
+
 }
 //port 5167 5433
 
