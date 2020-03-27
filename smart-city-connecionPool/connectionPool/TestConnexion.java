@@ -27,10 +27,10 @@ public class TestConnexion {
 			System.out.println("[ 1 ] Creer une connexion\n" +
 					"[ 2 ] Fermer toutes les connexions\n "+
 					"[ 3 ] Fermer une connexion\n "+
-					"[ 4 ] Supprimer une connexion\n "+
+					"[ 4 ] Ajouter un utilisateur\n "+
 					"[ 5 ] Afficher les utilisateurs");
 			Scanner sc = new Scanner(System.in);
-			
+
 			while(true) {
 				String a = sc.nextLine();
 				switch(a){
@@ -47,14 +47,15 @@ public class TestConnexion {
 					ene.releaseConnection( i.get(0));
 					i.remove(0);
 					break;
-					 case "4":
-					 ene.closeConnection();
-					 break;
-					 case "5":
-						 List<Users> lt = crud.getAllUtilisateur();
-						 for(Users tab:lt) {
-							 System.out.println(tab);
-						 } 
+				case "4":
+					crud.addUtilisateur(crud.ActionInsertUser());
+					break;
+					
+				case "5":
+					List<Users> lt = crud.getAllUtilisateur();
+					for(Users tab:lt) {
+						System.out.println(tab);
+					} 
 				}
 			}
 		} catch (SQLException e) {
