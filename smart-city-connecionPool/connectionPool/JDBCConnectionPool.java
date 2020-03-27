@@ -27,10 +27,11 @@ public class JDBCConnectionPool{
 
 	//instance pour pouvoir lire le fichier bdd.properties
 	private ConnectionFileReader fileData=new ConnectionFileReader();	
-
-	Connection connection = DriverManager.getConnection(fileData.getConnectionUrl(), fileData.getUser(),
-			fileData.getPassword());
-	; 
+	Connection connection;
+	
+	//Connection connection = DriverManager.getConnection(fileData.getConnectionUrl(), fileData.getUser(),
+	//		fileData.getPassword());;
+			
 	//pour les connexions utilisées
 	private CopyOnWriteArrayList<Connection> connectionsUse;
 	//pour les connexions disponibles

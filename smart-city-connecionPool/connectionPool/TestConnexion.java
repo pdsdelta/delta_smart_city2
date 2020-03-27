@@ -17,7 +17,8 @@ public class TestConnexion {
 		// TODO Auto-generated method stub
 		try {
 
-			DataSource ene= new DataSource();
+			CRUD_USERS crud = new CRUD_USERS();
+			DataSource ene = new DataSource();
 
 
 			System.out.println("**********");
@@ -50,18 +51,15 @@ public class TestConnexion {
 					 ene.closeConnection();
 					 break;
 					 case "5":
-						 List<Users> lt = ene.getAllUtilisateur();
+						 List<Users> lt = crud.getAllUtilisateur();
 						 for(Users tab:lt) {
 							 System.out.println(tab);
-						 }
-					 
+						 } 
 				}
 			}
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());
-			
 		}catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
