@@ -11,7 +11,5 @@
 	<classpathentry kind="src" path="smart-city-commons"/>
 	<classpathentry kind="src" path="smart-city-connecionPool"/>
 	
-	<classpathentry kind="lib" path="C:/Users/marti/Documents/postgresql-42.2.11.jar"/>
-
 	<classpathentry kind="output" path="bin"/>
 </classpath>
