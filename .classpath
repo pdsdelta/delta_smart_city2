@@ -10,6 +10,6 @@
 	<classpathentry kind="src" path="smart-city-client-common"/>
 	<classpathentry kind="src" path="smart-city-commons"/>
 	<classpathentry kind="src" path="smart-city-connecionPool"/>
-	<classpathentry kind="lib" path="C:/Users/marti/Documents/postgresql-42.2.11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Annaelle Donfack/Downloads/postgresql-42.2.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
