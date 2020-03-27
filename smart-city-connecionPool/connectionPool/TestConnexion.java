@@ -25,8 +25,8 @@ public class TestConnexion {
 			System.out.println("*  MENU  *");
 			System.out.println("********** \n");
 			System.out.println("[ 1 ] Creer une connexion\n" +
-					"[ 2 ] Fermer toutes les connexions\n "+
-					"[ 3 ] Fermer une connexion\n "+
+					"[ 2 ] Fermer toutes les connexions\n"+
+					"[ 3 ] Fermer une connexion\n"+
 					"[ 4 ] Ajouter un utilisateur\n "+
 					"[ 5 ] Afficher les utilisateurs");
 			Scanner sc = new Scanner(System.in);
