@@ -202,44 +202,28 @@ public class CRUD_USERS {
 			}else if (res == 1) {
 				System.out.println("Modification faite avec succès\n");
 			}
-			return res; 
-			
-			
-			
+			return res; 	
 		}
 		
-	public void ActionUpdateUser() {
-
-	}
-	
-	//
-	public void ActionDeleteUser() {
-
-	}
-	public void ActionGetUser() {
-
-	}
-
-	
-
-	
-
-
-	//Methode pour supprimer un utilisateur
-	public void deleteUtilisateur(String ref) {
-
-		String query = "delete Users WHERE login=?"; 
-		try {
-			pstmt=connect.prepareStatement (query);
-			pstmt.setString(1, ref);
-			pstmt.executeUpdate(); 
-			pstmt.close(); 
-		} catch (SQLException e) { // TODO Auto-generated 
+		//DELETE
+		//Methode pour supprimer un utilisateur
+		public void deleteUtilisateur() {
+			System.out.println("Donner le login de l'utilisateur que vous souhaitez supprimer :\n");
+			Scanner userDelete = new Scanner(System.in);
+			String newUserDelete = userDelete.nextLine(); 
+			String query = "";
+			
+			query = "delete from Users WHERE login=?"; 
+			
+			try {
+				pstmt=connect.prepareStatement (query);
+				pstmt.setString(1, newUserDelete);
+				pstmt.executeUpdate(); 
+				pstmt.close();
+				System.out.println("Modification faite avec succès\n");
+			} catch (SQLException e) { 
+				System.out.println("Erreur, veuillez r�essayer ! "); 
+			}
 		}
-	}
-
-	
-
-
 
 }

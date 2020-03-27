@@ -30,7 +30,7 @@ public class TestConnexion {
 					"[ 4 ] Ajouter un utilisateur\n"+
 					"[ 5 ] Afficher les utilisateurs\n"+
 					"[ 6 ] Afficher un utilisateur spécifique\n"+
-					"[ 7 ] Modifier les données d'un utilisateur\n"+
+					"[ 7 ] Modifier les donn�es d'un utilisateur\n"+
 					"[ 8 ] Supprimer un utilisateur\n\n");
 			Scanner sc = new Scanner(System.in);
 
@@ -60,8 +60,15 @@ public class TestConnexion {
 						System.out.println(tab);
 					} 
 					break;
+					
 				case "7":
-					int r = crud.updateUtilisateur();
+					crud.updateUtilisateur();
+					break; 
+				
+				case "8": 
+					crud.deleteUtilisateur();
+					break;
+				
 					
 					
 				}
