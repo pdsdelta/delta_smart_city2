@@ -33,13 +33,15 @@ public class CRUD_USERS {
 		this.connection= new DataSource();
 		this.connect = connection.getConnection();
 	}
+	
 	Scanner read = new Scanner(System.in);
 	Scanner readInt = new Scanner(System.in);
 	String nom = null;
 	String prenom = null;
 	String login = null;
 	int profil ;
-
+	
+	//CREATE
 
 	Users util = new Users();
 	public Users ActionInsertUser() {
@@ -62,16 +64,7 @@ public class CRUD_USERS {
 
 		return util;
 	}
-	public void ActionUpdateUser() {
-
-	}
-	public void ActionDeleteUser() {
-
-	}
-	public void ActionGetUser() {
-
-	}
-
+	
 	public int addUtilisateur(Users util) {
 		int res = 0;
 		String query = "INSERT INTO Users (nom, prenom, login, pass, profil) " + "VALUES (?, ?, ?, ?, ?)";
@@ -88,52 +81,148 @@ public class CRUD_USERS {
 		}
 		return res;
 	}
-
+	
+	
+	//READ
+	
 	// To Get a list of Users on the dataBase
-	public List<Users> getAllUtilisateur() {
-		List<Users> res = new ArrayList<Users>();
-		String query = "SELECT * FROM Users";
-		try {
-			stm = connect.createStatement();
-			rs = stm.executeQuery(query);
-			while (rs.next()) {
-				Users util = new Users();
-				util.setId(rs.getInt(1));
-				util.setNom(rs.getString(2));
+		public List<Users> getAllUtilisateur() {
+			List<Users> res = new ArrayList<Users>();
+			String query = "SELECT * FROM Users";
+			try {
+				stm = connect.createStatement();
+				rs = stm.executeQuery(query);
+				while (rs.next()) {
+					Users util = new Users();
+					util.setId(rs.getInt(1));
+					util.setNom(rs.getString(2));
 
-				util.setPrenom(rs.getString(3));
-				util.setLogin(rs.getString(4));
-				util.setPwd(rs.getString(5));
-				util.setProfil(rs.getInt(6));
+					util.setPrenom(rs.getString(3));
+					util.setLogin(rs.getString(4));
+					util.setPwd(rs.getString(5));
+					util.setProfil(rs.getInt(6));
 
-				res.add(util);
+					res.add(util);
+				}
+			} catch (SQLException ex) {
+				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 			}
-		} catch (SQLException ex) {
-			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+			return res;
 		}
-		return res;
+
+		// To get a Specific user on the BD
+		public Users getUtilisateur(String log) {
+			Users res = null;
+			String query = "SELECT * FROM Users WHERE login=?";
+			try {
+				pstmt = connect.prepareStatement(query);
+				pstmt.setString(1, log);
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					res = new Users();
+					res.setId(rs.getInt(1));
+					res.setLogin(rs.getString(4));
+					res.setPwd(rs.getString(5));
+					res.setProfil(rs.getInt(6));
+				}
+			} catch (SQLException ex) {
+				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+			}
+			return res;
+		}
+		
+	//UPDATE 
+	
+	//Methode pour mettre à jour un utilisateur
+		public int updateUtilisateur() { 
+			System.out.println("Donner le login de l'utilisateur que vous souhaitez modifier :\n");
+			Scanner user = new Scanner(System.in);
+			String userUpdate = user.nextLine(); 
+			System.out.println("Que voulez vous modifier ?\n"); 
+			System.out.println("[ 1 ] Le nom\n" +
+					"[ 2 ] Le prénom\n"+
+					"[ 3 ] Le mot de passe\n");
+			Scanner choix = new Scanner(System.in);
+			int choixUpdate = choix.nextInt(); 
+			int res = 0; 
+			String query = "";
+			switch(choixUpdate){
+
+			case 1: 
+				System.out.println("Quel est le nouveau nom\n");
+				Scanner newName = new Scanner(System.in);
+				String newNameUpdate = newName.nextLine(); 
+				query = "update Users set nom =?  WHERE login=? "; 
+				try { 
+					pstmt = connect.prepareStatement(query); 
+					pstmt.setString(1, newNameUpdate);
+					pstmt.setString(2, userUpdate);
+					res = pstmt.executeUpdate(); 
+				} catch (SQLException ex) {
+					Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				}
+				
+				break;
+				
+				
+			case 2: 
+				System.out.println("Quel est le nouveau prénom\n");
+				Scanner newFname = new Scanner(System.in);
+				String newFnameUpdate = newFname.nextLine(); 
+				query = "update Users set prenom =?  WHERE login=? "; 
+				try { 
+					pstmt = connect.prepareStatement(query); 
+					pstmt.setString(1, newFnameUpdate);
+					pstmt.setString(2, userUpdate);
+					res = pstmt.executeUpdate(); 
+				} catch (SQLException ex) {
+					Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				}
+				
+			
+				break;
+			case 3: 
+				System.out.println("Quel est le nouveau mot de passe?\t\n");
+				Scanner newPwd = new Scanner(System.in);
+				String newPwdUpdate = newPwd.nextLine(); 
+				query = "update Users set pass =?  WHERE login=? "; 
+				try { 
+					pstmt = connect.prepareStatement(query); 
+					pstmt.setString(1, newPwdUpdate);
+					pstmt.setString(2, userUpdate);
+					res = pstmt.executeUpdate(); 
+				} catch (SQLException ex) {
+					Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				}
+				
+			}
+			
+			if (res == 0) {
+				System.out.println("La modification a échoué\n");
+			}else if (res == 1) {
+				System.out.println("Modification faite avec succès\n");
+			}
+			return res; 
+			
+			
+			
+		}
+		
+	public void ActionUpdateUser() {
+
+	}
+	
+	//
+	public void ActionDeleteUser() {
+
+	}
+	public void ActionGetUser() {
+
 	}
 
-	// To get a Specific user on the BD
-	public Users getUtilisateur(String log) {
-		Users res = null;
-		String query = "SELECT * FROM Users WHERE login=?";
-		try {
-			pstmt = connect.prepareStatement(query);
-			pstmt.setString(1, log);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				res = new Users();
-				res.setId(rs.getInt(1));
-				res.setLogin(rs.getString(4));
-				res.setPwd(rs.getString(5));
-				res.setProfil(rs.getInt(6));
-			}
-		} catch (SQLException ex) {
-			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		return res;
-	}
+	
+
+	
 
 
 	//Methode pour supprimer un utilisateur
@@ -149,20 +238,7 @@ public class CRUD_USERS {
 		}
 	}
 
-	//Methode pour mettre � jour un utilisateur
-	public int updateUtilisateur(Users util) { 
-		int res = 0; 
-		String query = "update Users set nom =? ,prenom=? where id=? "; 
-		try { 
-			pstmt = connect.prepareStatement(query); 
-			pstmt.setInt(1, util.getId());
-			pstmt.setString(2, util.getNom());
-			pstmt.setString(3, util.getPrenom());
-			res = pstmt.executeUpdate(); 
-		} catch (SQLException ex) {
-			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		return res; }
+	
 
 
 

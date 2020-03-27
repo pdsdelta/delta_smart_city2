@@ -27,8 +27,11 @@ public class TestConnexion {
 			System.out.println("[ 1 ] Creer une connexion\n" +
 					"[ 2 ] Fermer toutes les connexions\n"+
 					"[ 3 ] Fermer une connexion\n"+
-					"[ 4 ] Ajouter un utilisateur\n "+
-					"[ 5 ] Afficher les utilisateurs");
+					"[ 4 ] Ajouter un utilisateur\n"+
+					"[ 5 ] Afficher les utilisateurs\n"+
+					"[ 6 ] Afficher un utilisateur spécifique\n"+
+					"[ 7 ] Modifier les données d'un utilisateur\n"+
+					"[ 8 ] Supprimer un utilisateur\n\n");
 			Scanner sc = new Scanner(System.in);
 
 			while(true) {
@@ -56,6 +59,11 @@ public class TestConnexion {
 					for(Users tab:lt) {
 						System.out.println(tab);
 					} 
+					break;
+				case "7":
+					int r = crud.updateUtilisateur();
+					
+					
 				}
 			}
 		} catch (SQLException e) {
