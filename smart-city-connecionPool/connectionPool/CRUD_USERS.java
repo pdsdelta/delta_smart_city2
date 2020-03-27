@@ -45,15 +45,15 @@ public class CRUD_USERS {
 
 	Users util = new Users();
 	public Users ActionInsertUser() {
-		System.out.println("veuillez entrez le nom: ");
+		System.out.print("veuillez entrez le nom : ");
 		nom = read.nextLine();
-		System.out.println("veuillez entrez le prenom: ");
+		System.out.print("veuillez entrez le prenom : ");
 		prenom = read.nextLine();
-		System.out.println("veuillez entrez le login: ");
+		System.out.print("veuillez entrez le login : ");
 		login = read.nextLine();
-		System.out.println("veuillez entrez le mot de passe: ");
+		System.out.print("veuillez entrez le mot de passe : ");
 		String pass = read.nextLine();
-		System.out.println("veuillez entrez le profil: ");
+		System.out.print("veuillez entrez le profil : ");
 		util.setNom(nom);
 		util.setPrenom(prenom);
 		util.setLogin(login);
@@ -76,6 +76,7 @@ public class CRUD_USERS {
 			pstmt.setString(4, util.getPwd());
 			pstmt.setInt(5, util.getProfil());
 			res = pstmt.executeUpdate();
+			System.out.println("opération réalisée avec succès\n");
 		} catch (SQLException ex) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -101,8 +102,8 @@ public class CRUD_USERS {
 					util.setLogin(rs.getString(4));
 					util.setPwd(rs.getString(5));
 					util.setProfil(rs.getInt(6));
-
 					res.add(util);
+					System.out.println("opération réalisée avec succès\n");
 				}
 			} catch (SQLException ex) {
 				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,7 +116,7 @@ public class CRUD_USERS {
 		// To get a Specific user on the BD
 		public List<Users> getUtilisateur() {
 			List<Users> res2 = new ArrayList<Users>();
-			System.out.println("Donner le login de l'utilisateur que vous souhaitez voir :\n");
+			System.out.print("Quel est le login de l'utilisateur que vous souhaitez consulter ?\n");
 			Scanner userRead = new Scanner(System.in);
 			String newUserRead = userRead.nextLine(); 
 			String query = "SELECT * FROM Users WHERE login=?";
@@ -133,7 +134,7 @@ public class CRUD_USERS {
 				util.setPwd(rs.getString(5));
 				util.setProfil(rs.getInt(6));
 				res2.add(util);
-				System.out.println("Modification faite avec succès\n");
+				System.out.println("opération réalisée avec succès\n");
 				}
 			} catch (SQLException ex) {
 				System.out.println("Erreur, veuillez réessayer");
@@ -145,7 +146,7 @@ public class CRUD_USERS {
 	
 	//Methode pour mettre Ã  jour un utilisateur
 		public int updateUtilisateur() { 
-			System.out.println("Donner le login de l'utilisateur que vous souhaitez modifier :\n");
+			System.out.print("Quel est le login de l'utilisateur que vous souhaitez modifier ?\n");
 			Scanner user = new Scanner(System.in);
 			String userUpdate = user.nextLine(); 
 			System.out.println("Que voulez vous modifier ?\n"); 
@@ -159,7 +160,7 @@ public class CRUD_USERS {
 			switch(choixUpdate){
 
 			case 1: 
-				System.out.println("Quel est le nouveau nom\n");
+				System.out.println("Quel est le nouveau nom ? \n");
 				Scanner newName = new Scanner(System.in);
 				String newNameUpdate = newName.nextLine(); 
 				query = "update Users set nom =?  WHERE login=? "; 
@@ -176,7 +177,7 @@ public class CRUD_USERS {
 				
 				
 			case 2: 
-				System.out.println("Quel est le nouveau prÃ©nom\n");
+				System.out.println("Quel est le nouveau prénom ?\n");
 				Scanner newFname = new Scanner(System.in);
 				String newFnameUpdate = newFname.nextLine(); 
 				query = "update Users set prenom =?  WHERE login=? "; 
@@ -192,7 +193,7 @@ public class CRUD_USERS {
 			
 				break;
 			case 3: 
-				System.out.println("Quel est le nouveau mot de passe?\t\n");
+				System.out.println("Quel est le nouveau mot de passe ?\t\n");
 				Scanner newPwd = new Scanner(System.in);
 				String newPwdUpdate = newPwd.nextLine(); 
 				query = "update Users set pass =?  WHERE login=? "; 
@@ -210,7 +211,7 @@ public class CRUD_USERS {
 			if (res == 0) {
 				System.out.println("La modification a Ã©chouÃ©\n");
 			}else if (res == 1) {
-				System.out.println("Modification faite avec succÃ¨s\n");
+				System.out.println("opération réalisée avec succès\n");
 			}
 			return res; 	
 		}
@@ -218,7 +219,7 @@ public class CRUD_USERS {
 		//DELETE
 		//Methode pour supprimer un utilisateur
 		public void deleteUtilisateur() {
-			System.out.println("Donner le login de l'utilisateur que vous souhaitez supprimer :\n");
+			System.out.print("Quel est le login de l'utilisateur que vous souhaitez supprimer ?\n");
 			Scanner userDelete = new Scanner(System.in);
 			String newUserDelete = userDelete.nextLine(); 
 			String query = "";
@@ -230,7 +231,7 @@ public class CRUD_USERS {
 				pstmt.setString(1, newUserDelete);
 				pstmt.executeUpdate(); 
 				pstmt.close();
-				System.out.println("Modification faite avec succÃ¨s\n");
+				System.out.println("opération réalisée avec succès\n");
 			} catch (SQLException e) { 
 				System.out.println("Erreur, veuillez réessayer ! "); 
 			}
