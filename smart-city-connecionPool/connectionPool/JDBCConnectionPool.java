@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import user.Users;
  
 
-//test pool
+
 
 public class JDBCConnectionPool{
 
