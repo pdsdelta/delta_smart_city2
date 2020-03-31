@@ -1,5 +1,6 @@
 package connectionPool;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,9 +23,11 @@ public class ConnectionFileReader {
 		
 		try {
 			
+			//Pour le jar
+			//input = new FileInputStream("delta_smart_city2"+ File.separator +"Ressources" + File.separator + "bdd.properties");
 			
-			input = new FileInputStream("../delta_smart_city2/Ressources/bdd.properties");
-			//input = new FileInputStream("E:/Cours/PDS/delta_smart_city2/Ressources/bdd.properties");
+			//Pour éclipse
+			input = new FileInputStream("Ressources" + File.separator + "bdd.properties");
 			
 			// load a properties file
 			pr.load(input);
