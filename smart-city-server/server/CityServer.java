@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class cityServer {
+public class CityServer {
 	
 	private ServerSocket serverSocket;
 	private Socket clientSocket;
@@ -35,8 +35,9 @@ public class cityServer {
         serverSocket.close();
     }
     public static void main(String[] args) throws IOException {
-        cityServer server=new cityServer();
-        //server.start(6666);
+        CityServer server=new CityServer();
+        server.start(7000);
+        
     }
 }
 
