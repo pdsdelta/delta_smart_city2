@@ -34,9 +34,14 @@ public class CityServer {
         clientSocket.close();
         serverSocket.close();
     }
-    public static void main(String[] args) throws IOException {
+    
+    public static void main(String[] args){
         CityServer server=new CityServer();
-        server.start(7000);
+        try {
+			server.start(7000);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         
     }
 }

@@ -35,9 +35,11 @@ public class CityClient {
 	    public static void main(String[] args) throws UnknownHostException, IOException {
 	        CityClient client = new CityClient();
 	        client.startConnection("172.31.249.22", 7000);
-	        String response = client.sendMessage("Hello");
+	        String response = client.sendMessage("Bonjour CityServer");
 	        if(response.equals("Bonjour Chère client")) {
 	        	System.out.println("Connexion Réussie");
+	        }else{
+	        	System.out.println("Connexion pas réussi");
 	        };
 	    }
 
