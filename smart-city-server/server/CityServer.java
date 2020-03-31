@@ -20,6 +20,7 @@ public class CityServer {
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String jsonClient = in.readLine();
+        System.out.println(jsonClient);
             if ("Bonjour CityServer".equals(jsonClient)) {
                 out.println("Bonjour Chère client");
             }
