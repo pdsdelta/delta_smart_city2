@@ -23,23 +23,41 @@ public class Order {
 	public String generateJson() throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		String res = "";
+		int profil ;
+    	Scanner read = new Scanner(System.in);
+    	Scanner readInt = new Scanner(System.in);
 		switch(this.numOrder){
-			case 4 :
+			case 1 :
+				System.out.print("veuillez entrez le nom : ");
+				String nom = read.nextLine();
+				System.out.print("veuillez entrez le prenom : ");
+				String prenom = read.nextLine();
+				System.out.print("veuillez entrez le login : ");
+				String login = read.nextLine();
+				System.out.print("veuillez entrez le mot de passe : ");
+				String pass = read.nextLine();
+				System.out.print("veuillez entrez le profil : ");
+				user.setNom(nom);
+				user.setPrenom(prenom);
+				user.setLogin(login);
+				user.setPwd(pass);
+				profil = readInt.nextInt();
+				user.setProfil(profil);
 				res ="{\"request\":{ \"operation_type\": \"CREATE\", \"data\": " ;
 				res = res + mapper.writeValueAsString(this.user);
 				res = res + "}}" ;
 				break;
-			case 5 :
+			case 2 :
 				res ="{\"request\":{ \"operation_type\": \"SELECT_ALL\", \"target\": Users }}" ;
 				break;
-			case 6 :
+			case 3 :
 				System.out.print("Quel est le login de l'utilisateur que vous souhaitez consulter ?\n");
 				Scanner userRead = new Scanner(System.in);
 				String newUserRead = userRead.nextLine(); 
 				res ="{\"request\":{ \"operation_type\": \"SELECT_ONE\", \"target\": Users , \"login\": ";
 				res = res + newUserRead + "}}" ;
 				break;
-			case 7 :
+			case 4 :
 				System.out.print("Quel est le login de l'utilisateur que vous souhaitez modifier ?\n");
 				Scanner user = new Scanner(System.in);
 				String userUpdate = user.nextLine(); 
@@ -63,7 +81,7 @@ public class Order {
 				res  ="{\"request\":{ \"operation_type\": \"UPDATE\", \"target\": Users , \"to_modify\": "+choixFinal + ", \"modification\": "+ newthingUpdate + " }} " ;
 
 				break;
-			case 8:
+			case 5:
 				System.out.print("Quel est le login de l'utilisateur que vous souhaitez supprimer ?\n");
 				Scanner userDelete = new Scanner(System.in);
 				String newUserDelete = userDelete.nextLine(); 
@@ -79,18 +97,6 @@ public class Order {
 	}
 
 
-	public static void main(String[] args) throws JsonProcessingException {
-		Users u = new Users();
-		u.setId(1);
-		u.setNom("REDJ");
-		u.setPrenom("Yac");
-		u.setLogin("yredj");
-		u.setPwd("toitoi");
-		u.setProfil(1);
-		Order o = new Order(8,u);
-		System.out.println(o.generateJson());
-		
-		
-	}
+	
 
 }
