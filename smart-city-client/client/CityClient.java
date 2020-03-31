@@ -18,29 +18,34 @@ public class CityClient {
 	        clientSocket = new Socket(ip, port);
 	        out = new PrintWriter(clientSocket.getOutputStream(), true);
 	        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	        PrintWriter pw = new PrintWriter(out);
+			pw.println("Salut serveur");
+			pw.flush();
 	    }
 	 
+	   /**
 	    public String sendMessage(String Json) throws IOException {
 	        System.out.println(Json);
 	        String resp = in.readLine();
+	        System.out.println(resp);
 	        return resp;
-	    }
+	    }*/
 	 
 	    public void stopConnection() throws IOException {
 	        in.close();
 	        out.close();
 	        clientSocket.close();
 	    }
+	    
+
 	
 	    public static void main(String[] args) throws UnknownHostException, IOException {
 	        CityClient client = new CityClient();
 	        client.startConnection("172.31.249.22", 7000);
-	        String response = client.sendMessage("Bonjour CityServer");
-	        if(response.equals("Bonjour Chère client")) {
-	        	System.out.println("Connexion Réussie");
-	        }else{
-	        	System.out.println("Connexion pas réussi");
-	        };
+	        //String response = client.sendMessage("Bonjour CityServer");
+	        
+	        
 	    }
+	    
 
 }

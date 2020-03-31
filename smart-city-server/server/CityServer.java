@@ -26,6 +26,9 @@ public class CityServer {
             else {
                 out.println("Je ne vous connais pas");
             }
+        String toSend ="Réponse";
+        out.write(toSend);
+        out.flush();
     }
 
     public void stop() throws IOException {
@@ -42,6 +45,7 @@ public class CityServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+        
         
     }
 }
