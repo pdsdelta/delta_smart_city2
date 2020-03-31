@@ -35,7 +35,7 @@ public class CityServer {
         serverSocket.close();
     }
     
-    public static void main(String[] args){
+    public static void main(String[] args) {
         CityServer server=new CityServer();
         try {
 			server.start(7000);
