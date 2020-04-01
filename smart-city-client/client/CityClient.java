@@ -25,12 +25,16 @@ public class CityClient {
 	    
 	    
 	    public void startConnection(String ip, int port) throws UnknownHostException, IOException {
-	        clientSocket = new Socket(ip, port);
+	    	String response;
+	    	clientSocket = new Socket(ip, port);
 	        out = new PrintWriter(clientSocket.getOutputStream(), true);
 	        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 	        /**PrintWriter pw = new PrintWriter(out);
 			pw.println("Bonjour CityServer");
 			pw.flush();*/
+	     //   response = in.readLine();
+	       // System.out.println(response);
+	        response = in.readLine();
 	    }
 	 
 	   
@@ -107,7 +111,9 @@ public class CityClient {
 	        CityClient client = new CityClient();
 	        client.startConnection("172.31.249.22", 7000);
 	        client.afficheMenu();
-	        String response = client.sendMessage("Bonjour CityServer");
+	       //String response = client.sendMessage(" ");
+	        String resp = client.in.readLine();
+	        System.out.println(resp);
 	        
 	     
 	        

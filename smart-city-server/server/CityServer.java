@@ -19,6 +19,10 @@ import java.util.logging.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+
 import connectionPool.DataSource;
 import user.Users;
 
@@ -38,6 +42,7 @@ public class CityServer {
 	private String finalQuery ;
  
     public void start(int port) throws IOException, ClassNotFoundException, SQLException {
+    	String toSend;
     	//Connexion
     	this.connection= new DataSource();
 		this.connect = connection.getConnection();
@@ -48,7 +53,16 @@ public class CityServer {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         this.jsonClient = in.readLine();
         System.out.println("Le client a envoyer ce JSON : " + this.jsonClient + "\n");
-        this.generateSQL();
+        toSend = this.generateSQL();
+        
+        if (jsonClient.length() != 0) {
+        	out.println(toSend);
+        	PrintWriter pw = new PrintWriter(out);
+        	pw.flush();
+        }
+        else {
+            out.println("Je ne vous connais pas");
+        }
     }
 
     public void stop() throws IOException {
@@ -56,12 +70,6 @@ public class CityServer {
         out.close();
         clientSocket.close();
         serverSocket.close();
-    }
-    
-    public List<Users> executeSQL() throws IOException {
-    	String query = this.generateSQL();
-    	List<Users> users =this.getAllUtilisateur(query);
-    	return users;
     }
     
     public String generateSQL() throws IOException {
@@ -74,17 +82,17 @@ public class CityServer {
 			String operationType = request.getString("operation_type");
 			
 			if(operationType.equals("CREATE")) {
-				System.out.println("En construction");
+					addUtilisateur();
 			}else if(operationType.equals("SELECT_ALL")) { //OK
 				query = "SELECT * FROM Users";
 				//System.out.println(this.executeSQL());
 				System.out.println(this.getAllUtilisateur(query));
-			}else if(operationType.equals("SELECT_ONE")) {
+			}else if(operationType.equals("SELECT_ONE")) { //OK
 				query= "SELECT * FROM Users WHERE login = ?";
 				System.out.println(this.getUtilisateur(query));
 				//getUtilisateur(query);
-			}else if(operationType.equals("UPDATE")) {
-				 
+			}else if(operationType.equals("UPDATE")) { //OK
+				updateUtilisateur();
 			}else if(operationType.equals("DELETE_ONE")) { //OK 
 				String monLogin = request.getString("login");
 				query= "DELETE FROM Users WHERE login = ? ";
@@ -94,13 +102,45 @@ public class CityServer {
 			
 			e.printStackTrace();
 		}
-		//this.finalQuery = query ;
 		
 		return query;
     }
     
-    public List<Users> getAllUtilisateur(String query) {
-		List<Users> res = new ArrayList<Users>();
+    
+    //CREATE
+    public int addUtilisateur() throws JSONException {
+    	int res = 0;
+    	String json = this.jsonClient;	
+		JSONObject obj = new JSONObject(json);
+		JSONObject request = obj.getJSONObject("request");
+		String monNom = request.getString("nom");
+		String monPrenom = request.getString("prenom");
+		String monLogin = request.getString("login");
+		String monPass = request.getString("pass");
+		int monProfil = request.getInt("profil");
+		
+		String query = "INSERT INTO Users (nom, prenom, login, pass, profil) " + "VALUES (?, ?, ?, ?, ?)";
+		System.out.println("La requette SQL associée est : " + query + "\n" );
+		try {
+			pstmt = connect.prepareStatement(query);
+			pstmt.setString(1, monNom);
+			pstmt.setString(2, monPrenom);
+			pstmt.setString(3, monLogin);
+			pstmt.setString(4, monPass);
+			pstmt.setInt(5, monProfil);
+			res = pstmt.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return res;
+	}
+    
+    
+    //READ ALL
+    public String getAllUtilisateur(String query) throws JsonProcessingException {
+    	String resultat= "{Table: users, data: ";
+    	System.out.println("La requette SQL associée est : " + query + "\n" );
+    	List<Users> res = new ArrayList<Users>();
 		try {
 			stm = connect.createStatement();
 			rs = stm.executeQuery(query);
@@ -108,7 +148,6 @@ public class CityServer {
 				Users util = new Users();
 				util.setId(rs.getInt(1));
 				util.setNom(rs.getString(2));
-
 				util.setPrenom(rs.getString(3));
 				util.setLogin(rs.getString(4));
 				util.setPwd(rs.getString(5));
@@ -119,11 +158,15 @@ public class CityServer {
 		} catch (SQLException ex) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
-		return res;
+		ObjectMapper mapper = new ObjectMapper();
+		resultat =  resultat + mapper.writeValueAsString(res) + "}";
+		return resultat;
 	}
     
+    
+    //READ ONE
     public List<Users> getUtilisateur(String query) throws JSONException {
+    	System.out.println("La requette SQL associée est : " + query + "\n" );
     	List<Users> res2 = new ArrayList<Users>();
     	String json = this.jsonClient;	
 		JSONObject obj = new JSONObject(json);
@@ -133,7 +176,6 @@ public class CityServer {
 			pstmt = connect.prepareStatement(query);
 			pstmt.setString(1, monLogin);
 			this.finalQuery = pstmt.toString() ;
-			System.out.println("La requette SQL associÃ©e est : " + this.finalQuery + "\n" );
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -153,7 +195,57 @@ public class CityServer {
     	
     }
     
+    //UPDATE
+    public int updateUtilisateur() throws JSONException { 
+		String json = this.jsonClient;	
+		JSONObject obj = new JSONObject(json);
+		JSONObject request = obj.getJSONObject("request");
+		String toUpdate = request.getString("to_modify");
+		String theUpdate = request.getString("modification");
+		String monLogin = request.getString("login");
+		
+		int res = 0;
+		String query =" ";
+		if(toUpdate.equals("nom")) {
+			 query = "update Users set nom =?  WHERE login=? "; 
+			 System.out.println("La requette SQL associée est : " + query + "\n" );
+			try { 
+				pstmt = connect.prepareStatement(query); 
+				pstmt.setString(1, theUpdate);
+				pstmt.setString(2, monLogin);
+				res = pstmt.executeUpdate(); 
+			} catch (SQLException ex) {
+				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}else  if(toUpdate.equals("prenom")) {
+			 query = "update Users set prenom =?  WHERE login=? ";
+			 System.out.println("La requette SQL associée est : " + query + "\n" );
+				try { 
+					pstmt = connect.prepareStatement(query); 
+					pstmt.setString(1, theUpdate);
+					pstmt.setString(2, monLogin);
+					res = pstmt.executeUpdate(); 
+				} catch (SQLException ex) {
+					Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				}
+		}else if(toUpdate.equals("pass")) {
+			 query = "update Users set pass =?  WHERE login=? "; 
+			 System.out.println("La requette SQL associée est : " + query + "\n" );
+				try { 
+					pstmt = connect.prepareStatement(query); 
+					pstmt.setString(1, theUpdate);
+					pstmt.setString(2, monLogin);
+					res = pstmt.executeUpdate(); 
+				} catch (SQLException ex) {
+					Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				}
+		}
+		return res;
+    }
+    
+    //DELETE
     public void deleteUtilisateur(String query) throws JSONException {
+    		System.out.println("La requette SQL associée est : " + query + "\n" );
     		String json = this.jsonClient;	
     		JSONObject obj = new JSONObject(json);
     		JSONObject request = obj.getJSONObject("request");
@@ -169,7 +261,7 @@ public class CityServer {
 		}
     }
     
- 
+
     public static void main(String[] args) throws ClassNotFoundException, SQLException{
     	
         CityServer server=new CityServer();
