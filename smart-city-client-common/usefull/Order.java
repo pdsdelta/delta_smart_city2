@@ -4,8 +4,14 @@ import java.util.Scanner;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import user.Users;
+
 
 
 
@@ -48,13 +54,13 @@ public class Order {
 				res = res + "}}" ;
 				break;
 			case 2 :
-				res ="{\"request\":{ \"operation_type\": \"SELECT_ALL\", \"target\": Users }}" ;
+				res ="{request:{ operation_type: SELECT_ALL, target: Users }}" ;
 				break;
 			case 3 :
 				System.out.print("Quel est le login de l'utilisateur que vous souhaitez consulter ?\n");
 				Scanner userRead = new Scanner(System.in);
 				String newUserRead = userRead.nextLine(); 
-				res ="{\"request\":{ \"operation_type\": \"SELECT_ONE\", \"target\": Users , \"login\": ";
+				res ="{request:{ operation_type: SELECT_ONE, target: Users , login: ";
 				res = res + newUserRead + "}}" ;
 				break;
 			case 4 :
@@ -78,14 +84,14 @@ public class Order {
 				System.out.println("Quel est le nouveau " + choixFinal +"\n");
 				Scanner newThing = new Scanner(System.in);
 				String newthingUpdate = newThing.nextLine(); 
-				res  ="{\"request\":{ \"operation_type\": \"UPDATE\", \"target\": Users , \"to_modify\": "+choixFinal + ", \"modification\": "+ newthingUpdate + " }} " ;
+				res  ="{request:{ operation_type: UPDATE, target: Users , to_modify: "+choixFinal + ", modification: "+ newthingUpdate + " }} " ;
 
 				break;
 			case 5:
 				System.out.print("Quel est le login de l'utilisateur que vous souhaitez supprimer ?\n");
 				Scanner userDelete = new Scanner(System.in);
 				String newUserDelete = userDelete.nextLine(); 
-				res ="{\"request\":{ \"operation_type\": \"DELETE_ONE\", \"target\": Users , \"login\": ";
+				res ="{request:{ operation_type: DELETE_ONE, target: Users , login: ";
 				res = res + newUserDelete + "}}" ;
 				break;
 			
@@ -95,6 +101,17 @@ public class Order {
 		
 		
 	}
+	
+	public static void main(final String[] argv) throws JSONException {
+		String JSON_DATA = "{ request : { operation_type: DELETE_ONE, target: Users , login: YREDJ }}";
+	    JSONObject obj = new JSONObject(JSON_DATA);
+	    JSONObject request = obj.getJSONObject("request");
+	    String userExemple = request.getString("operation_type");
+	    System.out.println(userExemple);
+
+	    
+	 }
+	
 
 
 	

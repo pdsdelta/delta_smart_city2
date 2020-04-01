@@ -76,7 +76,7 @@ public class CRUD_USERS {
 			pstmt.setString(4, util.getPwd());
 			pstmt.setInt(5, util.getProfil());
 			res = pstmt.executeUpdate();
-			System.out.println("opération réalisée avec succès\n");
+			System.out.println("opï¿½ration rï¿½alisï¿½e avec succï¿½s\n");
 		} catch (SQLException ex) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -103,7 +103,7 @@ public class CRUD_USERS {
 					util.setPwd(rs.getString(5));
 					util.setProfil(rs.getInt(6));
 					res.add(util);
-					System.out.println("opération réalisée avec succès\n");
+					System.out.println("opï¿½ration rï¿½alisï¿½e avec succï¿½s\n");
 				}
 			} catch (SQLException ex) {
 				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,10 +134,10 @@ public class CRUD_USERS {
 				util.setPwd(rs.getString(5));
 				util.setProfil(rs.getInt(6));
 				res2.add(util);
-				System.out.println("opération réalisée avec succès\n");
+				System.out.println("opï¿½ration rï¿½alisï¿½e avec succï¿½s\n");
 				}
 			} catch (SQLException ex) {
-				System.out.println("Erreur, veuillez réessayer");
+				System.out.println("Erreur, veuillez rï¿½essayer");
 			}
 			return res2;
 		}
@@ -177,7 +177,7 @@ public class CRUD_USERS {
 				
 				
 			case 2: 
-				System.out.println("Quel est le nouveau prénom ?\n");
+				System.out.println("Quel est le nouveau prï¿½nom ?\n");
 				Scanner newFname = new Scanner(System.in);
 				String newFnameUpdate = newFname.nextLine(); 
 				query = "update Users set prenom =?  WHERE login=? "; 
@@ -211,7 +211,7 @@ public class CRUD_USERS {
 			if (res == 0) {
 				System.out.println("La modification a Ã©chouÃ©\n");
 			}else if (res == 1) {
-				System.out.println("opération réalisée avec succès\n");
+				System.out.println("opï¿½ration rï¿½alisï¿½e avec succï¿½s\n");
 			}
 			return res; 	
 		}
@@ -231,9 +231,9 @@ public class CRUD_USERS {
 				pstmt.setString(1, newUserDelete);
 				pstmt.executeUpdate(); 
 				pstmt.close();
-				System.out.println("opération réalisée avec succès\n");
+				System.out.println("opï¿½ration rï¿½alisï¿½e avec succï¿½s\n");
 			} catch (SQLException e) { 
-				System.out.println("Erreur, veuillez réessayer ! "); 
+				System.out.println("Erreur, veuillez rï¿½essayer ! "); 
 			}
 		}
 
