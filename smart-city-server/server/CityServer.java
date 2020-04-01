@@ -34,8 +34,8 @@ public class CityServer {
 	private Statement stm;
 	private ResultSet rs;
 	private PreparedStatement pstmt;
-
-	DataSource connection;
+	private DataSource connection;
+	private String finalQuery ;
  
     public void start(int port) throws IOException, ClassNotFoundException, SQLException {
     	//Connexion
@@ -47,8 +47,7 @@ public class CityServer {
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         this.jsonClient = in.readLine();
-        System.out.println("Le client à envoyer ce JSON : " + this.jsonClient + "\n");
-      //System.out.println("La requette SQL associée est : " + this.generateSQL() + "\n" );
+        System.out.println("Le client a envoyer ce JSON : " + this.jsonClient + "\n");
         this.generateSQL();
     }
 
@@ -75,12 +74,12 @@ public class CityServer {
 			String operationType = request.getString("operation_type");
 			
 			if(operationType.equals("CREATE")) {
-			
-			}else if(operationType.equals("SELECT_ALL")) { //OK 
+				System.out.println("En construction");
+			}else if(operationType.equals("SELECT_ALL")) { //OK
 				query = "SELECT * FROM Users";
-				System.out.println(this.executeSQL());
+				//System.out.println(this.executeSQL());
+				System.out.println(this.getAllUtilisateur(query));
 			}else if(operationType.equals("SELECT_ONE")) {
-				String monLogin = request.getString("login");
 				query= "SELECT * FROM Users WHERE login = ?";
 				System.out.println(this.getUtilisateur(query));
 				//getUtilisateur(query);
@@ -89,14 +88,14 @@ public class CityServer {
 			}else if(operationType.equals("DELETE_ONE")) { //OK 
 				String monLogin = request.getString("login");
 				query= "DELETE FROM Users WHERE login = ? ";
-				System.out.println("La requette SQL associée est : " + query);
 				deleteUtilisateur(query);
 			}
 		} catch (JSONException e) {
 			
 			e.printStackTrace();
 		}
-		System.out.println("***** Résultat ******** \n\n ");
+		//this.finalQuery = query ;
+		
 		return query;
     }
     
@@ -133,6 +132,8 @@ public class CityServer {
 		try {
 			pstmt = connect.prepareStatement(query);
 			pstmt.setString(1, monLogin);
+			this.finalQuery = pstmt.toString() ;
+			System.out.println("La requette SQL associée est : " + this.finalQuery + "\n" );
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -157,7 +158,7 @@ public class CityServer {
     		JSONObject obj = new JSONObject(json);
     		JSONObject request = obj.getJSONObject("request");
     		String monLogin = request.getString("login");
-    		System.out.println("Utilisateur supprimer avec succ�s");
+    		System.out.println("Utilisateur supprimer avec succ�s");
     	try {
 			pstmt=connect.prepareStatement (query);
 			pstmt.setString(1, monLogin);
