@@ -50,20 +50,31 @@ public class CityServer {
         System.out.println("Le client à envoyer ce JSON : " + this.jsonClient + "\n");
         System.out.println("La requette SQL associée est : " + this.generateSQL() + "\n" );
         System.out.println("***** Résultat ******** \n\n ");
-        System.out.println(this.executeSQL());
         
+        String json = this.jsonClient;
+    	try {
+        JSONObject obj = new JSONObject(json);
+	    JSONObject request = obj.getJSONObject("request");
+		String operationType = request.getString("operation_type");
+		
+		if(operationType.equals("CREATE")) {
+			System.out.println("create");
+		}else if(operationType.equals("SELECT_ALL")) {
+			System.out.println(this.executeSQL());
+		}else if(operationType.equals("SELECT_ONE")) {
+			String monLogin = request.getString("login");
+		}else if(operationType.equals("UPDATE")) {
+			String monLogin = request.getString("login");
+		}else if(operationType.equals("DELETE_ONE")) {
+			String query= "DELETE FROM Users WHERE login = ? ";
+			deleteUtilisateur(query);
+		}
+        //System.out.println(this.executeSQL());
+    } catch (JSONException e) {
+		
+		e.printStackTrace();
+	}
         
-            if ("Bonjour CityServer".equals(jsonClient)) {
-                out.println("Bonjour Chère client");
-            }
-            else {
-                out.println("Je ne vous connais pas");
-            }
-        /*
-        String toSend ="Réponse";
-        out.write(toSend);
-        out.flush();
-        */
     }
 
     public void stop() throws IOException {
@@ -88,17 +99,20 @@ public class CityServer {
 			JSONObject obj = new JSONObject(json);
 		    JSONObject request = obj.getJSONObject("request");
 			String operationType = request.getString("operation_type");
+			//String monLogin = request.getString("login");
 			
 			if(operationType.equals("CREATE")) {
 			
 			}else if(operationType.equals("SELECT_ALL")) {
 				query = "SELECT * FROM Users";
 			}else if(operationType.equals("SELECT_ONE")) {
-				String login = request.getString("login");
+				
 			}else if(operationType.equals("UPDATE")) {
-				
+				 
 			}else if(operationType.equals("DELETE_ONE")) {
-				
+				String monLogin = request.getString("login");
+				query= "delete from Users WHERE login=" + monLogin; 
+
 			}
 			
 			
@@ -136,9 +150,28 @@ public class CityServer {
 		return res;
 	}
     
+    public void deleteUtilisateur(String query) throws JSONException {
+    		String json = this.jsonClient;	
+    		JSONObject obj = new JSONObject(json);
+    		JSONObject request = obj.getJSONObject("request");
+    		String monLogin = request.getString("login");
+    		
+    		System.out.println("Utilisateur supprimer avec succ�s");
+    	try {
+    		//stm = connect.createStatement();
+			//res = stm.executeQuery(query);
+			pstmt=connect.prepareStatement (query);
+			pstmt.setString(1, monLogin);
+			pstmt.executeUpdate();
+			pstmt.close();
+    	} catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+    }
     
-    
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+ 
+    public static void main(String[] args) throws ClassNotFoundException, SQLException{
+    	
         CityServer server=new CityServer();
         try {
 			server.start(7000);
@@ -147,7 +180,5 @@ public class CityServer {
 			e.printStackTrace();
 		}
         
-        
     }
 }
-
