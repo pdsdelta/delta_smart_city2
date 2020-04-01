@@ -28,6 +28,7 @@ public class CityServer {
 	private Socket clientSocket;
 	private PrintWriter out;
 	private BufferedReader in;
+	private String jsonClient ;
 	//Attributs for connexion and Database read
 	private Connection connect;
 	private Statement stm;
@@ -45,9 +46,13 @@ public class CityServer {
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        String jsonClient = in.readLine();
+        this.jsonClient = in.readLine();
+        System.out.println("Le client à envoyer ce JSON : " + this.jsonClient + "\n");
+        System.out.println("La requette SQL associée est : " + this.generateSQL() + "\n" );
+        System.out.println("***** Résultat ******** \n\n ");
+        System.out.println(this.executeSQL());
         
-        System.out.println(jsonClient);
+        
             if ("Bonjour CityServer".equals(jsonClient)) {
                 out.println("Bonjour Chère client");
             }
@@ -68,16 +73,19 @@ public class CityServer {
         serverSocket.close();
     }
     
-    public void executeSQL() throws IOException {
-    	String query = this.generateSQL(in.readLine());
-    	List<Users> users =this.getAllUtilisateur(query);
-    }
-    public String generateSQL(String json) throws IOException {
+    public List<Users> executeSQL() throws IOException {
+    	String query = this.generateSQL();
     	
-    	String jsonClient = in.readLine();
-    	String query = "";
+    	List<Users> users =this.getAllUtilisateur(query);
+    	
+    	return users;
+    }
+    public String generateSQL() throws IOException {
+    	
+    	String json = this.jsonClient;
+    	String query = "requette fausse";
 		try {
-			JSONObject obj = new JSONObject(jsonClient);
+			JSONObject obj = new JSONObject(json);
 		    JSONObject request = obj.getJSONObject("request");
 			String operationType = request.getString("operation_type");
 			
@@ -93,13 +101,15 @@ public class CityServer {
 				
 			}
 			
+			
 		} catch (JSONException e) {
 			
 			e.printStackTrace();
 		}
+		return query;
 	    
     	
-    	return " ";
+    	
     }
     
     public List<Users> getAllUtilisateur(String query) {
@@ -117,14 +127,12 @@ public class CityServer {
 				util.setPwd(rs.getString(5));
 				util.setProfil(rs.getInt(6));
 				res.add(util);
-				System.out.println("Opération réalisée avec succés\n");
+				//System.out.println("Opération réalisée avec succés\n");
 			}
 		} catch (SQLException ex) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		for(Users tab:res) {
-			System.out.println(tab);
-		} 
+		
 		return res;
 	}
     
@@ -134,7 +142,7 @@ public class CityServer {
         CityServer server=new CityServer();
         try {
 			server.start(7000);
-			server.executeSQL();
+		
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

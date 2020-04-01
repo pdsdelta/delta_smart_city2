@@ -35,13 +35,13 @@ public class ConnectionFileReader {
 			// get the property value and print it out
 			
 			//this.driver = pr.getProperty("bdd.driver");
-			this.driver = pr.getProperty("org.postgresql.Driver");
+			this.driver = "org.postgresql.Driver";
 			//this.connectionUrl =pr.getProperty("bdd.url");
 			this.connectionUrl = "jdbc:postgresql://172.31.249.20:5432/delta-city-bd";
 			//this.user = pr.getProperty("bdd.username");
-			this.user = pr.getProperty("delta-city");
+			this.user = "delta-city";
 			//this.password = pr.getProperty("bdd.password");
-			this.password = pr.getProperty("toto");
+			this.password = "toto";
 			
 
 		}/*catch (final IOException ex) {
