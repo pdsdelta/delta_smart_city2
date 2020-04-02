@@ -75,17 +75,16 @@ public class CityServer {
 			String operationType = request.getString("operation_type");
 			
 			if(operationType.equals("CREATE")) {
-					addUtilisateur();
+				System.out.println(addUtilisateur());
 			}else if(operationType.equals("SELECT_ALL")) { //OK
 				query = "SELECT * FROM Users";
-				//System.out.println(this.executeSQL());
 				System.out.println(this.getAllUtilisateur(query));
 			}else if(operationType.equals("SELECT_ONE")) { //OK
 				query= "SELECT * FROM Users WHERE login = ?";
 				System.out.println(this.getUtilisateur(query));
-				//getUtilisateur(query);
 			}else if(operationType.equals("UPDATE")) { //OK
-				updateUtilisateur();
+				query = "update Users set ? =?  WHERE login=? ";
+				System.out.println(this.updateUtilisateur(query));
 			}else if(operationType.equals("DELETE_ONE")) { //OK 
 				String monLogin = request.getString("login");
 				query= "DELETE FROM Users WHERE login = ? ";
@@ -101,8 +100,10 @@ public class CityServer {
     
     
     //CREATE
-    public int addUtilisateur() throws JSONException {
+    public String addUtilisateur() throws JSONException {
+    	String resultat= "{Table: users, Action: Create ,Status : " ; 
     	int res = 0;
+    	String status = "Unknown";
     	String json = this.jsonClient;	
 		JSONObject obj = new JSONObject(json);
 		JSONObject request = obj.getJSONObject("request");
@@ -113,7 +114,7 @@ public class CityServer {
 		int monProfil = request.getInt("profil");
 		
 		String query = "INSERT INTO Users (nom, prenom, login, pass, profil) " + "VALUES (?, ?, ?, ?, ?)";
-		System.out.println("La requette SQL associ�e est : " + query + "\n" );
+		System.out.println("La requette SQL associée est : " + query + "\n" );
 		try {
 			pstmt = connect.prepareStatement(query);
 			pstmt.setString(1, monNom);
@@ -122,16 +123,24 @@ public class CityServer {
 			pstmt.setString(4, monPass);
 			pstmt.setInt(5, monProfil);
 			res = pstmt.executeUpdate();
+			if(res == 1) {
+				status = "Succed";
+			}else {
+				status ="failed";
+			}
+			resultat = resultat + status +" ,";
 		} catch (SQLException ex) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		return res;
+		resultat = resultat + "Data : [{ nom: "+monNom + ", prenom: "+ monPrenom + ", login : "+ monLogin +", pass : "+ monPass +", profil : "+ monProfil +"} ]}";
+		this.finalResponse = resultat ;
+		return resultat;
 	}
     
     
     //READ ALL
     public String getAllUtilisateur(String query) throws JsonProcessingException {
-    	String resultat= "{Table: users, data: ";
+    	String resultat= "{Table: users, Action: SELECT_ALL: , Data: ";
     	System.out.println("La requette SQL associée est : " + query + "\n" );
     	List<Users> res = new ArrayList<Users>();
 		try {
@@ -159,8 +168,9 @@ public class CityServer {
     
     
     //READ ONE
-    public List<Users> getUtilisateur(String query) throws JSONException {
-    	System.out.println("La requette SQL associ�e est : " + query + "\n" );
+    public String getUtilisateur(String query) throws JSONException, JsonProcessingException {
+    	String resultat= "{Table: users, Data: ";
+    	System.out.println("La requette SQL associée est : " + query + "\n" );
     	List<Users> res2 = new ArrayList<Users>();
     	String json = this.jsonClient;	
 		JSONObject obj = new JSONObject(json);
@@ -184,56 +194,73 @@ public class CityServer {
 		} catch (SQLException ex) {
 			System.out.println("Erreur, veuillez r�essayer");
 		}
-		return res2;
+		ObjectMapper mapper = new ObjectMapper();
+		resultat =  resultat + mapper.writeValueAsString(res2) + "}";
+		this.finalResponse = resultat;
+		return resultat;
     	
     }
     
     //UPDATE
-    public int updateUtilisateur() throws JSONException { 
+    public String updateUtilisateur(String query) throws JSONException { 
+    	
+    	String field ="unknown";
+    	String status = "unknown";
 		String json = this.jsonClient;	
 		JSONObject obj = new JSONObject(json);
 		JSONObject request = obj.getJSONObject("request");
 		String toUpdate = request.getString("to_modify");
 		String theUpdate = request.getString("modification");
 		String monLogin = request.getString("login");
+		String resultat= "{Table: users, Action: Update_user , login =  " + monLogin  ;
 		
 		int res = 0;
-		String query =" ";
 		if(toUpdate.equals("nom")) {
+			 field = "nom";
 			 query = "update Users set nom =?  WHERE login=? "; 
-			 System.out.println("La requette SQL associ�e est : " + query + "\n" );
+			 System.out.println("La requette SQL associée est : " + query + "\n" );
 			try { 
 				pstmt = connect.prepareStatement(query); 
 				pstmt.setString(1, theUpdate);
 				pstmt.setString(2, monLogin);
 				res = pstmt.executeUpdate(); 
+				resultat= resultat + ",field = " +field ;
 			} catch (SQLException ex) {
 				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}else  if(toUpdate.equals("prenom")) {
+			 field = "prenom";
 			 query = "update Users set prenom =?  WHERE login=? ";
-			 System.out.println("La requette SQL associ�e est : " + query + "\n" );
+			 System.out.println("La requette SQL associée est : " + query + "\n" );
 				try { 
 					pstmt = connect.prepareStatement(query); 
 					pstmt.setString(1, theUpdate);
 					pstmt.setString(2, monLogin);
 					res = pstmt.executeUpdate(); 
+					resultat= resultat + ",field = " +field ;
 				} catch (SQLException ex) {
 					Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 				}
 		}else if(toUpdate.equals("pass")) {
+			 field = "pass";
 			 query = "update Users set pass =?  WHERE login=? "; 
-			 System.out.println("La requette SQL associ�e est : " + query + "\n" );
+			 System.out.println("La requette SQL associée est : " + query + "\n" );
 				try { 
 					pstmt = connect.prepareStatement(query); 
 					pstmt.setString(1, theUpdate);
 					pstmt.setString(2, monLogin);
 					res = pstmt.executeUpdate(); 
+					resultat= resultat + ",field = " +field ;
 				} catch (SQLException ex) {
 					Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 				}
 		}
-		return res;
+		if(res != 0) {
+			status = "Succed";
+		}
+		resultat = resultat + ", Status : " + status + " }";
+		this.finalResponse =resultat ;
+		return resultat;
     }
     
     //DELETE
