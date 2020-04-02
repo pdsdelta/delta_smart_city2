@@ -180,15 +180,16 @@ public class CityServer {
 			int monProfil = request.getInt("profil");
 			
 			String query = "INSERT INTO Users (nom, prenom, login, pass, profil) " + "VALUES (?, ?, ?, ?, ?)";
-			System.out.println("La requette SQL associée est : " + query + "\n" );
+			
 			try {
 				pstmt = connect.prepareStatement(query);
 				pstmt.setString(1, monNom);
 				pstmt.setString(2, monPrenom);
 				pstmt.setString(3, monLogin);
 				pstmt.setString(4, monPass);
-				pstmt.setInt(5, monProfil);
+				pstmt.setInt(5, monProfil); 
 				res = pstmt.executeUpdate();
+				System.out.println("La requette SQL associée est : " + pstmt.toString() + "\n" );
 				if(res == 1) {
 					status = "Succed";
 				}else {
@@ -245,7 +246,7 @@ public class CityServer {
 				pstmt = connect.prepareStatement(query);
 				pstmt.setString(1, monLogin);
 				rs = pstmt.executeQuery();
-				
+				System.out.println("La requette SQL associée est : " + pstmt.toString() + "\n" );
 				while(rs.next()) {
 				Users util = new Users();
 				util.setId(rs.getInt(1));
@@ -282,12 +283,12 @@ public class CityServer {
 			if(toUpdate.equals("nom")) {
 				 field = "nom";
 				 query = "update Users set nom =?  WHERE login=? "; 
-				 System.out.println("La requette SQL associée est : " + query + "\n" );
 				try { 
 					pstmt = connect.prepareStatement(query); 
 					pstmt.setString(1, theUpdate);
 					pstmt.setString(2, monLogin);
 					res = pstmt.executeUpdate(); 
+					System.out.println("La requette SQL associée est : " + pstmt.toString() + "\n" );
 					resultat= resultat + ",Field = " + field ;
 				} catch (SQLException ex) {
 					Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
@@ -301,6 +302,7 @@ public class CityServer {
 						pstmt.setString(1, theUpdate);
 						pstmt.setString(2, monLogin);
 						res = pstmt.executeUpdate(); 
+						System.out.println("La requette SQL associée est : " + pstmt.toString() + "\n" );
 						resultat= resultat + ",Field = " +field ;
 					} catch (SQLException ex) {
 						Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
@@ -314,6 +316,7 @@ public class CityServer {
 						pstmt.setString(1, theUpdate);
 						pstmt.setString(2, monLogin);
 						res = pstmt.executeUpdate(); 
+						System.out.println("La requette SQL associée est : " + pstmt.toString() + "\n" );
 						resultat= resultat + ",Field = " +field ;
 					} catch (SQLException ex) {
 						Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
@@ -340,6 +343,7 @@ public class CityServer {
 				pstmt=connect.prepareStatement (query);
 				pstmt.setString(1, monLogin);
 				res = pstmt.executeUpdate();
+				System.out.println("La requette SQL associée est : " + pstmt.toString() + "\n" );
 				if(res != 0) {
 					status = "Succed";
 				}

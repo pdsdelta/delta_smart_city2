@@ -65,7 +65,7 @@ public class CityClient {
 	    	Users u = new Users();
 			u.setId(1);
 			
-			
+			System.out.println("Bonjour Chère client, que désirez vous faire ?\n");
 	    	System.out.println("**********");
 			System.out.println("*  MENU  *");
 			System.out.println("********** \n");
@@ -73,7 +73,8 @@ public class CityClient {
 					"[ 2 ] Afficher les utilisateurs\n"+
 					"[ 3 ] Afficher un utilisateur spécifique\n"+
 					"[ 4 ] Modifier les données d'un utilisateur\n"+
-					"[ 5 ] Supprimer un utilisateur\n\n");
+					"[ 5 ] Supprimer un utilisateur\n"+
+					"[ 6 ] Quitter\n\n");
 			
 			Scanner sc = new Scanner(System.in);
 			PrintWriter pw = new PrintWriter(out);
@@ -104,6 +105,9 @@ public class CityClient {
 							ord = new Order(5,u);
 							json = ord.generateJson();
 							break;
+						case 6:
+							System.exit(0);
+							break;
 						}
 					return json ;
 					
@@ -123,7 +127,7 @@ public class CityClient {
 	    	switch(action) {
 	    		case "CREATE" :
 	    			if (obj.getString("Status").equals("Succed")){
-	    				System.out.println("Utilisateur crée avec succès");
+	    				res = "Utilisateur crée avec succès";
 	    			}
 	    			break;
 	    		case "SELECT_ALL":
