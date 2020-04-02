@@ -65,15 +65,25 @@ public class Order {
 				System.out.println("[ 1 ] Le nom\n" +
 						"[ 2 ] Le prénom\n"+
 						"[ 3 ] Le mot de passe\n");
-				Scanner choix = new Scanner(System.in);
-				int choixUpdate = choix.nextInt(); 
+				boolean b = true ;
 				String choixFinal = "";
-				if(choixUpdate ==1) {
-					choixFinal ="nom";
-				}else if (choixUpdate ==2) {
-					choixFinal = "prenom";
-				}else if (choixUpdate ==3) {
-					choixFinal ="pass";
+				while(b) {
+					Scanner choix = new Scanner(System.in);
+					int choixUpdate = choix.nextInt(); 
+					
+					if(choixUpdate ==1) {
+						choixFinal ="nom";
+						b=false;
+					}else if (choixUpdate ==2) {
+						choixFinal = "prenom";
+						b=false;
+					}else if (choixUpdate ==3) {
+						choixFinal ="pass";
+						b=false;
+					}else {
+						System.out.println("Désolé, on ne peut traiter votre demande, veuillez choisir entre 1 et 3");
+						
+					}
 				}
 				System.out.println("Quel est le nouveau " + choixFinal +" ? \n");
 				Scanner newThing = new Scanner(System.in);

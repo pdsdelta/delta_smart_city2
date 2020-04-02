@@ -119,7 +119,7 @@ public class CityClient {
 	    	String res = "Empty";
 	    	List<Users> users = new ArrayList<Users>();
 	    	switch(action) {
-	    		case "Create" :
+	    		case "CREATE" :
 	    			if (obj.getString("Status").equals("Succed")){
 	    				System.out.println("Utilisateur crée avec succès");
 	    			}
@@ -153,7 +153,24 @@ public class CityClient {
     				users.add(util);
     				res = users.toString();
     				break;
-
+	    		case "UPDATE" :
+	    			String field = obj.getString("Field");
+	    			String login = obj.getString("Login");
+	    			if (obj.getString("Status").equals("Succed")){
+	    				
+	    				res = "Le " + field + " de l'utilisateur "+ login +" a été mis à jour avec avec succès";
+	    			}else {
+	    				res = "Le " + field + " de l'utilisateur "+ login +" n'a pas été mis à jour avec avec succès";
+	    			}
+	    			break;
+	    		case "DELETE_ONE" :
+	    			login = obj.getString("Login");
+	    			if (obj.getString("Status").equals("Succed")){
+	    				res = "L'utilisateur "+ login + " a été supprimé avec avec succès";
+	    			}else {
+	    				res = "L'utilisateur "+ login + " n'a pas été supprimé";
+	    			}
+	    			break;
 	    			
 	    		default:
 	    			//

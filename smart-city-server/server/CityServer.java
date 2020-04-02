@@ -101,7 +101,7 @@ public class CityServer {
     
     //CREATE
     public String addUtilisateur() throws JSONException {
-    	String resultat= "{Table: users, Action: Create ,Status : " ; 
+    	String resultat= "{Table: users, Action: CREATE ,Status : " ; 
     	int res = 0;
     	String status = "Unknown";
     	String json = this.jsonClient;	
@@ -210,7 +210,7 @@ public class CityServer {
 		String toUpdate = request.getString("to_modify");
 		String theUpdate = request.getString("modification");
 		String monLogin = request.getString("login");
-		String resultat= "{Table: users, Action: Update_user , Login =  " + monLogin  ;
+		String resultat= "{Table: users, Action: UPDATE , Login =  " + monLogin  ;
 		int res = 0;
 		String query =" ";
 		if(toUpdate.equals("nom")) {
@@ -222,7 +222,7 @@ public class CityServer {
 				pstmt.setString(1, theUpdate);
 				pstmt.setString(2, monLogin);
 				res = pstmt.executeUpdate(); 
-				resultat= resultat + ",field = " +field ;
+				resultat= resultat + ",Field = " + field ;
 			} catch (SQLException ex) {
 				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -235,7 +235,7 @@ public class CityServer {
 					pstmt.setString(1, theUpdate);
 					pstmt.setString(2, monLogin);
 					res = pstmt.executeUpdate(); 
-					resultat= resultat + ",field = " +field ;
+					resultat= resultat + ",Field = " +field ;
 				} catch (SQLException ex) {
 					Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 				}
@@ -248,7 +248,7 @@ public class CityServer {
 					pstmt.setString(1, theUpdate);
 					pstmt.setString(2, monLogin);
 					res = pstmt.executeUpdate(); 
-					resultat= resultat + ",field = " +field ;
+					resultat= resultat + ",Field = " +field ;
 				} catch (SQLException ex) {
 					Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 				}
