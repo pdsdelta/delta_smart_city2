@@ -117,8 +117,8 @@ public class Users {
 
 	@Override
 	public String toString() {
-		return "Users [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", login=" + login + ", pwd=" + pwd
-				+ ", profil=" + profil + "]";
+		return "[id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", login=" + login + ", pwd=" + pwd
+				+ ", profil=" + profil + "]\n";
 	}
 }
 
