@@ -50,11 +50,13 @@ public class CityServer {
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        this.jsonClient = in.readLine();
-        System.out.println("Le client a envoyÉ ce JSON : " + this.jsonClient + "\n");
-        this.generateSQL();
-        out.println(finalResponse);
         
+        while(true) {
+	        this.jsonClient = in.readLine();
+	        System.out.println("Le client a envoyÉ ce JSON : " + this.jsonClient + "\n");
+	        this.generateSQL();
+	        out.println(finalResponse);
+        }
 
     }
 

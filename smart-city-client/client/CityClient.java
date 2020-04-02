@@ -35,12 +35,14 @@ public class CityClient {
 	    	clientSocket = new Socket(ip, port);
 	        out = new PrintWriter(clientSocket.getOutputStream(), true);
 	        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-	        toSend =this.afficheMenu();
-	        out.println(toSend);
-	        String response = in.readLine();
-	        //System.out.println(response);
-	        System.out.println("***** Résultat ******\n");
-	        System.out.println(this.diplayResult(response));
+	        
+	        while(true) {
+	        	toSend =this.afficheMenu();
+		        out.println(toSend);
+		        String response = in.readLine();
+		        System.out.println("***** Résultat ******\n");
+		        System.out.println(this.diplayResult(response));
+	        }
 	    }
 	 
 	   
