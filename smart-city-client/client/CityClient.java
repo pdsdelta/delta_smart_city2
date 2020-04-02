@@ -9,10 +9,16 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import usefull.Order;
 import user.Users;
@@ -24,7 +30,7 @@ public class CityClient {
 	    private BufferedReader in;
 	    
 	    
-	    public void startConnection(String ip, int port) throws UnknownHostException, IOException {
+	    public void startConnection(String ip, int port) throws UnknownHostException, IOException, JSONException {
 	    	String toSend;
 	    	clientSocket = new Socket(ip, port);
 	        out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -32,7 +38,9 @@ public class CityClient {
 	        toSend =this.afficheMenu();
 	        out.println(toSend);
 	        String response = in.readLine();
-	        System.out.println(response);
+	        //System.out.println(response);
+	        System.out.println("***** Résultat ******\n");
+	        System.out.println(this.diplayResult(response));
 	    }
 	 
 	   
@@ -103,9 +111,59 @@ public class CityClient {
 		}
 			return json; 
 	    
-
+		
 	 }
-	    public static void main(String[] args) throws UnknownHostException, IOException {
+	    public String diplayResult(String jsonResponse) throws JSONException {
+	    	JSONObject obj =new JSONObject(jsonResponse);
+	    	String action = obj.getString("Action");
+	    	String res = "Empty";
+	    	List<Users> users = new ArrayList<Users>();
+	    	switch(action) {
+	    		case "Create" :
+	    			if (obj.getString("Status").equals("Succed")){
+	    				System.out.println("Utilisateur crée avec succès");
+	    			}
+	    			break;
+	    		case "SELECT_ALL":
+	    			JSONArray arr = obj.getJSONArray("Data");
+	    			for (int i = 0; i < arr.length(); i++)
+	    			{
+	    			    Users util = new Users();
+	    				util.setId(arr.getJSONObject(i).getInt("id"));
+	    				util.setNom(arr.getJSONObject(i).getString("nom"));
+	    				util.setPrenom(arr.getJSONObject(i).getString("prenom"));
+	    				util.setLogin(arr.getJSONObject(i).getString("login"));
+	    				util.setPwd(arr.getJSONObject(i).getString("pwd"));
+	    				util.setProfil(arr.getJSONObject(i).getInt("profil"));
+	    				users.add(util);
+	    			    
+	    			    
+	    			}
+	    			res = users.toString();
+	    			break;
+	    		case "SELECT_ONE":
+	    			arr = obj.getJSONArray("Data");
+	    			Users util = new Users();
+    				util.setId(arr.getJSONObject(0).getInt("id"));
+    				util.setNom(arr.getJSONObject(0).getString("nom"));
+    				util.setPrenom(arr.getJSONObject(0).getString("prenom"));
+    				util.setLogin(arr.getJSONObject(0).getString("login"));
+    				util.setPwd(arr.getJSONObject(0).getString("pwd"));
+    				util.setProfil(arr.getJSONObject(0).getInt("profil"));
+    				users.add(util);
+    				res = users.toString();
+    				break;
+
+	    			
+	    		default:
+	    			//
+	    	}
+	    	
+			return res;
+			
+		}
+
+	    public static void main(String[] args) throws UnknownHostException, IOException, JSONException {
 	    	
 	        CityClient client = new CityClient();
 	        client.startConnection("172.31.249.22", 7000);

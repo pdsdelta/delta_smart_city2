@@ -126,7 +126,7 @@ public class CityServer {
 			if(res == 1) {
 				status = "Succed";
 			}else {
-				status ="failed";
+				status ="Failed";
 			}
 			resultat = resultat + status +" ,";
 		} catch (SQLException ex) {
@@ -140,7 +140,7 @@ public class CityServer {
     
     //READ ALL
     public String getAllUtilisateur(String query) throws JsonProcessingException {
-    	String resultat= "{Table: users, Action: SELECT_ALL: , Data: ";
+    	String resultat= "{Table: users, Action: SELECT_ALL ,  Data: ";
     	System.out.println("La requette SQL associée est : " + query + "\n" );
     	List<Users> res = new ArrayList<Users>();
 		try {
@@ -169,7 +169,7 @@ public class CityServer {
     
     //READ ONE
     public String getUtilisateur(String query) throws JSONException, JsonProcessingException {
-    	String resultat= "{Table: users, Data: ";
+    	String resultat= "{Table: users, Action : SELECT_ONE ,  Data: ";
     	List<Users> res2 = new ArrayList<Users>();
     	String json = this.jsonClient;	
 		JSONObject obj = new JSONObject(json);
