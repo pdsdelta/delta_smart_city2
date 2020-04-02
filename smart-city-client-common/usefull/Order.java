@@ -88,7 +88,7 @@ public class Order {
 				System.out.println("Quel est le nouveau " + choixFinal +" ? \n");
 				Scanner newThing = new Scanner(System.in);
 				String newthingUpdate = newThing.nextLine(); 
-				res  ="{request:{ operation_type: UPDATE, target: Users , to_modify: "+choixFinal + ", modification: "+ newthingUpdate + ", login : "+ userUpdate +"}} " ;
+				res  ="{request:{ operation_type: UPDATE, target: Users , to_modify: "+choixFinal + ", modification: "+ "\"" +newthingUpdate + "\"" + ", login : "+ userUpdate +"}} " ;
 
 				break;
 			case 5:

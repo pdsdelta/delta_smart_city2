@@ -72,7 +72,7 @@ public class CityClient {
 			System.out.println("[ 1 ] Ajouter un utilisateur\n"+
 					"[ 2 ] Afficher les utilisateurs\n"+
 					"[ 3 ] Afficher un utilisateur spécifique\n"+
-					"[ 4 ] Modifier les donn�es d'un utilisateur\n"+
+					"[ 4 ] Modifier les données d'un utilisateur\n"+
 					"[ 5 ] Supprimer un utilisateur\n\n");
 			
 			Scanner sc = new Scanner(System.in);
