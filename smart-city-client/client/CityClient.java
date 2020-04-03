@@ -78,9 +78,10 @@ public class CityClient {
 			
 			Scanner sc = new Scanner(System.in);
 			PrintWriter pw = new PrintWriter(out);
-			String json = "";
+			String json = "NON";
+			boolean b = true;
 			try {
-				while(true) {
+				while(b==true) {
 					int a = sc.nextInt();
 					switch(a){
 	
@@ -108,6 +109,10 @@ public class CityClient {
 						case 6:
 							System.exit(0);
 							break;
+						default :
+							ord = new Order(7,u);
+							json = ord.generateJson();
+							
 						}
 					return json ;
 					
@@ -120,9 +125,13 @@ public class CityClient {
 		
 	 }
 	    public String diplayResult(String jsonResponse) throws JSONException {
+	    	String res = "Empty";
+	    	if (jsonResponse=="Unknown") {
+	    		res = "Impossible de traiter votre demande\n";
+	    		return res ;
+	    	}
 	    	JSONObject obj =new JSONObject(jsonResponse);
 	    	String action = obj.getString("Action");
-	    	String res = "Empty";
 	    	List<Users> users = new ArrayList<Users>();
 	    	switch(action) {
 	    		case "CREATE" :
@@ -179,7 +188,7 @@ public class CityClient {
 	    			break;
 	    			
 	    		default:
-	    			//
+	    			res = "Veuillez entrez un nombre entre 1 et 6";
 	    	}
 	    	
 			return res;

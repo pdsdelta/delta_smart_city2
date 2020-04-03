@@ -30,10 +30,11 @@ public class Order {
 		ObjectMapper mapper = new ObjectMapper();
 		String res = "";
 		int profil ;
-    	Scanner read = new Scanner(System.in);
-    	Scanner readInt = new Scanner(System.in);
+    	
 		switch(this.numOrder){
 			case 1 :
+				Scanner read = new Scanner(System.in);
+		    	Scanner readInt = new Scanner(System.in);
 				System.out.print("veuillez entrez le nom : ");
 				String nom = read.nextLine();
 				System.out.print("veuillez entrez le prenom : ");
@@ -98,6 +99,8 @@ public class Order {
 				res ="{request:{ operation_type: DELETE_ONE, target: Users , login: ";
 				res = res + newUserDelete + "}}" ;
 				break;
+			default:
+				res ="{request:{ operation_type: UNKNOWN } }";
 			}
 		return res;	
 	}

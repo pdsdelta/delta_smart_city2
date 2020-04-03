@@ -115,9 +115,18 @@ public class CityServer {
 				String inputLine;
 		        while(true) {
 			        this.jsonClient = in.readLine();
-			        System.out.println("Le client a envoyÉ ce JSON : " + this.jsonClient + "\n");
-			        this.generateSQL();
-			        out.println(finalResponse);}
+			        if(jsonClient.equals("NON")) {
+			        	this.finalResponse="Unknown";
+			        	out.println(finalResponse);
+			        }else {
+				        System.out.println("Le client a envoyÉ ce JSON : " + this.jsonClient + "\n");
+				        this.generateSQL();
+				        out.println(finalResponse);
+				        
+			        }
+			        
+			    }
+		        
 		        } catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -155,6 +164,8 @@ public class CityServer {
 					String monLogin = request.getString("login");
 					query= "DELETE FROM Users WHERE login = ? ";
 					deleteUtilisateur(query);
+				}else if(operationType.equals("UNKNOWN")) {
+					return "UNKNOWN";
 				}
 			} catch (JSONException e) {
 				
