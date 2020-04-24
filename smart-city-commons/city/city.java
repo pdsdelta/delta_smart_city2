@@ -3,7 +3,7 @@ package city;
 public class city {
 	
 	int idCity; 
-	String nomCity;
+	String nameCity;
 	int longueurCity;
 	int largeurCity;
 	int budgetStation;
@@ -20,7 +20,7 @@ public class city {
 		result = prime * result + idCity;
 		result = prime * result + largeurCity;
 		result = prime * result + longueurCity;
-		result = prime * result + ((nomCity == null) ? 0 : nomCity.hashCode());
+		result = prime * result + ((nameCity == null) ? 0 : nameCity.hashCode());
 		result = prime * result + nombreMaxVoiture;
 		result = prime * result + seuilAtmoCity;
 		result = prime * result + tailleCity;
@@ -43,10 +43,10 @@ public class city {
 			return false;
 		if (longueurCity != other.longueurCity)
 			return false;
-		if (nomCity == null) {
-			if (other.nomCity != null)
+		if (nameCity == null) {
+			if (other.nameCity != null)
 				return false;
-		} else if (!nomCity.equals(other.nomCity))
+		} else if (!nameCity.equals(other.nameCity))
 			return false;
 		if (nombreMaxVoiture != other.nombreMaxVoiture)
 			return false;
@@ -56,17 +56,18 @@ public class city {
 			return false;
 		return true;
 	}
+
 	public int getIdCity() {
 		return idCity;
 	}
 	public void setIdCity(int idCity) {
 		this.idCity = idCity;
 	}
-	public String getNomCity() {
-		return nomCity;
+	public String getNameCity() {
+		return nameCity;
 	}
-	public void setNomCity(String nomCity) {
-		this.nomCity = nomCity;
+	public void setNameCity(String nameCity) {
+		this.nameCity = nameCity;
 	}
 	public int getLongueurCity() {
 		return longueurCity;
@@ -104,6 +105,4 @@ public class city {
 	public void setTailleCity(int tailleCity) {
 		this.tailleCity = tailleCity;
 	}
-
-
 }
