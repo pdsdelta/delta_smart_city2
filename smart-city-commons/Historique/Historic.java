@@ -5,6 +5,7 @@ public class Historic {
 	int idHistoric;
 	Date dateHistoric;
 	int indiceReleve;
+	String nameQuartier;
 
 	public int getId() {
 		return idHistoric;
@@ -28,9 +29,15 @@ public class Historic {
 		this.indiceReleve = indiceATMO;
 	}
 	
-	public void gethistodistrict(int idHistoric, Date dateHistoric, int indiceReleve){
-		String quartier = ;
-		System.out.println("L'historique "+idHistoric+" datant du "+dateHistoric+ "a relevé l'indice ATMO "+indiceReleve+ " dans le quartier "+quartier+" présente dans notre ville");
+	public String getNamequartier() {
+		return nameQuartier;
+	}
+	public void setNamequartier(String name) {
+		this.nameQuartier = name;
+	}
+	
+	public void gethistodistrict(int idHistoric, Date dateHistoric, int indiceReleve, String nameQuartier){
+		System.out.println("L'historique "+idHistoric+" datant du "+dateHistoric+ "a relevé l'indice ATMO "+indiceReleve+ " dans le quartier "+nameQuartier+" présente dans notre ville");
 		}
 
 	public void gethistocity(int idHistoric, Date dateHistoric, int indiceReleve){
