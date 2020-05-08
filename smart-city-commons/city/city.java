@@ -9,8 +9,8 @@ public class city {
 	int budgetStation;
 	int nombreMaxVoiture;
 	int seuilAtmoCity;
-	int tailleCity;
-	
+	double tailleCity;
+	int numberTram;
 	
 	@Override
 	public int hashCode() {
@@ -22,8 +22,11 @@ public class city {
 		result = prime * result + longueurCity;
 		result = prime * result + ((nameCity == null) ? 0 : nameCity.hashCode());
 		result = prime * result + nombreMaxVoiture;
+		result = prime * result + numberTram;
 		result = prime * result + seuilAtmoCity;
-		result = prime * result + tailleCity;
+		long temp;
+		temp = Double.doubleToLongBits(tailleCity);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 	@Override
@@ -50,13 +53,14 @@ public class city {
 			return false;
 		if (nombreMaxVoiture != other.nombreMaxVoiture)
 			return false;
+		if (numberTram != other.numberTram)
+			return false;
 		if (seuilAtmoCity != other.seuilAtmoCity)
 			return false;
-		if (tailleCity != other.tailleCity)
+		if (Double.doubleToLongBits(tailleCity) != Double.doubleToLongBits(other.tailleCity))
 			return false;
 		return true;
 	}
-
 	public int getIdCity() {
 		return idCity;
 	}
@@ -99,10 +103,16 @@ public class city {
 	public void setSeuilAtmoCity(int seuilAtmoCity) {
 		this.seuilAtmoCity = seuilAtmoCity;
 	}
-	public int getTailleCity() {
+	public double getTailleCity() {
 		return tailleCity;
 	}
-	public void setTailleCity(int tailleCity) {
+	public void setTailleCity(double tailleCity) {
 		this.tailleCity = tailleCity;
+	}
+	public int getNumberTram() {
+		return numberTram;
+	}
+	public void setNumberTram(int numberTram) {
+		this.numberTram = numberTram;
 	}
 }
