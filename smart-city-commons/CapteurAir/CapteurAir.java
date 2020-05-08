@@ -8,6 +8,47 @@ public class CapteurAir {
 	int IndiceATMO;
 	int tempsReleve;
 	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + IndiceATMO;
+		result = prime * result + ((dateReleve == null) ? 0 : dateReleve.hashCode());
+		result = prime * result + idCapteur;
+		result = prime * result + ((nameCapteur == null) ? 0 : nameCapteur.hashCode());
+		result = prime * result + tempsReleve;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CapteurAir other = (CapteurAir) obj;
+		if (IndiceATMO != other.IndiceATMO)
+			return false;
+		if (dateReleve == null) {
+			if (other.dateReleve != null)
+				return false;
+		} else if (!dateReleve.equals(other.dateReleve))
+			return false;
+		if (idCapteur != other.idCapteur)
+			return false;
+		if (nameCapteur == null) {
+			if (other.nameCapteur != null)
+				return false;
+		} else if (!nameCapteur.equals(other.nameCapteur))
+			return false;
+		if (tempsReleve != other.tempsReleve)
+			return false;
+		return true;
+	}
+
 	public int getId() {
 		return idCapteur;
 	}

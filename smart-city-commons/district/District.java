@@ -4,7 +4,8 @@ public class District {
 	
 	int id;
 	String name;
-	float seuilQuartierATMO;
+	int seuilQuartierATMO;
+	boolean EtatAlerte = false;
 	//Ville ville;
 	
 	@Override
@@ -49,10 +50,20 @@ public class District {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public float getSeuilQuartierATMO() {
+	public int getSeuilQuartierATMO() {
 		return seuilQuartierATMO;
 	}
-	public void setSeuilQuartierATMO(float seuilQuartierATMO) {
+	public void setSeuilQuartierATMO(int seuilQuartierATMO) {
 		this.seuilQuartierATMO = seuilQuartierATMO;
 	}
+	
+	public void getEtatAlerte(){
+		int indiceAtmo = 0;
+		if(seuilQuartierATMO < indiceAtmo){
+			EtatAlerte = true;
+			while(EtatAlerte = true){
+				System.out.println("Danger, seuil de risque dépassé !!! Fermeture des bornes");
+			}
+		}
+	}	
 }
