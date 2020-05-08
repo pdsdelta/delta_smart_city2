@@ -5,16 +5,16 @@ public class District {
 	int id;
 	String name;
 	int seuilQuartierATMO;
-	boolean EtatAlerte = false;
-	//Ville ville;
+	int Etatalterte;
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + Etatalterte;
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + Float.floatToIntBits(seuilQuartierATMO);
+		result = prime * result + seuilQuartierATMO;
 		return result;
 	}
 	@Override
@@ -26,6 +26,8 @@ public class District {
 		if (getClass() != obj.getClass())
 			return false;
 		District other = (District) obj;
+		if (Etatalterte != other.Etatalterte)
+			return false;
 		if (id != other.id)
 			return false;
 		if (name == null) {
@@ -33,11 +35,10 @@ public class District {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (Float.floatToIntBits(seuilQuartierATMO) != Float.floatToIntBits(other.seuilQuartierATMO))
+		if (seuilQuartierATMO != other.seuilQuartierATMO)
 			return false;
 		return true;
 	}
-	
 	public int getId() {
 		return id;
 	}
@@ -56,14 +57,11 @@ public class District {
 	public void setSeuilQuartierATMO(int seuilQuartierATMO) {
 		this.seuilQuartierATMO = seuilQuartierATMO;
 	}
-	
-	public void getEtatAlerte(){
-		int indiceAtmo = 0;
-		if(seuilQuartierATMO < indiceAtmo){
-			EtatAlerte = true;
-			while(EtatAlerte = true){
-				System.out.println("Danger, seuil de risque dépassé !!! Fermeture des bornes");
-			}
-		}
-	}	
+	public int getEtatalterte() {
+		return Etatalterte;
+	}
+	public void setEtatalterte(int etatalterte) {
+		Etatalterte = etatalterte;
+	}
+
 }

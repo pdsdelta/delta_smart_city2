@@ -6,9 +6,8 @@ public class CapteurAir {
 	String nameCapteur;
 	Date dateReleve;
 	int IndiceATMO;
-	int tempsReleve;
 	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -17,7 +16,6 @@ public class CapteurAir {
 		result = prime * result + ((dateReleve == null) ? 0 : dateReleve.hashCode());
 		result = prime * result + idCapteur;
 		result = prime * result + ((nameCapteur == null) ? 0 : nameCapteur.hashCode());
-		result = prime * result + tempsReleve;
 		return result;
 	}
 
@@ -43,8 +41,6 @@ public class CapteurAir {
 			if (other.nameCapteur != null)
 				return false;
 		} else if (!nameCapteur.equals(other.nameCapteur))
-			return false;
-		if (tempsReleve != other.tempsReleve)
 			return false;
 		return true;
 	}
@@ -76,15 +72,4 @@ public class CapteurAir {
 	public void setIndice(int indice) {
 		this.IndiceATMO = indice;
 	}
-	
-	public int getTempsReleve() {
-		return tempsReleve;
-	}
-	public void setTempsReleve(int time) {
-		this.tempsReleve = time;
-	}
-	
-	
-	
-	
 }
