@@ -191,21 +191,26 @@ class mapInterface extends JFrame {
   public void generateMapUnSave() throws UnknownHostException, IOException, JSONException{
     System.out.println("generateMapUnSave action");
     a = 1;
-    mapInterface map = new mapInterface(1);
-    map.startConnection("172.31.249.22", 2400, 1);
+    this.dispose();
+    mapInterface map1 = new mapInterface(1);
+    map1.startConnection("172.31.249.22", 2400, 1);
   }
   public void generateMapSave() throws UnknownHostException, IOException, JSONException{
     System.out.println("generateMapSave action");
     a = 2;
-    mapInterface map = new mapInterface(0);
-    map.startConnection("172.31.249.22", 2400, 2);
+    this.dispose();
+    mapInterface map2 = new mapInterface(0);
+    map2.startConnection("172.31.249.22", 2400, 2);
+    map2.dispose();
     mapInterface map3 = new mapInterface(2);
   }
   public void generateInformation() throws UnknownHostException, IOException, JSONException{
     System.out.println("generateInformation action");
     a = 3;
-    mapInterface map = new mapInterface(0);
-    map.startConnection("172.31.249.22", 2400, 2);
+    this.dispose();
+    mapInterface map0 = new mapInterface(0);
+    map0.startConnection("172.31.249.22", 2400, 2);
+    map0.dispose();
     mapInterface map3 = new mapInterface(3);
   }
   

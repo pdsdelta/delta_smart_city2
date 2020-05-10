@@ -11,11 +11,16 @@ class transition{
   static double mapTaille1;
   static String nameCity;
   static int budgetCity1;
-  public static void saveLlt(int longueur, int largeur, double mapTaille){
+  static int budgetStation1;
+  static int nombreStation1;
+  
+  public static void saveLlt(int longueur, int largeur, double mapTaille, int budgetStation, int nombreStation){
   longueur1 = longueur;
   largeur1 = largeur;
   mapTaille1 = mapTaille;
-  System.out.println(longueur1 + largeur1 + mapTaille1 + "save long");
+  budgetStation1 = budgetStation;
+  nombreStation1 = nombreStation;
+  System.out.println(longueur1 + largeur1 + mapTaille1 + budgetStation1 + nombreStation1 + "save long" );
   }
   public static void saveBT(String nomVille, int budgetCity){
   nameCity = nomVille;
