@@ -12,11 +12,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,7 +29,7 @@ import connectionPool.DataSource;
 import user.Users;
 import city.city;
 
-class mapInterface extends JFrame {
+public class mapInterface extends JFrame {
   //create menu
   private JMenuBar menuBar = new JMenuBar();
   private JMenu test1 = new JMenu("Generer une carte");
@@ -88,8 +83,8 @@ class mapInterface extends JFrame {
 	int x = (int)tailleEcran.getHeight();
     int y = (int)tailleEcran.getWidth();
     this.setSize(x,y);
- //   if ((verifBase() !=1 && a == 0)||(a == 1 && verifBase() == 1)){
-      if (a == 1) {
+    
+    if (a == 1) {
       nomVille = option.monString("Veuillez entrer le nom de la ville : ");
       this.setTitle("Carte de " + nomVille);
       budgetCity = option.monInt("Veuillez entrer le budget de la ville : ");
