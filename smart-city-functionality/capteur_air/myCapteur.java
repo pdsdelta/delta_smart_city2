@@ -1,23 +1,39 @@
 package capteur_air;
 
+import java.awt.Color;
 import java.awt.event.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import connectionPool.DataSource;
+import user.Users;
+
 class myCapteur extends JFrame {
 	private JMenuBar menu = new JMenuBar();
-	private JMenu onglet1 = new JMenu("Choisir endroit");
+	private JMenu onglet1 = new JMenu("Déterminer la qualité d'air");
 	private JMenu onglet2 = new JMenu ("Configurer Capteur");
 	private JMenu onglet3 = new JMenu ("Historique");
 	
 	private JMenuItem case1 = new JMenuItem("Selectionner Quartier");
-	private JMenuItem case2 = new JMenuItem("Fermer");
-	private JMenuItem case3 = new JMenuItem("Loulou");
-	private JMenuItem case4 = new JMenuItem("TR");
+	private JMenuItem case2 = new JMenuItem("Indice de la ville");
+	private JMenuItem case3 = new JMenuItem("Ajuster les seuils suivant les quartiers");
+	private JMenuItem case4 = new JMenuItem("Déterminer l'intervalle de relevé");
 	
     //private Socket clientSocket;
     //private PrintWriter out;
@@ -81,126 +97,296 @@ class myCapteur extends JFrame {
             this.menu.add(onglet3);
     	    this.setJMenuBar(menu);
     	    this.setVisible(true);
+    	    
+    	    if(getalerte(alerte = true)) {
+        	    JButton bouton = new JButton("Alerte !!! L'indice relevé est supérerieur au seuil");
+        	    getContentPane().add(bouton);
+        	    bouton.setBackground(Color.red);
+    	    }else {
+    	    JButton bouton = new JButton("Un bouton sans taille");
+    	    getContentPane().add(bouton);
+    	    bouton.setBackground(Color.green);
+    	    }
+    	    
+    	    
     }
+    public void getalerte() {
+    	boolean alerte = false;
+    	getseuil();
+    	getcalculIndice();
+    		
+    	String query = "SELECT indiceatmo from capteurair;
+    	List<capteurair> res = new ArrayList<capteurair>();
+		try {
+			stm = connect.prepareStatement(query);
+			rs = stm.executeQuery();
+			while (rs.next()) {
+				util.setidcapteur(rs.getInt(1));
+				util.setnamecapteur(rs.getString(2));
+				util.setdatereleve(rs.getdate(3));
+				util.setindiceatmo(rs.getInt(4));
+				res.add(util);
+				//System.out.println("Operation realisee avec succes\n");
+			}
+		} catch (SQLException ex) {
+			System.out.println("pas d'indice atmo ");
+		}
+		return query;
+		int indice = Integer.parseInt(query);
+    
+	String seuil = "SELECT seuilquartier from district;
+	List<district> res = new ArrayList<district>();
+	try {
+		stm = connect.prepareStatement(seuil);
+		rs = stm.executeQuery();
+		while (rs.next()) {
+			util.setidcapteur(rs.getInt(1));
+			util.setnamecapteur(rs.getString(2));
+			util.setdatereleve(rs.getdate(3));
+			util.setindiceatmo(rs.getInt(4));
+			res.add(util);
+			//System.out.println("Operation realisee avec succes\n");
+		}
+	} catch (SQLException ex) {
+		System.out.println("pas d'indice atmo ");
+	}
+	return seuil;
+	int Atmoseuil = Integer.parseInt(seuil);
+	
+	if(Atmoseuil < indice) {
+		alerte = true;
+	}else {
+		alerte = false;
+	}
+}
+    
+    
+    public void getseuil() {
+    	int res1 = 0;
+    	//String status = "Unknown";
+		//int monNom = request.getInt("id");
+		//String monLogin = request.getString("name");
+		int monPass = request.getInt("seuilquartieratmo");
+		// boolean alerte = request.getBoolean("etatalerte");
+		
+		String query = "INSERT INTO district (seuilquartieratmo) " + "VALUES ()";
+		
+		try {
+			pstmt = connect.prepareStatement(query);
+			pstmt.setInt(1, id);
+			pstmt.setString(2, name);
+			pstmt.setInt(3, seuilquartieratmo);
+			pstmt.setBoolean(4, etatalerte); 
+			res = pstmt.executeUpdate();
+			if(res1 == 1) {
+				status = "Succed";
+			}else {
+				status ="Failed";
+			}
+		} catch (SQLException ex) {
+			System.out.println(status);
+		}
+		//resultat = resultat + "Data : [{ nom: "+monNom + ", prenom: "+ monPrenom + ", login : "+ monLogin +", pass : "+ monPass +", profil : "+ monProfil +"} ]}";
+		//this.finalResponse = resultat ;
+		//return query;
+    }
+    
+    
     
     public void getcalculIndice() {
-    	int indiceATMO = 0;
-    	int indiceParticule = 0;
-    	int indiceSoufre = 0;
-    	int indiceOzone = 0;
-    	int indiceAzote = 0;
-    	int ParticulesFines = 0 + (int)(Math.random() * ((125 - 0) + 1));
-    	int DioxydeSoufre = 0 + (int)(Math.random() * ((500 - 0) + 1));
-    	int Ozone = 0 + (int)(Math.random() * ((240 - 0) + 1));
-    	int DioxydeAzote = 0 + (int)(Math.random() * ((400 - 0) + 1));
-    	
-    	
-    	if (0 <Ozone < 29) {
-    		indiceOzone = 1
-    	}else if (30 < Ozone < 54){
-    		indiceOzone = 2
-    	}else if (55 < Ozone < 79){
-    		indiceOzone = 3
-    	}else if (80 < Ozone < 104){
-    		indiceOzone = 4
-    	}else if (105 < Ozone < 129){
-    		indiceOzone = 5
-    	}else if (130 < Ozone < 149){
-    		indiceOzone = 6
-    	}else if (150 < Ozone < 179){
-    		indiceOzone = 7
-    	}else if (180 < Ozone < 209){
-    		indiceOzone = 8
-    	}else if (210 < Ozone < 239){
-    		indiceOzone = 9
-    	}else if (240 < Ozone){
-    		indiceOzone = 10	
-    	}
-    	return indiceOzone;
-   
-    	if (0 < DioxydeSoufre < 39) {
-    		indiceSoufre = 1
-    	}else if (40 < DioxydeSoufre < 79){
-    		indiceSoufre = 2
-    	}else if (80 < DioxydeSoufre < 119){
-    		indiceSoufre = 3
-    	}else if (120 < DioxydeSoufre < 159){
-    		indiceSoufre = 4
-    	}else if (160 < DioxydeSoufre < 199){
-    		indiceSoufre = 5
-    	}else if (200 < DioxydeSoufre < 249){
-    		indiceSoufre = 6
-    	}else if (250 < DioxydeSoufre < 299){
-    		indiceSoufre = 7
-    	}else if (300 < DioxydeSoufre < 399){
-    		indiceSoufre = 8
-    	}else if (400 < DioxydeSoufre < 499){
-    		indiceSoufre = 9
-    	}else if (500 < DioxydeSoufre){
-    		indiceSoufre = 10	
-    	}	
-    	return indiceSoufre;
-    	
-    	if (0 < ParticulesFines < 9) {
-    		indiceParticule = 1
-    	}else if (10 < ParticulesFines < 19){
-    		indiceParticule = 2
-    	}else if (20 < ParticulesFines < 29){
-    		indiceParticule = 3
-    	}else if (30 < ParticulesFines < 39){
-    		indiceParticule = 4
-    	}else if (40 < ParticulesFines < 49){
-    		indiceParticule = 5
-    	}else if (50 < ParticulesFines < 64){
-    		indiceParticule = 6
-    	}else if (65 < ParticulesFines < 79){
-    		indiceParticule = 7
-    	}else if (80 < ParticulesFines < 99){
-    		indiceParticule = 8
-    	}else if (100 < ParticulesFines < 124){
-    		indiceParticule = 9
-    	}else if (125 < ParticulesFines){
-    		indiceParticule = 10	
-    	}
-    	return indiceParticule;
-    	
-    	if (0 < DioxydeAzote < 29) {
-    		indiceAzote = 1
-    	}else if (30 < DioxydeAzote < 54){
-    		indiceAzote = 2
-    	}else if (55 < DioxydeAzote < 84){
-    		indiceAzote = 3
-    	}else if (85 < DioxydeAzote < 109){
-    		indiceAzote = 4
-    	}else if (110 < DioxydeAzote < 134){
-    		indiceAzote = 5
-    	}else if (135 < DioxydeAzote < 164){
-    		indiceAzote = 6
-    	}else if (165 < DioxydeAzote < 199){
-    		indiceAzote = 7
-    	}else if (200 < DioxydeAzote < 274){
-    		indiceAzote = 8
-    	}else if (275 < DioxydeAzote < 399){
-    		indiceAzote = 9
-    	}else if (400 < DioxydeAzote){
-    		indiceAzote = 10	
-    	}
-    	return indiceAzote;
-    	
-    	int minVal = Integer.MIN_VALUE;
-    	
-    	int array[] = {indiceAzote, indiceSoufre, indiceOzone, indiceParticule};
-    	 
-    	
-    	 for(int i = 0; i < arraylenght; i++) {
-    		 if(array[i] > minVal) {
-    			 minVal = array[i];
-    		 }
-    	 }
-    	 
-    	 minVal = indiceATMO;
-    }
+   	int indiceATMO = 0;
+   	int indiceParticule = 0;
+   	int indiceSoufre = 0;
+   	int indiceOzone = 0;
+   	int indiceAzote = 0;
+   	int ParticulesFines = 0 + (int)(Math.random() * ((135 - 0) + 1));
+   	int DioxydeSoufre = 0 + (int)(Math.random() * ((510 - 0) + 1));
+   	int Ozone = 0 + (int)(Math.random() * ((250 - 0) + 1));
+   	int DioxydeAzote = 0 + (int)(Math.random() * ((410 - 0) + 1));
+   	
+   	
+   	if (Ozone > 0 && 29 > Ozone) {
+   		indiceOzone = 1;
+   	}else if (Ozone > 30 && 54 > Ozone){
+   		indiceOzone = 2;
+   	}else if (Ozone > 55 && 79 > Ozone){
+   		indiceOzone = 3;
+   	}else if (Ozone > 80 && 104 > Ozone){
+   		indiceOzone = 4;
+   	}else if (Ozone > 105 && 129 > Ozone){
+   		indiceOzone = 5;
+   	}else if (Ozone > 130 && 149 > Ozone){
+   		indiceOzone = 6;
+   	}else if (Ozone > 150 && 179 > Ozone){
+   		indiceOzone = 7;
+   	}else if (Ozone > 180 && 209 > Ozone){
+   		indiceOzone = 8;
+   	}else if (Ozone > 210 && 239 > Ozone){
+   		indiceOzone = 9;
+   	}else if (240 < Ozone){
+   		indiceOzone = 10;	
+   	}
+        System.out.println(indiceOzone);
+   	
+  
+   	if (DioxydeSoufre > 0 && 39 > DioxydeSoufre) {
+   		indiceSoufre = 1;
+   	}else if (DioxydeSoufre > 40 && 79 > DioxydeSoufre){
+   		indiceSoufre = 2;
+   	}else if (DioxydeSoufre > 80 && 119 > DioxydeSoufre){
+   		indiceSoufre = 3;
+   	}else if (DioxydeSoufre > 120 && 159 > DioxydeSoufre){
+   		indiceSoufre = 4;
+   	}else if (DioxydeSoufre > 160 && 199 > DioxydeSoufre){
+   		indiceSoufre = 5;
+   	}else if (DioxydeSoufre > 200 && 249 > DioxydeSoufre){
+   		indiceSoufre = 6;
+   	}else if (DioxydeSoufre > 250 && 299 > DioxydeSoufre){
+   		indiceSoufre = 7;
+   	}else if (DioxydeSoufre > 300 && 399 > DioxydeSoufre){
+   		indiceSoufre = 8;
+   	}else if (DioxydeSoufre > 400 && 499 > DioxydeSoufre){
+   		indiceSoufre = 9;
+   	}else if (500 < DioxydeSoufre){
+   		indiceSoufre = 10;	
+   	}	
+
+        System.out.println(indiceSoufre);
+   	
+   	
+   	if (ParticulesFines > 0 && 9 > ParticulesFines) {
+   		indiceParticule = 1;
+   	}else if (ParticulesFines > 10 && 19 > ParticulesFines){
+   		indiceParticule = 2;
+   	}else if (ParticulesFines > 20 && 29 > ParticulesFines){
+   		indiceParticule = 3;
+   	}else if (ParticulesFines > 30 && 39 > ParticulesFines){
+   		indiceParticule = 4;
+   	}else if (ParticulesFines > 40 && 49 > ParticulesFines){
+   		indiceParticule = 5;
+   	}else if (ParticulesFines > 50 && 59 > ParticulesFines){
+   		indiceParticule = 6;
+   	}else if (ParticulesFines > 60 && 79 > ParticulesFines){
+   		indiceParticule = 7;
+   	}else if (ParticulesFines > 80 && 99 > ParticulesFines){
+   		indiceParticule = 8;
+   	}else if (ParticulesFines > 100 && 124 > ParticulesFines){
+   		indiceParticule = 9;
+   	}else if (125 < ParticulesFines){
+   		indiceParticule = 10;	
+   	}
+        System.out.println(indiceParticule);
+   	
+   	
+   	if (DioxydeAzote > 0 && 29 > DioxydeAzote) {
+   		indiceAzote = 1;
+   	}else if (DioxydeAzote > 30 && 54 > DioxydeAzote){
+   		indiceAzote = 2;
+   	}else if (DioxydeAzote > 55 && 84 > DioxydeAzote){
+   		indiceAzote = 3;
+   	}else if (DioxydeAzote > 85 && 109 > DioxydeAzote){
+   		indiceAzote = 4;
+   	}else if (DioxydeAzote > 110 && 134 > DioxydeAzote){
+   		indiceAzote = 5;
+   	}else if (DioxydeAzote > 135 && 164 > DioxydeAzote){
+   		indiceAzote = 6;
+   	}else if (DioxydeAzote > 165 && 199 > DioxydeAzote){
+   		indiceAzote = 7;
+   	}else if (DioxydeAzote > 200 && 274 > DioxydeAzote){
+   		indiceAzote = 8;
+   	}else if (DioxydeAzote > 275 && 399 > DioxydeAzote){
+   		indiceAzote = 9;
+   	}else if (400 < DioxydeAzote){
+   		indiceAzote = 10;	
+   	}
+
+   	 System.out.println(indiceAzote);
+
+      int minVal = Integer.MIN_VALUE;
+      
+      int array[] = {indiceOzone, indiceParticule, indiceAzote, indiceSoufre};
+ 
+      for (int nombre:array)
+        System.out.print(nombre+" ");
+ 
+      for(int i = 0; i < array.length; i++){
+        if(array[i] > minVal)
+          minVal = array[i];
+      }
+ 
+      
+      System.out.print("\nIndiceATMO = "+minVal);
+       
+      
+	    	int res = 0;
+	    	//String status = "Unknown";
+			//int monNom = request.getInt("idcapteur");
+			//String monPrenom = request.getString("namecapteur");
+			//Date monLogin = request.getDate("datereleve");
+			int monPass = request.getInt("indiceatmo");
+			
+			String query = "INSERT INTO capteurair (indiceatmo) " + "VALUES (minVal)";
+			
+			try {
+				pstmt = connect.prepareStatement(query);
+				pstmt.setString(1, idcapteur);
+				pstmt.setString(2, namecapteur);
+				pstmt.setString(3, datereleve);
+				pstmt.setString(4, indiceatmo); 
+				res = pstmt.executeUpdate();
+				if(res == 1) {
+					status = "Succed";
+				}else {
+					status ="Failed";
+				}
+			} catch (SQLException ex) {
+				System.out.println(status);
+			}
+			//resultat = resultat + "Data : [{ nom: "+monNom + ", prenom: "+ monPrenom + ", login : "+ monLogin +", pass : "+ monPass +", profil : "+ monProfil +"} ]}";
+			//this.finalResponse = resultat ;
+			//return query;
+		}
+  
     
+    public String getQuartier(String query) throws JsonProcessingException {
+    	int Quartier = 0;
+	  	 String query = "SELECT taillecity from city where idcity = 1";
+    	List<City> res = new ArrayList<City>();
+		try {
+			stm = connect.prepareStatement(query);
+			rs = stm.executeQuery();
+			while (rs.next()) {
+				util.setIdCity(rs.getInt(1));
+				util.setNameCity(rs.getString(2));
+				util.setLongueurCity(rs.getInt(3));
+				util.setLargeurCity(rs.getInt(4));
+				util.setBudgetStation(rs.getInt(5));
+				util.setNombreMaxVoiture(rs.getInt(6));
+				util.setSeuilAtmoCity(rs.getInt(7));
+				util.setTailleCity(rs.getInt(8));
+				res.add(util);
+				//System.out.println("Operation realisee avec succes\n");
+			}
+		} catch (SQLException ex) {
+			System.out.println("La ville n'existe pas, il n'y a donc pas de quartier");
+		}
+		return query;
+		int resultat = Integer.parseInt(query);
+		
+		if(resultat < 10) {
+			Quartier = 3;
+		}else if(resultat > 11 && 25 > resultat) {
+			Quartier = 6;
+		}else if(resultat > 26 && 50 > resultat) {
+			Quartier = 10;
+		}else if(resultat > 51 && 100 > resultat) {
+			Quartier = 15;
+		}else if(resultat > 100) {
+			Quartier = 20;
+		}
+		return Quartier;
+		
+	}
     
     public static void main(String[] args){ //throws UnknownHostException, IOException, JSONException {
     	myCapteur air = new myCapteur(1);
