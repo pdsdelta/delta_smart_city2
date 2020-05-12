@@ -3,8 +3,8 @@ package borne;
 public class Terminal {
 
 	int id;
-	float longitude;
-	float latitude;
+	long longitude;
+	long latitude;
 	//Ville idVille;
 	boolean isActive=true;
 	int status;
@@ -19,16 +19,16 @@ public class Terminal {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public float getLongitude() {
+	public long getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(float longitude) {
+	public void setLongitude(long longitude) {
 		this.longitude = longitude;
 	}
-	public float getLatitude() {
+	public long getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(float latitude) {
+	public void setLatitude(long latitude) {
 		this.latitude = latitude;
 	}
 	public int getStatus() {
