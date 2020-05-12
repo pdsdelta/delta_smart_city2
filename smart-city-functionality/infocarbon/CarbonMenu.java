@@ -2,14 +2,13 @@ package infocarbon;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -21,6 +20,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import user.Users;
@@ -28,13 +31,20 @@ import user.Users;
 
 public class CarbonMenu extends JFrame implements ActionListener {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel p = new JPanel();
 	private JPanel cg = new JPanel();
 	String[] tab_string = {"1", "2", "3", "4", "5", "6"};
 	JButton[] tab_button = new JButton[tab_string.length];
-	private JButton b1,b2,b3,b4,b5,b6 ; 
+	private JButton b1,b2,b3,b4,b5; 
 	private JRadioButton rb1, rb2 ;
 	private CarbonOrder co;
+	private UtilDateModel model = new UtilDateModel();
+	
+
 	
 	public CarbonMenu(){
 		this.setBounds(0,0,700,700);// X,Y,Largeur, Longueur
@@ -55,6 +65,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		groupe.add(rb2);
 		rb2.addActionListener(this);
 		pannel.add(rb2);
+		//DATE PICKER
+		Properties prop = new Properties();
+		prop.put("text.today", "Today");
+		prop.put("text.month", "Month");
+		prop.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, prop);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		pannel.add(datePicker);
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 		this.getContentPane().add(BorderLayout.EAST,p);
 		b1 = new JButton("Empreinte carbonne globale pour la date d'hier");
@@ -62,7 +80,6 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		b3 = new JButton("Empreinte carbonne pour les transports publics pour une date souhaitée");
 		b4 = new JButton("Empreinte carbonne pour les transports privées pour une date souhaitée");
 		b5 = new JButton("Estimer l'empreinte carbonne");
-		b6 = new JButton("Quitter");
 		
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -156,6 +173,9 @@ public class CarbonMenu extends JFrame implements ActionListener {
 				}
 				
 			});
+			
+			
+			
 			setVisible(true);
 		}
 		if (o == rb2) {
@@ -163,7 +183,6 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			cg.removeAll();
 			p.removeAll();
 			p.add(b5);
-			p.add(b6);
 			getContentPane().add(p);
 			setVisible(true);
 		}
