@@ -1,19 +1,26 @@
 package capteur_air;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
+import java.util.TimerTask;
+import java.util.Timer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import connectionPool.DataSource;
 import user.Users;
 
-class myCapteur extends JFrame {
+class myCapteur extends JFrame implements ActionListener {
 	private JMenuBar menu = new JMenuBar();
 	private JMenu onglet1 = new JMenu("Déterminer la qualité d'air");
 	private JMenu onglet2 = new JMenu ("Configurer Capteur");
@@ -54,7 +61,8 @@ class myCapteur extends JFrame {
        // }
    // }
     
-    public myCapteur(int a) {
+    public myCapteur(int a) extends TimerTask{
+    	JButton bouton;
     	 this.setSize(400, 200);
     	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	    this.setLocationRelativeTo(null);
@@ -99,17 +107,60 @@ class myCapteur extends JFrame {
     	    this.setVisible(true);
     	    
     	    if(getalerte(alerte = true)) {
-        	    JButton bouton = new JButton("Alerte !!! L'indice relevé est supérerieur au seuil");
+    	        setLayout(new BorderLayout());
+        	    JButton bouton = new JButton("Alerte !!! L'indice relevé est supérerieur au seuil"), BorderLayout.NORTH);
         	    getContentPane().add(bouton);
         	    bouton.setBackground(Color.red);
+        	    bouton.addActionListener(this);
     	    }else {
-    	    JButton bouton = new JButton("Un bouton sans taille");
-    	    getContentPane().add(bouton);
-    	    bouton.setBackground(Color.green);
+    	    	setLayout(new BorderLayout());
+    	    	JButton bouton = new JButton("Un bouton sans taille"), BorderLayout.NORTH);
+    	    	getContentPane().add(bouton);
+    	    	bouton.setBackground(Color.green);
+    	    	bouton.addActionListener(this);
+    	    	
+    	    	Scanner sc = new Scanner(System.in);
+    	    	System.out.println("Veuillez déterminer l'intervalle des relevés");
+    	    	int b = sc.nextInt();
+    	    public void run() {
+    	    	System.out.println(new Date() + " Execution de ma tache");
+    	    	Timer timer;
+    	    	timer = new Timer();
+    	    	timer.schedule(new getcalculIndice(), 1000, b);
     	    }
+    	  }
     	    
-    	    
+     }
+    public void action Performed(ActionEvent event) {
+    	bouton.buildContentPane();
     }
+    
+    public  JPanel buildContentPane(){
+
+    	get.informations();
+    	
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
+        panel.setBackground(Color.white);
+
+        JLabel label1 = new JLabel();
+        label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
+                      + "Pour le quartier " + quartier
+                      + "<p>"   
+                      + "Pour les particules fines, nous avons un indice ATMO de " + transition.largeur1 + " de largeur" 
+                      + "<p>"
+                      + "Pour l'ozote, nous avons un indice ATMO de " + transition.longueur1 
+                      + "<p>"
+                      + "Pour le dioxyde d'azote, nous avons un indice ATMO de " + transition.nameCity
+                      + "<p>"
+                      + "Pour le dioxyde de soufre, nous avons un indice ATMO de " + transition.nameCity
+                      + "<p>"
+                      + "Donc un indice ATMO de " + transition.budgetCity1
+                      +"</body></html>" );
+        panel.add(label1);
+        return panel;
+      }
+    
     public void getalerte() {
     	boolean alerte = false;
     	getseuil();
@@ -159,6 +210,8 @@ class myCapteur extends JFrame {
 		alerte = false;
 	}
 }
+    
+    
     
     
     public void getseuil() {
@@ -370,7 +423,6 @@ class myCapteur extends JFrame {
 		} catch (SQLException ex) {
 			System.out.println("La ville n'existe pas, il n'y a donc pas de quartier");
 		}
-		return query;
 		int resultat = Integer.parseInt(query);
 		
 		if(resultat < 10) {
@@ -388,8 +440,18 @@ class myCapteur extends JFrame {
 		
 	}
     
+    public void getconfigurecapteur() {
+    	int a = getQuartier();
+    	for(int i = 1; i < a+1; i++) {
+    		System.out.println("Quartier_"+i);
+    	}
+    	
+    	
+    }
+    
     public static void main(String[] args){ //throws UnknownHostException, IOException, JSONException {
     	myCapteur air = new myCapteur(1);
+    	
        // air.startConnection("172.31.249.22", 1500);
        // client.afficheMenu();
     }
