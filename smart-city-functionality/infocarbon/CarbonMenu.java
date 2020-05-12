@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -65,14 +66,6 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		groupe.add(rb2);
 		rb2.addActionListener(this);
 		pannel.add(rb2);
-		//DATE PICKER
-		Properties prop = new Properties();
-		prop.put("text.today", "Today");
-		prop.put("text.month", "Month");
-		prop.put("text.year", "Year");
-		JDatePanelImpl datePanel = new JDatePanelImpl(model, prop);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		pannel.add(datePicker);
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 		this.getContentPane().add(BorderLayout.EAST,p);
 		b1 = new JButton("Empreinte carbonne globale pour la date d'hier");
@@ -121,17 +114,18 @@ public class CarbonMenu extends JFrame implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					
 					cg.removeAll();
-					JTextField jt = new JTextField("Veuillez entrer la date souhaitée avec le format JJ/MM/AAAA");
+					JTextField jt = new JTextField("Veuillez choisir la date souhaitée");
 					cg.add(jt);
-					
-					JTextField te = new JTextField(16);
+					JDatePickerImpl datePicker = generateDatePicker();
+					cg.add(datePicker);
 					JButton but = new JButton("submit"); 
-					cg.add(te);
 					cg.add(but);
 					getContentPane().add(cg);
 					but.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							String d = te.getText();
+							Date dd = (Date) datePicker.getModel().getValue();
+							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+							String d = dateFormat.format(dd);
 							System.out.println(d);
 							boolean b = validateJavaDate(d);
 							if(b) {
@@ -189,6 +183,17 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		
 	}
 	
+	//Function of Date Picker
+	public static JDatePickerImpl generateDatePicker() {
+		UtilDateModel model = new UtilDateModel();
+		Properties prop = new Properties();
+		prop.put("text.today", "Today");
+		prop.put("text.month", "Month");
+		prop.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, prop);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		return datePicker;
+	}
 	//Function which validate the date format
 		public static boolean validateJavaDate(String date)
 		   {
