@@ -38,6 +38,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JPanel p = new JPanel();
 	private JPanel cg = new JPanel();
+	private JPanel es = new JPanel();
 	String[] tab_string = {"1", "2", "3", "4", "5", "6"};
 	JButton[] tab_button = new JButton[tab_string.length];
 	private JButton b1,b2,b3,b4,b5; 
@@ -53,6 +54,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new FlowLayout());
+		//getContentPane().setLayout (new BoxLayout (this, BoxLayout.Y_AXIS));  
 		JPanel pannel = new JPanel();
 		pannel.setBackground(Color.yellow);
 		pannel.setBorder(new TitledBorder("Choisissez une option"));
@@ -67,7 +69,9 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		rb2.addActionListener(this);
 		pannel.add(rb2);
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-		this.getContentPane().add(BorderLayout.EAST,p);
+		es.setLayout (new BoxLayout (es, BoxLayout.Y_AXIS)); 
+		//this.getContentPane().add(BorderLayout.SOUTH,p);
+		//this.getContentPane().add(p);
 		b1 = new JButton("Empreinte carbonne globale pour la date d'hier");
 		b2 = new JButton("Empreite carbonne globale de la ville pour une date souhaitée");
 		b3 = new JButton("Empreinte carbonne pour les transports publics pour une date souhaitée");
@@ -75,13 +79,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		b5 = new JButton("Estimer l'empreinte carbonne");
 		
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	  }
 	
 	public void actionPerformed(ActionEvent event) {
 		Object o = event.getSource();
 		if (o == rb1) {
 			getContentPane().remove(p);
+			getContentPane().remove(es);
 			cg.removeAll();
 			p.removeAll();
 			p.add(b1);
@@ -89,6 +94,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			p.add(b3);
 			p.add(b4);
 			getContentPane().add(p);
+			
 			b1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cg.removeAll();
@@ -110,6 +116,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 				}
 				
 			});
+			
 			b2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
@@ -123,15 +130,19 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					getContentPane().add(cg);
 					but.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
+							cg.removeAll();
 							Date dd = (Date) datePicker.getModel().getValue();
 							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 							String d = dateFormat.format(dd);
 							System.out.println(d);
+							JTextField jtt = new JTextField("Chargement");
+							cg.add(jtt);
 							boolean b = validateJavaDate(d);
 							if(b) {
 								boolean bb = compareDate(d);
 								if(bb) {
-									JTextField jtt = new JTextField("Calcul de l'empreinte carbonne pour la date du "+ d);
+									cg.remove(jtt);
+									jtt = new JTextField("Calcul de l'empreinte carbonne pour la date du "+ d);
 									cg.add(jtt);
 									getContentPane().add(cg);
 									Users u = new Users();
@@ -146,8 +157,141 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									}
 									setVisible(true);
 								}else {
+									cg.removeAll();
+									jtt = new JTextField("Veuillez entrez une antérieure à celle d'aujourd'hui");
+									cg.add(jtt);
+									getContentPane().add(cg);
+									setVisible(true);
+									
+								}
+							}else {
+								cg.remove(jtt);
+								jtt = new JTextField("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
+								cg.add(jtt);
+								getContentPane().add(cg);
+								setVisible(true);
+							}
+							System.out.println(d);
+						}
+					});
+					
+					
+					
+
+					
+					setVisible(true);
+					
+				}
+				
+			});
+			b3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					
+					cg.removeAll();
+					JTextField jt = new JTextField("Veuillez choisir la date souhaitée");
+					cg.add(jt);
+					JDatePickerImpl datePicker = generateDatePicker();
+					cg.add(datePicker);
+					JButton but = new JButton("submit"); 
+					cg.add(but);
+					getContentPane().add(cg);
+					but.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							cg.removeAll();
+							getContentPane().add(cg);
+							Date dd = (Date) datePicker.getModel().getValue();
+							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+							String d = dateFormat.format(dd);
+							System.out.println(d);
+							boolean b = validateJavaDate(d);
+							if(b) {
+								boolean bb = compareDate(d);
+								if(bb) {
+									JTextField jtt = new JTextField("Calcul de l'empreinte carbonne des transports publics pour la date du "+ d);
+									cg.add(jtt);
+									getContentPane().add(cg);
+									Users u = new Users();
+									CarbonOrder co2 = new CarbonOrder(3,u);
+									co2.setDate(d);
+									String res;
+									try {
+										res = co2.generateJson();
+										System.out.println(res);
+									} catch (JsonProcessingException e1) {
+										e1.printStackTrace();
+									}
+									
+									setVisible(true);
+								}else {
+									cg.removeAll();
+									JTextField jtt = new JTextField("Veuillez entrez une date valide et antérieure à celle d'aujourd'hui");
+									cg.add(jtt);
+									getContentPane().add(cg);
+									setVisible(true);
+									
+								}
+							}else {
+								cg.removeAll();
+								JTextField jtt = new JTextField("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
+								cg.add(jtt);
+								getContentPane().add(cg);
+								setVisible(true);
+							}
+							System.out.println(d);
+						
+						}
+					});
+					
+					
+					
+
+					
+					setVisible(true);
+					
+				
+				}
+			});
+			b4.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					cg.removeAll();
+					JTextField jt = new JTextField("Veuillez choisir la date souhaitée");
+					cg.add(jt);
+					JDatePickerImpl datePicker = generateDatePicker();
+					cg.add(datePicker);
+					JButton but = new JButton("submit"); 
+					cg.add(but);
+					getContentPane().add(cg);
+					but.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							cg.removeAll();
+							Date dd = (Date) datePicker.getModel().getValue();
+							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+							String d = dateFormat.format(dd);
+							System.out.println(d);
+							boolean b = validateJavaDate(d);
+							if(b) {
+								boolean bb = compareDate(d);
+								if(bb) {
+									JTextField jtt = new JTextField("Calcul de l'empreinte carbonne des transports privés pour la date du "+ d);
+									cg.add(jtt);
+									getContentPane().add(cg);
+									Users u = new Users();
+									CarbonOrder co2 = new CarbonOrder(4,u);
+									co2.setDate(d);
+									String res;
+									try {
+										res = co2.generateJson();
+										System.out.println(res);
+									} catch (JsonProcessingException e1) {
+										e1.printStackTrace();
+									}
+									setVisible(true);
+								}else {
 									JTextField jtt = new JTextField("Veuillez entrez une date valide et antérieure à celle d'aujourd'hui");
 									getContentPane().add(cg);
+									cg.add(jtt);
 									setVisible(true);
 									
 								}
@@ -160,6 +304,9 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							System.out.println(d);
 						}
 					});
+					
+					
+					
 
 					
 					setVisible(true);
@@ -167,6 +314,8 @@ public class CarbonMenu extends JFrame implements ActionListener {
 				}
 				
 			});
+			
+			
 			
 			
 			
@@ -178,6 +327,19 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			p.removeAll();
 			p.add(b5);
 			getContentPane().add(p);
+			b5.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					es.removeAll();
+					JTextField et = new JTextField(" ");
+					JTextField et2 = new JTextField(" ");
+					es.add(et);
+					es.add(et2);
+					getContentPane().add(es);
+					setVisible(true);  
+					//es.setLayout(mgr);
+				}
+				});
+				
 			setVisible(true);
 		}
 		

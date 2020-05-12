@@ -48,12 +48,12 @@ public class CarbonOrder {
 			res ="{request:{ operation_type: GET_GLOBAL_CARBON, date: "+ dateToSend +" }}" ;
 			break;
 		case 3 :
-			dateRequest = returnDate();
-			res ="{request:{ operation_type: GET_PUBLIC_CARBON, date: "+ dateRequest +" }}" ;
+			//dateRequest = returnDate();
+			res ="{request:{ operation_type: GET_PUBLIC_CARBON, date: "+ dateToSend +" }}" ;
 			break;
 		case 4 :
-			dateRequest = returnDate();
-			res ="{request:{ operation_type: GET_PRIVATE_CARBON, date: "+ dateRequest +" }}" ;
+			//dateRequest = returnDate();
+			res ="{request:{ operation_type: GET_PRIVATE_CARBON, date: "+ dateToSend +" }}" ;
 			break;
 		case 5:
 			Scanner read = new Scanner(System.in);
