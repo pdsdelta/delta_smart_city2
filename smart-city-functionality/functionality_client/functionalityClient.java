@@ -11,13 +11,15 @@ import javax.swing.JFrame;
 
 import org.json.JSONException;
 
+import infocarbon.CarbonMenu;
 import tram_line.mapInterface;
 
 
 
 public class functionalityClient extends JFrame{
 	private JPanel pan = new JPanel();
-	private JButton boutonCity = new JButton("Fonctionnalité Réseau de transport");
+	private JButton boutonCity = new JButton("Fonctionnalitï¿½ Rï¿½seau de transport");
+	private JButton boutonCarbon = new JButton("FonctionnalitÃ© Empreinte carbonne");
 	
 	public functionalityClient() {
 	   this.setTitle("Delta Smart City");
@@ -28,8 +30,9 @@ public class functionalityClient extends JFrame{
 	   this.setLocationRelativeTo(null);
 	   this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	   
-	   //ajout bouton fonctionnalité
+	   //ajout bouton fonctionnalitï¿½
 	   pan.add(boutonCity);
+	   pan.add(boutonCarbon);
 	   this.getContentPane().add(pan);
 	   
 	   this.setVisible(true);
@@ -37,7 +40,7 @@ public class functionalityClient extends JFrame{
 	   // les actions
 	   
 	   
-	 //Fontionalité Martin
+	 //Fontionalitï¿½ Martin
 	   boutonCity.addActionListener(new ActionListener(){
 		      public void actionPerformed(ActionEvent arg0) {
 		        System.out.println("j'affiche les informations ");
@@ -49,9 +52,18 @@ public class functionalityClient extends JFrame{
 				}
 		      }        
 		    });
+	 //FontionalitÃ© Yacine
+	   //Listener on the button boutonCarbon which open CarbonMenu
+	   boutonCarbon.addActionListener(new ActionListener(){
+		      public void actionPerformed(ActionEvent arg0) {
+			        System.out.println("Lancement de l'Ã©cran carbonne");
+			        CarbonMenu f = new CarbonMenu();
+			    	f.setVisible(true);
+			      }        
+			    });
 	}
 	
-	//Fontionalité Martin 
+	//Fontionalitï¿½ Martin 
 	public void chargeTramFonctionality() throws UnknownHostException, IOException, JSONException{
 		mapInterface map = new mapInterface(0);
 	    map.startConnection("172.31.249.22", 2400, 0); // serveur perso provisoire
