@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 
 import org.json.JSONException;
 
+import infocarbon.CarbonInfo;
 import infocarbon.CarbonMenu;
 import tram_line.mapInterface;
 
@@ -57,8 +58,8 @@ public class functionalityClient extends JFrame{
 	   boutonCarbon.addActionListener(new ActionListener(){
 		      public void actionPerformed(ActionEvent arg0) {
 			        System.out.println("Lancement de l'écran carbonne");
-			        CarbonMenu f = new CarbonMenu();
-			    	f.setVisible(true);
+			        CarbonInfo client = new CarbonInfo();
+			        client.afficheMenuAndGetJson();
 			      }        
 			    });
 	}

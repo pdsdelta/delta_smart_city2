@@ -11,7 +11,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;  
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;  
 import user.Users;
 
@@ -41,7 +42,7 @@ public class CarbonOrder {
 		String dateRequest;
 		switch(this.numOrder){
 		case 1 :
-			res  ="{request:{ operation_type: GET_GLOBAL_CARBON, date: "+ formatter.format(dateToday) +" }} " ;
+			res  ="{request:{ operation_type: GET_GLOBAL_CARBON, date: "+ formatter.format(yesterday()) +" }} " ;
 			break;
 		case 2 :
 			//dateRequest = returnDate();
@@ -177,6 +178,12 @@ public class CarbonOrder {
 	
 	   }
 	   
+	   //Function Date of Yestreday
+	   public Date yesterday() {
+		    final Calendar cal = Calendar.getInstance();
+		    cal.add(Calendar.DATE, -1);
+		    return cal.getTime();
+		}
 	   
 	   
 

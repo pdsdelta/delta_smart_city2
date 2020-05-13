@@ -44,7 +44,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	private JButton b1,b2,b3,b4,b5; 
 	private JRadioButton rb1, rb2 ;
 	private CarbonOrder co;
-	private UtilDateModel model = new UtilDateModel();
+	private String jsonClient; 
 	
 
 	
@@ -82,6 +82,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	  }
 	
+	public void setJsonClient(String json) {
+		this.jsonClient = json;
+	}
+	
+	public String getJsonClient() {
+		return this.jsonClient;
+	}
+	
 	public void actionPerformed(ActionEvent event) {
 		Object o = event.getSource();
 		if (o == rb1) {
@@ -98,15 +106,18 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			b1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cg.removeAll();
-					JTextField jt = new JTextField("L'empreinte carbonne globale de la ville est 345");
-					cg.add(jt);
 					getContentPane().add(cg);
 					Users u = new Users();
 					co = new CarbonOrder(1,u);
 					String res;
 					try {
 						res = co.generateJson();
+						setJsonClient(res);
+						System.out.println("Calcul de l'empreinte carbonne globale pour hier");
+						System.out.println("Le json qui va etre envoyé au serveur");
 						System.out.println(res);
+						JTextField jt = new JTextField("L'empreinte carbonne globale de la ville est 345");
+						cg.add(jt);
 					} catch (JsonProcessingException e1) {
 						e1.printStackTrace();
 					}
@@ -114,6 +125,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					setVisible(true);
 					
 				}
+
 				
 			});
 			
@@ -134,7 +146,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							Date dd = (Date) datePicker.getModel().getValue();
 							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 							String d = dateFormat.format(dd);
-							System.out.println(d);
+							System.out.println("Date entrée :" + d);
 							JTextField jtt = new JTextField("Chargement");
 							cg.add(jtt);
 							boolean b = validateJavaDate(d);
@@ -151,6 +163,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									String res;
 									try {
 										res = co2.generateJson();
+										System.out.println("Le json qui va etre envoyé au serveur");
 										System.out.println(res);
 									} catch (JsonProcessingException e1) {
 										e1.printStackTrace();
@@ -171,7 +184,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 								getContentPane().add(cg);
 								setVisible(true);
 							}
-							System.out.println(d);
+							//System.out.println(d);
 						}
 					});
 					
@@ -200,10 +213,18 @@ public class CarbonMenu extends JFrame implements ActionListener {
 						public void actionPerformed(ActionEvent e) {
 							cg.removeAll();
 							getContentPane().add(cg);
+							
 							Date dd = (Date) datePicker.getModel().getValue();
 							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-							String d = dateFormat.format(dd);
-							System.out.println(d);
+							String d ="";
+							if(dd == null) {
+								d ="";
+								System.out.println(d);
+							}else {
+								d = dateFormat.format(dd);
+								System.out.println(d);
+							}
+							
 							boolean b = validateJavaDate(d);
 							if(b) {
 								boolean bb = compareDate(d);
@@ -217,6 +238,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									String res;
 									try {
 										res = co2.generateJson();
+										System.out.println("Le json qui va etre envoyé au serveur");
 										System.out.println(res);
 									} catch (JsonProcessingException e1) {
 										e1.printStackTrace();
@@ -283,6 +305,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									String res;
 									try {
 										res = co2.generateJson();
+										System.out.println("Le json qui va etre envoyé au serveur");
 										System.out.println(res);
 									} catch (JsonProcessingException e1) {
 										e1.printStackTrace();
@@ -395,17 +418,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		  SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		  Date dateToday = new Date();  
 	      Date d1;
+	      
 	      boolean res = false ;
 	      try {
 	    	  d1 = formatter.parse(date);
-		      if(dateToday.compareTo(d1) > 0) {
-		         
-		         res = true;
-		      } else if(dateToday.compareTo(d1) < 0) {
-		    	  res =  false;
-		      } else if(dateToday.compareTo(d1) == 0) {
-		         res = false;
-		      }
+		      if(d1.compareTo(dateToday) < 0) {
+		    	 res = true;
+		       }
+
 	      } catch (ParseException e) {
 			e.printStackTrace();
 	      }

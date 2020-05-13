@@ -50,77 +50,19 @@ public class CarbonInfo {
         clientSocket.close();
     }
     
-    public String afficheMenu() {
-    	
-    	
-    	Users u = new Users();
-		u.setId(1);
-		System.out.println("**********");
-		System.out.println("*  Carbon Info of Delta City  *");
-		System.out.println("********** \n");
-    	System.out.println("**********");
-		System.out.println("*  MENU  *");
-		System.out.println("********** \n");
-		System.out.println("[ 1 ] Calculer l'empreinte carbonne globale de la ville pour la date d'hier \n"+
-				"[ 2 ] Calculer l'empreite carbonne globale de la ville une date souhaitée \n"+
-				"[ 3 ] Calculer l'empreinte carbonne pour les transports publics de la ville pour une date souhaitée\n"+
-				"[ 4 ] Calculer l'empreinte carbonne pour les transports privées de la ville pour une date souhaitée\n"+
-				"[ 5 ] Estimer l'empreinte carbonne\n" +
-				"[ 6 ] Quitter\n\n");
-		
-		Scanner sc = new Scanner(System.in);
-		//PrintWriter pw = new PrintWriter(out);
-		String json = "NON";
-		boolean b = true;
-		try {
-			while(b==true) {
-				int a = sc.nextInt();
-				a=1;
-				switch(a){
+    public String afficheMenuAndGetJson() {
+    	CarbonMenu f = new CarbonMenu();
+		f.setVisible(true);
+		String res = f.getJsonClient();
+    	return res;
 
-					case 1: 
-						Order ord = new Order(1,u);
-						json = ord.generateJson();
-						break;
-					case 2: 
-						ord = new Order(2,u);
-						json = ord.generateJson();
-					break;
-					case 3: 
-						ord = new Order(3,u);
-						json = ord.generateJson();
-						break;
-					case 4:
-						ord = new Order(4,u);
-						json = ord.generateJson();
-						break;
-						
-					case 5:
-						ord = new Order(5,u);
-						json = ord.generateJson();
-						break;
-					case 6:
-						System.exit(0);
-						break;
-					default :
-						ord = new Order(7,u);
-						json = ord.generateJson();
-						
-					}
-				return json ;
-				
-			}
-	} catch (JsonProcessingException e) {
-
-	}
-		return json; 
     
 	
  }
     public static void main(String[] args) throws UnknownHostException, IOException, JSONException {
     	
         CarbonInfo client = new CarbonInfo();
-        client.afficheMenu();
+        client.afficheMenuAndGetJson();
 
         
      
