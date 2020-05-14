@@ -145,8 +145,15 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							cg.removeAll();
 							Date dd = (Date) datePicker.getModel().getValue();
 							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-							String d = dateFormat.format(dd);
-							System.out.println("Date entrée :" + d);
+							DateFormat dateFormatSQL = new SimpleDateFormat("yyyy-MM-dd");
+							String d ="";
+							if(dd == null) {
+								d ="";
+								System.out.println(d);
+							}else {
+								d = dateFormat.format(dd);
+								System.out.println("Date entrée :" + d);
+							}
 							JTextField jtt = new JTextField("Chargement");
 							cg.add(jtt);
 							boolean b = validateJavaDate(d);
@@ -159,12 +166,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									getContentPane().add(cg);
 									Users u = new Users();
 									CarbonOrder co2 = new CarbonOrder(2,u);
-									co2.setDate(d);
+									String dSql = dateFormatSQL.format(dd);
+									co2.setDate(dSql);
 									String res;
 									try {
 										res = co2.generateJson();
-										System.out.println("Le json qui va etre envoyé au serveur");
+										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
+										System.out.println("*******************");
 									} catch (JsonProcessingException e1) {
 										e1.printStackTrace();
 									}
@@ -216,13 +225,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							
 							Date dd = (Date) datePicker.getModel().getValue();
 							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+							DateFormat dateFormatSQL = new SimpleDateFormat("yyyy-MM-dd");
 							String d ="";
 							if(dd == null) {
 								d ="";
 								System.out.println(d);
 							}else {
 								d = dateFormat.format(dd);
-								System.out.println(d);
+								System.out.println("Date entrée :" + d);
 							}
 							
 							boolean b = validateJavaDate(d);
@@ -234,12 +244,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									getContentPane().add(cg);
 									Users u = new Users();
 									CarbonOrder co2 = new CarbonOrder(3,u);
-									co2.setDate(d);
+									String dSql = dateFormatSQL.format(dd);
+									co2.setDate(dSql);
 									String res;
 									try {
 										res = co2.generateJson();
-										System.out.println("Le json qui va etre envoyé au serveur");
+										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
+										System.out.println("*******************");
 									} catch (JsonProcessingException e1) {
 										e1.printStackTrace();
 									}
@@ -260,7 +272,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 								getContentPane().add(cg);
 								setVisible(true);
 							}
-							System.out.println(d);
+							
 						
 						}
 					});
@@ -290,8 +302,15 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							cg.removeAll();
 							Date dd = (Date) datePicker.getModel().getValue();
 							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-							String d = dateFormat.format(dd);
-							System.out.println(d);
+							DateFormat dateFormatSQL = new SimpleDateFormat("yyyy-MM-dd");
+							String d ="";
+							if(dd == null) {
+								d ="";
+								System.out.println(d);
+							}else {
+								d = dateFormat.format(dd);
+								System.out.println("Date entrée :" + d);
+							}
 							boolean b = validateJavaDate(d);
 							if(b) {
 								boolean bb = compareDate(d);
@@ -301,12 +320,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									getContentPane().add(cg);
 									Users u = new Users();
 									CarbonOrder co2 = new CarbonOrder(4,u);
-									co2.setDate(d);
+									String dSql = dateFormatSQL.format(dd);
+									co2.setDate(dSql);
 									String res;
 									try {
 										res = co2.generateJson();
-										System.out.println("Le json qui va etre envoyé au serveur");
+										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
+										System.out.println("*******************");
 									} catch (JsonProcessingException e1) {
 										e1.printStackTrace();
 									}
@@ -324,7 +345,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 								getContentPane().add(cg);
 								setVisible(true);
 							}
-							System.out.println(d);
+							
 						}
 					});
 					

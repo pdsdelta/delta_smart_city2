@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,32 +36,28 @@ public class CarbonOrder {
 	
 	public String generateJson() throws JsonProcessingException {
 		
-		ObjectMapper mapper = new ObjectMapper();
+
 		String res = "";
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFormatSQL = new SimpleDateFormat("yyyy-MM-dd");
 		Date dateToday = new Date(); 
 		String dateRequest;
 		switch(this.numOrder){
 		case 1 :
-			res  ="{request:{ operation_type: GET_GLOBAL_CARBON, date: "+ formatter.format(yesterday()) +" }} " ;
+			res  ="{request:{ operation_type: GET_GLOBAL_CARBON, date: "+ dateFormatSQL.format(yesterday()) +" }} " ;
 			break;
 		case 2 :
-			//dateRequest = returnDate();
 			res ="{request:{ operation_type: GET_GLOBAL_CARBON, date: "+ dateToSend +" }}" ;
 			break;
 		case 3 :
-			//dateRequest = returnDate();
 			res ="{request:{ operation_type: GET_PUBLIC_CARBON, date: "+ dateToSend +" }}" ;
 			break;
 		case 4 :
-			//dateRequest = returnDate();
 			res ="{request:{ operation_type: GET_PRIVATE_CARBON, date: "+ dateToSend +" }}" ;
 			break;
 		case 5:
 			Scanner read = new Scanner(System.in);
 			System.out.print("Estimation de l'empreinte carbonne \n");
-			boolean b = false;
-			boolean c = false;
 			boolean bool = true;
 			while(bool) {
 				System.out.print("Veuillez entrer le nombre de voiture \n");
