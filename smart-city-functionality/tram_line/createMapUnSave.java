@@ -13,10 +13,16 @@ class createMapUnSave extends JPanel {
   int budgetStation = option.monInt("Veuillez entrer le coût unitaire d'une station : ");
   int nombreStation = stationPlacement.numberStation(budgetCity,budgetStation);
   int numberLine = 0;
+  int numberTram = 0;
 
   public createMapUnSave() {
-    System.out.println("je suis dans la methode createMapUnSave");  
+    System.out.println("je suis dans la methode createMapUnSave"); 
     transition.saveLlt(longueur,largeur, mapTaille, budgetStation, nombreStation);
+    numberTram = (nombreStation / 2); 
+    if ((nombreStation >= 20) && (nombreStation < 70)) {
+		numberLine = 3;
+    }
+    transition.saveLine(numberLine,numberTram);
     addMouseListener(new MouseAdapter() {
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -70,8 +76,6 @@ class createMapUnSave extends JPanel {
 
     	
     	if (((nombreStation >= 20) && (nombreStation < 30) &&(i+9 <= nombreStation) && ((i % 9) == 0))  || ((nombreStation >= 20) && (nombreStation < 30) && i == 1)) {
-    		numberLine = 3;
-    		transition.saveLine(numberLine);
     		if(i == 1) {
     			g.setColor( Color.BLUE );
     			g.drawLine(largeur/2,((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));
@@ -96,8 +100,6 @@ class createMapUnSave extends JPanel {
     	
     	
     	if (((nombreStation >= 30) && (i+5 <= nombreStation) && ((i % 5) == 0))  || ((nombreStation >= 30) && i == 1)) {
-    		numberLine = 3;
-    		transition.saveLine(numberLine);
     		if(i == 1) {
     			g.setColor( Color.BLUE );
     			g.drawLine(largeur/2,((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));

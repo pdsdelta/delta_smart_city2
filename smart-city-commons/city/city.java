@@ -10,7 +10,7 @@ public class city {
 	int nombreMaxVoiture;
 	int seuilAtmoCity;
 	double tailleCity;
-	int numberTram;
+	
 	
 	@Override
 	public int hashCode() {
@@ -22,7 +22,6 @@ public class city {
 		result = prime * result + longueurCity;
 		result = prime * result + ((nameCity == null) ? 0 : nameCity.hashCode());
 		result = prime * result + nombreMaxVoiture;
-		result = prime * result + numberTram;
 		result = prime * result + seuilAtmoCity;
 		long temp;
 		temp = Double.doubleToLongBits(tailleCity);
@@ -52,8 +51,6 @@ public class city {
 		} else if (!nameCity.equals(other.nameCity))
 			return false;
 		if (nombreMaxVoiture != other.nombreMaxVoiture)
-			return false;
-		if (numberTram != other.numberTram)
 			return false;
 		if (seuilAtmoCity != other.seuilAtmoCity)
 			return false;
@@ -108,11 +105,5 @@ public class city {
 	}
 	public void setTailleCity(double tailleCity) {
 		this.tailleCity = tailleCity;
-	}
-	public int getNumberTram() {
-		return numberTram;
-	}
-	public void setNumberTram(int numberTram) {
-		this.numberTram = numberTram;
 	}
 }

@@ -1,4 +1,4 @@
-package tram_line;
+package functionality_server;
 
 import java.awt.event.*;
 import java.io.IOException;
@@ -32,11 +32,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 
+import station.station;
 import city.city;
 import connectionPool.DataSource;
 
 
-class threadMap extends Thread {
+class threadFunctionality extends Thread {
 		private Socket clientSocket;
 	    private PrintWriter out;
 	    private BufferedReader in;
@@ -49,7 +50,7 @@ class threadMap extends Thread {
 		private DataSource connection;
 		private String response ;
 	    
-	    public threadMap(Socket socket) {
+	    public threadFunctionality(Socket socket) {
 	        this.clientSocket = socket;
 	    }
 	    
@@ -66,6 +67,7 @@ class threadMap extends Thread {
 			        	this.mapJson = in.readLine();
 				        System.out.println("Le client a envoye ce JSON : " + this.mapJson + "\n");
 				        this.generateSQL();
+				        System.out.println("Le serveur va envoyer au client ce JSON : " + response + "\n");
 				        out.println(response);   
 			    }
 		        
@@ -98,7 +100,14 @@ class threadMap extends Thread {
 					addGetCity();
 				}else if(operationType.equals("INFOMAP")) { 
 					informationMap();
+				}else if(operationType.equals("SAVESTATION")) {
+					addGetStation();
+				}else if(operationType.equals("INFOSTATION")) {
+					informationStation();
 				}
+				
+				
+				// Rajouter ici vos operation_type avec vos méthodes :)
 				
 			} catch (JSONException e) {
 				
@@ -131,7 +140,7 @@ class threadMap extends Thread {
 				pstmt.executeUpdate(); 
 				pstmt.close();
 			} catch (SQLException e) { 
-				System.out.println("Erreur! "); 
+				System.out.println("Erreur! addGetCity"); 
 			}
 		
 			query = "INSERT INTO city (idCity, nameCity, longueurCity, largeurCity, budgetStation,nombreMaxVoiture,seuilAtmoCity,tailleCity) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -153,6 +162,51 @@ class threadMap extends Thread {
 			System.out.println("je vais enregistrer en bdd");
     
 			resultat = resultat + "Data : [{  idCity: "+idCity + ", nameCity: "+ nameCity + ", longueurCity : "+ longueurCity +", largeurCity : "+ largeurCity +", budgetStation : "+ budgetStation +",nombreMaxVoiture : "+ nombreMaxVoiture +",seuilAtmoCity : "+ seuilAtmoCity +",tailleCity : "+ tailleCity +"} ]}";
+			this.response = resultat ;
+			return resultat;
+	    }	
+	    
+	    public String addGetStation() throws JSONException {		
+	    	String resultat= "{Table: station, Action: SAVESTATION " ; 
+	    	int res = 0;
+	    	String json = this.mapJson;	
+	    	JSONObject obj = new JSONObject(json);
+	    	JSONObject request = obj.getJSONObject("request");
+	    	int idStation = request.getInt("idStation");
+	    	int numberStation = request.getInt("numberStation");
+			int coutStation = request.getInt("coutStation");
+			int longueurReseau = request.getInt("longueurReseau");
+			int numberTram = request.getInt("numberTram");
+			int numberLine = request.getInt("numberLine");
+			
+			String query = "delete from station WHERE idStation=?"; 
+			
+			try {
+				pstmt=connect.prepareStatement (query);
+				pstmt.setInt(1, idStation);
+				pstmt.executeUpdate(); 
+				pstmt.close();
+			} catch (SQLException e) { 
+				System.out.println("Erreur! addGetStation"); 
+			}
+		
+			query = "INSERT INTO station (idStation, numberStation, coutStation, longueurReseau, numberTram,numberLine) " + "VALUES (?, ?, ?, ?, ?, ?)";
+			try {
+				pstmt = connect.prepareStatement(query);
+				pstmt.setInt(1, idStation);
+				pstmt.setInt(2, numberStation);
+				pstmt.setInt(3, coutStation);
+				pstmt.setInt(4, longueurReseau);
+				pstmt.setInt(5, numberTram);
+				pstmt.setInt(6, numberLine);
+				res = pstmt.executeUpdate();
+				System.out.println("operation ok\n");
+			} catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+			}
+			System.out.println("je vais enregistrer en bdd");
+    
+			resultat = resultat + "Data : [{  idStation: "+idStation + ", numberStation: "+ numberStation + ", coutStation : "+ coutStation +", longueurReseau : "+ longueurReseau +", numberTram : "+ numberTram +",numberLine : "+ numberLine +"} ]}";
 			this.response = resultat ;
 			return resultat;
 	    }	
@@ -186,6 +240,39 @@ class threadMap extends Thread {
 				System.out.println("Erreur infos!");
 			}
 			System.out.println("je vais recuperer des infos en bdd");
+			ObjectMapper mapper = new ObjectMapper();
+			resultat =  resultat + mapper.writeValueAsString(res) + "}";
+			this.response = resultat;
+			return resultat;
+	    }
+	    
+	    
+	    public String informationStation() throws JSONException, JsonProcessingException {
+	    	String resultat= "{Table: station, Action : INFOSTATION ,  Data: ";
+	    	List<station> res = new ArrayList<station>();
+	    	String json = this.mapJson;	
+			JSONObject obj = new JSONObject(json);
+			JSONObject request = obj.getJSONObject("request");
+			int idStation = request.getInt("idStation");
+			String query= "SELECT * FROM station WHERE idStation = ?";
+			try {
+				pstmt = connect.prepareStatement(query);
+				pstmt.setInt(1, idStation);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+				station utilStation = new station();
+				utilStation.setIdStation(rs.getInt(1));
+				utilStation.setNumberStation(rs.getInt(2));
+				utilStation.setCoutStation(rs.getInt(3));
+				utilStation.setLongueurReseau(rs.getInt(4));
+				utilStation.setNumberTram(rs.getInt(5));
+				utilStation.setNumberLine(rs.getInt(6));
+				res.add(utilStation);
+				}
+			} catch (SQLException ex) {
+				System.out.println("Erreur infos station!");
+			}
+			System.out.println("je vais recuperer des infos station en bdd");
 			ObjectMapper mapper = new ObjectMapper();
 			resultat =  resultat + mapper.writeValueAsString(res) + "}";
 			this.response = resultat;

@@ -14,6 +14,8 @@ class transition{
   static int budgetStation1;
   static int nombreStation1;
   static int numberLine1;
+  static int numberTram1;
+  static int longueurReseau1 = 0;
   
   public static void saveLlt(int longueur, int largeur, double mapTaille, int budgetStation, int nombreStation){
 	  longueur1 = longueur;
@@ -28,8 +30,9 @@ class transition{
 	  budgetCity1 = budgetCity;
 	  System.out.println(nameCity + budgetCity1 + " save name");
   }
-  public static void saveLine(int numberLine) {
+  public static void saveLine(int numberLine, int numberTram) {
 	  numberLine1 = numberLine;
-	  System.out.println(numberLine1  + " save line");
+	  numberTram1 = numberTram;
+	  System.out.println(numberLine1  + numberTram1 + " save line");
   }
 }

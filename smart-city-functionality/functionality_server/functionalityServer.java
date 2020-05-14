@@ -1,4 +1,4 @@
-package tram_line;
+package functionality_server;
 
 import java.awt.event.*;
 import java.io.IOException;
@@ -36,7 +36,7 @@ import connectionPool.DataSource;
 import user.Users;
 
 
-public class mapServer{
+public class functionalityServer{
 	
 	private ServerSocket serverSocket;
 	
@@ -44,7 +44,7 @@ public class mapServer{
        
 		serverSocket = new ServerSocket(port);
         while(true) {
-        	new threadMap(serverSocket.accept()).start();
+        	new threadFunctionality(serverSocket.accept()).start();
         }
 
 
@@ -56,10 +56,9 @@ public class mapServer{
 	
     public static void main(String[] args) throws ClassNotFoundException, SQLException{
     	try {
-    		System.out.println("Je suis le serveur start");
-    		mapServer mapServer = new mapServer();
-    		mapServer.start(2400);
-    		System.out.print("Je suis le serveur end");
+    		System.out.println("Je suis en écoute");
+    		functionalityServer server = new functionalityServer();
+    		server.start(2400);
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
