@@ -62,6 +62,9 @@ public class MotionSensor {
 		return numero;
 	}
 	public city getCity(int id) {
+		if(id==this.city.getIdCity()) {
+			return this.city;
+		}
 		return city;
 	}
 	public city infosCity() {
