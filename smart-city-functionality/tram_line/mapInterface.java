@@ -30,6 +30,8 @@ import functionality_client.functionalityClient;
 import station.station;
 import user.Users;
 import city.city;
+import tram_line.tramExceptions.typeMapExceptions;
+
 
 public class mapInterface extends JFrame {
   //create menu
@@ -85,9 +87,6 @@ public class mapInterface extends JFrame {
       }
   }
       
-  
-  
-
   public mapInterface(int a){
 	
 	
@@ -372,15 +371,15 @@ public class mapInterface extends JFrame {
         panel1.setBackground(Color.white);	
         JLabel label1 = new JLabel();
         label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
-                      + "Ma ville fait " + transition.mapTaille1 + " kmÂ²"
+                      + "Ma ville fait " + transition.mapTaille1 + " km²"
                       + "<p>"   
-                      + "Ma ville fait " + transition.largeur1 + " de largeur" 
+                      + "dont " + ((transition.largeur1) / 100) + " km de large" 
                       + "<p>"
-                      + "Ma ville fait " + transition.longueur1 + " de longueur" 
+                      + "et " + ((transition.longueur1) / 100) + " km de long" 
                       + "<p>"
-                      + "Ma ville se nomme " + transition.nameCity
+                      + "Elle se nomme " + transition.nameCity
                       + "<p>"
-                      + "Ma ville a pour budget " + transition.budgetCity1 + " euros"
+                      + "et a pour budget dédié à son réseau de tram " + transition.budgetCity1 + " euros"
                       +"</body></html>" );
         panel1.add(label1);
         return panel1;

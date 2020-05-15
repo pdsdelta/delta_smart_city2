@@ -14,7 +14,6 @@ class createMapSave extends JPanel {
         longueur = longueur1; 
         largeur = largeur1;
         numberStation = nombreStation;
-        
         System.out.println("je suis dans la methode createMapSave");
         addMouseListener(new MouseAdapter() {
         @Override
@@ -27,10 +26,8 @@ class createMapSave extends JPanel {
       protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.setBackground( Color.WHITE );
-        super.paintComponent(g);
-        this.setBackground( Color.WHITE );
-        g.setColor( Color.black );  
-        g.drawOval( 0, 0, largeur, longueur);
+        g.setColor( Color.LIGHT_GRAY);  
+        g.fillOval( 0, 0, largeur, longueur);
         
         
         

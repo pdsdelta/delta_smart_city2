@@ -5,22 +5,41 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
+import tram_line.tramExceptions.formatCityExceptions;
+import tram_line.tramExceptions.errorBudgetExceptions;
+import tram_line.tramExceptions.errorNumberStation;
+
 class createMapUnSave extends JPanel {
-  int longueur = option.monInt("Veuillez entrer la longueur de la ville : "); 
-  int largeur = option.monInt("Veuillez entrer la largeur de la ville : ");
-  double mapTaille = (((longueur/2) * (largeur/2)) * Math.PI)/1000;
+  int longueur = ((option.monInt("Veuillez entrer la longueur de la ville en km : ")) * 100);
+  int largeur = ((option.monInt("Veuillez entrer la largeur de la ville en km : ")) * 100);
+  double mapTaille = ((((longueur/100)/2) * ((largeur/100)/2)) * Math.PI);
   int budgetCity = transition.budgetCity1;
   int budgetStation = option.monInt("Veuillez entrer le coût unitaire d'une station : ");
   int nombreStation = stationPlacement.numberStation(budgetCity,budgetStation);
   int numberLine = 0;
   int numberTram = 0;
 
-  public createMapUnSave() {
+  public createMapUnSave() throws formatCityExceptions, errorBudgetExceptions, errorNumberStation{
     System.out.println("je suis dans la methode createMapUnSave"); 
+    if(largeur > longueur) {
+    	throw new formatCityExceptions();
+    }
+    if(budgetStation > budgetCity) {
+    	throw new errorBudgetExceptions();
+    }
+    if(nombreStation == 1) {
+    	throw new errorNumberStation();
+    }
     transition.saveLlt(longueur,largeur, mapTaille, budgetStation, nombreStation);
-    numberTram = (nombreStation / 2); 
+    if((nombreStation == 2) || (nombreStation == 3)) {
+    	numberTram = 2;
+    }else {
+    	numberTram = (nombreStation / 2); 
+    }
     if ((nombreStation >= 20) && (nombreStation < 70)) {
 		numberLine = 3;
+    }else {
+    	numberLine = 1;
     }
     transition.saveLine(numberLine,numberTram);
     addMouseListener(new MouseAdapter() {
@@ -34,8 +53,8 @@ class createMapUnSave extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     this.setBackground( Color.WHITE );
-    g.setColor( Color.black );  
-    g.drawOval( 0, 0, largeur, longueur);
+    g.setColor( Color.LIGHT_GRAY);  
+    g.fillOval( 0, 0, largeur, longueur);
     
     
     
