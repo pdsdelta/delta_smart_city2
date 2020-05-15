@@ -1,5 +1,7 @@
 package infocarbon;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import connectionPool.DataSource;
-import user.Users;
+
 
 public class CarbonServerUtils {
 	
@@ -26,50 +30,138 @@ public class CarbonServerUtils {
 	 private DataSource connection;
 		
 	 
-	public String jsonToSql(String jsonClient) {
-		//json Client to Object json
-		// Selon l'opération Exexuter la fonction adapté
-		return "" ;
+	
+	 public CarbonServerUtils() {
+
+		}
+	 
+	public CarbonServerUtils(Connection connect,Statement stm,ResultSet rs,PreparedStatement pstmt ) {
+		this.connect = connect;
+		this.stm = stm;
+		this.rs=rs;
+		this.pstmt = pstmt;
 	}
 	
-	public float getGlobalCarbonne(String date) throws JSONException, JsonProcessingException {
+	//Setters and Getters
+	public Connection getConnect() {
+		return connect;
+	}
+
+	public void setConnect(Connection connect) {
+		this.connect = connect;
+	}
+
+	public Statement getStm() {
+		return stm;
+	}
+
+	public void setStm(Statement stm) {
+		this.stm = stm;
+	}
+
+	public ResultSet getRs() {
+		return rs;
+	}
+
+	public void setRs(ResultSet rs) {
+		this.rs = rs;
+	}
+
+	public PreparedStatement getPstmt() {
+		return pstmt;
+	}
+
+	public void setPstmt(PreparedStatement pstmt) {
+		this.pstmt = pstmt;
+	}
+
+	public DataSource getConnection() {
+		return connection;
+	}
+
+	public void setConnection(DataSource connection) {
+		this.connection = connection;
+	}
+
+	//Functions
+	public String getGlobalCarbonne(String date) throws JSONException, JsonProcessingException {
+		String resultat= "{Table: publictransportstat, Action : GET_NB_CARS , Status: ";
+    	String privateTr = getNbCars(date);
+    	String publicTr = getNbTram();
+    	JSONObject objpriv =new JSONObject(privateTr);
+    	JSONObject objpub =new JSONObject(publicTr);
+    	String statusPriv = objpriv.getString("Status");
+    	String statusPub = objpub.getString("Status") ;
+    	if(statusPriv.equals("success") && statusPub.equals("success") ) {
+    		String actionpriv = objpriv.getString("Action");
+        	String actionfr = objpriv.getString("Action");
+        	resultat= resultat + statusPriv;
+    	}
     	
-		return getPublicCarbonne(date) + getPrivateCarbonne(date); 
+		return privateTr;
     	
     }
 	
-	public float getPublicCarbonne(String date) throws JSONException, JsonProcessingException {
-		//appelle la fonction getnbTRAM
-		//APPELLE la fonction gettramLineLength
-		
-		return 12;
-    	
-    }
-	
-	public float getPrivateCarbonne(String date) throws JSONException, JsonProcessingException {
-		//appelle la fonction getnbCars
-		return 13;
-    	
-    }
+
 	
 	public String getNbCars(String date) throws JSONException, JsonProcessingException {
-    	String resultat= "{Table: publictransportstat, Action : GET_NB_CARS ,  Data: ";
+    	String resultat= "{Table: publictransportstat, Action : GET_NB_CARS , Status: ";
+    	String query = "select nbcars from publictransportstat where idcity = 1 and dateof = '" + date + "' ;"  ;
+    	String status ="failed";
+    	try {
+			stm = connect.createStatement();
+			rs = stm.executeQuery(query);
+			if(rs.next()) {
+				String nbCars = rs.getString("nbcars");
+				status = "success";
+				resultat =  resultat +", Data: [ NbCars :" + nbCars + "]}";
+				
+			}
+    	}catch(SQLException ex) {
+    		ex.printStackTrace();
+    		resultat =  resultat + status + "}" ;
+    	}
+    	return resultat;
+    	
+    	
+    }
+	
+	public String getNbTram() throws JSONException, JsonProcessingException {
+    	String resultat= "{Table: publictransportstat, Action : GET_NB_TRAM ,  Status: ";
+    	String query = "select numbertram ,longueurreseau from station where idstation = 1 ;"  ;
+    	String status ="failed";
+    	try {
+			stm = connect.createStatement();
+			rs = stm.executeQuery(query);
+			if(rs.first()) {
+				String numbertram = rs.getString("numbertram");
+				int longueurreseau = rs.getInt("longueurreseau");
+				status = "success";
+				resultat =  resultat + status + ", Data: [ NbTram :" + numbertram + ",LengthLine :" + longueurreseau+"]}";
+			}
+			rs.close();
+    	}catch(SQLException ex) {
+    		Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+    		resultat =  resultat + status +"}" ;
+  
+    	}
+    	
+   
     	
 		return resultat;
     	
     }
 	
-	public String getNbTram(String date) throws JSONException, JsonProcessingException {
-    	String resultat= "{Table: publictransportstat, Action : GET_NB_TRAM ,  Data: ";
-    	
-		return resultat;
-    	
-    }
 	
-	public String getTramLineLength(String query) throws JSONException, JsonProcessingException {
-    	String resultat= "{Table: publictransportstat, Action : SELECT_ONE ,  Data: ";
+	public static void main(String[] args) throws UnknownHostException, IOException, JSONException {
     	
-		return resultat;
-    	
+		CarbonServerUtils s = new CarbonServerUtils();
+		System.out.println(s.getNbCars("2020-05-12"));
+		
+        
+        
+     
+        
+        
     }
 }

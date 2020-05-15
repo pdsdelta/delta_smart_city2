@@ -35,6 +35,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import station.station;
 import city.city;
 import connectionPool.DataSource;
+import infocarbon.CarbonServerUtils;
 
 
 class threadFunctionality extends Thread {
@@ -104,10 +105,14 @@ class threadFunctionality extends Thread {
 					addGetStation();
 				}else if(operationType.equals("INFOSTATION")) {
 					informationStation();
+				}else if(operationType.equals("GET_PRIVATE_CARBON")) {
+					String date = request.getString("date");
+					CarbonServerUtils s = new CarbonServerUtils(this.connect,this.stm,this.rs,this.pstmt );
+					System.out.println(s.getNbCars(date));
 				}
 				
 				
-				// Rajouter ici vos operation_type avec vos méthodes :)
+				// Rajouter ici vos operation_type avec vos mï¿½thodes :)
 				
 			} catch (JSONException e) {
 				
