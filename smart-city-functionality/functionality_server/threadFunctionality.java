@@ -110,8 +110,34 @@ class threadFunctionality extends Thread {
 					CarbonServerUtils s = new CarbonServerUtils(this.connect,this.stm,this.rs,this.pstmt );
 					System.out.println(s.getNbCars(date));
 				}
-				
-				
+				//Requête concernant les détecteurs de véhicules
+				if(operationType.equals("CREATE_SENSOR")) {
+					
+				}else if(operationType.equals("DELETE_SENSOR")) {
+					
+				}else if(operationType.equals("ALL_SENSOR")) {
+					
+				}else if(operationType.equals("SELECT_SENSOR")) {
+					
+				}else if(operationType.equals("GET_ACTIVE")) {
+					
+				}else if(operationType.equals("UPDATE_SENSOR")) {
+					
+				}
+				//Requête concernant les bornes retractables
+				if(operationType.equals("CREATE_TERMINAL")) {
+					
+				}else if(operationType.equals("DELETE_TERMINAL")) {
+					
+				}else if(operationType.equals("ALL_TERMINAL")) {
+					
+				}else if(operationType.equals("SELECT_TERMINAL")) {
+					
+				}else if(operationType.equals("GET_STATUS")) {
+					
+				}else if(operationType.equals("UPDATE_TERMINAL")) {
+					
+				}
 				// Rajouter ici vos operation_type avec vos mï¿½thodes :)
 				
 			} catch (JSONException e) {
