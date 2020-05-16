@@ -14,6 +14,7 @@ import org.json.JSONException;
 import infocarbon.CarbonInfo;
 import infocarbon.CarbonMenu;
 import tram_line.mapInterface;
+//import capteur_air.myCapteur;
 
 
 
@@ -65,17 +66,18 @@ public class functionalityClient extends JFrame{
 			      }        
 			    });
 	   
-	   
+	}
+	
 	 //Fontionalitee Julien
-	   boutonAircapteur.addActionListener(new ActionListener(){
-		      public void actionPerformed(ActionEvent arg0) {
-			        System.out.println("Ouverture de la page de qualité d'air ");
-			        myCapteur client = new myCapteur();
-			        client.afficheMenuAndGetJson();
-			      }        
-			    });
-	}
-	}
+//	   boutonAircapteur.addActionListener(new ActionListener(){
+//		      public void actionPerformed(ActionEvent arg0) {
+//			        System.out.println("Ouverture de la page de qualité d'air ");
+//			        myCapteur client = new myCapteur();
+//			        client.afficheMenuAndGetJson();
+//			      }        
+//			    });
+//	}
+//	
 	
 	
 	
