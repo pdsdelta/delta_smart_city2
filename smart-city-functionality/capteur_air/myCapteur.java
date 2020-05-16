@@ -118,6 +118,35 @@ class myCapteur extends JFrame implements ActionListener {
     	    	getContentPane().add(bouton);
     	    	bouton.setBackground(Color.green);
     	    	bouton.addActionListener(this);
+    	    	//private JComboBox liste;
+    	    	 
+    	     
+    	    	//private JPanel buildContentPane(){
+    	    		//JPanel panel = new JPane();
+    	    		//panel.setLayout(new FlowLayout());
+    	    		//panel.setBackground(Color.White);
+    	     
+    	    		//field1 = new JTextField();
+    	     
+    	    		//panel.add(field1);
+    	     
+    	    		//liste = new JComboBox(new OperateursModel());
+    	    		//panel.add(liste);
+    	     
+    	    		//field2 = new JTextField();
+    	     
+    	    		//panel.add(field2);
+    	     
+    	    		//JButton bouton = new JButton(new CalculAction("Calculer"));
+    	     
+    	    		//panel.add(bouton);
+    	     
+    	    		//JLabel label = new JLabel("Résultat : Pas encore calculé");
+    	     
+    	    		//panel.add(label);
+    	     
+    	    		//return panel;
+    	    	//}
     	    	
     	    	Scanner sc = new Scanner(System.in);
     	    	System.out.println("Veuillez déterminer l'intervalle des relevés");
@@ -147,15 +176,15 @@ class myCapteur extends JFrame implements ActionListener {
         label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
                       + "Pour le quartier " + quartier
                       + "<p>"   
-                      + "Pour les particules fines, nous avons un indice ATMO de " + transition.largeur1 + " de largeur" 
+                      + "Pour les particules fines, nous avons un indice ATMO de " +   
                       + "<p>"
-                      + "Pour l'ozote, nous avons un indice ATMO de " + transition.longueur1 
+                      + "Pour l'ozote, nous avons un indice ATMO de " +
                       + "<p>"
-                      + "Pour le dioxyde d'azote, nous avons un indice ATMO de " + transition.nameCity
+                      + "Pour le dioxyde d'azote, nous avons un indice ATMO de " + 
                       + "<p>"
-                      + "Pour le dioxyde de soufre, nous avons un indice ATMO de " + transition.nameCity
+                      + "Pour le dioxyde de soufre, nous avons un indice ATMO de " + 
                       + "<p>"
-                      + "Donc un indice ATMO de " + transition.budgetCity1
+                      + "Donc un indice ATMO de " + 
                       +"</body></html>" );
         panel.add(label1);
         return panel;
@@ -215,6 +244,32 @@ class myCapteur extends JFrame implements ActionListener {
     
     
     public void getseuil() {
+    	//private JComboBox liste1;
+    	//private JComboBox liste2;
+     
+     
+    	//private JPanel buildContentPane(){
+    		//JPanel panel = new JPanel();
+    		//panel.setLayout(new FlowLayout());
+     
+    		//Object[] elements = new Object[];
+    		//getconfigurecapteur(elements);
+     
+    		//liste1 = new JComboBox(elements);
+     
+    		//panel.add(liste1);
+     
+    		//JButton bouton = new JButton(new CopierAction(this, "OK"));
+     
+    		//panel.add(bouton);
+     
+    		//return panel;
+    	//}
+     
+    	//public JComboBox getListe1(){
+    		//return liste1;
+    	//}
+    //}
     	int res1 = 0;
     	//String status = "Unknown";
 		//int monNom = request.getInt("id");
@@ -443,7 +498,7 @@ class myCapteur extends JFrame implements ActionListener {
     public void getconfigurecapteur() {
     	int a = getQuartier();
     	for(int i = 1; i < a+1; i++) {
-    		System.out.println("Quartier_"+i);
+    		return Quartier_[i];
     	}
     	
     	
