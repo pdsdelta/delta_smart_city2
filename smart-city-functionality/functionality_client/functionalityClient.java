@@ -21,6 +21,7 @@ public class functionalityClient extends JFrame{
 	private JPanel pan = new JPanel();
 	private JButton boutonCity = new JButton("Fonctionnalitï¿½ Rï¿½seau de transport");
 	private JButton boutonCarbon = new JButton("FonctionnalitÃ© Empreinte carbonne");
+	private JButton boutonAircapteur = new JButton("Fonctionnalitee Qualité d'air");
 	
 	public functionalityClient() {
 	   this.setTitle("Delta Smart City");
@@ -34,6 +35,7 @@ public class functionalityClient extends JFrame{
 	   //ajout bouton fonctionnalitï¿½
 	   pan.add(boutonCity);
 	   pan.add(boutonCarbon);
+	   pan.add(boutonAircapteur);
 	   this.getContentPane().add(pan);
 	   
 	   this.setVisible(true);
@@ -62,7 +64,20 @@ public class functionalityClient extends JFrame{
 			        client.afficheMenuAndGetJson();
 			      }        
 			    });
+	   
+	   
+	 //Fontionalitee Julien
+	   boutonAircapteur.addActionListener(new ActionListener(){
+		      public void actionPerformed(ActionEvent arg0) {
+			        System.out.println("Ouverture de la page de qualité d'air ");
+			        myCapteur client = new myCapteur();
+			        client.afficheMenuAndGetJson();
+			      }        
+			    });
 	}
+	}
+	
+	
 	
 	//Fontionalitï¿½ Martin 
 	public void chargeTramFonctionality() throws UnknownHostException, IOException, JSONException{
