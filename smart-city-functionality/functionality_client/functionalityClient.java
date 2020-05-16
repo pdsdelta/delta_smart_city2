@@ -82,7 +82,7 @@ public class functionalityClient extends JFrame {
 //			    });
 //	}
 //	
-	
+	//Fonctionalitee hiba
 	boutonAnalyseIndicateur.addActionListener(new ActionListener(){
 	public void actionPerformed(ActionEvent arg0) {
 		Page1 page = new Page1();
