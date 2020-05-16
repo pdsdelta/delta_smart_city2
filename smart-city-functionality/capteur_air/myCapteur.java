@@ -3,6 +3,7 @@ package capteur_air;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,7 +67,7 @@ class myCapteur extends JFrame implements ActionListener {
     	 this.setSize(400, 200);
     	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	    this.setLocationRelativeTo(null);
-
+    	    
     	    //On initialise nos menus      
     	    this.onglet1.add(case1);
 
@@ -105,6 +106,66 @@ class myCapteur extends JFrame implements ActionListener {
             this.menu.add(onglet3);
     	    this.setJMenuBar(menu);
     	    this.setVisible(true);
+    	    
+    	    case1.addActionListener(new ActionListener(){
+    	        public void actionPerformed(ActionEvent arg0) {
+    	          try {
+    	          	//generateMapUnSave();
+    	  		} catch (IOException | JSONException e) {
+    	  			// TODO Auto-generated catch block
+    	  			e.printStackTrace();
+    	  		}
+
+    	        }        
+    	      });
+    	    
+    	    case2.addActionListener(new ActionListener(){
+    	        public void actionPerformed(ActionEvent arg0) {
+    	          try {
+    	          	//generateMapUnSave();
+    	  		} catch (IOException | JSONException e) {
+    	  			// TODO Auto-generated catch block
+    	  			e.printStackTrace();
+    	  		}
+
+    	        }        
+    	      });
+    	    
+    	    case3.addActionListener(new ActionListener(){
+    	        public void actionPerformed(ActionEvent arg0) {
+    	          try {
+    	          	//generateMapUnSave();
+    	  		} catch (IOException | JSONException e) {
+    	  			// TODO Auto-generated catch block
+    	  			e.printStackTrace();
+    	  		}
+
+    	        }        
+    	      });
+    	    
+    	    case4.addActionListener(new ActionListener(){
+    	        public void actionPerformed(ActionEvent arg0) {
+    	          try {
+    	          	//generateMapUnSave();
+    	  		} catch (IOException | JSONException e) {
+    	  			// TODO Auto-generated catch block
+    	  			e.printStackTrace();
+    	  		} 
+
+    	        }        
+    	      });
+    	    
+    	    onglet3.addActionListener(new ActionListener(){
+    	        public void actionPerformed(ActionEvent arg0) {
+    	          try {
+    	          	gethistorique();
+    	  		} catch (IOException | JSONException e) {
+    	  			// TODO Auto-generated catch block
+    	  			e.printStackTrace();
+    	  		}
+
+    	        }        
+    	      });
     	    
     	    if(getalerte(alerte = true)) {
     	        setLayout(new BorderLayout());
@@ -240,7 +301,24 @@ class myCapteur extends JFrame implements ActionListener {
 	}
 }
     
-    
+    public  JPanel gethistorique(){
+        JPanel panel1 = new JPanel();
+       	panel1.setLayout(new FlowLayout());
+        panel1.setBackground(Color.white);	
+        JLabel label1 = new JLabel();
+        label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
+                      + "Un relevé de " +  + " sur l'échelle d'indice ATMO"
+                      + "<p>"   
+                      + "dans le quartier  " + 
+                      + "<p>"
+                      + "le 22 mai 2020" 
+                      + "<p>"
+                      + "à " + + "H" + + "min"
+                      + "<p>"
+                      +"</body></html>" );
+        panel1.add(label1);
+        return panel1;
+      }
     
     
     public void getseuil() {
@@ -504,10 +582,8 @@ class myCapteur extends JFrame implements ActionListener {
     	
     }
     
-    public static void main(String[] args){ //throws UnknownHostException, IOException, JSONException {
+    public static void main(String[] args) throws UnknownHostException, IOException, JSONException {
     	myCapteur air = new myCapteur(1);
-    	
-       // air.startConnection("172.31.249.22", 1500);
-       // client.afficheMenu();
+       air.startConnection("172.31.249.22", 2400);
     }
 }
