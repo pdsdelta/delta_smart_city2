@@ -94,12 +94,15 @@ public class CarbonServerUtils {
     	String statusPriv = objpriv.getString("Status");
     	String statusPub = objpub.getString("Status") ;
     	if(statusPriv.equals("success") && statusPub.equals("success") ) {
+    		resultat= resultat + statusPriv;
     		JSONArray arrpr = objpriv.getJSONArray("Data");
     		int nbCars = arrpr.getJSONObject(0).getInt("NbCars");
     		JSONArray arrpu = objpub.getJSONArray("Data");
         	int nbTram = arrpu.getJSONObject(0).getInt("NbTram");
         	int longueurreseau = arrpu.getJSONObject(1).getInt("NbTram");
         	resultat= resultat + statusPriv;
+    	}else {
+    		resultat = resultat + "failed }";
     	}
     	
 		return privateTr;
