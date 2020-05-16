@@ -57,9 +57,10 @@ public class functionalityClient extends JFrame{
 	   //Listener on the button boutonCarbon which open CarbonMenu
 	   boutonCarbon.addActionListener(new ActionListener(){
 		      public void actionPerformed(ActionEvent arg0) {
-			        System.out.println("Lancement de l'écran carbonne");
-			        CarbonInfo client = new CarbonInfo();
+			        System.out.println("Lancement de l'écran carbonne info");
+			        CarbonInfo client = CarbonInfo.getInstance();
 			        client.afficheMenuAndGetJson();
+			        
 			      }        
 			    });
 	}

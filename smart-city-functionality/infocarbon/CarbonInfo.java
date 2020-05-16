@@ -20,20 +20,33 @@ public class CarbonInfo {
 	private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
+    private String toSend;
+    private static CarbonInfo instance = null ;
     
     public void startConnection(String ip, int port) throws UnknownHostException, IOException, JSONException {
-    	String toSend;
+    	
     	clientSocket = new Socket(ip, port);
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         
         while(true) {
-        	//toSend =this.afficheMenu();
+        	toSend =this.afficheMenuAndGetJson();
 	        //out.println(toSend);
 	        //String response = in.readLine();
 	        //System.out.println("***** Résultat ******\n");
 	        //System.out.println(this.diplayResult(response));
         }
+    }
+    
+    private CarbonInfo() {
+    	
+    }
+    
+    public static CarbonInfo getInstance(){
+    	if (instance == null) {
+			instance = new CarbonInfo();
+		}  
+		return instance ;
     }
     
     
@@ -50,25 +63,49 @@ public class CarbonInfo {
         clientSocket.close();
     }
     
-    public String afficheMenuAndGetJson() {
-    	CarbonMenu f = new CarbonMenu();
-		f.setVisible(true);
-		String res = f.getJsonClient();
-    	return res;
+    public String getToSend() {
+		return toSend;
+	}
 
-    
+
+
+
+	public void setToSend(String toSend) {
+		this.toSend = toSend;
+	}
 	
- }
+    public String afficheMenuAndGetJson() {
+    	String res = null;
+    	CarbonMenu f = CarbonMenu.getInstance();
+		f.setVisible(true);
+		res = f.getJsonClient();
+		if (res != null) {
+			System.out.println("Le JSON final à envoyer au serveur") ;
+			System.out.println(res);
+		} 
+		
+		return res;
+		
+	}
+    
+    
     public static void main(String[] args) throws UnknownHostException, IOException, JSONException {
     	
         CarbonInfo client = new CarbonInfo();
         client.afficheMenuAndGetJson();
 
         
+
+        
      
         
         
     }
+
+
+
+
+	
     
     
     

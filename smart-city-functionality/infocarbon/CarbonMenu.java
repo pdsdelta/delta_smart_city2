@@ -44,11 +44,12 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	private JButton b1,b2,b3,b4,b5; 
 	private JRadioButton rb1, rb2 ;
 	private CarbonOrder co;
+	//Attribute of the Json to send to the server
 	private String jsonClient; 
-	
+	private static CarbonMenu instance = null ;
 
 	
-	public CarbonMenu(){
+	private CarbonMenu(){
 		this.setBounds(0,0,700,700);// X,Y,Largeur, Longueur
 		this.setTitle("Carbon info DELTA-City");
 		setLocationRelativeTo(null);
@@ -82,6 +83,13 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	  }
 	
+	public static CarbonMenu getInstance(){
+		
+		if (instance == null) {
+			instance = new CarbonMenu();
+		}  
+		return instance ;
+	}
 	public void setJsonClient(String json) {
 		this.jsonClient = json;
 	}
@@ -112,10 +120,11 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					String res;
 					try {
 						res = co.generateJson();
-						setJsonClient(res);
 						System.out.println("Calcul de l'empreinte carbonne globale pour hier");
 						System.out.println("Le json qui va etre envoyé au serveur");
 						System.out.println(res);
+						jsonClient=res;
+						CarbonInfo.getInstance().afficheMenuAndGetJson();
 						JTextField jt = new JTextField("L'empreinte carbonne globale de la ville est 345");
 						cg.add(jt);
 					} catch (JsonProcessingException e1) {
@@ -173,6 +182,8 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										res = co2.generateJson();
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
+										jsonClient = res;
+										CarbonInfo.getInstance().afficheMenuAndGetJson();
 										System.out.println("*******************");
 									} catch (JsonProcessingException e1) {
 										e1.printStackTrace();
@@ -251,6 +262,8 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										res = co2.generateJson();
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
+										jsonClient = res;
+										CarbonInfo.getInstance().afficheMenuAndGetJson();
 										System.out.println("*******************");
 									} catch (JsonProcessingException e1) {
 										e1.printStackTrace();
@@ -327,7 +340,10 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										res = co2.generateJson();
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
+										jsonClient = res;
+										CarbonInfo.getInstance().afficheMenuAndGetJson();
 										System.out.println("*******************");
+										//System.out.println(jsonClient);
 									} catch (JsonProcessingException e1) {
 										e1.printStackTrace();
 									}
@@ -348,10 +364,6 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							
 						}
 					});
-					
-					
-					
-
 					
 					setVisible(true);
 					

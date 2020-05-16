@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -85,7 +86,7 @@ public class CarbonServerUtils {
 
 	//Functions
 	public String getGlobalCarbonne(String date) throws JSONException, JsonProcessingException {
-		String resultat= "{Table: publictransportstat, Action : GET_NB_CARS , Status: ";
+		String resultat= "{Table: publictransportstat, Action : GET_GLOBAL_CARBON , Status: ";
     	String privateTr = getNbCars(date);
     	String publicTr = getNbTram();
     	JSONObject objpriv =new JSONObject(privateTr);
@@ -93,8 +94,11 @@ public class CarbonServerUtils {
     	String statusPriv = objpriv.getString("Status");
     	String statusPub = objpub.getString("Status") ;
     	if(statusPriv.equals("success") && statusPub.equals("success") ) {
-    		String actionpriv = objpriv.getString("Action");
-        	String actionfr = objpriv.getString("Action");
+    		JSONArray arrpr = objpriv.getJSONArray("Data");
+    		int nbCars = arrpr.getJSONObject(0).getInt("NbCars");
+    		JSONArray arrpu = objpub.getJSONArray("Data");
+        	int nbTram = arrpu.getJSONObject(0).getInt("NbTram");
+        	int longueurreseau = arrpu.getJSONObject(1).getInt("NbTram");
         	resultat= resultat + statusPriv;
     	}
     	
@@ -112,7 +116,7 @@ public class CarbonServerUtils {
 			stm = connect.createStatement();
 			rs = stm.executeQuery(query);
 			if(rs.next()) {
-				String nbCars = rs.getString("nbcars");
+				int nbCars = rs.getInt("nbcars");
 				status = "success";
 				resultat =  resultat +", Data: [ NbCars :" + nbCars + "]}";
 				
