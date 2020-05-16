@@ -510,4 +510,9 @@ class myCapteur extends JFrame implements ActionListener {
        // air.startConnection("172.31.249.22", 1500);
        // client.afficheMenu();
     }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

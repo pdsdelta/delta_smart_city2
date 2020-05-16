@@ -11,19 +11,21 @@ import javax.swing.JFrame;
 
 import org.json.JSONException;
 
+import analyse_indicateur.Page1;
 import infocarbon.CarbonInfo;
 import infocarbon.CarbonMenu;
 import tram_line.mapInterface;
 //import capteur_air.myCapteur;
 
-
-
-public class functionalityClient extends JFrame{
+public class functionalityClient extends JFrame {
 	private JPanel pan = new JPanel();
 	private JButton boutonCity = new JButton("Fonctionnalitï¿½ Rï¿½seau de transport");
 	private JButton boutonCarbon = new JButton("FonctionnalitÃ© Empreinte carbonne");
 	private JButton boutonAircapteur = new JButton("Fonctionnalitee Qualité d'air");
-	
+
+	// hiba
+	private JButton boutonAnalyseIndicateur = new JButton("Fonctionnalitee Analyse des indicateurs");
+
 	public functionalityClient() {
 	   this.setTitle("Delta Smart City");
 	   Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -37,6 +39,7 @@ public class functionalityClient extends JFrame{
 	   pan.add(boutonCity);
 	   pan.add(boutonCarbon);
 	   pan.add(boutonAircapteur);
+	   pan.add(boutonAnalyseIndicateur);
 	   this.getContentPane().add(pan);
 	   
 	   this.setVisible(true);
@@ -67,7 +70,7 @@ public class functionalityClient extends JFrame{
 			      }        
 			    });
 	   
-	}
+	
 	
 	 //Fontionalitee Julien
 //	   boutonAircapteur.addActionListener(new ActionListener(){
@@ -80,17 +83,25 @@ public class functionalityClient extends JFrame{
 //	}
 //	
 	
-	
-	
-	//Fontionalitï¿½ Martin 
-	public void chargeTramFonctionality() throws UnknownHostException, IOException, JSONException{
-		this.dispose();
-		mapInterface map = new mapInterface(0);
-	    map.startConnection("172.31.249.22", 2400, 0); //Adresse + port serveur commun nom jar : delta_smart_city2_functionality
+	boutonAnalyseIndicateur.addActionListener(new ActionListener(){
+	public void actionPerformed(ActionEvent arg0) {
+		Page1 page = new Page1();
+		page.affichePage1();
+		
+	}
+	});
 	}
 	
-	public static void main(String[]args) {
+
+	// Fontionalitï¿½ Martin
+	public void chargeTramFonctionality() throws UnknownHostException, IOException, JSONException {
+		this.dispose();
+		mapInterface map = new mapInterface(0);
+		map.startConnection("172.31.249.22", 2400, 0); // Adresse + port serveur commun nom jar :
+														// delta_smart_city2_functionality
+	}
+
+	public static void main(String[] args) {
 		functionalityClient fonction = new functionalityClient();
 	}
 }
-
