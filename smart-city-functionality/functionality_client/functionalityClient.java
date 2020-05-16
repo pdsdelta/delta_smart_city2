@@ -20,9 +20,9 @@ import tram_line.mapInterface;
 
 public class functionalityClient extends JFrame{
 	private JPanel pan = new JPanel();
-	private JButton boutonCity = new JButton("Fonctionnalitï¿½ Rï¿½seau de transport");
+	private JButton boutonCity = new JButton("FonctionnalitÃ© RÃ©seau de transport");
 	private JButton boutonCarbon = new JButton("FonctionnalitÃ© Empreinte carbonne");
-	private JButton boutonAircapteur = new JButton("Fonctionnalitee Qualité d'air");
+	private JButton boutonAircapteur = new JButton("Fonctionnalitee Qualitï¿½ d'air");
 	
 	public functionalityClient() {
 	   this.setTitle("Delta Smart City");
@@ -72,26 +72,24 @@ public class functionalityClient extends JFrame{
 	 //Fontionalitee Julien
 //	   boutonAircapteur.addActionListener(new ActionListener(){
 //		      public void actionPerformed(ActionEvent arg0) {
-//			        System.out.println("Ouverture de la page de qualité d'air ");
+//			        System.out.println("Ouverture de la page de qualitï¿½ d'air ");
 //			        myCapteur client = new myCapteur();
 //			        client.afficheMenuAndGetJson();
 //			      }        
 //			    });
 //	}
 //	
-<<<<<<< HEAD
+
 	//Fonctionalitee hiba
-	boutonAnalyseIndicateur.addActionListener(new ActionListener(){
+	/*boutonAnalyseIndicateur.addActionListener(new ActionListener(){
 	public void actionPerformed(ActionEvent arg0) {
 		Page1 page = new Page1();
 		page.affichePage1();
 		
 	}
-	});
-	}
-=======
+	});*/
 	
->>>>>>> parent of 9d960af... hiba
+
 	
 	
 	//Fontionalitï¿½ Martin 
