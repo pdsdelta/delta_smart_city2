@@ -1,18 +1,18 @@
 package functionality_client;
 
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.json.JSONException;
 
 import infocarbon.CarbonInfo;
-import infocarbon.CarbonMenu;
 import tram_line.mapInterface;
 //import capteur_air.myCapteur;
 
@@ -80,7 +80,7 @@ public class functionalityClient extends JFrame{
 //	}
 //	
 
-	//Fonctionalitee hiba
+	//Fonctionalitee hiba UPDATE
 	/*boutonAnalyseIndicateur.addActionListener(new ActionListener(){
 	public void actionPerformed(ActionEvent arg0) {
 		Page1 page = new Page1();
