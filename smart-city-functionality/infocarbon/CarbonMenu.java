@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -124,10 +125,11 @@ public class CarbonMenu extends JFrame implements ActionListener {
 						System.out.println("Le json qui va etre envoyé au serveur");
 						System.out.println(res);
 						jsonClient=res;
-						CarbonInfo.getInstance().afficheMenuAndGetJson();
+						//CarbonInfo.getInstance().afficheMenuAndGetJson();
+						CarbonInfo.getInstance().sendMessage(res);
 						JTextField jt = new JTextField("L'empreinte carbonne globale de la ville est 345");
 						cg.add(jt);
-					} catch (JsonProcessingException e1) {
+					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 					
@@ -183,9 +185,10 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
 										jsonClient = res;
-										CarbonInfo.getInstance().afficheMenuAndGetJson();
+										//CarbonInfo.getInstance().afficheMenuAndGetJson();
+										CarbonInfo.getInstance().sendMessage(res);
 										System.out.println("*******************");
-									} catch (JsonProcessingException e1) {
+									} catch (IOException e1) {
 										e1.printStackTrace();
 									}
 									setVisible(true);
@@ -263,9 +266,10 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
 										jsonClient = res;
-										CarbonInfo.getInstance().afficheMenuAndGetJson();
+										//CarbonInfo.getInstance().afficheMenuAndGetJson();
+										CarbonInfo.getInstance().sendMessage(res);
 										System.out.println("*******************");
-									} catch (JsonProcessingException e1) {
+									} catch (IOException e1) {
 										e1.printStackTrace();
 									}
 									
@@ -341,10 +345,11 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
 										jsonClient = res;
-										CarbonInfo.getInstance().afficheMenuAndGetJson();
+										//CarbonInfo.getInstance().afficheMenuAndGetJson();
+										CarbonInfo.getInstance().sendMessage(res);
 										System.out.println("*******************");
 										//System.out.println(jsonClient);
-									} catch (JsonProcessingException e1) {
+									} catch (IOException e1) {
 										e1.printStackTrace();
 									}
 									setVisible(true);

@@ -94,12 +94,16 @@ public class CarbonServerUtils {
     	String statusPriv = objpriv.getString("Status");
     	String statusPub = objpub.getString("Status") ;
     	if(statusPriv.equals("success") && statusPub.equals("success") ) {
+    		resultat= resultat + statusPriv;
     		JSONArray arrpr = objpriv.getJSONArray("Data");
     		int nbCars = arrpr.getJSONObject(0).getInt("NbCars");
     		JSONArray arrpu = objpub.getJSONArray("Data");
         	int nbTram = arrpu.getJSONObject(0).getInt("NbTram");
         	int longueurreseau = arrpu.getJSONObject(1).getInt("NbTram");
-        	resultat= resultat + statusPriv;
+        	resultat= resultat + statusPriv +", Data: [ NbCars :" + nbCars +", NbTram :" + nbTram + ",LengthLine :" + longueurreseau+"]} " ;
+        	
+    	}else {
+    		resultat = resultat + "failed }";
     	}
     	
 		return privateTr;
@@ -112,19 +116,24 @@ public class CarbonServerUtils {
     	String resultat= "{Table: publictransportstat, Action : GET_NB_CARS , Status: ";
     	String query = "select nbcars from publictransportstat where idcity = 1 and dateof = '" + date + "' ;"  ;
     	String status ="failed";
+    	System.out.println("Requette : "+query);
     	try {
 			stm = connect.createStatement();
 			rs = stm.executeQuery(query);
 			if(rs.next()) {
 				int nbCars = rs.getInt("nbcars");
 				status = "success";
-				resultat =  resultat +", Data: [ NbCars :" + nbCars + "]}";
+				resultat =  resultat+ status +", Data: [ NbCars :" + nbCars + "]}";
 				
+			}else {
+				status ="empty";
+				resultat = resultat + status + "}" ;
 			}
     	}catch(SQLException ex) {
     		ex.printStackTrace();
     		resultat =  resultat + status + "}" ;
     	}
+    	System.out.println("Résultat: " +resultat);
     	return resultat;
     	
     	

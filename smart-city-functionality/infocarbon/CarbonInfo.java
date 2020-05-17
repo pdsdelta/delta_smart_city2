@@ -28,14 +28,13 @@ public class CarbonInfo {
     	clientSocket = new Socket(ip, port);
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        toSend =this.afficheMenuAndGetJson();
+        //out.println(toSend);
         
-        while(true) {
-        	toSend =this.afficheMenuAndGetJson();
-	        //out.println(toSend);
 	        //String response = in.readLine();
 	        //System.out.println("***** Résultat ******\n");
 	        //System.out.println(this.diplayResult(response));
-        }
+        
     }
     
     private CarbonInfo() {
@@ -51,9 +50,10 @@ public class CarbonInfo {
     
     
     public String sendMessage(String Json) throws IOException {
-        System.out.println(Json);
+    	out.println(Json);
+        //System.out.println(Json);
         String resp = in.readLine();
-        System.out.println(resp);
+        //System.out.println(resp);
         return resp;
     }
     
@@ -82,6 +82,7 @@ public class CarbonInfo {
 		if (res != null) {
 			System.out.println("Le JSON final à envoyer au serveur") ;
 			System.out.println(res);
+			this.setToSend(res);
 		} 
 		
 		return res;

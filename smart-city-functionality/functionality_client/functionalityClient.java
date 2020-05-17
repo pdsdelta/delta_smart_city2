@@ -1,18 +1,19 @@
 package functionality_client;
 
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.json.JSONException;
 
+import analyse_indicateur.Page1;
 import infocarbon.CarbonInfo;
-import infocarbon.CarbonMenu;
 import tram_line.mapInterface;
 //import capteur_air.myCapteur;
 
@@ -20,9 +21,10 @@ import tram_line.mapInterface;
 
 public class functionalityClient extends JFrame{
 	private JPanel pan = new JPanel();
-	private JButton boutonCity = new JButton("Fonctionnalit� R�seau de transport");
+	private JButton boutonCity = new JButton("Fonctionnalité Réseau de transport");
 	private JButton boutonCarbon = new JButton("Fonctionnalité Empreinte carbonne");
-	private JButton boutonAircapteur = new JButton("Fonctionnalitee Qualit� d'air");
+	private JButton boutonAircapteur = new JButton("Fonctionnalitee Qualit� d'air");
+	private JButton boutonAnalyseIndicateur  = new JButton("Fonctionnalitee Analyse_indicateur");
 	
 	public functionalityClient() {
 	   this.setTitle("Delta Smart City");
@@ -37,6 +39,9 @@ public class functionalityClient extends JFrame{
 	   pan.add(boutonCity);
 	   pan.add(boutonCarbon);
 	   pan.add(boutonAircapteur);
+	   pan.add(boutonAnalyseIndicateur);
+	   
+	   
 	   this.getContentPane().add(pan);
 	   
 	   this.setVisible(true);
@@ -62,24 +67,41 @@ public class functionalityClient extends JFrame{
 		      public void actionPerformed(ActionEvent arg0) {
 			        System.out.println("Lancement de l'écran carbonne info");
 			        CarbonInfo client = CarbonInfo.getInstance();
-			        client.afficheMenuAndGetJson();
+			        try {
+						client.startConnection("172.31.249.22", 2400);
+					} catch (IOException | JSONException e) {
+						e.printStackTrace();
+						System.out.println("Echec de connexion");
+					}
 			        
 			      }        
 			    });
 	   
-	}
+	
 	
 	 //Fontionalitee Julien
 //	   boutonAircapteur.addActionListener(new ActionListener(){
 //		      public void actionPerformed(ActionEvent arg0) {
-//			        System.out.println("Ouverture de la page de qualit� d'air ");
+//			        System.out.println("Ouverture de la page de qualit� d'air ");
 //			        myCapteur client = new myCapteur();
 //			        client.afficheMenuAndGetJson();
 //			      }        
 //			    });
 //	}
 //	
+
+	//Fonctionalitee hiba UPDATE
 	
+	boutonAnalyseIndicateur.addActionListener(new ActionListener(){
+	public void actionPerformed(ActionEvent arg0) {
+		System.out.println("Affichafe des statistiques");
+		Page1 page = new Page1();
+		page.affichePage1();
+		
+	}
+	});
+	
+}
 	
 	
 	//Fontionalit� Martin 
