@@ -3,6 +3,7 @@ package infocarbon;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -40,6 +42,10 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	private JPanel p = new JPanel();
 	private JPanel cg = new JPanel();
 	private JPanel es = new JPanel();
+	private JPanel voitures = new JPanel(); 
+	private JPanel passagers = new JPanel(); 
+	private JPanel trams = new JPanel(); 
+	private JPanel longTram = new JPanel(); 
 	String[] tab_string = {"1", "2", "3", "4", "5", "6"};
 	JButton[] tab_button = new JButton[tab_string.length];
 	private JButton b1,b2,b3,b4,b5; 
@@ -56,8 +62,10 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new FlowLayout());
-		//getContentPane().setLayout (new BoxLayout (this, BoxLayout.Y_AXIS));  
+		//getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		//getContentPane().setLayout(new GridLayout(4,3));
 		JPanel pannel = new JPanel();
+		//pannel.setBounds(x, y, width, height);
 		pannel.setBackground(Color.yellow);
 		pannel.setBorder(new TitledBorder("Choisissez une option"));
 		getContentPane().add(pannel);
@@ -71,7 +79,12 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		rb2.addActionListener(this);
 		pannel.add(rb2);
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+		p.setBackground(Color.WHITE);
+		p.setBorder(new TitledBorder("Liste des choix Possibles") );
 		es.setLayout (new BoxLayout (es, BoxLayout.Y_AXIS)); 
+		es.setBackground(Color.WHITE);
+		es.setBorder(new TitledBorder("Paramètres de calcul") );
+		cg.setLayout(new BoxLayout (cg, BoxLayout.Y_AXIS));
 		//this.getContentPane().add(BorderLayout.SOUTH,p);
 		//this.getContentPane().add(p);
 		b1 = new JButton("Empreinte carbonne globale pour la date d'hier");
@@ -102,16 +115,20 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		Object o = event.getSource();
 		if (o == rb1) {
-			getContentPane().remove(p);
-			getContentPane().remove(es);
+			
+			
+			es.removeAll();
 			cg.removeAll();
 			p.removeAll();
+			getContentPane().remove(es);
+			getContentPane().remove(p);
 			p.add(b1);
 			p.add(b2);
 			p.add(b3);
 			p.add(b4);
 			getContentPane().add(p);
-			
+			getContentPane().revalidate();
+			getContentPane().repaint();
 			b1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cg.removeAll();
@@ -125,10 +142,18 @@ public class CarbonMenu extends JFrame implements ActionListener {
 						System.out.println("Le json qui va etre envoyé au serveur");
 						System.out.println(res);
 						jsonClient=res;
-						//CarbonInfo.getInstance().afficheMenuAndGetJson();
-						CarbonInfo.getInstance().sendMessage(res);
-						JTextField jt = new JTextField("L'empreinte carbonne globale de la ville est 345");
-						cg.add(jt);
+						String resp = CarbonInfo.getInstance().sendMessage(res);
+						InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
+						if(ic==null) {
+							JTextField emp = new JTextField("Aucune donnée pour la date d'hier");
+							cg.add(emp);
+						}else {
+							double resul = ic.calculateCarbon();
+							JTextField emp = new JTextField("L'empreinte carbonne globale de la ville est  "+ resul);
+							cg.add(emp);
+						}
+						getContentPane().add(cg);
+						setVisible(true);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -185,8 +210,18 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
 										jsonClient = res;
-										//CarbonInfo.getInstance().afficheMenuAndGetJson();
-										CarbonInfo.getInstance().sendMessage(res);
+										String resp = CarbonInfo.getInstance().sendMessage(res);
+										InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
+										if(ic==null) {
+											JTextField emp = new JTextField("Aucune donnée pour la date :  "+ d);
+											cg.add(emp);
+										}else {
+											double resul = ic.calculateCarbon();
+											JTextField emp = new JTextField("L'empreinte carbonne est  "+ resul);
+											cg.add(emp);
+										}
+										getContentPane().add(cg);
+										setVisible(true);
 										System.out.println("*******************");
 									} catch (IOException e1) {
 										e1.printStackTrace();
@@ -267,7 +302,18 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										System.out.println(res);
 										jsonClient = res;
 										//CarbonInfo.getInstance().afficheMenuAndGetJson();
-										CarbonInfo.getInstance().sendMessage(res);
+										String resp = CarbonInfo.getInstance().sendMessage(res);
+										InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
+										if(ic==null) {
+											JTextField emp = new JTextField("Aucune donnée pour la date :  "+ d);
+											cg.add(emp);
+										}else {
+											double resul = ic.calculateCarbon();
+											JTextField emp = new JTextField("L'empreinte carbonne est  "+ resul);
+											cg.add(emp);
+										}
+										getContentPane().add(cg);
+										setVisible(true);
 										System.out.println("*******************");
 									} catch (IOException e1) {
 										e1.printStackTrace();
@@ -345,8 +391,18 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
 										jsonClient = res;
-										//CarbonInfo.getInstance().afficheMenuAndGetJson();
-										CarbonInfo.getInstance().sendMessage(res);
+										String resp = CarbonInfo.getInstance().sendMessage(res);
+										InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
+										if(ic==null) {
+											JTextField emp = new JTextField("Aucune donnée trouvée pour la date : "+ d);
+											cg.add(emp);
+										}else {
+											double resul = ic.calculateCarbon();
+											JTextField emp = new JTextField("L'empreinte carbonne pour les transports privée est  "+ resul);
+											cg.add(emp);
+										}
+										getContentPane().add(cg);
+										setVisible(true);
 										System.out.println("*******************");
 										//System.out.println(jsonClient);
 									} catch (IOException e1) {
@@ -383,21 +439,64 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			setVisible(true);
 		}
 		if (o == rb2) {
-			getContentPane().remove(p);
 			cg.removeAll();
 			p.removeAll();
+			es.removeAll();
+			getContentPane().remove(p);
+			getContentPane().remove(cg);
+			getContentPane().remove(es);
 			p.add(b5);
 			getContentPane().add(p);
+			getContentPane().revalidate();
+			getContentPane().repaint();
 			b5.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					es.removeAll();
-					JTextField et = new JTextField(" ");
-					JTextField et2 = new JTextField(" ");
-					es.add(et);
-					es.add(et2);
+					//First input
+					voitures.removeAll();
+					JLabel label = new JLabel();		
+					label.setText("Entrez le nombre de voitures :");
+					label.setBounds(10, 10, 100, 100);
+					JTextField nCars = new JTextField();
+					nCars.setColumns(10);
+					voitures.add(label);
+					voitures.add(nCars);
+					es.add(voitures);
+					//Second input
+					passagers.removeAll();
+					JLabel passlabel = new JLabel();		
+					passlabel.setText("Entrez le nombre de passagers moyen par voitures :");
+					passlabel.setBounds(10, 10, 100, 100);
+					JTextField npass = new JTextField();
+					npass.setColumns(10);
+					passagers.add(passlabel);
+					passagers.add(npass);
+					es.add(passagers);
+					//Third input
+					trams.removeAll();
+					JLabel tramslabel = new JLabel();		
+					tramslabel.setText("Entrez le nombre de Tramway :");
+					tramslabel.setBounds(10, 10, 100, 100);
+					JTextField ntrams = new JTextField();
+					ntrams.setColumns(10);
+					trams.add(tramslabel);
+					trams.add(ntrams);
+					es.add(trams);
+					//Fourth input
+					longTram.removeAll();
+					JLabel longTramlabel = new JLabel();		
+					longTramlabel.setText("Entrez la longeur de la ligne de Tramway :");
+					longTramlabel.setBounds(10, 10, 100, 100);
+					JTextField nlongtram = new JTextField();
+					nlongtram.setColumns(10);
+					longTram.add(longTramlabel);
+					longTram.add(nlongtram);
+					es.add(longTram);
+
+					//Adding 
 					getContentPane().add(es);
+					getContentPane().revalidate();
+					getContentPane().repaint();
 					setVisible(true);  
-					//es.setLayout(mgr);
 				}
 				});
 				

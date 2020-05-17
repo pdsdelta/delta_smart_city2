@@ -87,26 +87,31 @@ public class CarbonServerUtils {
 	//Functions
 	public String getGlobalCarbonne(String date) throws JSONException, JsonProcessingException {
 		String resultat= "{Table: publictransportstat, Action : GET_GLOBAL_CARBON , Status: ";
+		System.out.println("Récupérations des informations concernant les transports privées");
     	String privateTr = getNbCars(date);
+    	System.out.println("----------------------------------------------------------------");
+    	System.out.println("Récupérations des informations concernant les transports public");
     	String publicTr = getNbTram();
     	JSONObject objpriv =new JSONObject(privateTr);
     	JSONObject objpub =new JSONObject(publicTr);
     	String statusPriv = objpriv.getString("Status");
     	String statusPub = objpub.getString("Status") ;
     	if(statusPriv.equals("success") && statusPub.equals("success") ) {
+    		System.out.println("----------------------------------------------------------------");
+    		System.out.println("On a bien des informations sur les deux types de transports");
     		resultat= resultat + statusPriv;
     		JSONArray arrpr = objpriv.getJSONArray("Data");
     		int nbCars = arrpr.getJSONObject(0).getInt("NbCars");
     		JSONArray arrpu = objpub.getJSONArray("Data");
         	int nbTram = arrpu.getJSONObject(0).getInt("NbTram");
-        	int longueurreseau = arrpu.getJSONObject(1).getInt("NbTram");
-        	resultat= resultat + statusPriv +", Data: [ NbCars :" + nbCars +", NbTram :" + nbTram + ",LengthLine :" + longueurreseau+"]} " ;
+        	int longueurreseau = arrpu.getJSONObject(0).getInt("LengthLine");
+        	resultat= resultat + statusPriv +", Data: [{ NbCars :" + nbCars +", NbTram :" + nbTram + ",LengthLine :" + longueurreseau+"}]} " ;
         	
     	}else {
-    		resultat = resultat + "failed }";
+    		resultat = resultat + "failed , Data: [{ empty : true }]}";
     	}
     	
-		return privateTr;
+		return resultat;
     	
     }
 	
@@ -123,15 +128,15 @@ public class CarbonServerUtils {
 			if(rs.next()) {
 				int nbCars = rs.getInt("nbcars");
 				status = "success";
-				resultat =  resultat+ status +", Data: [ NbCars :" + nbCars + "]}";
+				resultat =  resultat+ status +", Data: [{ NbCars :" + nbCars + "}]}";
 				
 			}else {
 				status ="empty";
-				resultat = resultat + status + "}" ;
+				resultat = resultat + status + ", Data: [{ empty : true }]}" ;
 			}
     	}catch(SQLException ex) {
     		ex.printStackTrace();
-    		resultat =  resultat + status + "}" ;
+    		resultat =  resultat + status + ", Data: [{ empty : true }]}" ;
     	}
     	System.out.println("Résultat: " +resultat);
     	return resultat;
@@ -140,27 +145,31 @@ public class CarbonServerUtils {
     }
 	
 	public String getNbTram() throws JSONException, JsonProcessingException {
-    	String resultat= "{Table: publictransportstat, Action : GET_NB_TRAM ,  Status: ";
+    	String resultat= "{Table: station, Action : GET_NB_TRAM ,  Status: ";
     	String query = "select numbertram ,longueurreseau from station where idstation = 1 ;"  ;
     	String status ="failed";
+    	System.out.println("Requette : "+query);
     	try {
 			stm = connect.createStatement();
 			rs = stm.executeQuery(query);
-			if(rs.first()) {
+			if(rs.next()) {
 				String numbertram = rs.getString("numbertram");
 				int longueurreseau = rs.getInt("longueurreseau");
 				status = "success";
-				resultat =  resultat + status + ", Data: [ NbTram :" + numbertram + ",LengthLine :" + longueurreseau+"]}";
+				resultat =  resultat + status + ", Data: [{ NbTram :" + numbertram + ",LengthLine :" + longueurreseau+"}]}";
+			}else {
+				status ="empty";
+				resultat = resultat + status + ", Data: [{ empty : true }]}" ;
 			}
 			rs.close();
     	}catch(SQLException ex) {
     		Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
-    		resultat =  resultat + status +"}" ;
+    		resultat =  resultat + status +", Data: [{ empty : true }]}" ;
   
     	}
     	
    
-    	
+    	System.out.println("Résultat: " +resultat);
 		return resultat;
     	
     }
