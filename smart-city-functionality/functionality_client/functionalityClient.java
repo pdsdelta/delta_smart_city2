@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import org.json.JSONException;
 
+import analyse_indicateur.Page1;
 import infocarbon.CarbonInfo;
 import tram_line.mapInterface;
 //import capteur_air.myCapteur;
@@ -23,6 +24,7 @@ public class functionalityClient extends JFrame{
 	private JButton boutonCity = new JButton("Fonctionnalité Réseau de transport");
 	private JButton boutonCarbon = new JButton("Fonctionnalité Empreinte carbonne");
 	private JButton boutonAircapteur = new JButton("Fonctionnalitee Qualit� d'air");
+	private JButton boutonAnalyseIndicateur  = new JButton("Fonctionnalitee Analyse_indicateur");
 	
 	public functionalityClient() {
 	   this.setTitle("Delta Smart City");
@@ -37,6 +39,9 @@ public class functionalityClient extends JFrame{
 	   pan.add(boutonCity);
 	   pan.add(boutonCarbon);
 	   pan.add(boutonAircapteur);
+	   pan.add(boutonAnalyseIndicateur);
+	   
+	   
 	   this.getContentPane().add(pan);
 	   
 	   this.setVisible(true);
@@ -67,7 +72,7 @@ public class functionalityClient extends JFrame{
 			      }        
 			    });
 	   
-	}
+	
 	
 	 //Fontionalitee Julien
 //	   boutonAircapteur.addActionListener(new ActionListener(){
@@ -81,15 +86,17 @@ public class functionalityClient extends JFrame{
 //	
 
 	//Fonctionalitee hiba UPDATE
-	/*boutonAnalyseIndicateur.addActionListener(new ActionListener(){
+	
+	boutonAnalyseIndicateur.addActionListener(new ActionListener(){
 	public void actionPerformed(ActionEvent arg0) {
+		System.out.println("Affichafe des statistiques");
 		Page1 page = new Page1();
 		page.affichePage1();
 		
 	}
-	});*/
+	});
 	
-
+}
 	
 	
 	//Fontionalit� Martin 
