@@ -116,6 +116,7 @@ public class CarbonServerUtils {
     	String resultat= "{Table: publictransportstat, Action : GET_NB_CARS , Status: ";
     	String query = "select nbcars from publictransportstat where idcity = 1 and dateof = '" + date + "' ;"  ;
     	String status ="failed";
+    	System.out.println("Requette : "+query);
     	try {
 			stm = connect.createStatement();
 			rs = stm.executeQuery(query);
@@ -132,6 +133,7 @@ public class CarbonServerUtils {
     		ex.printStackTrace();
     		resultat =  resultat + status + "}" ;
     	}
+    	System.out.println("Résultat: " +resultat);
     	return resultat;
     	
     	

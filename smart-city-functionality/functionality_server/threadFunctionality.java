@@ -80,7 +80,7 @@ class threadFunctionality extends Thread {
 			JSONObject obj = new JSONObject(json);
 			JSONObject request = obj.getJSONObject("request");
 			String operationType = request.getString("operation_type");
-
+			System.out.println("L'opération est : " + operationType);
 			if (operationType.equals("SAVEMAP")) {
 				addGetCity();
 			} else if (operationType.equals("INFOMAP")) {
@@ -93,6 +93,7 @@ class threadFunctionality extends Thread {
 				String date = request.getString("date");
 				CarbonServerUtils s = new CarbonServerUtils(this.connect, this.stm, this.rs, this.pstmt);
 				query = s.getNbCars(date);
+				this.response = query;
 			}
 			// Requ�te concernant les d�tecteurs de v�hicules
 			if (operationType.equals("CREATE_SENSOR")) {
