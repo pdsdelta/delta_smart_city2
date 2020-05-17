@@ -5,24 +5,24 @@ import city.city;
 public class Terminal {
 
 	int id;
-	long longitude;
-	long latitude;
+	int longitude;
+	int latitude;
 	boolean isActive=true;
 	int status;
 	int numero;
-	city city;
+	//city city;
 
 	public Terminal() {
 		super();
 	}
 
-	public Terminal(long longitude,long latitude, boolean isActive,int status,int numero, city city) {
+	public Terminal(int longitude,int latitude, boolean isActive,int status,int numero) {
 		this.longitude=longitude;
 		this.latitude=latitude;
 		this.isActive=isActive;
 		this.status=status;
 		this.numero=numero;
-		this.city=city;
+		//this.city=city;
 	}
 	public int getId() {
 		return id;
@@ -30,16 +30,16 @@ public class Terminal {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getLongitude() {
+	public int getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(long longitude) {
+	public void setLongitude(int longitude) {
 		this.longitude = longitude;
 	}
-	public long getLatitude() {
+	public int getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(long latitude) {
+	public void setLatitude(int latitude) {
 		this.latitude = latitude;
 	}
 	public int getStatus() {
@@ -63,13 +63,7 @@ public class Terminal {
 		this.numero = numero;
 	}
 
-	public city getCity() {
-		return city;
-	}
-
-	public void setCity(city city) {
-		this.city = city;
-	}
+	
 	
 	
 	/*@Override

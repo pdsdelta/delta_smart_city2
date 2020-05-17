@@ -8,22 +8,31 @@ import city.city;
 
 public class MotionSensor {
 	int id;
-	long longitude;
-	long latitude;
+	int longitude;
+	int latitude;
 
 	boolean isActive =true;
 	int numero;
-	city  city;
+	//city  city;
 
-	public MotionSensor(long longitude,long latitude, boolean isActive,int numero, city city) {
+	public MotionSensor(int longitude,int latitude, boolean isActive,int numero) {
 		this.longitude=longitude;
 		this.latitude=latitude;
 		this.isActive=isActive;
 		this.numero=numero;
-		this.city=city;
+		//this.city=city;
 	}
 	public MotionSensor() {
 		super();
+		this.isActive=true;
+
+	}
+	public MotionSensor(int longitude,int latitude) {
+		this.longitude=longitude;
+		this.latitude=latitude;
+		this.isActive=isActive;
+		
+		
 	}
 
 	public int getId() {
@@ -34,19 +43,19 @@ public class MotionSensor {
 		this.id = id;
 	}
 
-	public long getLongitude() {
+	public int getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(long longitude) {
+	public void setLongitude(int longitude) {
 		this.longitude = longitude;
 	}
 
-	public long getLatitude() {
+	public int getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(long latitude) {
+	public void setLatitude(int latitude) {
 		this.latitude = latitude;
 	}
 
@@ -61,27 +70,24 @@ public class MotionSensor {
 	public int getNumero() {
 		return numero;
 	}
-	public city getCity(int id) {
-		if(id==this.city.getIdCity()) {
-			return this.city;
-		}
-		return city;
-	}
-	public city infosCity() {
-		return city;
-	}
-	public void setCity(city city) {
-		this.city = city;
-	}
+
+	/*
+	 * public city getCity(int id) { if(id==this.city.getIdCity()) { return
+	 * this.city; } return city; } public city infosCity() { return city; } public
+	 * void setCity(city city) { this.city = city; }
+	 */
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
+	@Override
+	public String toString() {
+		return "MotionSensor [id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", isActive="
+				+ isActive + ", numero=" + numero + "]";
+	}
 
-	/*
-	 * @Override public String toString() { return "MotionSensor [id=" + id +
-	 * ", longitude=" + longitude + ", latitude=" + latitude + ", status=" + status
-	 * + ", isActive=" + isActive + ", idVille=" + idVille + "]"; }
-	 */
+	
+	 
+	 
 
 
 }

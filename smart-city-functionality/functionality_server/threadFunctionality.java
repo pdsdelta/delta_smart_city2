@@ -95,7 +95,16 @@ class threadFunctionality extends Thread {
 				query = s.getNbCars(date);
 				this.response = query;
 			}
-			// Requ�te concernant les d�tecteurs de v�hicules
+			//Action concernant la simulation de circulation de voiture
+			if(operationType.equals("entrer")) {
+				System.out.println("Une voiture veut entrer");
+				this.response="Une voiture veut entrer";
+			}else if(operationType.equals("sortir")) {
+				System.out.println("Une voiture veut sortir");
+				this.response= "Une voiture veut sortir";
+
+			}
+			// Requ�te concernant les detecteurs de vehicules
 			if (operationType.equals("CREATE_SENSOR")) {
 
 			} else if (operationType.equals("DELETE_SENSOR")) {
@@ -109,7 +118,7 @@ class threadFunctionality extends Thread {
 			} else if (operationType.equals("UPDATE_SENSOR")) {
 
 			}
-			// Requ�te concernant les bornes retractables
+			// Requete concernant les bornes retractables
 			if (operationType.equals("CREATE_TERMINAL")) {
 
 			} else if (operationType.equals("DELETE_TERMINAL")) {

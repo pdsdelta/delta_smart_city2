@@ -1,47 +1,56 @@
 package gestion_borne.crud;
 
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import borne.Terminal;
 import city.city;
 import connectionPool.DataSource;
+import functionality_server.functionalityServer;
 import server.CityServer;
 
 public class TerminalDAO extends DAO<Terminal>{
+	Connection connection;
 	PreparedStatement pstmt;
-	public TerminalDAO(CityServer server) throws ClassNotFoundException, SQLException {
+	Statement stm;
+	ResultSet rs; 
+	public TerminalDAO(functionalityServer server) throws ClassNotFoundException, SQLException {
 		super(server);
 	}
 
 	@Override
-	public boolean create(Terminal obj,String nameCity) throws SQLException  {
+	public boolean create(Terminal obj) throws SQLException  {
 		int res=0;
-		ResultSet result=null;
-		result = this.connect.createStatement(
-				ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM city WHERE namecity = " + nameCity);
-		if(result.first()) {
-		
-		String query = "INSERT INTO Terminal (longitude, latitude, isActive, status, numero,city) " + "VALUES (?, ?, ?, ?, ?,?)";
+
+
+		String query = "INSERT INTO Terminal (longitude, latitude, isActive, status,city) " + "VALUES (?, ?, ?, ?,?)";
 		try {
 			pstmt = this.connect.prepareStatement(query);
 			pstmt.setLong(1, (long) obj.getLongitude());
 			pstmt.setLong(2, (long) obj.getLatitude());
 			pstmt.setBoolean(3, obj.isActive());
 			pstmt.setLong(4, obj.getStatus());
-			pstmt.setInt(6, result.getInt("idcity"));
-			res = pstmt.executeUpdate();
-			//obj= this.find(obj.getId());
+			pstmt.setInt(5, 1);
+			res=pstmt.executeUpdate();
 
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+
+		if(res==1) {
+			return true;
+		}else {
+			return false;
 		}
-		return true;
+
 	}
 
 	@Override
@@ -97,20 +106,39 @@ public class TerminalDAO extends DAO<Terminal>{
 						ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM city WHERE idcity = " + result.getInt("city"));
 				if(i.first()) {*/
-					//int idCity= i.getInt("idcity");
-					
-					/*terminal = new Terminal(
+				//int idCity= i.getInt("idcity");
+
+				/*terminal = new Terminal(
 							result.getLong("longitude"),
 							result.getLong("latitude"),
 							result.getBoolean("isActive"),
 							result.getInt("status"),
 							result.getInt("numero"),
 							city=; */
-				}
+			}
 			//}       
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return terminal;
+	}
+	public List<Terminal> getAll() throws SQLException { 
+		List<Terminal> res = new ArrayList<Terminal>(); 
+		ResultSet result = this.connect.createStatement(
+				ResultSet.TYPE_SCROLL_INSENSITIVE,
+				ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM MotionSensor");
+		while (result.next()) {
+			Terminal borne = new Terminal(); 
+
+			borne.setLongitude(rs.getInt("longitude"));
+			borne.setLatitude(rs.getInt("latitude"));
+			borne.setActive(rs.getBoolean("isActive"));
+			borne.setStatus(rs.getInt("status"));
+			borne.setNumero(rs.getInt("numero"));
+			res.add(borne);
+
+		} 
+
+		return res;
 	}
 }
