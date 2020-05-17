@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,12 +17,14 @@ import java.util.TimerTask;
 import java.util.Timer;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +36,7 @@ import connectionPool.DataSource;
 import user.Users;
 
 class myCapteur extends JFrame implements ActionListener {
+	private JFormattedTextField jtf = new JFormattedTextField(NumberFormat.getIntegerInstance());
 	private JMenuBar menu = new JMenuBar();
 	private JMenu onglet1 = new JMenu("Déterminer la qualité d'air");
 	private JMenu onglet2 = new JMenu ("Configurer Capteur");
@@ -146,7 +150,7 @@ class myCapteur extends JFrame implements ActionListener {
     	    case4.addActionListener(new ActionListener(){
     	        public void actionPerformed(ActionEvent arg0) {
     	          try {
-    	          	//generateMapUnSave();
+    	          	getintervalle();
     	  		} catch (IOException | JSONException e) {
     	  			// TODO Auto-generated catch block
     	  			e.printStackTrace();
@@ -221,9 +225,13 @@ class myCapteur extends JFrame implements ActionListener {
     	  }
     	    
      }
+    
+    
+    
     public void action Performed(ActionEvent event) {
     	bouton.buildContentPane();
     }
+    
     
     public  JPanel buildContentPane(){
 
@@ -301,6 +309,39 @@ class myCapteur extends JFrame implements ActionListener {
 	}
 }
     
+    //intervalle relevé
+    
+    public class TestTimer {
+    	    Timer timer;
+    	    timer = new Timer();
+    	    timer.schedule(new getcalculIndice(), 0, jtf1);
+    }
+    
+    public  JPanel getintervalle(){
+    		JPanel panel1 = new JPanel();
+    		panel1.setLayout(new FlowLayout());
+    		panel1.setBackground(Color.white);	
+    		JLabel label1 = new JLabel("Veuillez déterminer l'intervalle des relevés");
+    		jtf.getText();
+    		jtf1 = jtf *1000;
+    		JLabel label2 = new JLabel("en secondes");
+    		JButton btnNewButton = new JButton("Valider");
+    		btnNewButton.addActionListener(new ActionListener() {
+    			public void actionPerformed(ActionEvent e) {
+    				
+    			}
+    		});
+    		panel1.add(label1);
+    		panel1.add(jtf);
+    		panel1.add(label2);
+    		panel1.add(btnNewButton);
+    		panel1.add(Nombrerelevé));
+    		return panel1;
+      }
+    }
+    
+
+	//historique
     public  JPanel gethistorique(){
         JPanel panel1 = new JPanel();
        	panel1.setLayout(new FlowLayout());
@@ -379,7 +420,9 @@ class myCapteur extends JFrame implements ActionListener {
     
     
     
-    public void getcalculIndice() {
+    public void getcalculIndice() extends TimerTask {
+    	public void run() {
+      	    System.out.println(new Date() + "");
    	int indiceATMO = 0;
    	int indiceParticule = 0;
    	int indiceSoufre = 0;
@@ -532,7 +575,7 @@ class myCapteur extends JFrame implements ActionListener {
 			//this.finalResponse = resultat ;
 			//return query;
 		}
-  
+    }
     
     public String getQuartier(String query) throws JsonProcessingException {
     	int Quartier = 0;
@@ -586,4 +629,9 @@ class myCapteur extends JFrame implements ActionListener {
     	myCapteur air = new myCapteur(1);
        air.startConnection("172.31.249.22", 2400);
     }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
