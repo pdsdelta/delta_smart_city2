@@ -29,7 +29,7 @@ public class CarbonInfo {
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         toSend =this.afficheMenuAndGetJson();
-        //out.println(toSend);
+        
         
 	        //String response = in.readLine();
 	        //System.out.println("***** Résultat ******\n");
@@ -53,10 +53,19 @@ public class CarbonInfo {
     	out.println(Json);
         //System.out.println(Json);
         String resp = in.readLine();
-        //System.out.println(resp);
+        System.out.println("La réponse du serveur est : " +resp);
         return resp;
     }
     
+    public InfoCarbon responseToInfoCarbon(String Json) {
+    	InfoCarbon res = null;
+		try {
+			res = CarbonClientUtils.readJsontoObject(Json);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    	return  res ;
+    }
     public void stopConnection() throws IOException {
         in.close();
         out.close();

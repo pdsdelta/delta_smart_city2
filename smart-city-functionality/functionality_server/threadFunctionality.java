@@ -89,10 +89,19 @@ class threadFunctionality extends Thread {
 				addGetStation();
 			} else if (operationType.equals("INFOSTATION")) {
 				informationStation();
-			} else if (operationType.equals("GET_PRIVATE_CARBON")) {
+			} else if (operationType.equals("GET_PRIVATE_CARBON")) {//INFO CARBON PRIVATE TRANSPORT request
 				String date = request.getString("date");
 				CarbonServerUtils s = new CarbonServerUtils(this.connect, this.stm, this.rs, this.pstmt);
 				query = s.getNbCars(date);
+				this.response = query;
+			}else if (operationType.equals("GET_PUBLIC_CARBON")) {//INFO CARBON PUBLIC TRANSPORT requet
+				CarbonServerUtils s = new CarbonServerUtils(this.connect, this.stm, this.rs, this.pstmt);
+				query = s.getNbTram();
+				this.response = query;
+			}else if (operationType.equals("GET_GLOBAL_CARBON")) {//INFO CARBON request
+				String date = request.getString("date");
+				CarbonServerUtils s = new CarbonServerUtils(this.connect, this.stm, this.rs, this.pstmt);
+				query = s.getGlobalCarbonne(date);
 				this.response = query;
 			}
 			// Requ�te concernant les d�tecteurs de v�hicules

@@ -15,7 +15,8 @@ import java.util.logging.Logger;
 import java.util.Date;
 import java.util.TimerTask;
 import java.util.Timer;
-
+import javax.swing.JComboBox;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -36,6 +37,7 @@ import connectionPool.DataSource;
 import user.Users;
 
 class myCapteur extends JFrame implements ActionListener {
+	private JComboBox liste1;
 	private JFormattedTextField jtf = new JFormattedTextField(NumberFormat.getIntegerInstance());
 	private JMenuBar menu = new JMenuBar();
 	private JMenu onglet1 = new JMenu("Déterminer la qualité d'air");
@@ -47,7 +49,7 @@ class myCapteur extends JFrame implements ActionListener {
 	private JMenuItem case3 = new JMenuItem("Ajuster les seuils suivant les quartiers");
 	private JMenuItem case4 = new JMenuItem("Déterminer l'intervalle de relevé");
 	
-    //private Socket clientSocket;
+    //private Socket clientSocket; 
     //private PrintWriter out;
     //private BufferedReader in;
     
@@ -66,11 +68,12 @@ class myCapteur extends JFrame implements ActionListener {
        // }
    // }
     
-    public myCapteur(int a) extends TimerTask{
-    	JButton bouton;
-    	 this.setSize(400, 200);
-    	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	    this.setLocationRelativeTo(null);
+    public myCapteur(){
+    	boolean alerte = true;
+    	setTitle("Déterminer qualité d'air");
+    	setSize(400, 200);
+    	setLocationRelativeTo(null);
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	    
     	    //On initialise nos menus      
     	    this.onglet1.add(case1);
@@ -114,7 +117,7 @@ class myCapteur extends JFrame implements ActionListener {
     	    case1.addActionListener(new ActionListener(){
     	        public void actionPerformed(ActionEvent arg0) {
     	          try {
-    	          	//generateMapUnSave();
+    	        	  getselectquartier();
     	  		} catch (IOException | JSONException e) {
     	  			// TODO Auto-generated catch block
     	  			e.printStackTrace();
@@ -172,17 +175,23 @@ class myCapteur extends JFrame implements ActionListener {
     	      });
     	    
     	    if(getalerte(alerte = true)) {
-    	        setLayout(new BorderLayout());
-        	    JButton bouton = new JButton("Alerte !!! L'indice relevé est supérerieur au seuil"), BorderLayout.NORTH);
-        	    getContentPane().add(bouton);
-        	    bouton.setBackground(Color.red);
-        	    bouton.addActionListener(this);
+        	    JButton bouton1 = new JButton("Alerte !!! L'indice relevé est supérerieur au seuil");
+        	    getContentPane().add(bouton1, "North");
+        	    getContentPane().setLayout(null);
+        	    bouton1.setBackground(Color.red);
+        	    bouton1.addActionListener(this);
     	    }else {
-    	    	setLayout(new BorderLayout());
-    	    	JButton bouton = new JButton("Un bouton sans taille"), BorderLayout.NORTH);
-    	    	getContentPane().add(bouton);
-    	    	bouton.setBackground(Color.green);
-    	    	bouton.addActionListener(this);
+    	    	JButton bouton2 = new JButton("Un bouton sans taille");
+    	    	getContentPane().add(bouton2, "North");
+    	    	getContentPane().setLayout(null);
+    	    	bouton2.setBackground(Color.green);
+    	    	bouton2.addActionListener(this);
+    	    	
+    	    	
+    	    	JPanel pres = new JPanel();
+    	    	getContentPane().add(pres);
+    	    	JLabel label = new JLabel("Bienvenue sur le site qui vous permettra de relevé la qualite d'air dans les quartiers et dans la ville");
+    	    	pres.add(label);
     	    	//private JComboBox liste;
     	    	 
     	     
@@ -213,15 +222,6 @@ class myCapteur extends JFrame implements ActionListener {
     	    		//return panel;
     	    	//}
     	    	
-    	    	Scanner sc = new Scanner(System.in);
-    	    	System.out.println("Veuillez déterminer l'intervalle des relevés");
-    	    	int b = sc.nextInt();
-    	    public void run() {
-    	    	System.out.println(new Date() + " Execution de ma tache");
-    	    	Timer timer;
-    	    	timer = new Timer();
-    	    	timer.schedule(new getcalculIndice(), 1000, b);
-    	    }
     	  }
     	    
      }
@@ -259,8 +259,7 @@ class myCapteur extends JFrame implements ActionListener {
         return panel;
       }
     
-    public void getalerte() {
-    	boolean alerte = false;
+    public boolean getalerte(boolean alerte1) {
     	getseuil();
     	getcalculIndice();
     		
@@ -303,18 +302,19 @@ class myCapteur extends JFrame implements ActionListener {
 	int Atmoseuil = Integer.parseInt(seuil);
 	
 	if(Atmoseuil < indice) {
-		alerte = true;
+		alerte1 = true;
 	}else {
-		alerte = false;
+		alerte1 = false;
 	}
+	return alerte1;
 }
     
     //intervalle relevé
     
-    public class TestTimer {
-    	    Timer timer;
-    	    timer = new Timer();
-    	    timer.schedule(new getcalculIndice(), 0, jtf1);
+    public void TestTimer(int a) {
+    		Timer timer;
+    		timer = new Timer();
+    	    timer.schedule(new getcalculIndice(), 0 , a);
     }
     
     public  JPanel getintervalle(){
@@ -323,7 +323,9 @@ class myCapteur extends JFrame implements ActionListener {
     		panel1.setBackground(Color.white);	
     		JLabel label1 = new JLabel("Veuillez déterminer l'intervalle des relevés");
     		jtf.getText();
-    		jtf1 = jtf *1000;
+    		int jtf1 = (Integer)jtf.getValue();
+    		int jtf2 = jtf1 * 1000;
+    		TestTimer(jtf2);
     		JLabel label2 = new JLabel("en secondes");
     		JButton btnNewButton = new JButton("Valider");
     		btnNewButton.addActionListener(new ActionListener() {
@@ -335,11 +337,33 @@ class myCapteur extends JFrame implements ActionListener {
     		panel1.add(jtf);
     		panel1.add(label2);
     		panel1.add(btnNewButton);
-    		panel1.add(Nombrerelevé));
     		return panel1;
       }
-    }
     
+    //sélectionner quartier
+    public  JPanel getselectquartier(){
+		JPanel panel1 = new JPanel();
+		panel1.setLayout(new FlowLayout());
+		panel1.setBackground(Color.white);	
+		JLabel label1 = new JLabel("Choisissez le quartier souhaité : ");
+		Object[] element1 = getconfigurecapteur();
+		liste1 = new JComboBox(element1);
+		panel1.add(liste1);
+		JButton Bouton = new JButton("Valider");
+		Bouton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		panel1.add(Bouton);
+		panel1.add(label1);
+		return panel1;
+    }
+ 
+	public JComboBox getListe1(){
+		return liste1;
+	}
+
 
 	//historique
     public  JPanel gethistorique(){
@@ -350,11 +374,11 @@ class myCapteur extends JFrame implements ActionListener {
         label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
                       + "Un relevé de " +  + " sur l'échelle d'indice ATMO"
                       + "<p>"   
-                      + "dans le quartier  " + 
+                      + "dans le quartier  " + quartier
                       + "<p>"
-                      + "le 22 mai 2020" 
+                      + "le " + date 
                       + "<p>"
-                      + "à " + + "H" + + "min"
+                      + "à " + date
                       + "<p>"
                       +"</body></html>" );
         panel1.add(label1);
@@ -420,9 +444,9 @@ class myCapteur extends JFrame implements ActionListener {
     
     
     
-    public void getcalculIndice() extends TimerTask {
+    class getcalculIndice extends TimerTask {
     	public void run() {
-      	    System.out.println(new Date() + "");
+      	    new Date();
    	int indiceATMO = 0;
    	int indiceParticule = 0;
    	int indiceSoufre = 0;
@@ -535,8 +559,6 @@ class myCapteur extends JFrame implements ActionListener {
       
       int array[] = {indiceOzone, indiceParticule, indiceAzote, indiceSoufre};
  
-      for (int nombre:array)
-        System.out.print(nombre+" ");
  
       for(int i = 0; i < array.length; i++){
         if(array[i] > minVal)
@@ -577,8 +599,7 @@ class myCapteur extends JFrame implements ActionListener {
 		}
     }
     
-    public String getQuartier(String query) throws JsonProcessingException {
-    	int Quartier = 0;
+    public int getQuartier(int Quartier) throws JsonProcessingException {
 	  	 String query = "SELECT taillecity from city where idcity = 1";
     	List<City> res = new ArrayList<City>();
 		try {
@@ -616,18 +637,20 @@ class myCapteur extends JFrame implements ActionListener {
 		
 	}
     
-    public void getconfigurecapteur() {
-    	int a = getQuartier();
-    	for(int i = 1; i < a+1; i++) {
-    		return Quartier_[i];
+    public String[] getconfigurecapteur() {
+    	int a;
+    	getQuartier(a);
+    	String[] myArray = new String[20];
+    	for(int i = 1; i < a + 1; i++) {
+    		myArray[i] = "Quartier" + i;
     	}
-    	
-    	
+    	return myArray;
     }
     
-    public static void main(String[] args) throws UnknownHostException, IOException, JSONException {
-    	myCapteur air = new myCapteur(1);
-       air.startConnection("172.31.249.22", 2400);
+    
+    public static void main(String[] args) { //throws UnknownHostException, IOException, JSONException {
+    	myCapteur air = new myCapteur();
+       //air.startConnection("172.31.249.22", 2400);
     }
 	@Override
 	public void actionPerformed(ActionEvent e) {
