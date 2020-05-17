@@ -62,7 +62,12 @@ public class functionalityClient extends JFrame{
 		      public void actionPerformed(ActionEvent arg0) {
 			        System.out.println("Lancement de l'écran carbonne info");
 			        CarbonInfo client = CarbonInfo.getInstance();
-			        client.afficheMenuAndGetJson();
+			        try {
+						client.startConnection("172.31.249.22", 2400);
+					} catch (IOException | JSONException e) {
+						e.printStackTrace();
+						System.out.println("Echec de connexion");
+					}
 			        
 			      }        
 			    });

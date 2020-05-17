@@ -100,7 +100,8 @@ public class CarbonServerUtils {
     		JSONArray arrpu = objpub.getJSONArray("Data");
         	int nbTram = arrpu.getJSONObject(0).getInt("NbTram");
         	int longueurreseau = arrpu.getJSONObject(1).getInt("NbTram");
-        	resultat= resultat + statusPriv;
+        	resultat= resultat + statusPriv +", Data: [ NbCars :" + nbCars +", NbTram :" + nbTram + ",LengthLine :" + longueurreseau+"]} " ;
+        	
     	}else {
     		resultat = resultat + "failed }";
     	}
@@ -121,8 +122,11 @@ public class CarbonServerUtils {
 			if(rs.next()) {
 				int nbCars = rs.getInt("nbcars");
 				status = "success";
-				resultat =  resultat +", Data: [ NbCars :" + nbCars + "]}";
+				resultat =  resultat+ status +", Data: [ NbCars :" + nbCars + "]}";
 				
+			}else {
+				status ="empty";
+				resultat = resultat + status + "}" ;
 			}
     	}catch(SQLException ex) {
     		ex.printStackTrace();
