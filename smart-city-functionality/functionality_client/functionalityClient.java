@@ -24,7 +24,7 @@ public class functionalityClient extends JFrame{
 	private JButton boutonCity = new JButton("Fonctionnalité Réseau de transport");
 	private JButton boutonCarbon = new JButton("Fonctionnalité Empreinte carbonne");
 	private JButton boutonAircapteur = new JButton("Fonctionnalitee Qualit� d'air");
-	private JButton boutonAnalyseIndicateur  = new JButton("Fonctionnalitee Analyse_indicateur");
+	private JButton boutonAnalyseIndicateur  = new JButton("Fonctionnalite� Analyse_indicateur");
 	
 	public functionalityClient() {
 	   this.setTitle("Delta Smart City");
