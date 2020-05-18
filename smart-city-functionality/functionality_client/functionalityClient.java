@@ -15,6 +15,7 @@ import org.json.JSONException;
 
 import analyse_indicateur.Page1;
 import gestion_borne.vue.MotionSensorVue;
+import gestion_borne.vue.TerminalVue;
 import infocarbon.CarbonInfo;
 import tram_line.mapInterface;
 //import capteur_air.myCapteur;
@@ -104,7 +105,9 @@ public class functionalityClient extends JFrame{
 		boutonTerminal.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Lancement de l'ecran de configuration des bornes retractables");
-
+				TerminalVue affichage= new TerminalVue();
+				String[] args = null;
+				affichage.main(args);
 			}        
 		});
 		//Fonctionnalité Analle: Gestion des detecteurs de vehicules

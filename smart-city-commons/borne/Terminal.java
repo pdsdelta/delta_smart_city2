@@ -5,8 +5,8 @@ import city.city;
 public class Terminal {
 
 	int id;
-	long longitude;
-	long latitude;
+	int longitude;
+	int latitude;
 	boolean isActive=true;
 	int status;
 	int numero;
@@ -14,9 +14,17 @@ public class Terminal {
 
 	public Terminal() {
 		super();
+		this.isActive=true;
+		this.status=0;
+	}
+	public Terminal(int longitude,int latitude) {
+		this.longitude=longitude;
+		this.latitude=latitude;
+		this.isActive=isActive;
+		this.status=0;
 	}
 
-	public Terminal(long longitude,long latitude, boolean isActive,int status,int numero, city city) {
+	public Terminal(int longitude,int latitude, boolean isActive,int status,int numero,city city) {
 		this.longitude=longitude;
 		this.latitude=latitude;
 		this.isActive=isActive;
@@ -24,22 +32,23 @@ public class Terminal {
 		this.numero=numero;
 		this.city=city;
 	}
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getLongitude() {
+	public int getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(long longitude) {
+	public void setLongitude(int longitude) {
 		this.longitude = longitude;
 	}
-	public long getLatitude() {
+	public int getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(long latitude) {
+	public void setLatitude(int latitude) {
 		this.latitude = latitude;
 	}
 	public int getStatus() {
@@ -62,21 +71,20 @@ public class Terminal {
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
+	
 
 	public city getCity() {
 		return city;
 	}
-
 	public void setCity(city city) {
 		this.city = city;
 	}
-	
-	
-	/*@Override
+	@Override
 	public String toString() {
-		return "Terminal [id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", idVille=" + idVille
-				+ ", isActive=" + isActive + ", status=" + status + "]";
-	}*/
+		return "Terminal [id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", isActive=" + isActive
+				+ ", status=" + status + ", numero=" + numero + "]";
+	}
+
 
 
 

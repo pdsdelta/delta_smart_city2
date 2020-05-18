@@ -1,47 +1,55 @@
 package gestion_borne.crud;
 
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import borne.Terminal;
 import city.city;
 import connectionPool.DataSource;
-import server.CityServer;
+import functionality_server.functionalityServer;
 
 public class TerminalDAO extends DAO<Terminal>{
+	Connection connection;
 	PreparedStatement pstmt;
-	public TerminalDAO(CityServer server) throws ClassNotFoundException, SQLException {
+	Statement stm;
+	ResultSet rs; 
+	public TerminalDAO(functionalityServer server) throws ClassNotFoundException, SQLException {
 		super(server);
 	}
 
 	@Override
-	public boolean create(Terminal obj,String nameCity) throws SQLException  {
+	public boolean create(Terminal obj) throws SQLException  {
 		int res=0;
-		ResultSet result=null;
-		result = this.connect.createStatement(
-				ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM city WHERE namecity = " + nameCity);
-		if(result.first()) {
-		
-		String query = "INSERT INTO Terminal (longitude, latitude, isActive, status, numero,city) " + "VALUES (?, ?, ?, ?, ?,?)";
+
+
+		String query = "INSERT INTO Terminal (longitude, latitude, isActive, status,city) " + "VALUES (?, ?, ?, ?,?)";
 		try {
 			pstmt = this.connect.prepareStatement(query);
 			pstmt.setLong(1, (long) obj.getLongitude());
 			pstmt.setLong(2, (long) obj.getLatitude());
 			pstmt.setBoolean(3, obj.isActive());
 			pstmt.setLong(4, obj.getStatus());
-			pstmt.setInt(6, result.getInt("idcity"));
-			res = pstmt.executeUpdate();
-			//obj= this.find(obj.getId());
+			pstmt.setInt(5, 1);
+			res=pstmt.executeUpdate();
 
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+
+		if(res==1) {
+			return true;
+		}else {
+			return false;
 		}
-		return true;
+
 	}
 
 	@Override
@@ -50,7 +58,7 @@ public class TerminalDAO extends DAO<Terminal>{
 
 			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
 					ResultSet.CONCUR_UPDATABLE).executeUpdate(
-							"DELETE FROM Terminal WHERE id = " + obj.getId()
+							"DELETE FROM Terminal WHERE numero = " + obj.getNumero()
 							);
 
 		} catch (SQLException e) {
@@ -66,7 +74,7 @@ public class TerminalDAO extends DAO<Terminal>{
 	public boolean update(Terminal obj) {
 
 		int res=0;
-		String query = "update Terminal set longitude =?,latitude =?,isActive=? AND status=?  WHERE id= "+obj.getId(); 
+		String query = "update Terminal set longitude =?,latitude =?,isActive=? AND status=?  WHERE numero= "+obj.getNumero(); 
 		try { 
 			this.pstmt = connect.prepareStatement(query); 
 			this.pstmt.setLong(1,obj.getLongitude());
@@ -89,28 +97,51 @@ public class TerminalDAO extends DAO<Terminal>{
 		try {
 			ResultSet result = this.connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Terminal t, city c"+" INNER JOIN city c ON  c.idcity= t.city WHERE numero = " + numero);
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Terminal WHERE numero = " + numero);
 			ResultSet i;
 			if(result.first()) {
-
-				/*i = this.connect.createStatement(
+				city city ;
+				i = this.connect.createStatement(
 						ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM city WHERE idcity = " + result.getInt("city"));
-				if(i.first()) {*/
-					//int idCity= i.getInt("idcity");
-					
-					/*terminal = new Terminal(
-							result.getLong("longitude"),
-							result.getLong("latitude"),
+				if(i.first()) {
+					city =new city();
+					city.setTailleCity(i.getDouble("taillecity"));
+					city.setNameCity(i.getString(2));
+					city.setLargeurCity(i.getInt("largeurcity"));
+					city.setLongueurCity(i.getInt("longueurcity"));
+					city.setBudgetStation(i.getInt("budgetstation"));
+					terminal = new Terminal(
+							result.getInt("longitude"),
+							result.getInt("latitude"),
 							result.getBoolean("isActive"),
 							result.getInt("status"),
 							result.getInt("numero"),
-							city=; */
+							city);
 				}
-			//}       
-		} catch (SQLException e) {
-			e.printStackTrace();
+				}       
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return terminal;
 		}
-		return terminal;
+		public List<Terminal> getAll() throws SQLException { 
+			List<Terminal> res = new ArrayList<Terminal>(); 
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Terminal");
+			while (result.next()) {
+				Terminal borne = new Terminal(); 
+
+				borne.setLongitude(result.getInt("longitude"));
+				borne.setLatitude(result.getInt("latitude"));
+				borne.setActive(result.getBoolean("isActive"));
+				borne.setStatus(result.getInt("status"));
+				borne.setNumero(result.getInt("numero"));
+				res.add(borne);
+
+			} 
+
+			return res;
+		}
 	}
-}
