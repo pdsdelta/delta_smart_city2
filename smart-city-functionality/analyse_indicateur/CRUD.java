@@ -19,8 +19,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import connectionPool.DataSource;
 import district.District;
+import infocarbon.InfoGlobalCarbon;
 import motionSensor.MotionSensor;
 import station.station;
+import transportation.PublicTransport;
 
 public class CRUD {
 
@@ -29,6 +31,7 @@ public class CRUD {
     private BufferedReader in;
     private String jsonClient ;
     
+    private ObjectMapper jacksonObjectMapper;
     private Connection connect;
 	private Statement stm;
 	private ResultSet rs;
@@ -46,6 +49,7 @@ public class CRUD {
 			JSONObject request = obj.getJSONObject("request");
 			int id = request.getInt("id");
 			String query= "SELECT count(id) from district";
+			
 			try {
 				pstmt = connect.prepareStatement(query);
 				pstmt.setInt(1, id);
@@ -101,19 +105,19 @@ public class CRUD {
 	 
 	public String infostation() throws JSONException, JsonProcessingException {
     	String resultat= "{Table: station, Action : Infostation ,  Data: ";
-    	List<Station> res = new ArrayList<Station>();
+    	List<station> res = new ArrayList<station>();
     	String json = this.jsonClient;	
 		JSONObject obj = new JSONObject(json);
 		JSONObject request = obj.getJSONObject("request");
-		int id = request.getInt("id");
+	//	int numberstation = request.getInt("id");
 		String query= "SELECT numberstation from station";
 		try {
 			pstmt = connect.prepareStatement(query);
-			pstmt.setInt(1, numberstation);
+		//	pstmt.setInt(1, numberstation);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-			Station utilStation = new station();
-			utilStation.setnumberstation(rs.getInt(1));
+			station utilStation = new station();
+			utilStation.setNumberStation(rs.getInt(1));
 			res.add(utilStation); 
 			}
 		} catch (SQLException ex) {
@@ -131,7 +135,7 @@ public class CRUD {
 	 
 	public String Nbcars() throws JSONException, JsonProcessingException {
     	String resultat= "{Table: publictransportstat, Action : infoNbcars ,  Data: ";
-    	List<Nbcars> res = new ArrayList<Nbcars>();
+    	List<InfoGlobalCarbon> res = new ArrayList<InfoGlobalCarbon>();
     	String json = this.jsonClient;	
 		JSONObject obj = new JSONObject(json);
 		JSONObject request = obj.getJSONObject("request");
@@ -142,8 +146,8 @@ public class CRUD {
 			pstmt.setInt(1, nbcars);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-		      Publictransportstat utilStation = new station();
-			utilStation.setnbcars(rs.getInt(1));
+		      InfoGlobalCarbon utilStation = new InfoGlobalCarbon();
+			utilStation.setNbCars(rs.getInt(1));
 			res.add(utilStation);
 			}
 		} catch (SQLException ex) {

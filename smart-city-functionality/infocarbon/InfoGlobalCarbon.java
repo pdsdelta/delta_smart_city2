@@ -6,6 +6,13 @@ public class InfoGlobalCarbon extends InfoCarbon{
 	private int nbTram;
 	private int longueurreseau ;
 	
+	public void setNbCars(int nbCars) {
+		this.nbCars = nbCars;
+	}
+
+	public InfoGlobalCarbon() {
+	}
+	
 	protected InfoGlobalCarbon(int idCity,int nbCars,int nbTram,int longueurreseau) {
 		super(idCity);
 		this.nbCars = nbCars;
