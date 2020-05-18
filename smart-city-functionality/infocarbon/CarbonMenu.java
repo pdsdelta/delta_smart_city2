@@ -19,6 +19,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -48,11 +49,12 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	private JPanel longTram = new JPanel(); 
 	String[] tab_string = {"1", "2", "3", "4", "5", "6"};
 	JButton[] tab_button = new JButton[tab_string.length];
-	private JButton b1,b2,b3,b4,b5; 
+	private JButton b1,b2,b3,b4,b5,b6; 
 	private JRadioButton rb1, rb2 ;
 	private CarbonOrder co;
 	//Attribute of the Json to send to the server
 	private String jsonClient; 
+	private JTextField jtiec = new JTextField();
 	private static CarbonMenu instance = null ;
 
 	
@@ -92,7 +94,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		b3 = new JButton("Empreinte carbonne pour les transports publics pour une date souhaitée");
 		b4 = new JButton("Empreinte carbonne pour les transports privées pour une date souhaitée");
 		b5 = new JButton("Estimer l'empreinte carbonne");
-		
+		b6 = new JButton("Calculer");
 		
 		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	  }
@@ -474,7 +476,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					//Third input
 					trams.removeAll();
 					JLabel tramslabel = new JLabel();		
-					tramslabel.setText("Entrez le nombre de Tramway :");
+					tramslabel.setText("Entrez le nombre de Tramway déployés :");
 					tramslabel.setBounds(10, 10, 100, 100);
 					JTextField ntrams = new JTextField();
 					ntrams.setColumns(10);
@@ -491,12 +493,62 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					longTram.add(longTramlabel);
 					longTram.add(nlongtram);
 					es.add(longTram);
-
+					//Button Calculer
+					es.add(b6);
 					//Adding 
 					getContentPane().add(es);
 					getContentPane().revalidate();
 					getContentPane().repaint();
-					setVisible(true);  
+					setVisible(true); 
+					//Adding 
+					b6.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							
+							getContentPane().remove(jtiec);
+							getContentPane().revalidate();
+							getContentPane().repaint();
+							es.remove(jtiec);
+							es.revalidate();
+							es.repaint();
+							int nv, np, nt;
+							double lt;
+							try {
+								
+								nv = Integer.parseInt(nCars.getText());
+								np = Integer.parseInt(npass.getText());
+								nt = Integer.parseInt(ntrams.getText());
+								lt= Double.parseDouble(nlongtram.getText());
+								if (np > 5) {
+									JOptionPane.showMessageDialog(null, "Le nombre de passager moyen ne doit pas dépasser 5 personnes");
+									
+									getContentPane().remove(jtiec);
+									getContentPane().revalidate();
+									getContentPane().repaint();
+					
+				
+								}else {
+									InfoCarbon iec = new infoEstimatedCarbon(1,nv,np,nt,lt);
+									jtiec.setText("L'empreinte carbonne globale est éstimé à : "+ iec.calculateCarbon() +" g deCO2");
+									getContentPane().add(jtiec);
+									getContentPane().revalidate();
+									getContentPane().repaint();
+								}
+								
+							} catch (Exception e1) {
+								JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre");
+								getContentPane().remove(jtiec);
+								getContentPane().revalidate();
+								getContentPane().repaint();
+							}
+							
+							
+						}
+						
+						
+					});
+					
 				}
 				});
 				
