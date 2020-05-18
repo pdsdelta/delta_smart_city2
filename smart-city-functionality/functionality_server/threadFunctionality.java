@@ -143,6 +143,10 @@ class threadFunctionality extends Thread {
 
 			}
 			// Rajouter ici vos operation_type avec vos m�thodes :)
+			
+			if(operationType.equals("INFOCITY")) {
+				sizecity();
+			}
 
 		} catch (JSONException e) {
 
