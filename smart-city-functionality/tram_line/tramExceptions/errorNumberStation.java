@@ -14,6 +14,6 @@ public class errorNumberStation extends Error{
 		JOptionPane messageTypeError;
 		messageTypeError = new JOptionPane();
 		messageTypeError.showMessageDialog(null, "Attention, vous ne pouvez pas générer un réseau avec une seule station ! ", "Attention", JOptionPane.WARNING_MESSAGE);
-		System.out.println("exception de type format!");
+		System.out.println("exception de type nombre station 1!");
 	}
 }

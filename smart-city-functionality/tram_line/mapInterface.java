@@ -3,47 +3,37 @@ package tram_line;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-
-import connectionPool.DataSource;
 import functionality_client.functionalityClient;
 import station.station;
-import user.Users;
 import city.city;
-import tram_line.tramExceptions.typeMapExceptions;
+import tram_line.tramExceptions.noDataInBase;
 
 
 public class mapInterface extends JFrame {
   //create menu
   private JMenuBar menuBar = new JMenuBar();
-  private JMenu test1 = new JMenu("Generer une carte");
+  private JMenu test1 = new JMenu("Générer une ville");
   private JMenu test2 = new JMenu("Afficher");
   //create item menu
-  private JMenuItem item1 = new JMenuItem("Nouvelle carte");
+  private JMenuItem item1 = new JMenuItem("Nouvelle ville");
   private JMenuItem item2 = new JMenuItem("Fermer");
-  private JMenuItem item3 = new JMenuItem("Carte");
-  private JMenuItem item4 = new JMenuItem("informations sur la ville");
-  private JMenuItem item5 = new JMenuItem("informations sur les stations");
+  private JMenuItem item3 = new JMenuItem("Afficher la carte et le réseau de tram");
+  private JMenuItem item4 = new JMenuItem("Informations sur la ville");
+  private JMenuItem item5 = new JMenuItem("Informations sur les stations");
   //create a for constructor
   private int a = 0;
   //create budget of the city
@@ -104,7 +94,6 @@ public class mapInterface extends JFrame {
       } else{
       this.setTitle("Carte de " + transition.nameCity);
     }
-    setIconImage((new ImageIcon("delta-logo.png")).getImage());
 
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLocationRelativeTo(null);
@@ -308,12 +297,18 @@ public class mapInterface extends JFrame {
     }
     
     //mes informations city
-    public String showResultCity(String jsonResponse) throws JSONException {
+    public String showResultCity(String jsonResponse) throws JSONException, noDataInBase {
     	String res = "Empty";
     	JSONObject obj =new JSONObject(jsonResponse);
     	List<city> u = new ArrayList<city>();
     	
     			JSONArray arr = obj.getJSONArray("Data");
+    			
+    			if(arr.length() == 0) {
+					System.out.println("Il n'y a pas d'informations en base sur la ville");
+					this.dispose();
+					throw new noDataInBase();
+    			}
     			
 				util.setIdCity(arr.getJSONObject(0).getInt("idCity"));
 				util.setNameCity(arr.getJSONObject(0).getString("nameCity"));
@@ -343,6 +338,12 @@ public class mapInterface extends JFrame {
     	List<station> u = new ArrayList<station>();
     	
     			JSONArray arr = obj.getJSONArray("Data");
+    			
+    			if(arr.length() == 0) {
+					System.out.println("Il n'y a pas d'informations en base sur la ville");
+					this.dispose();
+					throw new noDataInBase();
+    			}
     			
     			
     			utilStation.setIdStation(arr.getJSONObject(0).getInt("idStation"));

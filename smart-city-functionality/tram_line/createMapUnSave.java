@@ -18,6 +18,7 @@ class createMapUnSave extends JPanel {
   int nombreStation = stationPlacement.numberStation(budgetCity,budgetStation);
   int numberLine = 0;
   int numberTram = 0;
+  int x,y;
 
   public createMapUnSave() throws formatCityExceptions, errorBudgetExceptions, errorNumberStation{
     System.out.println("je suis dans la methode createMapUnSave"); 
@@ -36,10 +37,10 @@ class createMapUnSave extends JPanel {
     }else {
     	numberTram = (nombreStation / 2); 
     }
-    if ((nombreStation >= 20) && (nombreStation < 70)) {
-		numberLine = 3;
-    }else {
-    	numberLine = 1;
+    if (nombreStation < 20){
+		numberLine = 2;
+    }else if((nombreStation >= 20) && (nombreStation < 70)) {
+    	numberLine = 3;
     }
     transition.saveLine(numberLine,numberTram);
     addMouseListener(new MouseAdapter() {
@@ -56,28 +57,82 @@ class createMapUnSave extends JPanel {
     g.setColor( Color.LIGHT_GRAY);  
     g.fillOval( 0, 0, largeur, longueur);
     
-    
+    if(nombreStation < 60) {
+    	x = 10;
+    	y = 10;
+    }
     
     
     for(int i= 1; i <= nombreStation; i++) {
     	if(nombreStation == 2) {
     		g.setColor( Color.black );
     		if((i % 2) == 0) {
-        		g.drawOval(largeur/2,(longueur/4), 10, 10);
+        		g.drawOval(largeur/2,(longueur/4), x, y);
         	} else {
-        		g.drawOval((largeur/2),((longueur/4) * 3), 10, 10);
+        		g.drawOval((largeur/2),((longueur/4) * 3), x, y);
         	}
     		g.drawLine(largeur/2,(longueur/4), (largeur/2),((longueur/4) * 3));
     	} else if((i == 1)) {
     		g.setColor( Color.black );
-    		g.drawOval(largeur/2,((longueur/(nombreStation+1)) * i), 10, 10);
-    		g.drawLine(largeur/2,((longueur/(nombreStation+1)) * i),largeur/4,((longueur/(nombreStation+1)) * (i+1)));
+    		g.drawOval(largeur/2,((longueur/(nombreStation+1)) * i), x, y);
+
+    		g.drawLine(largeur/2,((longueur/(nombreStation+1)) * i),((largeur/8) * 3),((longueur/(nombreStation+1)) * (i+1)));
     	} else if(i == nombreStation) {
     		g.setColor( Color.black );
-    		g.drawOval(largeur/2,((longueur/(nombreStation+1)) * i), 10, 10);
+    		g.drawOval(largeur/2,((longueur/(nombreStation+1)) * i), x, y);	
+    	} else if(i <= (nombreStation / 8)) {
+    		if(i == (nombreStation / 8)) {
+    			if((i % 2) == 0) {
+            		g.setColor( Color.black );
+            		g.drawOval((largeur/8) * 3,((longueur/(nombreStation+1)) * i), x, y);
+            		g.drawLine((largeur/8) * 3,((longueur/(nombreStation+1)) * i),((largeur/4) * 3),((longueur/(nombreStation+1)) * (i+1)));
+            		}else {
+            		g.setColor( Color.black );
+                	g.drawOval((largeur/8) * 5,((longueur/(nombreStation+1)) * i), x, y);
+                	g.drawLine((largeur/8) * 5,((longueur/(nombreStation+1)) * i),largeur/4,((longueur/(nombreStation+1)) * (i+1)));    			
+            		}
+    		} else if((i % 2) == 0) {
+        		g.setColor( Color.black );
+        		g.drawOval((largeur/8) * 3,((longueur/(nombreStation+1)) * i), x, y);
+        		g.drawLine((largeur/8) * 3,((longueur/(nombreStation+1)) * i),((largeur/8) * 5),((longueur/(nombreStation+1)) * (i+1)));
+        		}else {
+        		g.setColor( Color.black );
+            	g.drawOval((largeur/8) * 5,((longueur/(nombreStation+1)) * i), x, y);
+            	g.drawLine((largeur/8) * 5,((longueur/(nombreStation+1)) * i),((largeur/8) * 3),((longueur/(nombreStation+1)) * (i+1)));    			
+        		}
+    		} else if((((nombreStation / 8) * 7) - 1) == i) {
+    			if((i % 2) == 0) {
+            		g.setColor( Color.black );
+            		g.drawOval((largeur / 4),((longueur/(nombreStation+1)) * i), x, y);
+            		g.drawLine((largeur / 4),((longueur/(nombreStation+1)) * i),((largeur / 8) * 5),((longueur/(nombreStation+1)) * (i+1)));
+            		}else {
+            		g.setColor( Color.black );
+                	g.drawOval((largeur/4) * 3,((longueur/(nombreStation+1)) * i), x, y);
+                	g.drawLine((largeur/4) * 3,((longueur/(nombreStation+1)) * i),((largeur / 8) * 3),((longueur/(nombreStation+1)) * (i+1)));    			
+            		}
+    	}else if(i >= ((nombreStation / 8)*7)) {
+    		if(i == (nombreStation - 1)) {
+    			if((i % 2) == 0) {
+            		g.setColor( Color.black );
+            		g.drawOval((largeur/8) * 3,((longueur/(nombreStation+1)) * i), x, y);
+            		g.drawLine((largeur/8) * 3,((longueur/(nombreStation+1)) * i),(largeur / 2),((longueur/(nombreStation+1)) * (i+1)));
+            		}else {
+            		g.setColor( Color.black );
+                	g.drawOval((largeur/8) * 5,((longueur/(nombreStation+1)) * i), x, y);
+                	g.drawLine((largeur/8) * 5,((longueur/(nombreStation+1)) * i),(largeur / 2),((longueur/(nombreStation+1)) * (i+1)));    			
+            		}
+    		} else if((i % 2) == 0) {
+        		g.setColor( Color.black );
+        		g.drawOval((largeur/8) * 3,((longueur/(nombreStation+1)) * i), x, y);
+        		g.drawLine((largeur/8) * 3,((longueur/(nombreStation+1)) * i),((largeur/8) * 5),((longueur/(nombreStation+1)) * (i+1)));
+        		}else {
+        		g.setColor( Color.black );
+            	g.drawOval((largeur/8) * 5,((longueur/(nombreStation+1)) * i), x, y);
+            	g.drawLine((largeur/8) * 5,((longueur/(nombreStation+1)) * i),((largeur/8) * 3),((longueur/(nombreStation+1)) * (i+1)));    			
+        		}	
     	} else if((i % 2) == 0) {
     		g.setColor( Color.black );
-    		g.drawOval(largeur/4,((longueur/(nombreStation+1)) * i), 10, 10);
+    		g.drawOval(largeur/4,((longueur/(nombreStation+1)) * i), x, y);
     		if(i == (nombreStation -1)) {
     			g.drawLine(largeur/4,((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (i+1)));
     		}else {
@@ -85,7 +140,7 @@ class createMapUnSave extends JPanel {
     		}
     	} else {
     		g.setColor( Color.black );
-    		g.drawOval(((largeur/4) * 3),((longueur/(nombreStation+1)) * i), 10, 10);
+    		g.drawOval(((largeur/4) * 3),((longueur/(nombreStation+1)) * i), x, y);
     		if(i == (nombreStation -1)) {
     			g.drawLine(((largeur/4) * 3),((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (i+1)));
     		}else {
@@ -93,6 +148,52 @@ class createMapUnSave extends JPanel {
     		}
     	}
 
+ 
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    	
+    	if  (((nombreStation >= 2) && (nombreStation < 20) &&(i+5 <= nombreStation) && ((i % 5) == 0))  || ((nombreStation >= 2) && (nombreStation < 20) && i == 1))  {
+    		
+    		
+    		if(i == 1) {
+    			g.setColor( Color.RED );
+    			g.drawLine(largeur/2,((longueur/(nombreStation+1)) * i),((largeur/4) * 3),((longueur/(nombreStation+1)) * (i+4)));
+    		
+    		
+    		}else if(nombreStation == (i+5)) {
+    			if((nombreStation - 5) % 2 != 0) {
+    				g.setColor( Color.RED );
+    				g.drawLine(((largeur/4) * 3),((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));
+    			} else {
+    				g.setColor( Color.RED );
+    				g.drawLine((largeur/4),((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));
+    			}
+    		} else if (i % 10 == 0){
+    			g.setColor( Color.RED );
+        		g.drawLine((largeur/4),((longueur/(nombreStation+1)) * i),((largeur/4) * 3),((longueur/(nombreStation+1)) * (i+5)));
+    		} else if(i % 5 == 0) {
+    			g.setColor( Color.RED );
+        		g.drawLine(((largeur/4) * 3),((longueur/(nombreStation+1)) * i),largeur/4,((longueur/(nombreStation+1)) * (i+5)));
+    		}
+    	}
+    	
+    	
+
+    	
     	
     	if (((nombreStation >= 20) && (nombreStation < 30) &&(i+9 <= nombreStation) && ((i % 9) == 0))  || ((nombreStation >= 20) && (nombreStation < 30) && i == 1)) {
     		if(i == 1) {
@@ -118,7 +219,33 @@ class createMapUnSave extends JPanel {
     	}
     	
     	
-    	if (((nombreStation >= 30) && (i+5 <= nombreStation) && ((i % 5) == 0))  || ((nombreStation >= 30) && i == 1)) {
+//    	if (((nombreStation >= 30) &&  (nombreStation < 60) && (i+5 <= nombreStation) && ((i % 5) == 0))  || ((nombreStation >= 30) && i == 1)) {
+//    		if(i == 1) {
+//    			g.setColor( Color.BLUE );
+//    			g.drawLine(largeur/2,((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));
+//    			g.setColor( Color.RED );
+//    			g.drawLine(largeur/2,((longueur/(nombreStation+1)) * i),((largeur/4) * 3),((longueur/(nombreStation+1)) * (i+4)));
+//    		}else if(nombreStation == (i+5)) {
+//    			if((nombreStation - 5) % 2 != 0) {
+//    				g.setColor( Color.RED );
+//    				g.drawLine(((largeur/4) * 3),((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));
+//    			} else {
+//    				g.setColor( Color.RED );
+//    				g.drawLine((largeur/4),((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));
+//    			}
+//    		} else if (i % 10 == 0){
+//    			g.setColor( Color.RED );
+//        		g.drawLine((largeur/4),((longueur/(nombreStation+1)) * i),((largeur/4) * 3),((longueur/(nombreStation+1)) * (i+5)));
+//    		} else if(i % 5 == 0) {
+//    			g.setColor( Color.RED );
+//        		g.drawLine(((largeur/4) * 3),((longueur/(nombreStation+1)) * i),largeur/4,((longueur/(nombreStation+1)) * (i+5)));
+//    		}
+//    	}
+
+    	
+    	
+    	
+    	if (((nombreStation >= 30) &&  (nombreStation < 60) && (i+5 <= nombreStation) && ((i % 5) == 0))  || ((nombreStation >= 30) && i == 1)) {
     		if(i == 1) {
     			g.setColor( Color.BLUE );
     			g.drawLine(largeur/2,((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));
@@ -127,7 +254,7 @@ class createMapUnSave extends JPanel {
     		}else if(nombreStation == (i+5)) {
     			if((nombreStation - 5) % 2 != 0) {
     				g.setColor( Color.RED );
-    				g.drawLine(((largeur/4) * 3),((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));
+    				g.drawLine(((largeur/8) * 5),((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));
     			} else {
     				g.setColor( Color.RED );
     				g.drawLine((largeur/4),((longueur/(nombreStation+1)) * i),largeur/2,((longueur/(nombreStation+1)) * (nombreStation)));
@@ -139,8 +266,14 @@ class createMapUnSave extends JPanel {
     			g.setColor( Color.RED );
         		g.drawLine(((largeur/4) * 3),((longueur/(nombreStation+1)) * i),largeur/4,((longueur/(nombreStation+1)) * (i+5)));
     		}
-    	}
-
+    	}	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     	
     	
     
