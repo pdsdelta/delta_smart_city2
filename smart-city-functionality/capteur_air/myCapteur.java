@@ -1,4 +1,5 @@
 package capteur_air;
+import city.city;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -27,13 +28,17 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import client.CityClient;
 import connectionPool.DataSource;
+import station.station;
+import tram_line.transition;
 import user.Users;
 
 class myCapteur extends JFrame implements ActionListener {
@@ -49,24 +54,24 @@ class myCapteur extends JFrame implements ActionListener {
 	private JMenuItem case3 = new JMenuItem("Ajuster les seuils suivant les quartiers");
 	private JMenuItem case4 = new JMenuItem("Déterminer l'intervalle de relevé");
 	
-    //private Socket clientSocket; 
+    private CityClient clientSocket = new CityClient(); 
     //private PrintWriter out;
     //private BufferedReader in;
     
-   // public void startConnection(String ip, int port) throws UnknownHostException, IOException, JSONException {
-    	//String toSend;
-    	//clientSocket = new Socket(ip, port);
-       // out = new PrintWriter(clientSocket.getOutputStream(), true);
-        //in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+   public void startConnection(String ip, int port) throws UnknownHostException, IOException, JSONException {
+    	String toSend;
+    	clientSocket = new Socket(ip, port);
+        out = new PrintWriter(clientSocket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         
-        //while(true) {
-        //	toSend =this.afficheMenu();
-	    //    out.println(toSend);
-	    //    String response = in.readLine();
-	    //    System.out.println("***** RÃ©sultat ******\n");
-	    //    System.out.println(this.diplayResult(response));
-       // }
-   // }
+        while(true) {
+        	toSend =this.afficheMenu();
+	        out.println(toSend);
+	        String response = in.readLine();
+	        System.out.println("***** RÃ©sultat ******\n");
+	        System.out.println(this.diplayResult(response));
+       }
+   }
     
     public myCapteur(){
     	boolean alerte = true;
@@ -599,28 +604,25 @@ class myCapteur extends JFrame implements ActionListener {
 		}
     }
     
-    public int getQuartier(int Quartier) throws JsonProcessingException {
-	  	 String query = "SELECT taillecity from city where idcity = 1";
-    	List<City> res = new ArrayList<City>();
-		try {
-			stm = connect.prepareStatement(query);
-			rs = stm.executeQuery();
-			while (rs.next()) {
-				util.setIdCity(rs.getInt(1));
-				util.setNameCity(rs.getString(2));
-				util.setLongueurCity(rs.getInt(3));
-				util.setLargeurCity(rs.getInt(4));
-				util.setBudgetStation(rs.getInt(5));
-				util.setNombreMaxVoiture(rs.getInt(6));
-				util.setSeuilAtmoCity(rs.getInt(7));
-				util.setTailleCity(rs.getInt(8));
-				res.add(util);
-				//System.out.println("Operation realisee avec succes\n");
-			}
-		} catch (SQLException ex) {
-			System.out.println("La ville n'existe pas, il n'y a donc pas de quartier");
-		}
-		int resultat = Integer.parseInt(query);
+    
+    
+
+    	public String showresultquartier(String jsonResponse) throws JSONException {
+    		int Quartier = 0;
+    		city utilCity = new city();
+        	String res = "Empty";
+        	JSONObject obj =new JSONObject(jsonResponse);
+        	List<city> u = new ArrayList<city>();
+        			JSONArray arr = obj.getJSONArray("Data");
+        			utilCity.setTailleCity(arr.getJSONObject(0).getInt("taillecity"));
+    				u.add(utilCity);
+    				res = u.toString(); 
+    		return res;	
+    	
+		
+		
+		/*
+		int resultat = Integer.parseInt(res);
 		
 		if(resultat < 10) {
 			Quartier = 3;
@@ -634,7 +636,7 @@ class myCapteur extends JFrame implements ActionListener {
 			Quartier = 20;
 		}
 		return Quartier;
-		
+		*/
 	}
     
     public String[] getconfigurecapteur() {
@@ -649,12 +651,9 @@ class myCapteur extends JFrame implements ActionListener {
     
     
     public static void main(String[] args) { //throws UnknownHostException, IOException, JSONException {
+    	String a;
     	myCapteur air = new myCapteur();
+    	air.showresultquartier(a);
        //air.startConnection("172.31.249.22", 2400);
     }
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }

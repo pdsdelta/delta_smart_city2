@@ -318,4 +318,30 @@ class threadFunctionality extends Thread {
 		this.response = resultat;
 		return resultat;
 	}
+	
+	public String sizecity() throws JSONException, JsonProcessingException {
+		String resultat = "{Table: city, Action : INFOCITY ,  Data: ";
+		List<city> res = new ArrayList<city>();
+		String json = this.mapJson;
+		JSONObject obj = new JSONObject(json);
+		JSONObject request = obj.getJSONObject("request");
+		String query = "SELECT taillecity from city where idcity = 1;";
+		try {
+			pstmt = connect.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				city utilCity = new city();
+				utilCity.setTailleCity(rs.getDouble(1));
+
+				res.add(utilCity);
+			}
+		} catch (SQLException ex) {
+			System.out.println("Erreur infos city!");
+		}
+		System.out.println("je vais recuperer des infos city en bdd");
+		ObjectMapper mapper = new ObjectMapper();
+		resultat = resultat + mapper.writeValueAsString(res) + "}";
+		this.response = resultat;
+		return resultat;
+	}
 }
