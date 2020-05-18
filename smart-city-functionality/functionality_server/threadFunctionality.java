@@ -348,4 +348,6 @@ class threadFunctionality extends Thread {
 		this.response = resultat;
 		return resultat;
 	}
+	
+
 }
