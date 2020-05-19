@@ -43,6 +43,7 @@ import CapteurAir.CapteurAir;
 import client.CityClient;
 import connectionPool.DataSource;
 import district.District;
+import tram_line.transition;
 import tram_line.tramExceptions.noDataInBase;
 import user.Users;
 
@@ -634,7 +635,27 @@ class myCapteur extends JFrame implements ActionListener {
       System.out.print("\nIndiceATMO = "+minVal);
      }
    }
-       
+    CapteurAir util = new CapteurAir();
+   	public String addSetCapteur() {
+   		int idCity1 = 1; 
+   		int nombreMaxVoiture1 = 0;
+   		int seuilAtmoCity1 = 0;
+   		String json= "";
+   		
+   		
+   	
+   		util.setIdCity(idCity1);
+   		util.setNameCity(transition.nameCity);
+   		util.setLongueurCity(transition.longueur1);
+   		util.setLargeurCity(transition.largeur1);
+   		util.setBudgetStation(transition.budgetCity1);
+   		util.setNombreMaxVoiture(nombreMaxVoiture1);
+   		util.setSeuilAtmoCity(seuilAtmoCity1);
+   		util.setTailleCity(transition.mapTaille1);
+   		
+   		json  ="{request:{ operation_type: SAVEMAP, target: city , idCity: "+util.getId() + ", nameCity: "+ util.getNameCity() + ", longueurCity : "+ util.getLongueurCity() +", largeurCity : "+ util.getLargeurCity() +", budgetStation : "+ util.getBudgetStation() +",nombreMaxVoiture : "+ util.getNombreMaxVoiture() +",seuilAtmoCity : "+ util.getSeuilAtmoCity() +",tailleCity : "+ util.getTailleCity() +"}} " ;
+   		return json;
+   	}
       
 //	    	int res = 0;
 //	    	String status = "Unknown";
