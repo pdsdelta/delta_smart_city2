@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import borne.Terminal;
 import connectionPool.DataSource;
 import district.District;
 import functionality_server.functionalityServer;
@@ -24,7 +25,7 @@ import infocarbon.InfoGlobalCarbon;
 import motionSensor.MotionSensor;
 import station.station;
 import transportation.PublicTransport;
-import Terminal.Terminal;
+
 
 
 public class CRUD {
@@ -51,7 +52,7 @@ public class CRUD {
 		this.connect=connection.getConnection();
 	}
 
-	// 1 numbr de capteur air
+                                                       // 1 numbr de capteur air
 	/**
 	 * @return
 	 * @throws JSONException
@@ -59,19 +60,20 @@ public class CRUD {
 	 * @throws SQLException 
 	 */
 
-	public int informationcapteurAir() throws JSONException, JsonProcessingException, SQLException{
-		//String resultat= "{Table: district, Action : infoCapteurair   ,  Data: ";
+	public String informationcapteurAir() throws JSONException, JsonProcessingException, SQLException{
+
 		
 		List<District> res = new ArrayList<District>();
 		
-		//String json = this.jsonClient;	
+			
 		//JSONObject obj = new JSONObject(json);
 		//JSONObject request = obj.getJSONObject("request");
 		Statement stm3= this.connect.createStatement();
 		int count = 0;
 				
-		ResultSet rs3 = stm3.executeQuery("SELECT COUNT(*) AS total FROM district");
+		ResultSet rs3 = stm3.executeQuery("SELECT COUNT(id) AS total FROM district");
 		while(rs3.next()){
+		  count = rs3.getInt("total");
 			
 		}
 //		int id = request.getInt("id");
@@ -83,7 +85,7 @@ public class CRUD {
 //			rs = pstmt.executeQuery();
 //			while(rs.next()) {
 //				District utilStation = new District();
-//				utilStation.setId(rs.getInt(1));
+//				utilStation.setId(rs.getInt(1));   
 //				res.add(utilStation);
 //			}
 //		} catch (SQLException ex) {
@@ -93,11 +95,14 @@ public class CRUD {
 		System.out.println("je vais recuperer le numbr totale de capetur d'air en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+	String resultat= "{Table: district, Action : infoCapteurair   ,  Data: "+count+"}";
 		//this.finalResponse = resultat;
-		return count;
+		resultat = resultat + count +"}";
+		 System.out.println(resultat);
+		 return resultat ;
 	} 
 
-	// 2 numbr totale de motion sensor
+	                                                   // 2 numbr totale de motion sensor
 	//select count(id) from motionsensor; ==>12
 
 	/**
@@ -106,7 +111,7 @@ public class CRUD {
 	 * @throws JsonProcessingException
 	 * @throws SQLException 
 	 */
-	public int informotionsensor() throws JSONException, JsonProcessingException, SQLException {
+	public String informotionsensor() throws JSONException, JsonProcessingException, SQLException {
 
 		List<MotionSensor> res = new ArrayList<MotionSensor>();
 		//String json = this.jsonClient;	
@@ -117,7 +122,7 @@ public class CRUD {
 		Statement stmt3 = this.connect.createStatement();
 		int count = 0;
 
-		ResultSet rs3 = stmt3.executeQuery("SELECT COUNT(*) AS total FROM MotionSensor");
+		ResultSet rs3 = stmt3.executeQuery("SELECT COUNT(*) AS total FROM motionsensor");
 		while(rs3.next()){
 
 			count = rs3.getInt("total");
@@ -139,12 +144,15 @@ public class CRUD {
 		System.out.println("je vais recuperer le nbr totale de  motionsensor en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-	//	String resultat= "{Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}";
+	String resultat= "{Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}";
 	//	this.finalResponse = resultat;
-		return count;
+	resultat = resultat +count+ "}" ;
+	System.out.println(resultat);
+		 return resultat ;
+		
 	}
 
-	//3 numbr totale des stations
+	                                                  //3 numbr totale des stations
 	//select numberstation from station ==> 10
 	
 	/**
@@ -153,8 +161,8 @@ public class CRUD {
 	 * @throws JsonProcessingException
 	 * @throws SQLException 
 	 */
-	public int infostation() throws JSONException, JsonProcessingException, SQLException {
-		//String resultat= "{Table: station, Action : Infostation ,  Data: ";
+	public String infostation() throws JSONException, JsonProcessingException, SQLException {
+		
 		
 		List<station> res = new ArrayList<station>();
 		//String json = this.jsonClient;	
@@ -169,9 +177,6 @@ public class CRUD {
 
 			count = rs3.getInt("numberstation");
 		}
-		
-		
-		
 		//	int numberstation = request.getInt("id");
 //		String query= "SELECT numberstation from station";
 //		try {
@@ -189,11 +194,14 @@ public class CRUD {
 		System.out.println("je vais recuperer le nbr totale de  station en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+		String resultat= "{Table: station, Action : Infostation ,  Data: "+count+"}";
 		//this.finalResponse = resultat;
-		return count;
+		resultat = resultat + count + "}" ;
+		System.out.println(resultat);
+		 return resultat ;
 	}
 
-	// 4 numbr totale de voiture present dans la ville avec la date
+	                                   // 4 numbr totale de voiture present dans la ville avec la date
 	//select (nbcars,dateof) from publictransportstat;==>(2000,2020-05-12)
 
 	/**
@@ -240,7 +248,7 @@ public class CRUD {
 		//this.finalResponse = resultat;
 		return count;
 	}
-	// 5 numbr TRAM
+	                                                    // 5 numbr TRAM
 		//select numbertram from station; ==>
 
 		/**
@@ -249,7 +257,7 @@ public class CRUD {
 		 * @throws JsonProcessingException
 		 * @throws SQLException 
 		 */
-		public int informationTram() throws JSONException, JsonProcessingException, SQLException {
+		public String informationTram() throws JSONException, JsonProcessingException, SQLException {
 
 			List<station> res = new ArrayList<station>();
 			//String json = this.jsonClient;	
@@ -282,12 +290,14 @@ public class CRUD {
 			System.out.println("je vais recuperer le nbr tram en bdd");
 			//ObjectMapper mapper = new ObjectMapper();
 			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		//	String resultat= "{Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}";
+		String resultat= "{Table: station, Action : informationTram,  Data: "+count+"}";
 		//	this.finalResponse = resultat;
-			return count;
+			resultat = resultat + count + "}" ;
+		System.out.println(resultat);
+			return resultat;
 		}
   
-		   // 6 number borne
+		                                                 // 6 number borne
 		/**
 		 * @return
 		 * @throws JSONException
@@ -305,7 +315,7 @@ public class CRUD {
 			Statement stmt3 = this.connect.createStatement();
 			int count = 0;
 
-			ResultSet rs3 = stmt3.executeQuery("select numbertram from terminal");
+			ResultSet rs3 = stmt3.executeQuery("select count(id) from terminal");
 			while(rs3.next()){
 
 				count = rs3.getInt("total");
@@ -324,7 +334,7 @@ public class CRUD {
 			//		} catch (SQLException ex) {
 			//			System.out.println("Erreur infos motionsensor!");
 			//		}
-			System.out.println("je vais recuperer le nbr tram en bdd");
+			System.out.println("je vais recuperer le nbr en bdd");
 			//ObjectMapper mapper = new ObjectMapper();
 			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
 		//	String resultat= "{Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}";

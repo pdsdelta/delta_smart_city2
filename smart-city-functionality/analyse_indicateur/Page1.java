@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -37,10 +38,8 @@ public class Page1 extends JFrame {
 		setContentPane(contentPane);
 		this.setVisible(true);
 
-		getContentPane().setLayout(null);
-
 		JButton btnNewButton = new JButton("ADD");
-		btnNewButton.setBounds(366, 86, 89, 23);
+		btnNewButton.setBounds(577, 59, 89, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -56,10 +55,11 @@ public class Page1 extends JFrame {
 			}
 		});
 		contentPane.setLayout(null);
+		contentPane.setLayout(null);
 		getContentPane().add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Compare");
-		btnNewButton_1.setBounds(484, 86, 89, 23);
+		btnNewButton_1.setBounds(680, 59, 89, 23);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int num1, num2, ans;
@@ -84,17 +84,17 @@ public class Page1 extends JFrame {
 		getContentPane().add(btnNewButton_1);
 
 		textFieldNum1 = new JTextField();
-		textFieldNum1.setBounds(316, 39, 86, 20);
+		textFieldNum1.setBounds(562, 11, 86, 20);
 		getContentPane().add(textFieldNum1);
 		textFieldNum1.setColumns(10);
 
 		textFieldNum2 = new JTextField();
-		textFieldNum2.setBounds(487, 39, 86, 20);
+		textFieldNum2.setBounds(683, 11, 86, 20);
 		getContentPane().add(textFieldNum2);
 		textFieldNum2.setColumns(10);
 
 		textFieldAns = new JTextField();
-		textFieldAns.setBounds(338, 131, 219, 35);
+		textFieldAns.setBounds(593, 109, 219, 35);
 		textFieldAns.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Please Enter Valid Number");
@@ -104,19 +104,42 @@ public class Page1 extends JFrame {
 		textFieldAns.setColumns(10);
 
 		JLabel lblNewLabel = new JLabel("  The Answer is :");
-		lblNewLabel.setBounds(237, 133, 117, 30);
+		lblNewLabel.setBounds(609, 78, 117, 30);
 		lblNewLabel.setForeground(new Color(240, 255, 240));
 
 		getContentPane().add(lblNewLabel);
+												
+	//1number de capteur d'air
+	   JButton numberCapteurair = new JButton("number capteurAir");
+		numberCapteurair.setBounds(87, 59, 218, 50);
+		contentPane.add(numberCapteurair);
+		numberCapteurair.setBackground(SystemColor.inactiveCaption);
+		numberCapteurair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CRUD objet = null;
+				try {
+					objet = new CRUD(server);
+				} catch (ClassNotFoundException | SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				try {
+					String jsonReceived = objet.informationcapteurAir();
+					JSONObject obj = new JSONObject(jsonReceived);
+					 int data= obj.getInt("Data");
+					JOptionPane.showMessageDialog(null, "le nombre de capteur d'air est : " + data);
+				} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 
-		JPanel panelMenu = new JPanel();
-		panelMenu.setBounds(0, 0, 218, 374);
-		panelMenu.setBackground(SystemColor.inactiveCaption);
-		contentPane.add(panelMenu);
-		panelMenu.setLayout(null);
 		
-				//1number motion sensor
+	//2number motion sensor
 				JButton NumberMotionsensor = new JButton("number motionSensor");
+				NumberMotionsensor.setBounds(336, 132, 218, 50);
+				contentPane.add(NumberMotionsensor);
 				NumberMotionsensor.setBackground(SystemColor.inactiveCaption);
 				
 				NumberMotionsensor.addActionListener(new ActionListener() {
@@ -129,156 +152,157 @@ public class Page1 extends JFrame {
 							e2.printStackTrace();
 						}
 						try {
-							JOptionPane.showMessageDialog(null, "le nombre de motion sensor est :" + objet.informotionsensor());
+							String jsonReceived = objet.informotionsensor();
+							JSONObject obj = new JSONObject(jsonReceived);
+							
+							int	data = obj.getInt("Data");
+							JOptionPane.showMessageDialog(null, "le nombre de motionSensor est :" + data);
 						} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}
 				});
-				NumberMotionsensor.setBounds(0, 111, 218, 38);
-				panelMenu.add(NumberMotionsensor);
+		
 				
-				//2number de capteur d'air
-						JButton numberCapteurair = new JButton("number capteurAir");
-						numberCapteurair.setBackground(SystemColor.inactiveCaption);
+        // 3number de station		
+				JButton numberStation = new JButton("number station");
+				numberStation.setBounds(336, 59, 218, 49);
+				contentPane.add(numberStation);
+				numberStation.setBackground(SystemColor.inactiveCaption);
+				numberStation.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
 						
-						numberCapteurair.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								CRUD objet = null;
-								try {
-									objet = new CRUD(server);
-								} catch (ClassNotFoundException | SQLException e2) {
-									// TODO Auto-generated catch block
-									e2.printStackTrace();
-								}
-								try {
-									JOptionPane.showMessageDialog(null, "le nombre de capteur d'air est :" + objet.informationcapteurAir());
-								} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
+						CRUD objet = null;
+						try {
+							objet = new CRUD(server);
+						} catch (ClassNotFoundException | SQLException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						try {
+							String jsonReceived = objet.infostation();
+							JSONObject obj = new JSONObject(jsonReceived);
+							
+							int	data = obj.getInt("Data");
+							JOptionPane.showMessageDialog(null, "le nombre de station est :" + data);
+						} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
+				
+	//4 NUMBER CAR	 calendrier
+				
+				JButton numberCar = new JButton("number Car");
+				numberCar.setBounds(87, 132, 218, 50);
+				contentPane.add(numberCar);
+				numberCar.setBackground(SystemColor.inactiveCaption);
+				numberCar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						CRUD objet = null;
+						try {
+							objet = new CRUD(server);
+						} catch (ClassNotFoundException | SQLException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						try {
+							
+							/*calendrier.getDay()
+							calendar.getYear
+							calendar.getMonth()
+							//date='calendar.getYear-calendar.getMonth()-calendrier.getDay()';
+							date'2020-12-7'*/
+							JOptionPane.showMessageDialog(null, "le nombre de car present dans la ville est :" + objet.nbcars(date));
+						} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+				}
+					
+				});						
+				
+	//5 NUMBER TRAM	
+				JButton numbrTram = new JButton("number Tram");
+				numbrTram.setBounds(87, 216, 218, 50);
+				contentPane.add(numbrTram);
+				numbrTram.setBackground(SystemColor.inactiveCaption);
+				numbrTram.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+							CRUD objet = null;
+							try {
+								objet = new CRUD(server);
+							} catch (ClassNotFoundException | SQLException e2) {
+								// TODO Auto-generated catch block
+								e2.printStackTrace();
 							}
-						});
-						numberCapteurair.setBounds(0, 80, 218, 32);
-						panelMenu.add(numberCapteurair);
-						
-				// 3number de station		
-								JButton numberStation = new JButton("number station");
-								numberStation.setBackground(SystemColor.inactiveCaption);
-								
-								numberStation.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										
-										CRUD objet = null;
-										try {
-											objet = new CRUD(server);
-										} catch (ClassNotFoundException | SQLException e2) {
-											// TODO Auto-generated catch block
-											e2.printStackTrace();
-										}
-										try {
-											JOptionPane.showMessageDialog(null, "le nombre de station est :" + objet.infostation());
-										} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
-											// TODO Auto-generated catch block
-											e1.printStackTrace();
-										}
-									}
-								});
-								numberStation.setBounds(0, 150, 218, 38);
-								panelMenu.add(numberStation);
-			//4 NUMBER TRAM	
-										JButton numbrTram = new JButton("number Tram");
-										numbrTram.setBackground(SystemColor.inactiveCaption);
-										
-										numbrTram.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												
-													CRUD objet = null;
-													try {
-														objet = new CRUD(server);
-													} catch (ClassNotFoundException | SQLException e2) {
-														// TODO Auto-generated catch block
-														e2.printStackTrace();
-													}
-													try {
-														JOptionPane.showMessageDialog(null, "le nombre de tram est :" + objet.informationTram());
-													} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
-														// TODO Auto-generated catch block
-														e1.printStackTrace();
-													}
-											}
-										});
-										
-										numbrTram.setBounds(0, 222, 218, 38);
-										panelMenu.add(numbrTram);
-					//5 NUMBER CAR	
-											JButton numberCar = new JButton("number Car");
-												numberCar.setBackground(SystemColor.inactiveCaption);
-												
-												numberCar.addActionListener(new ActionListener() {
-													public void actionPerformed(ActionEvent e) {
-														CRUD objet = null;
-														try {
-															objet = new CRUD(server);
-														} catch (ClassNotFoundException | SQLException e2) {
-															// TODO Auto-generated catch block
-															e2.printStackTrace();
-														}
-														try {
-															
-															/*caldrier.getDay()
-															canlendar.getYear
-															calendar.getMonth()
-															//date='canlendar.getYear-calendar.getMonth()-caldrier.getDay()';
-															date'2020-12-7'*/
-															JOptionPane.showMessageDialog(null, "le nombre de car  est :" + objet.nbcars(date));
-														} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
-															// TODO Auto-generated catch block
-															e1.printStackTrace();
-														}
-												}
-													
-												});
-												numberCar.setBounds(0, 187, 218, 38);
-												panelMenu.add(numberCar);
-						// 6 NUMBER BORNE	
-												JButton btnNumberBorne = new JButton("number borne");
-												btnNumberBorne.setBackground(SystemColor.inactiveCaption);
-												btnNumberBorne.addActionListener(new ActionListener() {
-													public void actionPerformed(ActionEvent e) {
-													}
-												});
-												btnNumberBorne.setBounds(0, 259, 218, 38);
-												panelMenu.add(btnNumberBorne);
-												
-														JButton btnNewButton_2 = new JButton("numbr totalCapteur");
-														btnNewButton_2.setBounds(282, 223, 145, 38);
-														contentPane.add(btnNewButton_2);
-														btnNewButton_2.addActionListener(new ActionListener() {
-															public void actionPerformed(ActionEvent e) {
-																CRUD objet = null;
-																try {
-																	objet = new CRUD(server);
-																} catch (ClassNotFoundException | SQLException e2) {
-																	// TODO Auto-generated catch block
-																	e2.printStackTrace();
-																}
-																try {
-																	JOptionPane.showMessageDialog(null, "le nombre de tram est :" + objet.informationBorne());
-																} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
-																	// TODO Auto-generated catch block
-																	e1.printStackTrace();
-																}
-															
-															}
-														});
-										
-										
-								
-						
-						
+							try {
+								String jsonReceived = objet.informationTram();
+								JSONObject obj = new JSONObject(jsonReceived );
+								 
+								int data = obj.getInt("Data");
+								JOptionPane.showMessageDialog(null, "le nombre de tram est :" +data);
+							} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+					}
+				});					
 				
+	// 6 NUMBER BORNE	
+				JButton NumberBorne = new JButton("number borne");
+				NumberBorne.setBounds(336, 216, 218, 50);
+				contentPane.add(NumberBorne);
+				NumberBorne.setBackground(SystemColor.inactiveCaption);
+				NumberBorne.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						CRUD objet = null;
+						try {
+							objet = new CRUD(server);
+						} catch (ClassNotFoundException | SQLException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						try {
+							JOptionPane.showMessageDialog(null, "le nombre de borne  est :" + objet.informationBorne());
+						} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					
+					}
+				});
+				
+				
+				JButton essaye = new JButton("essaye");
+				essaye.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+					}
+				});
+				essaye.setBounds(103, 306, 89, 23);
+				contentPane.add(essaye);
+				
+				
+															
+																			
+													
+												
+					
+						
+						
+			
+		
+		
+
+
+
+
+
+										
 						
 	}
 
