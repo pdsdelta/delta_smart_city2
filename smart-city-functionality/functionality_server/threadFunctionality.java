@@ -389,18 +389,57 @@ class threadFunctionality extends Thread {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				District utilDistrict = new District();
-				utilDistrict.setSeuilQuartierATMO(rs.getInt(1));
+				utilDistrict.setSeuilQuartierATMO(rs.getInt(1)); 
 
 				res.add(utilDistrict);
 			}
 		} catch (SQLException ex) {
-			System.out.println("Erreur infos capteurair!");
+			System.out.println("Erreur infos district!");
 		}
-		System.out.println("je vais recuperer des infos capteurair en bdd");
+		System.out.println("je vais recuperer des infos district en bdd");
 		ObjectMapper mapper = new ObjectMapper();
 		resultat = resultat + mapper.writeValueAsString(res) + "}";
 		this.response = resultat;
 		return resultat;
 	}
+	
+	public String addindice() throws JSONException {
+		String resultat = "{Table:capteurair , Action: ADDindice ";
+		int res = 0;
+		String json = this.mapJson;
+		JSONObject obj = new JSONObject(json);
+		JSONObject request = obj.getJSONObject("request");
+		int idCapteur = request.getInt("idcapteur");
+		int nameCapteur = request.getInt("namecapteur");
+		int dateReleve = request.getInt("datereleve");
+		int IndiceATMO = request.getInt("indiceatmo");
 
+		String query = "delete from capteurair WHERE idcapteur=?";
+
+		try {
+			pstmt = connect.prepareStatement(query);
+			pstmt.setInt(1, idCapteur);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			System.out.println("Erreur! addindice");
+		}
+
+		query = "INSERT INTO capteurair (indiceatmo) "
+				+ "VALUES ()";
+		try {
+			pstmt = connect.prepareStatement(query);
+			pstmt.setInt(1, IndiceATMO);
+			res = pstmt.executeUpdate();
+			System.out.println("operation ok\n");
+		} catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		System.out.println("je vais enregistrer en bdd");
+
+		resultat = resultat + "Data : [{  idcapteur: " + idCapteur + ", namecapteur: " + nameCapteur
+				+ ", datereleve : " + dateReleve + ", indiceatmo : " + IndiceATMO + "} ]}";
+		this.response = resultat;
+		return resultat;
+	}
 }
