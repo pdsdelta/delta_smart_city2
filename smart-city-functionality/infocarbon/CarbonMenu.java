@@ -45,11 +45,17 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	private JPanel cg = new JPanel();
 	private JPanel es = new JPanel();
 	private JPanel voitures = new JPanel(); 
+	private JPanel motos = new JPanel();
+	private JPanel trotinette = new JPanel();
 	private JPanel passagers = new JPanel(); 
 	private JPanel trams = new JPanel(); 
 	private JPanel longTram = new JPanel(); 
 	private JPanel kmMoyen = new JPanel();
 	private JPanel hourService = new JPanel();
+	private JPanel bus = new JPanel();
+	private JPanel kmMoyenBus = new JPanel();
+	private JPanel Metro = new JPanel();
+	private JPanel Transilien = new JPanel();
 	String[] tab_string = {"1", "2", "3", "4", "5", "6"};
 	JButton[] tab_button = new JButton[tab_string.length];
 	private JButton b1,b2,b3,b4,b5,b6; 
@@ -65,7 +71,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 
 	
 	private CarbonMenu(){
-		this.setBounds(0,0,700,700);// X,Y,Largeur, Longueur
+		this.setBounds(0,0,750,750);// X,Y,Largeur, Longueur
 		this.setTitle("Carbon info DELTA-City");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -480,7 +486,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			getContentPane().repaint();
 			b5.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//First input
+					//Voiture input
 					voitures.removeAll();
 					JLabel label = new JLabel();		
 					label.setText("Entrez le nombre de voitures :");
@@ -490,7 +496,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					voitures.add(label);
 					voitures.add(nCars);
 					es.add(voitures);
-					//Second input
+					//Passagers voitures input
 					passagers.removeAll();
 					JLabel passlabel = new JLabel();		
 					passlabel.setText("Entrez le nombre de passagers moyen par voitures :");
@@ -500,7 +506,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					passagers.add(passlabel);
 					passagers.add(npass);
 					es.add(passagers);
-					//Third
+					//Distance moyenne
 					kmMoyen.removeAll();
 					JLabel kmLabel = new JLabel();
 					kmLabel.setText("Entrez la distance moyenne parcouru en km par une voiture pour une journée");
@@ -510,7 +516,27 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					kmMoyen.add(kmLabel);
 					kmMoyen.add(nkm);
 					es.add(kmMoyen);
-					//Fourth input
+					//Motos
+					motos.removeAll();
+					JLabel motosLabel = new JLabel();
+					motosLabel.setText("Entrez le nombre de motos : ");
+					motosLabel.setBounds(10, 10, 100, 100);
+					JTextField nmotos = new JTextField();
+					nmotos.setColumns(10);
+					motos.add(motosLabel);
+					motos.add(nmotos);
+					es.add(motos);
+					//Trotinettes
+					trotinette.removeAll();
+					JLabel trotinetteLabel = new JLabel();
+					trotinetteLabel.setText("Entrez le nombre de trotinettes eléctriques : ");
+					trotinetteLabel.setBounds(10, 10, 100, 100);
+					JTextField ntrotinette = new JTextField();
+					ntrotinette.setColumns(10);
+					trotinette.add(trotinetteLabel);
+					trotinette.add(ntrotinette);
+					es.add(trotinette);
+					//Tramway
 					trams.removeAll();
 					JLabel tramslabel = new JLabel();		
 					tramslabel.setText("Entrez le nombre de Tramway déployés :");
@@ -520,7 +546,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					trams.add(tramslabel);
 					trams.add(ntrams);
 					es.add(trams);
-					//Fifth input
+					//Longueur Tram
 					longTram.removeAll();
 					JLabel longTramlabel = new JLabel();		
 					longTramlabel.setText("Entrez la longeur de la ligne de Tramway :");
@@ -530,7 +556,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					longTram.add(longTramlabel);
 					longTram.add(nlongtram);
 					es.add(longTram);
-					//Sixth input
+					//Heures Tramway
 					hourService.removeAll();
 					JLabel hourServicelabel = new JLabel();		
 					hourServicelabel.setText("Entrez le nombre d'heures de services du Tramway , ne pas dépasser 22h :");
@@ -540,6 +566,26 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					hourService.add(hourServicelabel);
 					hourService.add(nhourService);
 					es.add(hourService);
+					//Bus
+					bus.removeAll();
+					JLabel buslabel = new JLabel();		
+					buslabel.setText("Entrez le nombre de bus :");
+					buslabel.setBounds(10, 10, 100, 100);
+					JTextField nbus = new JTextField();
+					nbus.setColumns(10);
+					bus.add(buslabel);
+					bus.add(nbus);
+					es.add(bus);
+					//Bus Km
+					kmMoyenBus.removeAll();
+					JLabel kmMoyenLabel = new JLabel();
+					kmMoyenLabel.setText("Entrez la distance moyenne parcouru en km par les bus pour une journée");
+					kmMoyenLabel.setBounds(10, 10, 100, 100);
+					JTextField nkmb = new JTextField();
+					nkmb.setColumns(10);
+					kmMoyenBus.add(kmMoyenLabel);
+					kmMoyenBus.add(nkmb);
+					es.add(kmMoyenBus);
 					//Button Calculer
 					es.add(b6);
 					//Adding 
@@ -562,17 +608,21 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							es.remove(jtiec);
 							es.revalidate();
 							es.repaint();
-							int nv, np, nt, hs;
-							double lt, km;
+							int nv,np,nm,ntt,nt,hs,nb;
+							double lt, km, kmb;
 							InfoEstimatedCarbon iec;
 							try {
 								
 								nv = Integer.parseInt(nCars.getText());
 								np = Integer.parseInt(npass.getText());
+								nm = Integer.parseInt(nmotos.getText());
+								ntt = Integer.parseInt(ntrotinette.getText());
 								km = Double.parseDouble(nkm.getText());
 								nt = Integer.parseInt(ntrams.getText());
 								lt= Double.parseDouble(nlongtram.getText());
 								hs = Integer.parseInt(nhourService.getText());
+								nb = Integer.parseInt(nbus.getText());
+								kmb = Double.parseDouble(nkmb.getText());
 								
 								if (np > 5) {
 									JOptionPane.showMessageDialog(null, "Le nombre de passager moyen ne doit pas dépasser 5 personnes");
@@ -584,7 +634,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									getContentPane().repaint();
 					
 				
-								}else if (nv <= 0 || np < 0 || lt < 0 || hs < 0 || km < 0) {
+								}else if (nv <= 0 || np < 0 || lt < 0 || hs < 0 || km < 0 || nm < 0 || ntt < 0 || nb <0) {
 									JOptionPane.showMessageDialog(null, "Les nombres doivent être positifs");
 									
 									getContentPane().remove(jtiecpriv);
@@ -602,7 +652,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									getContentPane().revalidate();
 									getContentPane().repaint();
 								}else {
-									iec = new InfoEstimatedCarbon(1,nv,np,km,nt,lt,hs);
+									iec = new InfoEstimatedCarbon(1,nv,np,km,nm,ntt,nt,lt,hs,nb,kmb);
 									DecimalFormat df = new DecimalFormat ( ) ; 
 									df.setMaximumFractionDigits ( 2 ) ; 
 									double glob = iec.calculateCarbon();
