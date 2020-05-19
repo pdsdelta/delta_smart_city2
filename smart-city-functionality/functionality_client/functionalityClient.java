@@ -101,7 +101,7 @@ public class functionalityClient extends JFrame{
 
 			}
 		});
-		//Fonctionnalité Anaelle : Gestion des bornes Retractables
+		//Fonctionnalitï¿½ Anaelle : Gestion des bornes Retractables
 		boutonTerminal.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Lancement de l'ecran de configuration des bornes retractables");
@@ -110,10 +110,10 @@ public class functionalityClient extends JFrame{
 				affichage.main(args);
 			}        
 		});
-		//Fonctionnalité Analle: Gestion des detecteurs de vehicules
+		//Fonctionnalitï¿½ Analle: Gestion des detecteurs de vehicules
 		boutonMotionSensor.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Lancement de l'ecran de configuration des detecteurs de véhicules");
+				System.out.println("Lancement de l'ecran de configuration des detecteurs de vï¿½hicules");
 				MotionSensorVue i= new MotionSensorVue();
 				String[] args = null;
 				i.main(args);
