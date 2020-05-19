@@ -39,8 +39,10 @@ import org.json.JSONTokener;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import CapteurAir.CapteurAir;
 import client.CityClient;
 import connectionPool.DataSource;
+import district.District;
 import tram_line.tramExceptions.noDataInBase;
 import user.Users;
 
@@ -270,57 +272,87 @@ class myCapteur extends JFrame implements ActionListener {
         return panel;
       }
     
-    public boolean getalerte(boolean alerte1) {
+   //alerte
+    public int getalerte(int alerte1) {
     	getseuil();
     	getcalculIndice();
-    		
-    	String query = "SELECT indiceatmo from capteurair";
-    	List<capteurair> res = new ArrayList<capteurair>();
-		try {
-			stm = connect.prepareStatement(query);
-			rs = stm.executeQuery();
-			while (rs.next()) {
-				util.setidcapteur(rs.getInt(1));
-				util.setnamecapteur(rs.getString(2));
-				util.setdatereleve(rs.getdate(3));
-				util.setindiceatmo(rs.getInt(4));
-				res.add(util);
-				//System.out.println("Operation realisee avec succes\n");
-			}
-		} catch (SQLException ex) {
-			System.out.println("pas d'indice atmo ");
-		}
-		return query;
-		int indice = Integer.parseInt(query);
-    
-	String seuil = "SELECT seuilquartier from district";
-	List<district> res = new ArrayList<district>();
-	try {
-		stm = connect.prepareStatement(seuil);
-		rs = stm.executeQuery();
-		while (rs.next()) {
-			util.setidcapteur(rs.getInt(1));
-			util.setnamecapteur(rs.getString(2));
-			util.setdatereleve(rs.getdate(3));
-			util.setindiceatmo(rs.getInt(4));
-			res.add(util);
-			//System.out.println("Operation realisee avec succes\n");
-		}
-	} catch (SQLException ex) {
-		System.out.println("pas d'indice atmo ");
-	}
-	return seuil;
-	int Atmoseuil = Integer.parseInt(seuil);
+    	CapteurAir indice = new CapteurAir();
+    	getindice();
+    	int a =indice.getIndice();
+    	District seuil = new District();
+    	getindice();
+    	int b =seuil.getSeuilQuartierATMO();
 	
-	if(Atmoseuil < indice) {
-		alerte1 = true;
-	}else {
-		alerte1 = false;
-	}
-	return alerte1;
+    	if(b < a) {
+    		alerte1 = 1;
+    	}else {
+    		alerte1 = 0;
+    	}
+    	return alerte1;
     }
 
-    		
+    public void getindice() throws UnknownHostException, IOException, JSONException{
+    	String json;
+    	json  ="{request:{ operation_type: INFOINDATMO, target: capteurair , }}";
+    	this.startConnection("172.31.249.22", 2400, json);
+    }
+
+	CapteurAir indiceATMO = new CapteurAir();
+	public String showresultindice (String jsonResponse) throws JSONException, noDataInBase {
+		String res = "Empty";
+		JSONObject obj =new JSONObject(jsonResponse);
+		List<CapteurAir> u = new ArrayList<CapteurAir>();
+
+		JSONArray arr = obj.getJSONArray("Data");
+
+		if(arr.length() == 0) {
+			System.out.println("Il n'y a pas d'informations en base dans le capteur d'air");
+			this.dispose();
+			throw new noDataInBase();
+		}
+
+		indiceATMO.setIndice(arr.getJSONObject(0).getInt("IndiceATMO"));
+
+		System.out.println(indiceATMO.getIndice());
+
+		u.add(indiceATMO);
+		res = u.toString();   
+
+		return res;
+
+	}		
+	
+	public void getdistrictseuil() throws UnknownHostException, IOException, JSONException{
+    	String json;
+    	json  ="{request:{ operation_type: INFOSEUIL, target: district , }}";
+    	this.startConnection("172.31.249.22", 2400, json);
+    }
+
+	District seuildistrict = new District();
+	public String showresultseuil (String jsonResponse) throws JSONException, noDataInBase {
+		String res = "Empty";
+		JSONObject obj =new JSONObject(jsonResponse);
+		List <District> u = new ArrayList<District>();
+
+		JSONArray arr = obj.getJSONArray("Data");
+
+		if(arr.length() == 0) {
+			System.out.println("Il n'y a pas d'informations en base dans le capteur d'air");
+			this.dispose();
+			throw new noDataInBase();
+		}
+
+		seuildistrict.setSeuilQuartierATMO(arr.getJSONObject(0).getInt("seuildistrict"));
+
+		System.out.println(seuildistrict.getSeuilQuartierATMO());
+
+		u.add(seuildistrict);
+		res = u.toString();   
+
+		return res;
+	}		
+    
+    
     	//intervalle relevé
     public void TestTimer(int a) {
     		Timer timer;

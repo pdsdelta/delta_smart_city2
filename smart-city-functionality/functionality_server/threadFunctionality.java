@@ -21,8 +21,10 @@ import org.json.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import CapteurAir.CapteurAir;
 import city.city;
 import connectionPool.DataSource;
+import district.District;
 import infocarbon.CarbonServerUtils;
 import station.station;
 
@@ -349,5 +351,56 @@ class threadFunctionality extends Thread {
 		return resultat;
 	}
 	
+	public String indiceATMO() throws JSONException, JsonProcessingException {
+		String resultat = "{Table: capteurair, Action : INFOINDATMO ,  Data: ";
+		List<CapteurAir> res = new ArrayList<CapteurAir>();
+		String json = this.mapJson;
+		JSONObject obj = new JSONObject(json);
+		JSONObject request = obj.getJSONObject("request");
+		String query = "SELECT indiceatmo from capteurair;";
+		try {
+			pstmt = connect.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				CapteurAir utilCapteurair = new CapteurAir();
+				utilCapteurair.setIndice(rs.getInt(1));
+
+				res.add(utilCapteurair);
+			}
+		} catch (SQLException ex) {
+			System.out.println("Erreur infos capteurair!");
+		}
+		System.out.println("je vais recuperer des infos capteurair en bdd");
+		ObjectMapper mapper = new ObjectMapper();
+		resultat = resultat + mapper.writeValueAsString(res) + "}";
+		this.response = resultat;
+		return resultat;
+	}
+	
+	public String seuilquartier() throws JSONException, JsonProcessingException {
+		String resultat = "{Table: district, Action : INFOSEUIL ,  Data: ";
+		List<District> res = new ArrayList<District>();
+		String json = this.mapJson;
+		JSONObject obj = new JSONObject(json);
+		JSONObject request = obj.getJSONObject("request");
+		String query = "SELECT seuilquartier from district;";
+		try {
+			pstmt = connect.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				District utilDistrict = new District();
+				utilDistrict.setSeuilQuartierATMO(rs.getInt(1));
+
+				res.add(utilDistrict);
+			}
+		} catch (SQLException ex) {
+			System.out.println("Erreur infos capteurair!");
+		}
+		System.out.println("je vais recuperer des infos capteurair en bdd");
+		ObjectMapper mapper = new ObjectMapper();
+		resultat = resultat + mapper.writeValueAsString(res) + "}";
+		this.response = resultat;
+		return resultat;
+	}
 
 }
