@@ -54,17 +54,21 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 class myCapteur extends JFrame implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JComboBox liste1;
 	private JFormattedTextField jtf = new JFormattedTextField(NumberFormat.getIntegerInstance());
 	private JMenuBar menu = new JMenuBar();
-	private JMenu onglet1 = new JMenu("Déterminer la qualité d'air");
+	private JMenu onglet1 = new JMenu("Dï¿½terminer la qualitï¿½ d'air");
 	private JMenu onglet2 = new JMenu ("Configurer Capteur");
 	private JMenu onglet3 = new JMenu ("Historique");
 
 	private JMenuItem case1 = new JMenuItem("Selectionner Quartier");
 	private JMenuItem case2 = new JMenuItem("Indice de la ville");
 	private JMenuItem case3 = new JMenuItem("Ajuster les seuils suivant les quartiers");
-	private JMenuItem case4 = new JMenuItem("Déterminer l'intervalle de relevé");
+	private JMenuItem case4 = new JMenuItem("Dï¿½terminer l'intervalle de relevï¿½");
 
 	private Socket clientSocket; 
 	private PrintWriter out;
@@ -85,9 +89,9 @@ class myCapteur extends JFrame implements ActionListener {
 	}
 
  // interface central
-  public JPanel myCapteur(){
+  public myCapteur() throws UnknownHostException, IOException, JSONException{
     	boolean alerte = true;
-    	setTitle("Déterminer qualité d'air");
+    	setTitle("Dï¿½terminer qualitï¿½ d'air");
     	setSize(400, 200);
     	setLocationRelativeTo(null);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,16 +99,16 @@ class myCapteur extends JFrame implements ActionListener {
     	    //On initialise nos menus      
     	    this.onglet1.add(case1);
 
-    	    //On ajoute les éléments dans notre sous-menu
+    	    //On ajoute les ï¿½lï¿½ments dans notre sous-menu
     	   // this.test1_2.add(jcmi1);
     	    //this.test1_2.add(jcmi2);
-    	    //Ajout d'un séparateur
+    	    //Ajout d'un sï¿½parateur
     	    //this.test1_2.addSeparator();
     	    //On met nos radios dans un ButtonGroup
     	    //ButtonGroup bg = new ButtonGroup();
     	    //bg.add(jrmi1);
     	    //bg.add(jrmi1);
-    	    //On présélectionne la première radio
+    	    //On prï¿½sï¿½lectionne la premiï¿½re radio
     	    //jrmi1.setSelected(true);
 
     	    //this.test1_2.add(jrmi1);
@@ -112,7 +116,7 @@ class myCapteur extends JFrame implements ActionListener {
 
     	    //Ajout du sous-menu dans notre menu
     	    //this.test1.add(this.test1_2);
-    	    //Ajout d'un séparateur
+    	    //Ajout d'un sï¿½parateur
     	    //this.onglet1.addSeparator();
     	    //item2.addActionListener(new ActionListener(){
     	      //public void actionPerformed(ActionEvent arg0) {
@@ -123,8 +127,8 @@ class myCapteur extends JFrame implements ActionListener {
     	    this.onglet2.add(case3);
     	    this.onglet2.add(case4);
 
-    	    //L'ordre d'ajout va déterminer l'ordre d'apparition dans le menu de gauche à droite
-    	    //Le premier ajouté sera tout à gauche de la barre de menu et inversement pour le dernier
+    	    //L'ordre d'ajout va dï¿½terminer l'ordre d'apparition dans le menu de gauche ï¿½ droite
+    	    //Le premier ajoutï¿½ sera tout ï¿½ gauche de la barre de menu et inversement pour le dernier
     	    this.menu.add(onglet1);
     	    this.menu.add(onglet2);
             this.menu.add(onglet3);
@@ -158,7 +162,7 @@ class myCapteur extends JFrame implements ActionListener {
     	        public void actionPerformed(ActionEvent arg0) {
     	          try {
     	          	//generateMapUnSave();
-    	  		} catch (IOException | JSONException e) {
+    	  		} catch (IOException e) {
     	  			// TODO Auto-generated catch block
     	  			e.printStackTrace();
     	  		}
@@ -193,8 +197,8 @@ class myCapteur extends JFrame implements ActionListener {
     
 
     	    
-    	    if(getalerte(alerte = true)) {
-        	    JButton bouton1 = new JButton("Alerte !!! L'indice relevé est supérerieur au seuil");
+    	    if(getalerte(1) == 1) {
+        	    JButton bouton1 = new JButton("Alerte !!! L'indice relevï¿½ est supï¿½rerieur au seuil");
         	    getContentPane().add(bouton1, "North");
         	    getContentPane().setLayout(null);
         	    bouton1.setBackground(Color.red);
@@ -209,7 +213,7 @@ class myCapteur extends JFrame implements ActionListener {
     	    	
     	    	JPanel pres = new JPanel();
     	    	getContentPane().add(pres);
-    	    	JLabel label = new JLabel("Bienvenue sur le site qui vous permettra de relevé la qualite d'air dans les quartiers et dans la ville");
+    	    	JLabel label = new JLabel("Bienvenue sur le site qui vous permettra de relevï¿½ la qualite d'air dans les quartiers et dans la ville");
     	    	pres.add(label);
     	    	
   	}
@@ -236,7 +240,7 @@ class myCapteur extends JFrame implements ActionListener {
 
 //panel.add(bouton);
 
-//JLabel label = new JLabel("Résultat : Pas encore calculé");
+//JLabel label = new JLabel("Rï¿½sultat : Pas encore calculï¿½");
 
 //panel.add(label);
 
@@ -257,26 +261,29 @@ class myCapteur extends JFrame implements ActionListener {
 
         JLabel label1 = new JLabel();
         label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
-                      + "Pour le quartier " + quartier + "nous avons un indice de" ++ 
+                      + "Pour le quartier " //+ quartier 
+                      + "nous avons un indice de" 
                       + "<p>"   
-                      + "Pour les particules fines, nous avons un indice ATMO de " +   
+                      + "Pour les particules fines, nous avons un indice ATMO de "    
                       + "<p>"
-                      + "Pour l'ozote, nous avons un indice ATMO de " +
+                      + "Pour l'ozote, nous avons un indice ATMO de " 
                       + "<p>"
-                      + "Pour le dioxyde d'azote, nous avons un indice ATMO de " + 
+                      + "Pour le dioxyde d'azote, nous avons un indice ATMO de "  
                       + "<p>"
-                      + "Pour le dioxyde de soufre, nous avons un indice ATMO de " + 
+                      + "Pour le dioxyde de soufre, nous avons un indice ATMO de " 
                       + "<p>"
-                      + "Donc un indice ATMO de " + 
+                      + "Donc un indice ATMO de "  
                       +"</body></html>" );
         panel.add(label1);
         return panel;
       }
     
    //alerte
-    public int getalerte(int alerte1) {
-    	getseuil();
-    	getcalculIndice();
+    public int getalerte(int alerte1) throws UnknownHostException, IOException, JSONException {
+    	//A faire
+    	//getseuil();
+    	//A modifier
+    	//getcalculIndice();
     	CapteurAir indice = new CapteurAir();
     	getindice();
     	int a =indice.getIndice();
@@ -294,7 +301,7 @@ class myCapteur extends JFrame implements ActionListener {
 
     public void getindice() throws UnknownHostException, IOException, JSONException{
     	String json;
-    	json  ="{request:{ operation_type: INFOINDATMO, target: capteurair , }}";
+    	json  ="{request:{ operation_type: INFOINDATMO, target: capteurair  }}";
     	this.startConnection("172.31.249.22", 2400, json);
     }
 
@@ -354,18 +361,18 @@ class myCapteur extends JFrame implements ActionListener {
 	}		
     
     
-    	//intervalle relevé
+    	//intervalle relevï¿½
     public void TestTimer(int a) {
     		Timer timer;
     		timer = new Timer();
-    	    timer.schedule(new getcalculIndice(), 0 , a);
+    	    timer.schedule(new myTask(), 0 , a);
     }
     
     public  JPanel getintervalle(){
     		JPanel panel1 = new JPanel();
     		panel1.setLayout(new FlowLayout());
     		panel1.setBackground(Color.white);	
-    		JLabel label1 = new JLabel("Veuillez déterminer l'intervalle des relevés");
+    		JLabel label1 = new JLabel("Veuillez dï¿½terminer l'intervalle des relevï¿½s");
     		jtf.getText();
     		int jtf1 = (Integer)jtf.getValue();
     		int jtf2 = jtf1 * 1000;
@@ -388,7 +395,7 @@ class myCapteur extends JFrame implements ActionListener {
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new FlowLayout());
 		panel1.setBackground(Color.white);	
-		JLabel label1 = new JLabel("Veuillez déterminer l'intervalle des relevés");
+		JLabel label1 = new JLabel("Veuillez dï¿½terminer l'intervalle des relevï¿½s");
 		jtf.getText();
 		int jtf1 = (Integer)jtf.getValue();
 		int jtf2 = jtf1 * 1000;
@@ -407,12 +414,12 @@ class myCapteur extends JFrame implements ActionListener {
 		return panel1;
   }
 
-//sélectionner quartier
+//sï¿½lectionner quartier
     public  JPanel getselectquartier() throws UnknownHostException, IOException, JSONException{
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new FlowLayout());
 		panel1.setBackground(Color.white);	
-		JLabel label1 = new JLabel("Choisissez le quartier souhaité : ");
+		JLabel label1 = new JLabel("Choisissez le quartier souhaitï¿½ : ");
 		Object[] element1 = getconfigcapteur();
 		liste1 = new JComboBox(element1);
 		panel1.add(liste1);
@@ -433,25 +440,19 @@ class myCapteur extends JFrame implements ActionListener {
 
 
 //historique
+	//A corriger
     public JPanel gethistorique(){
         JPanel panel1 = new JPanel();
        	panel1.setLayout(new FlowLayout());
         panel1.setBackground(Color.white);	
         JLabel label1 = new JLabel();
-        for(int i = 0; i < ; i++) {
-        	label1.setText("Un relevé de)
-        }
-        label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
-                      + "Un relevé de " +  + "sur l'échelle d'indice ATMO"
-                      + "<p>"   
-                      + "dans le quartier  " + quartier
-                      + "<p>"
-                      + "le " + date 
-                      + "<p>"
-                      + "à " + date
-                      + "<p>"
-                      +"</body></html>" );
-        panel1.add(label1);
+		/*
+		 * for(int i = 0; i < ; i++) { label1.setText("Un relevï¿½ de"); }
+		 * label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" +
+		 * "Un relevï¿½ de " + + "sur l'ï¿½chelle d'indice ATMO" + "<p>" +
+		 * "dans le quartier  " + quartier + "<p>" + "le " + date + "<p>" + "ï¿½ " + date
+		 * + "<p>" +"</body></html>" ); panel1.add(label1);
+		 */
         return panel1;
     }
 
@@ -509,6 +510,7 @@ class myCapteur extends JFrame implements ActionListener {
 
 
 
+<<<<<<< HEAD
 
     class getcalculIndice extends TimerTask {
     	public void run() {
@@ -656,6 +658,140 @@ class myCapteur extends JFrame implements ActionListener {
    		json  ="{request:{ operation_type: SAVEMAP, target: city , idCity: "+util.getId() + ", nameCity: "+ util.getNameCity() + ", longueurCity : "+ util.getLongueurCity() +", largeurCity : "+ util.getLargeurCity() +", budgetStation : "+ util.getBudgetStation() +",nombreMaxVoiture : "+ util.getNombreMaxVoiture() +",seuilAtmoCity : "+ util.getSeuilAtmoCity() +",tailleCity : "+ util.getTailleCity() +"}} " ;
    		return json;
    	}
+=======
+    public class myTask extends TimerTask{
+
+
+	@Override
+	public void run() {
+		 new Date();
+		   	int indiceATMO = 0;
+		   	int indiceParticule = 0;
+		   	int indiceSoufre = 0;
+		   	int indiceOzone = 0;
+		   	int indiceAzote = 0;
+		   	int ParticulesFines = 0 + (int)(Math.random() * ((135 - 0) + 1));
+		   	int DioxydeSoufre = 0 + (int)(Math.random() * ((510 - 0) + 1));
+		   	int Ozone = 0 + (int)(Math.random() * ((250 - 0) + 1));
+		   	int DioxydeAzote = 0 + (int)(Math.random() * ((410 - 0) + 1));
+		   	
+		   	
+		   	if (Ozone > 0 && 29 > Ozone) {
+		   		indiceOzone = 1;
+		   	}else if (Ozone > 30 && 54 > Ozone){
+		   		indiceOzone = 2;
+		   	}else if (Ozone > 55 && 79 > Ozone){
+		   		indiceOzone = 3;
+		   	}else if (Ozone > 80 && 104 > Ozone){
+		   		indiceOzone = 4;
+		   	}else if (Ozone > 105 && 129 > Ozone){
+		   		indiceOzone = 5;
+		   	}else if (Ozone > 130 && 149 > Ozone){
+		   		indiceOzone = 6;
+		   	}else if (Ozone > 150 && 179 > Ozone){
+		   		indiceOzone = 7;
+		   	}else if (Ozone > 180 && 209 > Ozone){
+		   		indiceOzone = 8;
+		   	}else if (Ozone > 210 && 239 > Ozone){
+		   		indiceOzone = 9;
+		   	}else if (240 < Ozone){
+		   		indiceOzone = 10;	
+		   	}
+		        System.out.println(indiceOzone);
+		   	
+		  
+		   	if (DioxydeSoufre > 0 && 39 > DioxydeSoufre) {
+		   		indiceSoufre = 1;
+		   	}else if (DioxydeSoufre > 40 && 79 > DioxydeSoufre){
+		   		indiceSoufre = 2;
+		   	}else if (DioxydeSoufre > 80 && 119 > DioxydeSoufre){
+		   		indiceSoufre = 3;
+		   	}else if (DioxydeSoufre > 120 && 159 > DioxydeSoufre){
+		   		indiceSoufre = 4;
+		   	}else if (DioxydeSoufre > 160 && 199 > DioxydeSoufre){
+		   		indiceSoufre = 5;
+		   	}else if (DioxydeSoufre > 200 && 249 > DioxydeSoufre){
+		   		indiceSoufre = 6;
+		   	}else if (DioxydeSoufre > 250 && 299 > DioxydeSoufre){
+		   		indiceSoufre = 7;
+		   	}else if (DioxydeSoufre > 300 && 399 > DioxydeSoufre){
+		   		indiceSoufre = 8;
+		   	}else if (DioxydeSoufre > 400 && 499 > DioxydeSoufre){
+		   		indiceSoufre = 9;
+		   	}else if (500 < DioxydeSoufre){
+		   		indiceSoufre = 10;	
+		   	}	
+
+		        System.out.println(indiceSoufre);
+		   	
+		   	
+		   	if (ParticulesFines > 0 && 9 > ParticulesFines) {
+		   		indiceParticule = 1;
+		   	}else if (ParticulesFines > 10 && 19 > ParticulesFines){
+		   		indiceParticule = 2;
+		   	}else if (ParticulesFines > 20 && 29 > ParticulesFines){
+		   		indiceParticule = 3;
+		   	}else if (ParticulesFines > 30 && 39 > ParticulesFines){
+		   		indiceParticule = 4;
+		   	}else if (ParticulesFines > 40 && 49 > ParticulesFines){
+		   		indiceParticule = 5;
+		   	}else if (ParticulesFines > 50 && 59 > ParticulesFines){
+		   		indiceParticule = 6;
+		   	}else if (ParticulesFines > 60 && 79 > ParticulesFines){
+		   		indiceParticule = 7;
+		   	}else if (ParticulesFines > 80 && 99 > ParticulesFines){
+		   		indiceParticule = 8;
+		   	}else if (ParticulesFines > 100 && 124 > ParticulesFines){
+		   		indiceParticule = 9;
+		   	}else if (125 < ParticulesFines){
+		   		indiceParticule = 10;	
+		   	}
+		        System.out.println(indiceParticule);
+		   	
+		   	
+		   	if (DioxydeAzote > 0 && 29 > DioxydeAzote) {
+		   		indiceAzote = 1;
+		   	}else if (DioxydeAzote > 30 && 54 > DioxydeAzote){
+		   		indiceAzote = 2;
+		   	}else if (DioxydeAzote > 55 && 84 > DioxydeAzote){
+		   		indiceAzote = 3;
+		   	}else if (DioxydeAzote > 85 && 109 > DioxydeAzote){
+		   		indiceAzote = 4;
+		   	}else if (DioxydeAzote > 110 && 134 > DioxydeAzote){
+		   		indiceAzote = 5;
+		   	}else if (DioxydeAzote > 135 && 164 > DioxydeAzote){
+		   		indiceAzote = 6;
+		   	}else if (DioxydeAzote > 165 && 199 > DioxydeAzote){
+		   		indiceAzote = 7;
+		   	}else if (DioxydeAzote > 200 && 274 > DioxydeAzote){
+		   		indiceAzote = 8;
+		   	}else if (DioxydeAzote > 275 && 399 > DioxydeAzote){
+		   		indiceAzote = 9;
+		   	}else if (400 < DioxydeAzote){
+		   		indiceAzote = 10;	
+		   	}
+
+		   	 System.out.println(indiceAzote);
+
+		      int minVal = Integer.MIN_VALUE;
+		      
+		      int array[] = {indiceOzone, indiceParticule, indiceAzote, indiceSoufre};
+		 
+		 
+		      for(int i = 0; i < array.length; i++){
+		        if(array[i] > minVal)
+		          minVal = array[i];
+		      }
+		 
+		      
+		      System.out.print("\nIndiceATMO = "+minVal);
+		      
+		
+	}
+   
+}
+       
+>>>>>>> 92a6c0458f53072572e7aed32565349db7cbe897
       
 //	    	int res = 0;
 //	    	String status = "Unknown";
@@ -754,6 +890,14 @@ class myCapteur extends JFrame implements ActionListener {
 	public static void main(String[] args) throws JSONException, UnknownHostException, IOException { 
 		myCapteur air = new myCapteur();
 		//air.startConnection("172.31.249.22", 2400);
+		air.getindice();
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
