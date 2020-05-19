@@ -119,7 +119,7 @@ public class MotionSensorVue {
 	private void ListeSensor(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {                                           
 		new MotionSensorListVue(frame, true).setVisible(true);
 	}
-	private void AddSensor(java.awt.event.ActionEvent evt) {                                           
+	private void AddSensor(java.awt.event.ActionEvent evt) {    
 		new MotionSensorAdd().setVisible(true);
 	}
 	private void DeleteSensor(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {                                           
