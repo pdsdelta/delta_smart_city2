@@ -43,6 +43,7 @@ import CapteurAir.CapteurAir;
 import client.CityClient;
 import connectionPool.DataSource;
 import district.District;
+import tram_line.transition;
 import tram_line.tramExceptions.noDataInBase;
 import user.Users;
 
@@ -509,6 +510,155 @@ class myCapteur extends JFrame implements ActionListener {
 
 
 
+<<<<<<< HEAD
+
+    class getcalculIndice extends TimerTask {
+    	public void run() {
+      	    new Date();
+   	int indiceATMO = 0;
+   	int indiceParticule = 0;
+   	int indiceSoufre = 0;
+   	int indiceOzone = 0;
+   	int indiceAzote = 0;
+   	int ParticulesFines = 0 + (int)(Math.random() * ((135 - 0) + 1));
+   	int DioxydeSoufre = 0 + (int)(Math.random() * ((510 - 0) + 1));
+   	int Ozone = 0 + (int)(Math.random() * ((250 - 0) + 1));
+   	int DioxydeAzote = 0 + (int)(Math.random() * ((410 - 0) + 1));
+   	
+   	
+   	if (Ozone > 0 && 29 > Ozone) {
+   		indiceOzone = 1;
+   	}else if (Ozone > 30 && 54 > Ozone){
+   		indiceOzone = 2;
+   	}else if (Ozone > 55 && 79 > Ozone){
+   		indiceOzone = 3;
+   	}else if (Ozone > 80 && 104 > Ozone){
+   		indiceOzone = 4;
+   	}else if (Ozone > 105 && 129 > Ozone){
+   		indiceOzone = 5;
+   	}else if (Ozone > 130 && 149 > Ozone){
+   		indiceOzone = 6;
+   	}else if (Ozone > 150 && 179 > Ozone){
+   		indiceOzone = 7;
+   	}else if (Ozone > 180 && 209 > Ozone){
+   		indiceOzone = 8;
+   	}else if (Ozone > 210 && 239 > Ozone){
+   		indiceOzone = 9;
+   	}else if (240 < Ozone){
+   		indiceOzone = 10;	
+   	}
+        System.out.println(indiceOzone);
+   	
+  
+   	if (DioxydeSoufre > 0 && 39 > DioxydeSoufre) {
+   		indiceSoufre = 1;
+   	}else if (DioxydeSoufre > 40 && 79 > DioxydeSoufre){
+   		indiceSoufre = 2;
+   	}else if (DioxydeSoufre > 80 && 119 > DioxydeSoufre){
+   		indiceSoufre = 3;
+   	}else if (DioxydeSoufre > 120 && 159 > DioxydeSoufre){
+   		indiceSoufre = 4;
+   	}else if (DioxydeSoufre > 160 && 199 > DioxydeSoufre){
+   		indiceSoufre = 5;
+   	}else if (DioxydeSoufre > 200 && 249 > DioxydeSoufre){
+   		indiceSoufre = 6;
+   	}else if (DioxydeSoufre > 250 && 299 > DioxydeSoufre){
+   		indiceSoufre = 7;
+   	}else if (DioxydeSoufre > 300 && 399 > DioxydeSoufre){
+   		indiceSoufre = 8;
+   	}else if (DioxydeSoufre > 400 && 499 > DioxydeSoufre){
+   		indiceSoufre = 9;
+   	}else if (500 < DioxydeSoufre){
+   		indiceSoufre = 10;	
+   	}	
+
+        System.out.println(indiceSoufre);
+   	
+   	
+   	if (ParticulesFines > 0 && 9 > ParticulesFines) {
+   		indiceParticule = 1;
+   	}else if (ParticulesFines > 10 && 19 > ParticulesFines){
+   		indiceParticule = 2;
+   	}else if (ParticulesFines > 20 && 29 > ParticulesFines){
+   		indiceParticule = 3;
+   	}else if (ParticulesFines > 30 && 39 > ParticulesFines){
+   		indiceParticule = 4;
+   	}else if (ParticulesFines > 40 && 49 > ParticulesFines){
+   		indiceParticule = 5;
+   	}else if (ParticulesFines > 50 && 59 > ParticulesFines){
+   		indiceParticule = 6;
+   	}else if (ParticulesFines > 60 && 79 > ParticulesFines){
+   		indiceParticule = 7;
+   	}else if (ParticulesFines > 80 && 99 > ParticulesFines){
+   		indiceParticule = 8;
+   	}else if (ParticulesFines > 100 && 124 > ParticulesFines){
+   		indiceParticule = 9;
+   	}else if (125 < ParticulesFines){
+   		indiceParticule = 10;	
+   	}
+        System.out.println(indiceParticule);
+   	
+   	
+   	if (DioxydeAzote > 0 && 29 > DioxydeAzote) {
+   		indiceAzote = 1;
+   	}else if (DioxydeAzote > 30 && 54 > DioxydeAzote){
+   		indiceAzote = 2;
+   	}else if (DioxydeAzote > 55 && 84 > DioxydeAzote){
+   		indiceAzote = 3;
+   	}else if (DioxydeAzote > 85 && 109 > DioxydeAzote){
+   		indiceAzote = 4;
+   	}else if (DioxydeAzote > 110 && 134 > DioxydeAzote){
+   		indiceAzote = 5;
+   	}else if (DioxydeAzote > 135 && 164 > DioxydeAzote){
+   		indiceAzote = 6;
+   	}else if (DioxydeAzote > 165 && 199 > DioxydeAzote){
+   		indiceAzote = 7;
+   	}else if (DioxydeAzote > 200 && 274 > DioxydeAzote){
+   		indiceAzote = 8;
+   	}else if (DioxydeAzote > 275 && 399 > DioxydeAzote){
+   		indiceAzote = 9;
+   	}else if (400 < DioxydeAzote){
+   		indiceAzote = 10;	
+   	}
+
+   	 System.out.println(indiceAzote);
+
+      int minVal = Integer.MIN_VALUE;
+      
+      int array[] = {indiceOzone, indiceParticule, indiceAzote, indiceSoufre};
+ 
+ 
+      for(int i = 0; i < array.length; i++){
+        if(array[i] > minVal)
+          minVal = array[i];
+      }
+ 
+      
+      System.out.print("\nIndiceATMO = "+minVal);
+     }
+   }
+    CapteurAir util = new CapteurAir();
+   	public String addSetCapteur() {
+   		int idCity1 = 1; 
+   		int nombreMaxVoiture1 = 0;
+   		int seuilAtmoCity1 = 0;
+   		String json= "";
+   		
+   		
+   	
+   		util.setIdCity(idCity1);
+   		util.setNameCity(transition.nameCity);
+   		util.setLongueurCity(transition.longueur1);
+   		util.setLargeurCity(transition.largeur1);
+   		util.setBudgetStation(transition.budgetCity1);
+   		util.setNombreMaxVoiture(nombreMaxVoiture1);
+   		util.setSeuilAtmoCity(seuilAtmoCity1);
+   		util.setTailleCity(transition.mapTaille1);
+   		
+   		json  ="{request:{ operation_type: SAVEMAP, target: city , idCity: "+util.getId() + ", nameCity: "+ util.getNameCity() + ", longueurCity : "+ util.getLongueurCity() +", largeurCity : "+ util.getLargeurCity() +", budgetStation : "+ util.getBudgetStation() +",nombreMaxVoiture : "+ util.getNombreMaxVoiture() +",seuilAtmoCity : "+ util.getSeuilAtmoCity() +",tailleCity : "+ util.getTailleCity() +"}} " ;
+   		return json;
+   	}
+=======
     public class myTask extends TimerTask{
 
 
@@ -641,6 +791,7 @@ class myCapteur extends JFrame implements ActionListener {
    
 }
        
+>>>>>>> 92a6c0458f53072572e7aed32565349db7cbe897
       
 //	    	int res = 0;
 //	    	String status = "Unknown";
