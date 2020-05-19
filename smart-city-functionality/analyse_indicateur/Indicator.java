@@ -28,7 +28,7 @@ import transportation.PublicTransport;
 
 
 
-public class CRUD {
+public class Indicator {
 
 
 	private Socket clientSocket;
@@ -46,7 +46,7 @@ public class CRUD {
 	private functionalityServer server; 
 	private InfoGlobalCarbon InfoGlobalCarbon;
 
-	public CRUD(functionalityServer server) throws ClassNotFoundException, SQLException {
+	public Indicator(functionalityServer server) throws ClassNotFoundException, SQLException {
 		this.server=server;	
 		this.connection= new DataSource();
 		this.connect=connection.getConnection();
@@ -304,18 +304,17 @@ public class CRUD {
 		 * @throws JsonProcessingException
 		 * @throws SQLException 
 		 */
-		public int informationBorne() throws JSONException, JsonProcessingException, SQLException {
+		public String informationBorne() throws JSONException, JsonProcessingException, SQLException {
 
 			List<Terminal> res = new ArrayList<Terminal>();
 			//String json = this.jsonClient;	
 			//JSONObject obj = new JSONObject(json);
 			//JSONObject request = obj.getJSONObject("request");
 
-
 			Statement stmt3 = this.connect.createStatement();
 			int count = 0;
 
-			ResultSet rs3 = stmt3.executeQuery("select count(id) from terminal");
+			ResultSet rs3 = stmt3.executeQuery("select count(*) as total from terminal");//select id from terminal where status=1;
 			while(rs3.next()){
 
 				count = rs3.getInt("total");
@@ -334,11 +333,46 @@ public class CRUD {
 			//		} catch (SQLException ex) {
 			//			System.out.println("Erreur infos motionsensor!");
 			//		}
-			System.out.println("je vais recuperer le nbr en bdd");
+			System.out.println("je vais recuperer le nbr borneen bdd");
 			//ObjectMapper mapper = new ObjectMapper();
 			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		//	String resultat= "{Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}";
+			String resultat= "{Table: terminal, Action : informationBorne,  Data: "+count+"}";
 		//	this.finalResponse = resultat;
-			return count;
+		resultat = resultat + count + "}" ;
+		System.out.println(resultat);
+			return resultat;
+			
 		}
+		
+		
+		
+		
+		/**
+		 * @return
+		 * @throws JSONException
+		 * @throws JsonProcessingException
+		 * @throws SQLException 
+		 */
+		public List<Terminal> getAll() throws SQLException { 
+			List<Terminal> res = new ArrayList<Terminal>(); 
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Terminal where status = 1");
+			while (result.next()) {
+				Terminal borne = new Terminal(); 
+
+				borne.setLongitude(result.getInt("longitude"));
+				borne.setLatitude(result.getInt("latitude"));
+				borne.setActive(result.getBoolean("isActive"));
+				borne.setStatus(result.getInt("status"));
+				borne.setNumero(result.getInt("numero"));
+				res.add(borne);
+
+			} 
+
+			return res;
+		}
+		
+		
+		
 }

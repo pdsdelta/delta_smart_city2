@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 import org.json.JSONException;
 
-import analyse_indicateur.Page1;
+import analyse_indicateur.IndicatorView;
 import gestion_borne.vue.MotionSensorVue;
 import gestion_borne.vue.TerminalVue;
 import infocarbon.CarbonInfo;
@@ -96,7 +96,7 @@ public class functionalityClient extends JFrame{
 		boutonAnalyseIndicateur.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Affichafe des statistiques");
-				Page1 page = new Page1();
+				IndicatorView page = new IndicatorView();
 				page.affichePage1();
 
 			}

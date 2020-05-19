@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import functionality_server.functionalityServer;
+import gestion_borne.vue.TerminalListVue;
 
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
@@ -28,9 +29,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.SystemColor;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
-public class Page1 extends JFrame {
-	public Page1() {
+public class IndicatorView extends JFrame {
+	public IndicatorView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 795, 413);
 		contentPane = new JPanel();
@@ -111,14 +114,14 @@ public class Page1 extends JFrame {
 												
 	//1number de capteur d'air
 	   JButton numberCapteurair = new JButton("number capteurAir");
-		numberCapteurair.setBounds(87, 59, 218, 50);
+	   numberCapteurair.setBounds(87, 59, 218, 35);
 		contentPane.add(numberCapteurair);
 		numberCapteurair.setBackground(SystemColor.inactiveCaption);
 		numberCapteurair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CRUD objet = null;
+				Indicator objet = null;
 				try {
-					objet = new CRUD(server);
+					objet = new Indicator(server);
 				} catch (ClassNotFoundException | SQLException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -138,15 +141,15 @@ public class Page1 extends JFrame {
 		
 	//2number motion sensor
 				JButton NumberMotionsensor = new JButton("number motionSensor");
-				NumberMotionsensor.setBounds(336, 132, 218, 50);
+				NumberMotionsensor.setBounds(336, 132, 218, 35);
 				contentPane.add(NumberMotionsensor);
 				NumberMotionsensor.setBackground(SystemColor.inactiveCaption);
 				
 				NumberMotionsensor.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						CRUD objet = null;
+						Indicator objet = null;
 						try {
-							objet = new CRUD(server);
+							objet = new Indicator(server);
 						} catch (ClassNotFoundException | SQLException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -167,15 +170,15 @@ public class Page1 extends JFrame {
 				
         // 3number de station		
 				JButton numberStation = new JButton("number station");
-				numberStation.setBounds(336, 59, 218, 49);
+				numberStation.setBounds(336, 59, 218, 35);
 				contentPane.add(numberStation);
 				numberStation.setBackground(SystemColor.inactiveCaption);
 				numberStation.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
-						CRUD objet = null;
+						Indicator objet = null;
 						try {
-							objet = new CRUD(server);
+							objet = new Indicator(server);
 						} catch (ClassNotFoundException | SQLException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -196,14 +199,14 @@ public class Page1 extends JFrame {
 	//4 NUMBER CAR	 calendrier
 				
 				JButton numberCar = new JButton("number Car");
-				numberCar.setBounds(87, 132, 218, 50);
+				numberCar.setBounds(87, 132, 218, 35);
 				contentPane.add(numberCar);
 				numberCar.setBackground(SystemColor.inactiveCaption);
 				numberCar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						CRUD objet = null;
+						Indicator objet = null;
 						try {
-							objet = new CRUD(server);
+							objet = new Indicator(server);
 						} catch (ClassNotFoundException | SQLException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -226,15 +229,15 @@ public class Page1 extends JFrame {
 				
 	//5 NUMBER TRAM	
 				JButton numbrTram = new JButton("number Tram");
-				numbrTram.setBounds(87, 216, 218, 50);
+				numbrTram.setBounds(87, 216, 218, 35);
 				contentPane.add(numbrTram);
 				numbrTram.setBackground(SystemColor.inactiveCaption);
 				numbrTram.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
-							CRUD objet = null;
+							Indicator objet = null;
 							try {
-								objet = new CRUD(server);
+								objet = new Indicator(server);
 							} catch (ClassNotFoundException | SQLException e2) {
 								// TODO Auto-generated catch block
 								e2.printStackTrace();
@@ -254,63 +257,69 @@ public class Page1 extends JFrame {
 				
 	// 6 NUMBER BORNE	
 				JButton NumberBorne = new JButton("number borne");
-				NumberBorne.setBounds(336, 216, 218, 50);
+				NumberBorne.setBounds(336, 216, 218, 35);
 				contentPane.add(NumberBorne);
 				NumberBorne.setBackground(SystemColor.inactiveCaption);
-				NumberBorne.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						CRUD objet = null;
+				NumberBorne.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						Indicator objet = null;
 						try {
-							objet = new CRUD(server);
+							objet = new Indicator(server);
 						} catch (ClassNotFoundException | SQLException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 						try {
-							JOptionPane.showMessageDialog(null, "le nombre de borne  est :" + objet.informationBorne());
+							String jsonReceived = objet.informationBorne();
+							JSONObject obj = new JSONObject(jsonReceived );
+							 
+							int data = obj.getInt("Data");
+							JOptionPane.showMessageDialog(null, "le nombre de borne  est :" + data);
 						} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					
+						try {
+							ListeTerminal(evt);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						
 					}
 				});
 				
+				JScrollPane scrollPane_1 = new JScrollPane();
+				scrollPane_1.setBounds(524, 261, 245, 102);
+				contentPane.add(scrollPane_1);
 				
-				JButton essaye = new JButton("essaye");
-				essaye.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-				essaye.setBounds(103, 306, 89, 23);
-				contentPane.add(essaye);
+				JScrollPane nbrBorneActive = new JScrollPane();
+				scrollPane_1.setViewportView(nbrBorneActive);
 				
-				
-															
-																			
-													
-												
-					
-						
-						
-			
-		
-		
-
-
-
-
-
+				table = new JTable();
+				nbrBorneActive.setViewportView(table);
 										
 						
 	}
 
+	private void ListeTerminal(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {                                           
+		new BorneActif(this, true).setVisible(true);
+	}
+	
+	
+	
+	
 	private JPanel contentPane;
 	private JTextField textFieldNum1;
 	private JTextField textFieldNum2;
 	private JTextField textFieldAns;
 	private functionalityServer server;
+	private JTable table;
 
 	/**
 	 * Launch the application.
