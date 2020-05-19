@@ -81,15 +81,14 @@ public class functionalityClient extends JFrame{
 			}        
 		});
 		//Fontionalitee Julien
-		//	   boutonAircapteur.addActionListener(new ActionListener(){
-		//		      public void actionPerformed(ActionEvent arg0) {
-		//			        System.out.println("Ouverture de la page de qualit� d'air ");
-		//			        myCapteur client = new myCapteur();
-		//			        client.afficheMenuAndGetJson();
-		//			      }        
-		//			    });
-		//	}
-		//	
+		/*
+		 * boutonAircapteur.addActionListener(new ActionListener(){ public void
+		 * actionPerformed(ActionEvent arg0) {
+		 * System.out.println("Ouverture de la page de qualit� d'air "); myCapteur
+		 * client = new myCapteur(); client.afficheMenuAndGetJson(); } });
+		 */
+		
+			
 
 		//Fonctionalitee hiba UPDATE
 
