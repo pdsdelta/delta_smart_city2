@@ -114,6 +114,7 @@ public class TerminalDAO extends DAO<Terminal>{
 					city.setLargeurCity(i.getInt("largeurcity"));
 					city.setLongueurCity(i.getInt("longueurcity"));
 					city.setBudgetStation(i.getInt("budgetstation"));
+					city.setNombreMaxVoiture(i.getInt("nombremaxvoiture"));
 					terminal = new Terminal(
 							result.getInt("longitude"),
 							result.getInt("latitude"),
