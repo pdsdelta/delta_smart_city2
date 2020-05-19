@@ -105,7 +105,7 @@ public class CarbonServerUtils {
     		JSONArray arrpu = objpub.getJSONArray("Data");
         	int nbTram = arrpu.getJSONObject(0).getInt("NbTram");
         	int longueurreseau = arrpu.getJSONObject(0).getInt("LengthLine");
-        	resultat= resultat + statusPriv +", Data: [{ NbCars :" + nbCars +", NbTram :" + nbTram + ",LengthLine :" + longueurreseau+"}]} " ;
+        	resultat= resultat + ", Data: [{ NbCars :" + nbCars +", NbTram :" + nbTram + ",LengthLine :" + longueurreseau+"}]} " ;
         	
     	}else {
     		resultat = resultat + "failed , Data: [{ empty : true }]}";

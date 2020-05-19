@@ -37,7 +37,7 @@ public class JDBCConnectionPool{
 	//pour les connexions disponibles
 	private CopyOnWriteArrayList<Connection> connectionsDispo;
 	//le nombre de connexions max admis
-	private static int MAX_CONNEXION=20;
+	private static int MAX_CONNEXION=5;
 
 	String connectionUrl = fileData.getConnectionUrl();
 	String driver = fileData.getDriver();

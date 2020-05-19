@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 import org.json.JSONException;
 
-import analyse_indicateur.Page1;
+import analyse_indicateur.IndicatorView;
 import gestion_borne.vue.MotionSensorVue;
 import gestion_borne.vue.TerminalVue;
 import infocarbon.CarbonInfo;
@@ -96,12 +96,12 @@ public class functionalityClient extends JFrame{
 		boutonAnalyseIndicateur.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Affichafe des statistiques");
-				Page1 page = new Page1();
+				IndicatorView page = new IndicatorView();
 				page.affichePage1();
 
 			}
 		});
-		//Fonctionnalité Anaelle : Gestion des bornes Retractables
+		//Fonctionnalitï¿½ Anaelle : Gestion des bornes Retractables
 		boutonTerminal.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Lancement de l'ecran de configuration des bornes retractables");
@@ -110,10 +110,10 @@ public class functionalityClient extends JFrame{
 				affichage.main(args);
 			}        
 		});
-		//Fonctionnalité Analle: Gestion des detecteurs de vehicules
+		//Fonctionnalitï¿½ Analle: Gestion des detecteurs de vehicules
 		boutonMotionSensor.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Lancement de l'ecran de configuration des detecteurs de véhicules");
+				System.out.println("Lancement de l'ecran de configuration des detecteurs de vï¿½hicules");
 				MotionSensorVue i= new MotionSensorVue();
 				String[] args = null;
 				i.main(args);

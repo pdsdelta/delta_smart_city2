@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,6 +48,8 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	private JPanel passagers = new JPanel(); 
 	private JPanel trams = new JPanel(); 
 	private JPanel longTram = new JPanel(); 
+	private JPanel kmMoyen = new JPanel();
+	private JPanel hourService = new JPanel();
 	String[] tab_string = {"1", "2", "3", "4", "5", "6"};
 	JButton[] tab_button = new JButton[tab_string.length];
 	private JButton b1,b2,b3,b4,b5,b6; 
@@ -54,7 +57,10 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	private CarbonOrder co;
 	//Attribute of the Json to send to the server
 	private String jsonClient; 
-	private JTextField jtiec = new JTextField();
+	private JLabel jtiec = new JLabel();
+	private JLabel jtiecpriv = new JLabel();
+	private JLabel jtiecpub = new JLabel();
+	private JLabel jtiecnpass = new JLabel();
 	private static CarbonMenu instance = null ;
 
 	
@@ -85,7 +91,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		p.setBorder(new TitledBorder("Liste des choix Possibles") );
 		es.setLayout (new BoxLayout (es, BoxLayout.Y_AXIS)); 
 		es.setBackground(Color.WHITE);
-		es.setBorder(new TitledBorder("Paramètres de calcul") );
+		es.setBorder(new TitledBorder("Estimer l'empreinte carbonne pour une journée") );
 		cg.setLayout(new BoxLayout (cg, BoxLayout.Y_AXIS));
 		//this.getContentPane().add(BorderLayout.SOUTH,p);
 		//this.getContentPane().add(p);
@@ -122,6 +128,9 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			es.removeAll();
 			cg.removeAll();
 			p.removeAll();
+			getContentPane().remove(jtiecpriv);
+			getContentPane().remove(jtiecpub);
+			getContentPane().remove(jtiec);
 			getContentPane().remove(es);
 			getContentPane().remove(p);
 			p.add(b1);
@@ -147,14 +156,16 @@ public class CarbonMenu extends JFrame implements ActionListener {
 						String resp = CarbonInfo.getInstance().sendMessage(res);
 						InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
 						if(ic==null) {
-							JTextField emp = new JTextField("Aucune donnée pour la date d'hier");
+							JLabel emp = new JLabel("Aucune donnée pour la date d'hier");
 							cg.add(emp);
 						}else {
 							double resul = ic.calculateCarbon();
-							JTextField emp = new JTextField("L'empreinte carbonne globale de la ville est  "+ resul);
+							JLabel emp = new JLabel("L'empreinte carbonne globale de la ville est de : "+ resul + " Kg de CO2");
 							cg.add(emp);
 						}
 						getContentPane().add(cg);
+						getContentPane().revalidate();
+						getContentPane().repaint();
 						setVisible(true);
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -171,7 +182,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					
 					cg.removeAll();
-					JTextField jt = new JTextField("Veuillez choisir la date souhaitée");
+					JLabel jt = new JLabel("Veuillez choisir la date souhaitée");
 					cg.add(jt);
 					JDatePickerImpl datePicker = generateDatePicker();
 					cg.add(datePicker);
@@ -192,14 +203,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 								d = dateFormat.format(dd);
 								System.out.println("Date entrée :" + d);
 							}
-							JTextField jtt = new JTextField("Chargement");
+							JLabel jtt = new JLabel("Chargement");
 							cg.add(jtt);
 							boolean b = validateJavaDate(d);
 							if(b) {
 								boolean bb = compareDate(d);
 								if(bb) {
 									cg.remove(jtt);
-									jtt = new JTextField("Calcul de l'empreinte carbonne pour la date du "+ d);
+									jtt = new JLabel("Calcul de l'empreinte carbonne globale pour la date du "+ d);
 									cg.add(jtt);
 									getContentPane().add(cg);
 									Users u = new Users();
@@ -215,14 +226,16 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										String resp = CarbonInfo.getInstance().sendMessage(res);
 										InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
 										if(ic==null) {
-											JTextField emp = new JTextField("Aucune donnée pour la date :  "+ d);
+											JLabel emp = new JLabel("Aucune donnée pour la date :  "+ d);
 											cg.add(emp);
 										}else {
 											double resul = ic.calculateCarbon();
-											JTextField emp = new JTextField("L'empreinte carbonne est  "+ resul);
+											JLabel emp = new JLabel("L'empreinte carbonne globale est de : "+ resul + " Kg de CO2");
 											cg.add(emp);
 										}
 										getContentPane().add(cg);
+										getContentPane().revalidate();
+										getContentPane().repaint();
 										setVisible(true);
 										System.out.println("*******************");
 									} catch (IOException e1) {
@@ -231,15 +244,17 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									setVisible(true);
 								}else {
 									cg.removeAll();
-									jtt = new JTextField("Veuillez entrez une antérieure à celle d'aujourd'hui");
+									jtt = new JLabel("Veuillez entrez une antérieure à celle d'aujourd'hui");
 									cg.add(jtt);
 									getContentPane().add(cg);
+									getContentPane().revalidate();
+									getContentPane().repaint();
 									setVisible(true);
 									
 								}
 							}else {
 								cg.remove(jtt);
-								jtt = new JTextField("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
+								jtt = new JLabel("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
 								cg.add(jtt);
 								getContentPane().add(cg);
 								setVisible(true);
@@ -262,7 +277,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					
 					
 					cg.removeAll();
-					JTextField jt = new JTextField("Veuillez choisir la date souhaitée");
+					JLabel jt = new JLabel("Veuillez choisir la date souhaitée");
 					cg.add(jt);
 					JDatePickerImpl datePicker = generateDatePicker();
 					cg.add(datePicker);
@@ -290,7 +305,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							if(b) {
 								boolean bb = compareDate(d);
 								if(bb) {
-									JTextField jtt = new JTextField("Calcul de l'empreinte carbonne des transports publics pour la date du "+ d);
+									JLabel jtt = new JLabel("Calcul de l'empreinte carbonne des transports publics pour la date du "+ d);
 									cg.add(jtt);
 									getContentPane().add(cg);
 									Users u = new Users();
@@ -307,14 +322,17 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										String resp = CarbonInfo.getInstance().sendMessage(res);
 										InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
 										if(ic==null) {
-											JTextField emp = new JTextField("Aucune donnée pour la date :  "+ d);
+											JLabel emp = new JLabel("Aucune donnée pour la date :  "+ d);
 											cg.add(emp);
 										}else {
 											double resul = ic.calculateCarbon();
-											JTextField emp = new JTextField("L'empreinte carbonne est  "+ resul);
+											JLabel emp = new JLabel("L'empreinte carbonne est de : "+ resul + " Kg de CO2");
 											cg.add(emp);
+			
 										}
 										getContentPane().add(cg);
+										getContentPane().revalidate();
+										getContentPane().repaint();
 										setVisible(true);
 										System.out.println("*******************");
 									} catch (IOException e1) {
@@ -324,15 +342,17 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									setVisible(true);
 								}else {
 									cg.removeAll();
-									JTextField jtt = new JTextField("Veuillez entrez une date valide et antérieure à celle d'aujourd'hui");
+									JLabel jtt = new JLabel("Veuillez entrez une date valide et antérieure à celle d'aujourd'hui");
 									cg.add(jtt);
 									getContentPane().add(cg);
+									getContentPane().revalidate();
+									getContentPane().repaint();
 									setVisible(true);
 									
 								}
 							}else {
 								cg.removeAll();
-								JTextField jtt = new JTextField("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
+								JLabel jtt = new JLabel("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
 								cg.add(jtt);
 								getContentPane().add(cg);
 								setVisible(true);
@@ -355,7 +375,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					
 					cg.removeAll();
-					JTextField jt = new JTextField("Veuillez choisir la date souhaitée");
+					JLabel jt = new JLabel("Veuillez choisir la date souhaitée");
 					cg.add(jt);
 					JDatePickerImpl datePicker = generateDatePicker();
 					cg.add(datePicker);
@@ -380,7 +400,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							if(b) {
 								boolean bb = compareDate(d);
 								if(bb) {
-									JTextField jtt = new JTextField("Calcul de l'empreinte carbonne des transports privés pour la date du "+ d);
+									JLabel jtt = new JLabel("Calcul de l'empreinte carbonne des transports privés pour la date du "+ d);
 									cg.add(jtt);
 									getContentPane().add(cg);
 									Users u = new Users();
@@ -396,14 +416,16 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										String resp = CarbonInfo.getInstance().sendMessage(res);
 										InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
 										if(ic==null) {
-											JTextField emp = new JTextField("Aucune donnée trouvée pour la date : "+ d);
+											JLabel emp = new JLabel("Aucune donnée trouvée pour la date : "+ d);
 											cg.add(emp);
 										}else {
 											double resul = ic.calculateCarbon();
-											JTextField emp = new JTextField("L'empreinte carbonne pour les transports privée est  "+ resul);
+											JLabel emp = new JLabel("L'empreinte carbonne pour les transports privée est de : "+ resul +" Kg de CO2");
 											cg.add(emp);
 										}
 										getContentPane().add(cg);
+										getContentPane().revalidate();
+										getContentPane().repaint();
 										setVisible(true);
 										System.out.println("*******************");
 										//System.out.println(jsonClient);
@@ -412,14 +434,16 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									}
 									setVisible(true);
 								}else {
-									JTextField jtt = new JTextField("Veuillez entrez une date valide et antérieure à celle d'aujourd'hui");
+									JLabel jtt = new JLabel("Veuillez entrez une date valide et antérieure à celle d'aujourd'hui");
 									getContentPane().add(cg);
+									getContentPane().revalidate();
+									getContentPane().repaint();
 									cg.add(jtt);
 									setVisible(true);
 									
 								}
 							}else {
-								JTextField jtt = new JTextField("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
+								JLabel jtt = new JLabel("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
 								cg.add(jtt);
 								getContentPane().add(cg);
 								setVisible(true);
@@ -444,6 +468,9 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			cg.removeAll();
 			p.removeAll();
 			es.removeAll();
+			getContentPane().remove(jtiecpriv);
+			getContentPane().remove(jtiecpub);
+			getContentPane().remove(jtiec);
 			getContentPane().remove(p);
 			getContentPane().remove(cg);
 			getContentPane().remove(es);
@@ -473,7 +500,17 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					passagers.add(passlabel);
 					passagers.add(npass);
 					es.add(passagers);
-					//Third input
+					//Third
+					kmMoyen.removeAll();
+					JLabel kmLabel = new JLabel();
+					kmLabel.setText("Entrez la distance moyenne parcouru en km par une voiture pour une journée");
+					kmLabel.setBounds(10, 10, 100, 100);
+					JTextField nkm = new JTextField();
+					nkm.setColumns(10);
+					kmMoyen.add(kmLabel);
+					kmMoyen.add(nkm);
+					es.add(kmMoyen);
+					//Fourth input
 					trams.removeAll();
 					JLabel tramslabel = new JLabel();		
 					tramslabel.setText("Entrez le nombre de Tramway déployés :");
@@ -483,7 +520,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					trams.add(tramslabel);
 					trams.add(ntrams);
 					es.add(trams);
-					//Fourth input
+					//Fifth input
 					longTram.removeAll();
 					JLabel longTramlabel = new JLabel();		
 					longTramlabel.setText("Entrez la longeur de la ligne de Tramway :");
@@ -493,6 +530,16 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					longTram.add(longTramlabel);
 					longTram.add(nlongtram);
 					es.add(longTram);
+					//Sixth input
+					hourService.removeAll();
+					JLabel hourServicelabel = new JLabel();		
+					hourServicelabel.setText("Entrez le nombre d'heures de services du Tramway , ne pas dépasser 22h :");
+					hourServicelabel.setBounds(10, 10, 100, 100);
+					JTextField nhourService = new JTextField();
+					nhourService.setColumns(10);
+					hourService.add(hourServicelabel);
+					hourService.add(nhourService);
+					es.add(hourService);
 					//Button Calculer
 					es.add(b6);
 					//Adding 
@@ -505,39 +552,78 @@ public class CarbonMenu extends JFrame implements ActionListener {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							
+							getContentPane().remove(jtiecpriv);
+							getContentPane().remove(jtiecpub);
 							getContentPane().remove(jtiec);
 							getContentPane().revalidate();
 							getContentPane().repaint();
+							es.remove(jtiecpriv);
+							es.remove(jtiecpub);
 							es.remove(jtiec);
 							es.revalidate();
 							es.repaint();
-							int nv, np, nt;
-							double lt;
+							int nv, np, nt, hs;
+							double lt, km;
+							InfoEstimatedCarbon iec;
 							try {
 								
 								nv = Integer.parseInt(nCars.getText());
 								np = Integer.parseInt(npass.getText());
+								km = Double.parseDouble(nkm.getText());
 								nt = Integer.parseInt(ntrams.getText());
 								lt= Double.parseDouble(nlongtram.getText());
+								hs = Integer.parseInt(nhourService.getText());
+								
 								if (np > 5) {
 									JOptionPane.showMessageDialog(null, "Le nombre de passager moyen ne doit pas dépasser 5 personnes");
-									
+		
+									getContentPane().remove(jtiecpriv);
+									getContentPane().remove(jtiecpub);
 									getContentPane().remove(jtiec);
 									getContentPane().revalidate();
 									getContentPane().repaint();
 					
 				
+								}else if (nv <= 0 || np < 0 || lt < 0 || hs < 0 || km < 0) {
+									JOptionPane.showMessageDialog(null, "Les nombres doivent être positifs");
+									
+									getContentPane().remove(jtiecpriv);
+									getContentPane().remove(jtiecpub);
+									getContentPane().remove(jtiec);
+									getContentPane().revalidate();
+									getContentPane().repaint();
+					
+								}else if (hs > 22) {
+									JOptionPane.showMessageDialog(null, "Le nombre d'heures de service ne doit pas dépasser 22");
+									
+									getContentPane().remove(jtiecpriv);
+									getContentPane().remove(jtiecpub);
+									getContentPane().remove(jtiec);
+									getContentPane().revalidate();
+									getContentPane().repaint();
 								}else {
-									InfoCarbon iec = new infoEstimatedCarbon(1,nv,np,nt,lt);
-									jtiec.setText("L'empreinte carbonne globale est éstimé à : "+ iec.calculateCarbon() +" g deCO2");
+									iec = new InfoEstimatedCarbon(1,nv,np,km,nt,lt,hs);
+									DecimalFormat df = new DecimalFormat ( ) ; 
+									df.setMaximumFractionDigits ( 2 ) ; 
+									double glob = iec.calculateCarbon();
+									jtiecpub.setText("L'empreinte carbonne des voitures est éstimé à :" + df.format(iec.getEcpriv())+" Kg de CO2");
+									jtiecnpass.setText("Le nombre de passagers pour cette longueur de ligne est estimé à :" + iec.getNpp() + " passagers par jour");
+									jtiecpriv.setText("L'empreinte carbonne des tramways est éstimé à :" + df.format(iec.getEcpub())+" Kg de CO2");
+									jtiec.setText("L'empreinte carbonne globale est éstimé à : "+ df.format(glob) +" Kg de CO2");
+	
+									getContentPane().add(jtiecpub);
+									getContentPane().add(jtiecnpass);
+									getContentPane().add(jtiecpriv);
 									getContentPane().add(jtiec);
 									getContentPane().revalidate();
 									getContentPane().repaint();
 								}
 								
 							} catch (Exception e1) {
-								JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre");
+								JOptionPane.showMessageDialog(null, "Veuillez entrer des nombre");
+								iec =null ;
+								getContentPane().remove(jtiecpriv);
+								getContentPane().remove(jtiecpub);
 								getContentPane().remove(jtiec);
 								getContentPane().revalidate();
 								getContentPane().repaint();

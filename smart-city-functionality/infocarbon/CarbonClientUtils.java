@@ -23,6 +23,7 @@ public class CarbonClientUtils {
     	String action = obj.getString("Action");
     	JSONArray arr = obj.getJSONArray("Data");
     	String status = obj.getString("Status");
+    	System.out.println("Le Client va maintenant traduire l'objet Json reçu");
     	if(status.equals("success")) {
     		switch(action) {
     	
@@ -40,6 +41,8 @@ public class CarbonClientUtils {
 	    			nbTram = arr.getJSONObject(0).getInt("NbTram");
 	            	longueurreseau = arr.getJSONObject(0).getInt("LengthLine");
 	            	nbCars = arr.getJSONObject(0).getInt("NbCars");
+	            	res = new InfoGlobalCarbon(1,nbCars, nbTram, longueurreseau);
+	    			break;
 	    			
 	    		default:
 	    			res = null;
@@ -47,6 +50,7 @@ public class CarbonClientUtils {
     	}else {
     		return res;
     	}
+    	System.out.println(res.toString());
 		return res;
 	}
 }
