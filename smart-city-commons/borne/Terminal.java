@@ -1,7 +1,11 @@
 package borne;
 
-import city.city;
+import java.util.HashSet;
 
+import org.json.simple.JSONObject;
+
+import city.city;
+import gestion_borne.mock.MotionSensorFonctionMock;
 public class Terminal {
 
 	int id;
@@ -11,6 +15,9 @@ public class Terminal {
 	int status;
 	int numero;
 	city city;
+	private int PlacesOccupees;
+	public HashSet<MotionSensorFonctionMock> infoVoitures = new HashSet<MotionSensorFonctionMock>();
+
 
 	public Terminal() {
 		super();
@@ -32,7 +39,7 @@ public class Terminal {
 		this.numero=numero;
 		this.city=city;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -71,7 +78,7 @@ public class Terminal {
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
-	
+
 
 	public city getCity() {
 		return city;
@@ -84,9 +91,39 @@ public class Terminal {
 		return "Terminal [id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", isActive=" + isActive
 				+ ", status=" + status + ", numero=" + numero + "]";
 	}
+	int places(){ return (this.getCity().getNombreMaxVoiture() - this.PlacesOccupees); }  
+	public synchronized boolean  accept(MotionSensorFonctionMock myVoit) {
+		if  (this.places() >0 )
+		{ 
+			this.PlacesOccupees ++ ;
+			infoVoitures.add(myVoit); 
+			System.out.format("[City] :%s acceptée, il reste %d places \n", myVoit.getNom(), this.places());
+			System.out.format("Voiture Garees\n");
+			System.out.println(infoVoitures);
+			return (true) ; 
+		}
+		else {
+			System.out.format("City : %s refusée, il reste  %d places \n", myVoit.getNom(),this.places());
+			return(false) ;
+		}
+	}
+	public synchronized String leave(MotionSensorFonctionMock myVoit) {
+		String json=" ";
+		PlacesOccupees --; 
+		JSONObject voitureDetails = new JSONObject();
+		voitureDetails.put("operation_type", "sortir");
+		voitureDetails.put("longitude", myVoit.getLongitude());
+		voitureDetails.put("latitude", myVoit.getLatitude());
+		JSONObject voitureObject= null;
+		voitureObject = new JSONObject(); 
+		voitureObject.put("request", voitureDetails);
+		json= voitureObject.toString();
+		infoVoitures.remove(myVoit);
+
+		System.out.format("Parking :[%s] est sortie, reste  %d places\n", myVoit.getNom(), places());
+		return json;
+	}}
 
 
 
 
-
-}

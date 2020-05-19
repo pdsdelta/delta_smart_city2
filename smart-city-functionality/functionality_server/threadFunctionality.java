@@ -22,9 +22,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import CapteurAir.CapteurAir;
+
 import city.city;
 import connectionPool.DataSource;
 import district.District;
+import gestion_borne.mock.MotionSensorFonctionMock;
 import infocarbon.CarbonServerUtils;
 import station.station;
 
@@ -106,15 +108,12 @@ class threadFunctionality extends Thread {
 				query = s.getGlobalCarbonne(date);
 				this.response = query;
 			}
-			
+
 			//Action concernant la simulation de circulation de voiture
 			if(operationType.equals("entrer")) {
-				System.out.println("Une voiture veut entrer");
-				this.response="Une voiture veut entrer";
+				constructVoiture();
 			}else if(operationType.equals("sortir")) {
-				System.out.println("Une voiture veut sortir");
-				this.response= "Une voiture veut sortir";
-
+				RemoveVoiture();
 			}
 			// Requ�te concernant les d�tecteurs de v�hicules
 			if (operationType.equals("CREATE_SENSOR")) {
@@ -145,7 +144,7 @@ class threadFunctionality extends Thread {
 
 			}
 			// Rajouter ici vos operation_type avec vos m�thodes :)
-			
+
 			if(operationType.equals("INFOCITY")) {
 				sizecity();
 			}
@@ -324,7 +323,7 @@ class threadFunctionality extends Thread {
 		this.response = resultat;
 		return resultat;
 	}
-	
+
 	public String sizecity() throws JSONException, JsonProcessingException {
 		String resultat = "{Table: city, Action : INFOCITY ,  Data: ";
 		List<city> res = new ArrayList<city>();
@@ -350,7 +349,7 @@ class threadFunctionality extends Thread {
 		this.response = resultat;
 		return resultat;
 	}
-	
+
 	public String indiceATMO() throws JSONException, JsonProcessingException {
 		String resultat = "{Table: capteurair, Action : INFOINDATMO ,  Data: ";
 		List<CapteurAir> res = new ArrayList<CapteurAir>();
@@ -376,7 +375,7 @@ class threadFunctionality extends Thread {
 		this.response = resultat;
 		return resultat;
 	}
-	
+
 	public String seuilquartier() throws JSONException, JsonProcessingException {
 		String resultat = "{Table: district, Action : INFOSEUIL ,  Data: ";
 		List<District> res = new ArrayList<District>();
@@ -402,7 +401,7 @@ class threadFunctionality extends Thread {
 		this.response = resultat;
 		return resultat;
 	}
-	
+
 	public String addindice() throws JSONException {
 		String resultat = "{Table:capteurair , Action: ADDindice ";
 		int res = 0;
@@ -441,5 +440,34 @@ class threadFunctionality extends Thread {
 				+ ", datereleve : " + dateReleve + ", indiceatmo : " + IndiceATMO + "} ]}";
 		this.response = resultat;
 		return resultat;
+	}
+
+	public String constructVoiture() throws JSONException{
+		String resultat ="{Table: Voiture, Action : CREATE, ";
+		String receive= this.mapJson;
+		JSONObject request= new JSONObject(receive);
+		JSONObject voiture= request.getJSONObject("request");
+		int longitude= voiture.getInt("longitude");
+		int latitude= voiture.getInt("latitude");
+		MotionSensorFonctionMock voit = new MotionSensorFonctionMock(
+				longitude,
+				latitude);
+		resultat= resultat+ "Data: {longitude :"+longitude+", latitude:"+latitude+"}}";
+
+		this.response=resultat;
+		System.out.println(this.response);
+		return response;
+	}
+	public String RemoveVoiture() throws JSONException{
+		String receive= this.mapJson;
+		String resultat ="{Table: Voiture, Action : REMOVE, ";
+		JSONObject request= new JSONObject(receive);
+		JSONObject voiture= request.getJSONObject("request");
+		int longitude= voiture.getInt("longitude");
+		int latitude= voiture.getInt("latitude");
+		resultat= resultat+ "Data: {longitude :"+longitude+", latitude:"+latitude+"}}";
+		this.response=resultat;
+		System.out.println(this.response);
+		return response;
 	}
 }

@@ -108,8 +108,8 @@ public class MotionSensorAdd extends JDialog {
 		captor.setLongitude(Integer.parseInt(tfLongitude.getText()));
 		captor.setLatitude(Integer.parseInt(tfLatitude.getText()));
 		
-		boolean result=data.create(captor);
-		if(result) {
+		String result=data.create(captor);
+		if((result!=null)) {
 			this.resultat.setText("Ajout Reussi");
 		}else {
 			this.resultat.setText("Ajout Echoué: veuillez recommencer");

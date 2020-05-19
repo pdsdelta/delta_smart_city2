@@ -26,10 +26,10 @@ public class TerminalDAO extends DAO<Terminal>{
 	}
 
 	@Override
-	public boolean create(Terminal obj) throws SQLException  {
+	public String create(Terminal obj) throws SQLException  {
 		int res=0;
 
-
+        String json ="";
 		String query = "INSERT INTO Terminal (longitude, latitude, isActive, status,city) " + "VALUES (?, ?, ?, ?,?)";
 		try {
 			pstmt = this.connect.prepareStatement(query);
@@ -44,11 +44,14 @@ public class TerminalDAO extends DAO<Terminal>{
 			e.printStackTrace();
 		}
 
+		json  ="{request:{ operation_type: CREATE_SENSOR, target: MotionSensor , longitude: "+ obj.getLongitude() + "latitude "+obj.getLatitude() +"}} " ;
+        System.out.println(json);
 		if(res==1) {
-			return true;
+			return json;
 		}else {
-			return false;
+			return null;
 		}
+
 
 	}
 

@@ -109,9 +109,8 @@ public class TerminalAddVue extends JDialog {
 		Terminal borne = new Terminal();
 		borne.setLongitude(Integer.parseInt(tfLongitude.getText()));
 		borne.setLatitude(Integer.parseInt(tfLatitude.getText()));
-		
-		boolean result=data.create(borne);
-		if(result) {
+		String result=data.create(borne);
+		if((result!=null)) {
 			this.resultat.setText("Ajout Reussi");
 		}else {
 			this.resultat.setText("Ajout Echoué: veuillez recommencer");

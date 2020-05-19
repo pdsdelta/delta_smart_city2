@@ -23,9 +23,10 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 	}
 
 	@Override
-	public boolean create(MotionSensor obj) throws SQLException  {
+	public String create(MotionSensor obj) throws SQLException  {
 		int res=0;
-
+        String json="";
+        
 		String query = "INSERT INTO MotionSensor (longitude, latitude,isActive,city) " + "VALUES (?, ?, ?, ?)";
 		try {
 			pstmt = this.connect.prepareStatement(query);
@@ -38,11 +39,12 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-
+		json  ="{request:{ operation_type: CREATE_SENSOR, target: MotionSensor , longitude: "+ obj.getLongitude() + "latitude "+obj.getLatitude() +"}} " ;
+        System.out.println(json);
 		if(res==1) {
-			return true;
+			return json;
 		}else {
-			return false;
+			return null;
 		}
 
 	}
