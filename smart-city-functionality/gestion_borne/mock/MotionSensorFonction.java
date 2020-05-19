@@ -12,9 +12,6 @@ public interface MotionSensorFonction {
 	
 	public JSONArray readScenario();
 	
-	public void modifyScenario();
-	
-	public void sendResult(JSONArray i) throws IOException;
 	
 }
 
