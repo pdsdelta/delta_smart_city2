@@ -49,7 +49,8 @@ public class InfoPublicCarbon extends InfoCarbon {
 		}else {
 			np = 222000 ;
 		}
-		double pub = ((20 * 18) * nt) * (3.8/(np/nt));
+		int npmoyen = np / nt;
+		double pub = ((20 * 18) * nt) * (3.2/10000) * npmoyen;
 		System.out.println("Nombre de Tramways : "+ nt);
 		System.out.println("Longeure de la ligne : "+ lt);
 		System.out.println("Nombre de passagers en une journée : "+ np);

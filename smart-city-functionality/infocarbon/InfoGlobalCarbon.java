@@ -39,6 +39,7 @@ public class InfoGlobalCarbon extends InfoCarbon{
 		int lt = this.getLongueurreseau();
 		int nc = this.getNbCars();
 		int np = 0;
+		int nh =0 ;
 		if(lt < 0) {
 			np = 0;
 		}else if(lt < 5) {
@@ -58,20 +59,23 @@ public class InfoGlobalCarbon extends InfoCarbon{
 		}else {
 			np = 222000 ;
 		}
+		int npmoyen = np / nt;
 		System.out.println("Nombre de Tramways : "+ nt);
 		System.out.println("Longeure de la ligne : "+ lt);
 		System.out.println("Nombre de passagers global des tramways en une journée : "+ np);
 		System.out.println("Nombre de voitures : "+ nc);
 		System.out.println("Nombre de passagers moyen par voiture : 2 ");
 		System.out.println("Calcul de l'empreinte carbonne associée à ces paramètres");
-		
-		double pub = ((20 * 18) * nt) * (3.8/(np/nt));
+		if(lt!=0) {
+			 nh = 18;
+		}
+		double pub = ((20 * nh) * nt) * ((3.2/10000) * npmoyen);
 		System.out.println("Empreinte Carbon Tramways : " + pub + " g de CO2");
 		double priv = (nc * (27)) * (186/2);
 		System.out.println("Empreinte Carbon Voitures : " + priv + " g de CO2");
 		double glob = pub + priv ;
 		System.out.println("Empreinte Carbon globale  : " + glob + " g de CO2");
-		return glob;
+		return glob/1000;
 		
 	
 	}

@@ -12,10 +12,10 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 	private double longueurreseau ;
 	private int hs;
 	private double ecpriv, ecpub;
-	
+	private int npp;
 	
 	public double getEcpriv() {
-		return ecpriv;
+		return ecpriv/1000;
 	}
 
 
@@ -27,7 +27,7 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 
 
 	public double getEcpub() {
-		return ecpub;
+		return ecpub/1000;
 	}
 
 
@@ -112,6 +112,7 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 		}else {
 			np = 222000 ;
 		}
+		this.npp = np;
 		System.out.println("Nombre de Tramways : "+ nt);
 		System.out.println("Longeure de la ligne : "+ lt + " Km");
 		System.out.println("Nombre de passagers global des tramways en une journée : "+ np);
@@ -120,8 +121,8 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 		System.out.println("Nombre de passagers moyen par voiture : "+ npass);
 		System.out.println("Distance moyenne parcouru par les voitures : "+ kilo + " Km");
 		System.out.println("Calcul de l'empreinte carbonne associée à ces paramètres");
-		
-		double pub = ((20 * hours) * nt) * ((3.2/(np/nt)));
+		int npmoyen = np / nt;
+		double pub = (20 * hours) * nt * ((3.2/10000) * npmoyen);
 		System.out.println("Empreinte Carbon Tramways : " + pub + " g de CO2");
 		this.setEcpub(pub);
 		double priv = (nc * kilo ) * (186/npass);
@@ -133,6 +134,12 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 		return glob/1000;
 	}
 	
+	public int getNpp() {
+		return npp;
+	}
+
+
+
 	public static void main(String[] args) {
 		InfoEstimatedCarbon f = new InfoEstimatedCarbon(1,500,3,20,120,18,20);
 		double res = f.calculateCarbon();

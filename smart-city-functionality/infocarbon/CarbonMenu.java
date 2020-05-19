@@ -60,6 +60,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	private JLabel jtiec = new JLabel();
 	private JLabel jtiecpriv = new JLabel();
 	private JLabel jtiecpub = new JLabel();
+	private JLabel jtiecnpass = new JLabel();
 	private static CarbonMenu instance = null ;
 
 	
@@ -155,14 +156,16 @@ public class CarbonMenu extends JFrame implements ActionListener {
 						String resp = CarbonInfo.getInstance().sendMessage(res);
 						InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
 						if(ic==null) {
-							JTextField emp = new JTextField("Aucune donnée pour la date d'hier");
+							JLabel emp = new JLabel("Aucune donnée pour la date d'hier");
 							cg.add(emp);
 						}else {
 							double resul = ic.calculateCarbon();
-							JTextField emp = new JTextField("L'empreinte carbonne globale de la ville est  "+ resul);
+							JLabel emp = new JLabel("L'empreinte carbonne globale de la ville est de : "+ resul + " Kg de CO2");
 							cg.add(emp);
 						}
 						getContentPane().add(cg);
+						getContentPane().revalidate();
+						getContentPane().repaint();
 						setVisible(true);
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -179,7 +182,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					
 					cg.removeAll();
-					JTextField jt = new JTextField("Veuillez choisir la date souhaitée");
+					JLabel jt = new JLabel("Veuillez choisir la date souhaitée");
 					cg.add(jt);
 					JDatePickerImpl datePicker = generateDatePicker();
 					cg.add(datePicker);
@@ -200,14 +203,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 								d = dateFormat.format(dd);
 								System.out.println("Date entrée :" + d);
 							}
-							JTextField jtt = new JTextField("Chargement");
+							JLabel jtt = new JLabel("Chargement");
 							cg.add(jtt);
 							boolean b = validateJavaDate(d);
 							if(b) {
 								boolean bb = compareDate(d);
 								if(bb) {
 									cg.remove(jtt);
-									jtt = new JTextField("Calcul de l'empreinte carbonne pour la date du "+ d);
+									jtt = new JLabel("Calcul de l'empreinte carbonne globale pour la date du "+ d);
 									cg.add(jtt);
 									getContentPane().add(cg);
 									Users u = new Users();
@@ -223,14 +226,16 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										String resp = CarbonInfo.getInstance().sendMessage(res);
 										InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
 										if(ic==null) {
-											JTextField emp = new JTextField("Aucune donnée pour la date :  "+ d);
+											JLabel emp = new JLabel("Aucune donnée pour la date :  "+ d);
 											cg.add(emp);
 										}else {
 											double resul = ic.calculateCarbon();
-											JTextField emp = new JTextField("L'empreinte carbonne est  "+ resul);
+											JLabel emp = new JLabel("L'empreinte carbonne globale est de : "+ resul + " Kg de CO2");
 											cg.add(emp);
 										}
 										getContentPane().add(cg);
+										getContentPane().revalidate();
+										getContentPane().repaint();
 										setVisible(true);
 										System.out.println("*******************");
 									} catch (IOException e1) {
@@ -239,15 +244,17 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									setVisible(true);
 								}else {
 									cg.removeAll();
-									jtt = new JTextField("Veuillez entrez une antérieure à celle d'aujourd'hui");
+									jtt = new JLabel("Veuillez entrez une antérieure à celle d'aujourd'hui");
 									cg.add(jtt);
 									getContentPane().add(cg);
+									getContentPane().revalidate();
+									getContentPane().repaint();
 									setVisible(true);
 									
 								}
 							}else {
 								cg.remove(jtt);
-								jtt = new JTextField("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
+								jtt = new JLabel("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
 								cg.add(jtt);
 								getContentPane().add(cg);
 								setVisible(true);
@@ -270,7 +277,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					
 					
 					cg.removeAll();
-					JTextField jt = new JTextField("Veuillez choisir la date souhaitée");
+					JLabel jt = new JLabel("Veuillez choisir la date souhaitée");
 					cg.add(jt);
 					JDatePickerImpl datePicker = generateDatePicker();
 					cg.add(datePicker);
@@ -298,7 +305,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							if(b) {
 								boolean bb = compareDate(d);
 								if(bb) {
-									JTextField jtt = new JTextField("Calcul de l'empreinte carbonne des transports publics pour la date du "+ d);
+									JLabel jtt = new JLabel("Calcul de l'empreinte carbonne des transports publics pour la date du "+ d);
 									cg.add(jtt);
 									getContentPane().add(cg);
 									Users u = new Users();
@@ -315,14 +322,17 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										String resp = CarbonInfo.getInstance().sendMessage(res);
 										InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
 										if(ic==null) {
-											JTextField emp = new JTextField("Aucune donnée pour la date :  "+ d);
+											JLabel emp = new JLabel("Aucune donnée pour la date :  "+ d);
 											cg.add(emp);
 										}else {
 											double resul = ic.calculateCarbon();
-											JTextField emp = new JTextField("L'empreinte carbonne est  "+ resul);
+											JLabel emp = new JLabel("L'empreinte carbonne est de : "+ resul + " Kg de CO2");
 											cg.add(emp);
+			
 										}
 										getContentPane().add(cg);
+										getContentPane().revalidate();
+										getContentPane().repaint();
 										setVisible(true);
 										System.out.println("*******************");
 									} catch (IOException e1) {
@@ -332,15 +342,17 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									setVisible(true);
 								}else {
 									cg.removeAll();
-									JTextField jtt = new JTextField("Veuillez entrez une date valide et antérieure à celle d'aujourd'hui");
+									JLabel jtt = new JLabel("Veuillez entrez une date valide et antérieure à celle d'aujourd'hui");
 									cg.add(jtt);
 									getContentPane().add(cg);
+									getContentPane().revalidate();
+									getContentPane().repaint();
 									setVisible(true);
 									
 								}
 							}else {
 								cg.removeAll();
-								JTextField jtt = new JTextField("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
+								JLabel jtt = new JLabel("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
 								cg.add(jtt);
 								getContentPane().add(cg);
 								setVisible(true);
@@ -363,7 +375,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					
 					cg.removeAll();
-					JTextField jt = new JTextField("Veuillez choisir la date souhaitée");
+					JLabel jt = new JLabel("Veuillez choisir la date souhaitée");
 					cg.add(jt);
 					JDatePickerImpl datePicker = generateDatePicker();
 					cg.add(datePicker);
@@ -388,7 +400,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							if(b) {
 								boolean bb = compareDate(d);
 								if(bb) {
-									JTextField jtt = new JTextField("Calcul de l'empreinte carbonne des transports privés pour la date du "+ d);
+									JLabel jtt = new JLabel("Calcul de l'empreinte carbonne des transports privés pour la date du "+ d);
 									cg.add(jtt);
 									getContentPane().add(cg);
 									Users u = new Users();
@@ -404,14 +416,16 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										String resp = CarbonInfo.getInstance().sendMessage(res);
 										InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
 										if(ic==null) {
-											JTextField emp = new JTextField("Aucune donnée trouvée pour la date : "+ d);
+											JLabel emp = new JLabel("Aucune donnée trouvée pour la date : "+ d);
 											cg.add(emp);
 										}else {
 											double resul = ic.calculateCarbon();
-											JTextField emp = new JTextField("L'empreinte carbonne pour les transports privée est  "+ resul);
+											JLabel emp = new JLabel("L'empreinte carbonne pour les transports privée est de : "+ resul +" Kg de CO2");
 											cg.add(emp);
 										}
 										getContentPane().add(cg);
+										getContentPane().revalidate();
+										getContentPane().repaint();
 										setVisible(true);
 										System.out.println("*******************");
 										//System.out.println(jsonClient);
@@ -420,14 +434,16 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									}
 									setVisible(true);
 								}else {
-									JTextField jtt = new JTextField("Veuillez entrez une date valide et antérieure à celle d'aujourd'hui");
+									JLabel jtt = new JLabel("Veuillez entrez une date valide et antérieure à celle d'aujourd'hui");
 									getContentPane().add(cg);
+									getContentPane().revalidate();
+									getContentPane().repaint();
 									cg.add(jtt);
 									setVisible(true);
 									
 								}
 							}else {
-								JTextField jtt = new JTextField("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
+								JLabel jtt = new JLabel("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
 								cg.add(jtt);
 								getContentPane().add(cg);
 								setVisible(true);
@@ -591,9 +607,12 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									df.setMaximumFractionDigits ( 2 ) ; 
 									double glob = iec.calculateCarbon();
 									jtiecpub.setText("L'empreinte carbonne des voitures est éstimé à :" + df.format(iec.getEcpriv())+" Kg de CO2");
+									jtiecnpass.setText("Le nombre de passagers pour cette longueur de ligne est estimé à :" + iec.getNpp() + " passagers par jour");
 									jtiecpriv.setText("L'empreinte carbonne des tramways est éstimé à :" + df.format(iec.getEcpub())+" Kg de CO2");
 									jtiec.setText("L'empreinte carbonne globale est éstimé à : "+ df.format(glob) +" Kg de CO2");
+	
 									getContentPane().add(jtiecpub);
+									getContentPane().add(jtiecnpass);
 									getContentPane().add(jtiecpriv);
 									getContentPane().add(jtiec);
 									getContentPane().revalidate();
