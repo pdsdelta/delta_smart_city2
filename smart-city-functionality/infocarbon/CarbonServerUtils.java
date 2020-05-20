@@ -108,13 +108,13 @@ public class CarbonServerUtils {
     		resultat= resultat + statusPriv;
     		JSONArray arrpr = objpriv.getJSONArray("Data");
     		int nbCars = arrpr.getJSONObject(0).getInt("NbCars");
-    		JSONArray arrprmo = objpriv.getJSONArray("Data");
+    		JSONArray arrprmo = objprivmo.getJSONArray("Data");
     		int nbMotos = arrprmo.getJSONObject(0).getInt("NbMotos");
     		JSONArray arrpu = objpub.getJSONArray("Data");
         	int nbTram = arrpu.getJSONObject(0).getInt("NbTram");
         	int longueurreseau = arrpu.getJSONObject(0).getInt("LengthLine");
         	JSONArray arrpubu = objpubbus.getJSONArray("Data");
-        	int nbBus = arrpubu.getJSONObject(0).getInt("NbTram");
+        	int nbBus = arrpubu.getJSONObject(0).getInt("NbBus");
         	resultat= resultat + ", Data: [{ NbCars :" + nbCars +", NbMotos :" + nbMotos +", NbTram :" + nbTram + ",LengthLine :" + longueurreseau + ",NbBus :" + nbBus + "}]} " ;
         	
     	}else {
@@ -182,8 +182,8 @@ public class CarbonServerUtils {
     }
 	
 	public String getNbBus(String date) throws JSONException, JsonProcessingException {
-    	String resultat= "{Table: busstats, Action : GET_NB_MOTOS , Status: ";
-    	String query = "select nbmotos from bustats where idcity = 1 and dateof = '" + date + "' ;"  ;
+    	String resultat= "{Table: busstats, Action : GET_NB_BUS , Status: ";
+    	String query = "select nbbus from busstats where idcity = 1 and dateof = '" + date + "' ;"  ;
     	String status ="failed";
     	System.out.println("Requette : "+query);
     	try {

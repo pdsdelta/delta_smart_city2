@@ -7,9 +7,35 @@ public class InfoGlobalCarbon extends InfoCarbon{
 	private int nbBus ;
 	private int nbTram;
 	private int longueurreseau ;
+	private double ecpriv, ecpub;
+	private double ect, ecb, ecc, ecm ;
 	
 	public void setNbCars(int nbCars) {
 		this.nbCars = nbCars;
+	}
+
+	public double getEcpriv() {
+		return ecpriv/1000;
+	}
+
+	public double getEcpub() {
+		return ecpub/1000;
+	}
+
+	public double getEct() {
+		return ect/1000;
+	}
+
+	public double getEcb() {
+		return ecb/1000;
+	}
+
+	public double getEcc() {
+		return ecc/1000;
+	}
+
+	public double getEcm() {
+		return ecm/1000;
 	}
 
 	public InfoGlobalCarbon() {
@@ -84,15 +110,23 @@ public class InfoGlobalCarbon extends InfoCarbon{
 		}
 		
 		double pub = ((20 * nh) * nt) * ((3.2/10000) * npmoyen/nt);
+		this.ecm = pub;
 		double empbus = (nb*25)*(110);
+		this.ecb = empbus;
 		System.out.println("Empreinte Carbon des Tramways : " + pub + " g de CO2");
 		System.out.println("Empreinte Carbon des Bus : " + empbus + " g de CO2");
 		double emppub = pub + empbus ;
+		this.ecpub = emppub;
+		System.out.println("Empreinte Carbon des transports publics : " + emppub + " g de CO2");
 		double priv = (nc * (27)) * (186/2);
+		this.ecc = priv;
 		double empmot = (6 * nm) * (168/2);
+		this.ecm = empmot;
 		System.out.println("Empreinte Carbon des Voitures : " + priv + " g de CO2");
 		System.out.println("Empreinte Carbon des motos : " + empmot + " g de CO2");
 		double emppriv = priv + empmot ;
+		this.ecpriv = emppriv;
+		System.out.println("Empreinte Carbon des transports privés : " + emppriv + " g de CO2");
 		double glob = emppub + emppriv ;
 		System.out.println("Empreinte Carbon globale  : " + glob + " g de CO2");
 		return glob/1000;

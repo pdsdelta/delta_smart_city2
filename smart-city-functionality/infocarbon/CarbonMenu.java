@@ -439,6 +439,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 											cg.add(emp);
 										}else {
 											double resul = ic.calculateCarbon();
+											
 											JLabel emp = new JLabel("L'empreinte carbonne pour les transports privée est de : "+ resul +" Kg de CO2");
 											cg.add(emp);
 										}
