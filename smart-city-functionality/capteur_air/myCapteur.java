@@ -1,5 +1,6 @@
 package capteur_air;
 import city.city;
+import district.District;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -90,6 +91,7 @@ public class myCapteur extends JFrame{
 			String response = in.readLine();
 			System.out.println("***** Résultat ******\n");
 			System.out.println(this.showresultquartier(response));
+			System.out.println(this.addSetquartier());
 		//}
 		
 	}
@@ -629,55 +631,29 @@ public class myCapteur extends JFrame{
 		return minVal;
 	}
       
-//	    	int res = 0;
-//	    	String status = "Unknown";
-//			int monNom = request.getInt("idcapteur");
-//			String monPrenom = request.getString("namecapteur");
-//			Date monLogin = request.getDate("datereleve");
-//			int monPass = request.getInt("indiceatmo");
-//			
-//			String query = "INSERT INTO capteurair (indiceatmo) " + "VALUES (minVal)";
-//			
-//			try {
-//				pstmt = connect.prepareStatement(query);
-//				pstmt.setString(1, idcapteur);
-//				pstmt.setString(2, namecapteur);
-//				pstmt.setString(3, datereleve);
-//				pstmt.setString(4, indiceatmo); 
-//				res = pstmt.executeUpdate();
-//				if(res == 1) {
-//					status = "Succed";
-//				}else {
-//					status ="Failed";
-//				}
-//			} catch (SQLException ex) {
-//				System.out.println(status);
-//			}
-//			//resultat = resultat + "Data : [{ nom: "+monNom + ", prenom: "+ monPrenom + ", login : "+ monLogin +", pass : "+ monPass +", profil : "+ monProfil +"} ]}";
-//			//this.finalResponse = resultat ;
-//			//return query;
 		
     
 
 //donne quartier
-    public int getnumquart(int Quartier) throws UnknownHostException, IOException, JSONException {
-    	city taille = new city();
+    public int getnumquart() throws UnknownHostException, IOException, JSONException {
+    	int Quartier = 0;
     	getQuartier();
-    	double a =taille.getTailleCity();
-    	int resultat = (int)a;
+    	double b =tailleQuartier.getTailleCity();
+    	int a = (int)b;
 
-    	if(resultat < 10) {
+    	if(a > 0 && 11 > a) {
     		Quartier = 3;
-    	}else if(resultat > 11 && 25 > resultat) {
+    	}else if(a > 11 && 25 > a) {
     		Quartier = 6;
-    	}else if(resultat > 26 && 50 > resultat) {
+    	}else if(a > 26 && 50 > a) {
     		Quartier = 10;
-    	}else if(resultat > 51 && 100 > resultat) {
+    	}else if(a > 51 && 100 > a) {
     		Quartier = 15;
-    	}else if(resultat > 100) {
+    	}else if(a > 100) {
     		Quartier = 20;
     	}
-		return resultat;
+    	System.out.println("Quartier = " +Quartier);
+    return Quartier;
     }
 
     public void getQuartier() throws UnknownHostException, IOException, JSONException{
@@ -714,21 +690,38 @@ public class myCapteur extends JFrame{
 
 	//public class getcapteur {
 	public String[] getconfigcapteur()throws UnknownHostException, IOException, JSONException{
-		int a = 0;
-		getnumquart(a);
+		int a = getnumquart();
 		String[] myArray = new String[20];
 		for(int i = 1; i < a + 1; i++) {
-			myArray[i] = "Quartier" + i;
+			myArray[i] = "Quartier_" + i;
+			System.out.println(myArray[i]);
 		}
 		return myArray;
+	}
+	
+	District util = new District();
+	public String addSetquartier() throws UnknownHostException, IOException, JSONException {
+		int idCity1 = 1;
+		String Quartier1 = "Quartier_"+idCity1;
+		idCity1++;
+		int a = 4;
+		String json= "";
+	
+		util.setId(idCity1);
+		util.setName(Quartier1);
+		util.setSeuilQuartierATMO(a);
+		
+		json  ="{request:{ operation_type: ADDquartier, target: district , id: "+util.getId() + ", name: "+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() +"}} " ;
+		this.startConnection("172.31.249.22", 2400, json);
+		return json;
 	}
 
 
 	public static void main(String[] args) throws JSONException, UnknownHostException, IOException { 
 		myCapteur a = new myCapteur();
-		//air.startConnection("172.31.249.22", 2400);
-		
-	}
+		//a.startConnection("172.31.249.22", 2400);
+		a.addSetquartier();
+		}
 }
 
 

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -441,6 +442,48 @@ class threadFunctionality extends Thread {
 		this.response = resultat;
 		return resultat;
 	}
+	
+	public String insertquartier() throws JSONException {
+		String resultat = "{Table:district , Action: ADDquartier ";
+		int res = 0;
+		String json = this.mapJson;
+		JSONObject obj = new JSONObject(json);
+		JSONObject request = obj.getJSONObject("request");
+		int id = request.getInt("id");
+		String name = request.getString("name");
+		int seuilQuartierATMO = request.getInt("seuilquartieratmo");
+
+		//String query = "delete from capteurair WHERE idcapteur=?";
+
+//		try {
+//			pstmt = connect.prepareStatement(query);
+//			pstmt.setInt(1, idCapteur);
+//			pstmt.executeUpdate();
+//			pstmt.close();
+//		} catch (SQLException e) {
+//			System.out.println("Erreur! addquartier");
+//		}
+
+		String query = "INSERT INTO district (id, name, seuilquartieratmo) "
+				+ "VALUES (?,?,?)";
+		try {
+			pstmt = connect.prepareStatement(query);
+			pstmt.setInt(1, id);
+			pstmt.setString(1, name);
+			pstmt.setInt(1, seuilQuartierATMO);
+			res = pstmt.executeUpdate();
+			System.out.println("operation ok\n");
+		} catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		System.out.println("je vais enregistrer en bdd");
+
+		resultat = resultat + "Data : [{  id: " + id + ", name: " + name
+				+ ", seuilquartieratmo : " + seuilQuartierATMO + "} ]}";
+		this.response = resultat;
+		return resultat;
+	}
+	
 
 	public String constructVoiture() throws JSONException{
 		String resultat ="{Table: Voiture, Action : CREATE, ";
