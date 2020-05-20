@@ -1,5 +1,11 @@
 package gestion_borne.crud;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,17 +22,27 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 	Connection connection;
 	PreparedStatement pstmt;
 	Statement stm;
-	ResultSet rs; 
+	ResultSet rs;
+	private Socket clientSocket;
+	private PrintWriter out;
+	private BufferedReader in;
+	private String json; 
 
 	public MotionSensorDAO(functionalityServer server) throws ClassNotFoundException, SQLException {
 		super(server);
 	}
-
+	public void startConnection(String ip, int port) throws UnknownHostException, IOException {
+		clientSocket = new Socket(ip, port);
+		out=new PrintWriter(this.clientSocket.getOutputStream(), true);
+		in=new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+		out.println(json);
+		System.out.println(json);
+	}
 	@Override
 	public String create(MotionSensor obj) throws SQLException  {
 		int res=0;
-        String json="";
-        
+
+
 		String query = "INSERT INTO MotionSensor (longitude, latitude,isActive,city) " + "VALUES (?, ?, ?, ?)";
 		try {
 			pstmt = this.connect.prepareStatement(query);
@@ -39,8 +55,8 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		json  ="{request:{ operation_type: CREATE_SENSOR, target: MotionSensor , longitude: "+ obj.getLongitude() + "latitude "+obj.getLatitude() +"}} " ;
-        System.out.println(json);
+		this.json  ="{request:{ operation_type: CREATE_SENSOR, target: MotionSensor , longitude: "+ obj.getLongitude() + "latitude "+obj.getLatitude() +"}} " ;
+		System.out.println(json);
 		if(res==1) {
 			return json;
 		}else {
@@ -61,6 +77,7 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		this.json  ="{request:{ operation_type: DELETE_SENSOR, target: MotionSensor,"+"Numero : "+obj.getNumero()+"}} " ;
 		return true;
 
 	}
@@ -73,6 +90,7 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 		int res=0;
 		String query = "update MotionSensor set longitude =?,latitude =? AND isActive=?  WHERE numero= "+obj.getNumero(); 
 		try { 
+			
 			this.pstmt = connect.prepareStatement(query); 
 			this.pstmt.setInt(1,  obj.getLongitude());
 			this.pstmt.setInt(2,  obj.getLatitude());
@@ -82,9 +100,15 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		return true;
-	}
+		if (res==1) {
+			this.json  ="{request:{ operation_type: UPDATE_SENSOR, target: MotionSensor , longitude: "+ obj.getLongitude() + "latitude :"+obj.getLatitude() +"isActive: "+obj.isActive()+"}} " ;
+			return true;
+		}else {
+			return false;
 
+		}
+
+	}
 	@Override
 	public MotionSensor find(int numero) {
 		MotionSensor captor = new MotionSensor();      
@@ -118,6 +142,7 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 			}}catch (SQLException e) {
 				e.printStackTrace();
 			}
+		this.json  ="{request:{ operation_type: SELECT_SENSOR, target: MotionSensor , longitude: "+captor.getLongitude() + "latitude, :"+captor.getLatitude() +" ,Numero:"+captor.getNumero()+"isActive: "+captor.isActive()+"}} " ;
 		return captor;
 	}
 
@@ -138,7 +163,7 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 			res.add(captor);
 		}
 
-
+		this.json  ="{request:{ operation_type: ALL_SENSOR, target: MotionSensor }} " ;
 		return res;
 	}
 }

@@ -117,30 +117,30 @@ class threadFunctionality extends Thread {
 			}
 			// Requ�te concernant les d�tecteurs de v�hicules
 			if (operationType.equals("CREATE_SENSOR")) {
-
+				this.response  ="{request:{ operation_type: CREATE_SENSOR, target: MotionSensor, status: Success}} " ;
 			} else if (operationType.equals("DELETE_SENSOR")) {
-
+				this.response  ="{request:{ operation_type: DELETE_SENSOR, target: MotionSensor, status: Success}} " ;
 			} else if (operationType.equals("ALL_SENSOR")) {
-
+				this.response  ="{request:{ operation_type: ALL_SENSOR, target: MotionSensor, status: Success}} " ;
 			} else if (operationType.equals("SELECT_SENSOR")) {
-
-			} else if (operationType.equals("GET_ACTIVE")) {
-
-			} else if (operationType.equals("UPDATE_SENSOR")) {
+				this.response  ="{request:{ operation_type: SELECT_SENSOR, target: MotionSensor, status: Success}} " ;
+			}  else if (operationType.equals("UPDATE_SENSOR")) {
+				this.response  ="{request:{ operation_type: UPDATE_SENSOR, target: MotionSensor, status: Success}} " ;
 
 			}
 			// Requ�te concernant les bornes retractables
 			if (operationType.equals("CREATE_TERMINAL")) {
-
+				this.response  ="{request:{ operation_type: CREATE_TERMINAL, target: Terminal, status: Success}} " ;
 			} else if (operationType.equals("DELETE_TERMINAL")) {
-
+				this.response  ="{request:{ operation_type: DELETE_TERMINAL, target: Terminal, status: Success}} " ;
 			} else if (operationType.equals("ALL_TERMINAL")) {
-
+				this.response  ="{request:{ operation_type: ALL_TERMINAL, target: Terminal, status: Success}} " ;
 			} else if (operationType.equals("SELECT_TERMINAL")) {
-
-			} else if (operationType.equals("GET_STATUS")) {
-
+				this.response  ="{request:{ operation_type: SELECT_TERMINAL, target: Terminal, status: Success}} " ;
+			} else if (operationType.equals("SET_CITY")) {
+				this.response  ="{request:{ operation_type: SET_CITY, target: Terminal, status: Success}} " ;
 			} else if (operationType.equals("UPDATE_TERMINAL")) {
+				this.response  ="{request:{ operation_type: UPDATE_TERMINAL, target: Terminal, status: Success}} " ;
 
 			}
 			// Rajouter ici vos operation_type avec vos m�thodes :)

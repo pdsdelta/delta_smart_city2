@@ -85,7 +85,15 @@ public class MotionSensorVue {
 		btnDeleteSensor.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed( java.awt.event.ActionEvent evt) {
 				try {
-					DeleteSensor(evt);
+					try {
+						DeleteSensor(evt);
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -103,7 +111,7 @@ public class MotionSensorVue {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
 					ListeSensor(evt);
-				} catch (ClassNotFoundException | SQLException e) {
+				} catch (ClassNotFoundException | SQLException | IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -116,19 +124,21 @@ public class MotionSensorVue {
 		btnModifySensor.setBounds(224, 115, 158, 28);
 		panel.add(btnModifySensor);
 	}
-	private void ListeSensor(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {                                           
+	private void ListeSensor(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException, UnknownHostException, IOException {                                           
 		new MotionSensorListVue(frame, true).setVisible(true);
 	}
 	private void AddSensor(java.awt.event.ActionEvent evt) {    
 		new MotionSensorAdd().setVisible(true);
 	}
-	private void DeleteSensor(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {                                           
+	private void DeleteSensor(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException, UnknownHostException, IOException {                                           
 		JOptionPane jop= new JOptionPane();
 		String num = jop.showInputDialog(null,"Entrez le numero du capteur à supprimer",JOptionPane.QUESTION_MESSAGE);
 		int y = Integer.parseInt(num); 
-	   MotionSensorDAO data = new MotionSensorDAO(server); 
+		MotionSensorDAO data = new MotionSensorDAO(server); 
+
 		MotionSensor captor= data.find(y);
 		data.delete(captor);
+		data.startConnection("172.31.249.22", 2400);
 	}
 }
 

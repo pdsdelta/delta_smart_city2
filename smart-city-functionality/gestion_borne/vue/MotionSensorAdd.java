@@ -15,6 +15,8 @@ import motionSensor.MotionSensor;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
@@ -84,7 +86,7 @@ public class MotionSensorAdd extends JDialog {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						try {
 							okButtonActionPerformed(evt);
-						} catch (ClassNotFoundException | SQLException e) {
+						} catch (ClassNotFoundException | SQLException | IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
@@ -101,14 +103,16 @@ public class MotionSensorAdd extends JDialog {
 			}
 		}
 	}
-	private void okButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {                                           
+	private void okButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException, UnknownHostException, IOException {                                           
 		// TODO add your handling code here:
 		this.data = new MotionSensorDAO(server);
+		
 		MotionSensor captor = new MotionSensor();
 		captor.setLongitude(Integer.parseInt(tfLongitude.getText()));
 		captor.setLatitude(Integer.parseInt(tfLatitude.getText()));
 		
 		String result=data.create(captor);
+		this.data.startConnection("172.31.249.22", 2400);
 		if((result!=null)) {
 			this.resultat.setText("Ajout Reussi");
 		}else {

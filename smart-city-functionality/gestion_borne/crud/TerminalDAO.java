@@ -1,6 +1,12 @@
 package gestion_borne.crud;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,9 +28,20 @@ public class TerminalDAO extends DAO<Terminal>{
 	Connection connection;
 	PreparedStatement pstmt;
 	Statement stm;
-	ResultSet rs; 
+	ResultSet rs;
+	private String json;
+	private PrintWriter out;
+	private BufferedReader in;
+	private Socket clientSocket; 
 	public TerminalDAO(functionalityServer server) throws ClassNotFoundException, SQLException {
 		super(server);
+	}
+	public void startConnection(String ip, int port) throws UnknownHostException, IOException {
+		clientSocket = new Socket(ip, port);
+		out=new PrintWriter(this.clientSocket.getOutputStream(), true);
+		in=new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+		out.println(json);
+		System.out.println(json);
 	}
 
 	@Override
@@ -46,7 +63,7 @@ public class TerminalDAO extends DAO<Terminal>{
 			e.printStackTrace();
 		}
 
-		json  ="{request:{ operation_type: CREATE_SENSOR, target: MotionSensor , longitude: "+ obj.getLongitude() + "latitude "+obj.getLatitude() +"}} " ;
+		json  ="{request:{ operation_type: CREATE_TERMINAL, target: Terminal , longitude: "+ obj.getLongitude() + ", latitude "+obj.getLatitude() +"}} " ;
         System.out.println(json);
 		if(res==1) {
 			return json;
@@ -69,6 +86,7 @@ public class TerminalDAO extends DAO<Terminal>{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		this.json  ="{request:{ operation_type: DELETE_TERMINAL, target: Terminal,"+"Numero : "+obj.getNumero()+"}} " ;
 		return true;
 
 	}
@@ -91,7 +109,13 @@ public class TerminalDAO extends DAO<Terminal>{
 		} catch (SQLException ex) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		return true;
+		if (res==1) {
+			this.json  ="{request:{ operation_type: UPDATE_TERMINAL, target: Terminal , longitude: "+ obj.getLongitude() + "latitude :"+obj.getLatitude() +"isActive: "+obj.isActive()+"}} " ;
+			return true;
+		}else {
+			return false;
+
+		}
 	}
 
 	@Override
@@ -129,6 +153,7 @@ public class TerminalDAO extends DAO<Terminal>{
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		this.json  ="{request:{ operation_type: SELECT_TERMINAL, target: Terminal , longitude: "+terminal.getLongitude() + "latitude, :"+terminal.getLatitude() +" ,Numero:"+terminal.getNumero()+"isActive: "+terminal.isActive()+"}} " ;
 			return terminal;
 		}
 		public List<Terminal> getAll() throws SQLException { 
@@ -147,13 +172,12 @@ public class TerminalDAO extends DAO<Terminal>{
 				res.add(borne);
 
 			} 
-
+			this.json  ="{request:{ operation_type: ALL_TERMINAL, target: Terminal}} " ;
 			return res;
 		}
 		public String SetNbrMaxVoiture(int nombre){
-			city city ;
 			int res=0;
-			String json="";
+			String jsone="";
 			String query = "update city set nombremaxvoiture=? WHERE idcity= "+1; 
 			try { 
 				this.pstmt = this.connect.prepareStatement(query); 
@@ -171,10 +195,11 @@ public class TerminalDAO extends DAO<Terminal>{
 				JSONObject voitureObject= null;
 				JSONObject request = new JSONObject(); 
 				request.put("request", requestDetails);
-				json = request.toString();
+				jsone = request.toString();
 			}else {
-				json=null;
+				jsone=null;
 			}
-			return json;
+			this.json  ="{request:{ operation_type: SET_CITY, target: city ,nombremaxvoiture :"+nombre+"}} " ;
+			return jsone;
 		}
 	}

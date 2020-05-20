@@ -6,6 +6,8 @@
 package gestion_borne.vue;
 
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -24,13 +26,14 @@ public class MotionSensorListVue extends javax.swing.JDialog {
      * Creates new form DListeUtilisateur
      */
 	private functionalityServer server;
-    public MotionSensorListVue(java.awt.Frame parent, boolean modal) throws SQLException, ClassNotFoundException {
+    public MotionSensorListVue(java.awt.Frame parent, boolean modal) throws SQLException, ClassNotFoundException, UnknownHostException, IOException {
         super(parent, modal);
         initComponents();
         
-        DAO data = new MotionSensorDAO(server); 
-        
+        MotionSensorDAO  data = new MotionSensorDAO(server); 
+       
         List<MotionSensor> lt = data.getAll();
+        data.startConnection("172.31.249.22", 2400);
         MotionSensor captor = null; 
         int col = 4;
         int lig = lt.size();
