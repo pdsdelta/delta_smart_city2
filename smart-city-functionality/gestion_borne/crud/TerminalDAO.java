@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.simple.JSONObject;
+
 import borne.Terminal;
 import city.city;
 import connectionPool.DataSource;
@@ -147,5 +149,32 @@ public class TerminalDAO extends DAO<Terminal>{
 			} 
 
 			return res;
+		}
+		public String SetNbrMaxVoiture(int nombre){
+			city city ;
+			int res=0;
+			String json="";
+			String query = "update city set nombremaxvoiture=? WHERE idcity= "+1; 
+			try { 
+				this.pstmt = this.connect.prepareStatement(query); 
+				this.pstmt.setInt(1, nombre);;
+				res = pstmt.executeUpdate(); 
+
+			} catch (SQLException ex) {
+				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+			}
+			if(res==1) {
+				JSONObject requestDetails = new JSONObject();
+				requestDetails.put("operation_type", "UPDATE_NBR");
+				requestDetails.put("Target","city");
+				requestDetails.put("nbrmaxvoiture", nombre);
+				JSONObject voitureObject= null;
+				JSONObject request = new JSONObject(); 
+				request.put("request", requestDetails);
+				json = request.toString();
+			}else {
+				json=null;
+			}
+			return json;
 		}
 	}
