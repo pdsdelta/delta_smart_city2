@@ -136,7 +136,8 @@ public class CarbonMenu extends JFrame implements ActionListener {
 		Object o = event.getSource();
 		if (o == rb1) {
 			
-			
+			DecimalFormat df = new DecimalFormat ( ) ; 
+			df.setMaximumFractionDigits ( 2 ) ; 
 			es.removeAll();
 			cg.removeAll();
 			p.removeAll();
@@ -173,13 +174,31 @@ public class CarbonMenu extends JFrame implements ActionListener {
 						System.out.println(res);
 						jsonClient=res;
 						String resp = CarbonInfo.getInstance().sendMessage(res);
-						InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
+						InfoGlobalCarbon ic = (InfoGlobalCarbon) CarbonInfo.getInstance().responseToInfoCarbon(resp);
 						if(ic==null) {
 							JLabel emp = new JLabel("Aucune donnée pour la date d'hier");
 							cg.add(emp);
 						}else {
 							double resul = ic.calculateCarbon();
-							JLabel emp = new JLabel("L'empreinte carbonne globale de la ville est de : "+ resul + " Kg de CO2");
+							jtiectram.setText("L'empreinte carbonne des tramways est éstimée à :" + df.format(ic.getEct())+" Kg de CO2");
+							jtiecbus.setText("L'empreinte carbonne des bus est éstimée à :" + df.format(ic.getEcb())+" Kg de CO2");
+							jtiecpub.setText("L'empreinte carbonne des transports publics est éstimée à :" + df.format(ic.getEcpub())+" Kg de CO2");
+							jtiecnpass.setText("************************************************************************");
+							jtieccar.setText("L'empreinte carbonne des voitures est éstimée à :" + df.format(ic.getEcc())+" Kg de CO2");
+							jtiecmoto.setText("L'empreinte carbonne des motos est éstimée à :" + df.format(ic.getEcm())+" Kg de CO2");
+							jtiecpriv.setText("L'empreinte carbonne des transports privées est éstimée à :" + df.format(ic.getEcpriv()) + " Kg de CO2");
+							jtiecnpass2.setText("************************************************************************");
+							JLabel emp = new JLabel("L'empreinte carbonne globale est de : "+ resul + " Kg de CO2");
+							cg.add(jtiectram);
+							cg.add(jtiecbus);
+							cg.add(jtiectrot);
+							cg.add(jtiecpub);
+							cg.add(jtiecnpass);
+							cg.add(jtieccar);
+							cg.add(jtiecmoto);
+							cg.add(jtiecpriv);
+							cg.add(jtiecnpass2);
+							
 							cg.add(emp);
 						}
 						getContentPane().add(cg);
@@ -243,13 +262,31 @@ public class CarbonMenu extends JFrame implements ActionListener {
 										System.out.println(res);
 										jsonClient = res;
 										String resp = CarbonInfo.getInstance().sendMessage(res);
-										InfoCarbon ic = CarbonInfo.getInstance().responseToInfoCarbon(resp);
+										InfoGlobalCarbon ic = (InfoGlobalCarbon) CarbonInfo.getInstance().responseToInfoCarbon(resp);
 										if(ic==null) {
 											JLabel emp = new JLabel("Aucune donnée pour la date :  "+ d);
 											cg.add(emp);
 										}else {
+											cg.removeAll();
 											double resul = ic.calculateCarbon();
+											jtiectram.setText("L'empreinte carbonne des tramways est éstimée à :" + df.format(ic.getEct())+" Kg de CO2");
+											jtiecbus.setText("L'empreinte carbonne des bus est éstimée à :" + df.format(ic.getEcb())+" Kg de CO2");
+											jtiecpub.setText("L'empreinte carbonne des transports publics est éstimée à :" + df.format(ic.getEcpub())+" Kg de CO2");
+											jtiecnpass.setText("************************************************************************");
+											jtieccar.setText("L'empreinte carbonne des voitures est éstimée à :" + df.format(ic.getEcc())+" Kg de CO2");
+											jtiecmoto.setText("L'empreinte carbonne des motos est éstimée à :" + df.format(ic.getEcm())+" Kg de CO2");
+											jtiecpriv.setText("L'empreinte carbonne des transports privées est éstimée à :" + df.format(ic.getEcpriv()) + " Kg de CO2");
+											jtiecnpass2.setText("************************************************************************");
 											JLabel emp = new JLabel("L'empreinte carbonne globale est de : "+ resul + " Kg de CO2");
+											cg.add(jtiectram);
+											cg.add(jtiecbus);
+											cg.add(jtiectrot);
+											cg.add(jtiecpub);
+											cg.add(jtiecnpass);
+											cg.add(jtieccar);
+											cg.add(jtiecmoto);
+											cg.add(jtiecpriv);
+											cg.add(jtiecnpass2);
 											cg.add(emp);
 										}
 										getContentPane().add(cg);
@@ -272,10 +309,15 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									
 								}
 							}else {
+								cg.removeAll();
 								cg.remove(jtt);
+								getContentPane().revalidate();
+								getContentPane().repaint();
 								jtt = new JLabel("Veuillez entrez une date valide sous le format JJ/MM/AAAA");
 								cg.add(jtt);
 								getContentPane().add(cg);
+								getContentPane().revalidate();
+								getContentPane().repaint();
 								setVisible(true);
 							}
 							//System.out.println(d);
@@ -296,6 +338,8 @@ public class CarbonMenu extends JFrame implements ActionListener {
 					
 					
 					cg.removeAll();
+					getContentPane().revalidate();
+					getContentPane().repaint();
 					JLabel jt = new JLabel("Veuillez choisir la date souhaitée");
 					cg.add(jt);
 					JDatePickerImpl datePicker = generateDatePicker();
@@ -394,6 +438,8 @@ public class CarbonMenu extends JFrame implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					
 					cg.removeAll();
+					getContentPane().revalidate();
+					getContentPane().repaint();
 					JLabel jt = new JLabel("Veuillez choisir la date souhaitée");
 					cg.add(jt);
 					JDatePickerImpl datePicker = generateDatePicker();
