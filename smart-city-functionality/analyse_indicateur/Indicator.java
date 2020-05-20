@@ -124,6 +124,7 @@ public class Indicator {
 
 		ResultSet rs3 = stmt3.executeQuery("SELECT COUNT(*) AS total FROM motionsensor");
 		while(rs3.next()){
+		
 
 			count = rs3.getInt("total");
 		}
@@ -210,23 +211,17 @@ public class Indicator {
 	 * @throws JsonProcessingException
 	 * @throws SQLException 
 	 */
-	public int nbcars(String date ) throws JSONException, JsonProcessingException, SQLException {
-		
-		 //String resultat= "{Table: publictransportstat, Action : infoNbcarswithdate ,  Data: ";
+	public String nbcars(String date) throws JSONException, JsonProcessingException, SQLException {
 		List<InfoGlobalCarbon> res = new ArrayList<InfoGlobalCarbon>();
 //		String json = this.jsonClient;	
 //		JSONObject obj = new JSONObject(json);
 //		JSONObject request = obj.getJSONObject("request");
 		Statement stmt3 = this.connect.createStatement();
 		int count = 0;
-
-		ResultSet rs3 = stmt3.executeQuery("SELECT nbcars FROM publictransportstat where dateof = "+date);
+		ResultSet rs3 = stmt3.executeQuery("SELECT nbcars FROM publictransportstat where dateof = '"+date+ " ");
 		while(rs3.next()){
-
-			count = rs3.getInt("Total");
+			count = rs3.getInt("nbcars");
 		}
-		
-		
 //		int nbcars= request.getInt("nbcars");
 //		int dateof= request.getInt("dateof");
 //		String query= "select nbcars,dateof from publictransportstat";
@@ -245,8 +240,11 @@ public class Indicator {
 		System.out.println("je vais recuperer le nbr totale de voiture en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+		String resultat= "{Table: InfoGlobalCarbon, Action : nbcars,  Data: " +count+"}";
 		//this.finalResponse = resultat;
-		return count;
+		resultat = resultat + count + "}" ;
+		System.out.println(resultat);
+			return resultat;
 	}
 	                                                    // 5 numbr TRAM
 		//select numbertram from station; ==>
@@ -269,7 +267,7 @@ public class Indicator {
 			int count = 0;
 
 			ResultSet rs3 = stmt3.executeQuery("select numbertram  from station ");
-			while(rs3.next()){
+			while(rs3.next()){                                                                            
 
 				count = rs3.getInt("numbertram");
 			}
@@ -347,6 +345,34 @@ public class Indicator {
 		
 		
 		
+		
+		/**
+		 * @return
+		 * @throws JSONException
+		 * @throws JsonProcessingException
+		 * @throws SQLException 
+		 */
+		public List<MotionSensor> getAllMotion() throws SQLException { 
+			List<MotionSensor> res = new ArrayList<MotionSensor>(); 
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM motionsensor where isActive = true");
+			while (result.next()) {
+				MotionSensor captor = new MotionSensor(); 
+
+				captor.setLongitude(result.getInt("longitude"));
+				captor.setLatitude(result.getInt("latitude"));
+				captor.setActive(result.getBoolean("isActive"));
+				captor.setNumero(result.getInt("numero"));
+				res.add(captor);
+
+			} 
+
+			return res;
+		}
+		
+				
+		
 		/**
 		 * @return
 		 * @throws JSONException
@@ -372,7 +398,7 @@ public class Indicator {
 
 			return res;
 		}
-		
+
 		
 		
 }
