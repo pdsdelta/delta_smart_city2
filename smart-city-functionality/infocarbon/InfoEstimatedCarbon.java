@@ -12,7 +12,44 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 	private int nbTrotinette;
 	private int nbBus;
 	private double kmb;
+	private int nbTram;
+	private double longueurreseau ;
+	private int hs;
+	private double ecpriv, ecpub;
+	private int npp;
+	private double ect, ecb, ectt, ecc, ecm ;
 	
+	
+	public double getEcb() {
+		return ecb/1000;
+	}
+
+
+
+	public void setEcb(double ecb) {
+		this.ecb = ecb;
+	}
+
+
+
+	public double getEctt() {
+		return ectt/1000;
+	}
+
+
+
+	public double getEcc() {
+		return ecc/1000;
+	}
+
+
+
+	public double getEcm() {
+		return ecm/1000;
+	}
+
+
+
 	public int getNbMotos() {
 		return nbMotos;
 	}
@@ -23,13 +60,11 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 		return nbTrotinette;
 	}
 
+	public double getEct() {
+		return ect/1000;
+	}
 
 
-	private int nbTram;
-	private double longueurreseau ;
-	private int hs;
-	private double ecpriv, ecpub;
-	private int npp;
 	
 	public double getEcpriv() {
 		return ecpriv/1000;
@@ -52,6 +87,10 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 	public void setEcpub(double ecpub) {
 		this.ecpub = ecpub;
 	}
+
+
+
+	
 
 
 
@@ -121,21 +160,19 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 		if(lt < 0) {
 			np = 0;
 		}else if(lt < 5) {
-			np = 50000;
+			np = 3000;
 		}else if( lt> 5 && lt <10) {
-				np = 70000 ;
+				np = 7000 ;
 		}else if( lt> 5 && lt <10) {
-			np = 70000 ;
-		}else if( lt> 5 && lt <10) {
-			np = 70000 ;
+			np = 8000 ;
 		}else if( lt> 10 && lt <14) {
-			np = 100000 ;
+			np = 10000 ;
 		}else if( lt> 14 && lt <17) {
-			np = 170000 ;
+			np = 17000 ;
 		}else if( lt> 17 && lt <20) {
-			np = 200000 ;
+			np = 20000 ;
 		}else {
-			np = 222000 ;
+			np = 22200 ;
 		}
 		this.npp = np;
 		System.out.println("Nombre de Tramways : "+ nt);
@@ -150,21 +187,26 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 		System.out.println("Calcul de l'empreinte carbonne associée à ces paramètres");
 		System.out.println("Nombre de motos : "+ nmoo);
 		int npmoyen = np / nt;
-		double pub = (20 * hours) * nt * ((3.2/70) * npmoyen/nt);
+		double pub = (20 * hours) * nt * ((3.2/10000) * npmoyen/nt);
 		double empbus = (nbb*kmbb)*(110);
 		double emptrot = (3 * nttr) * (9.7) ;
 		System.out.println("Empreinte Carbon des tramways : " + pub + " g de CO2");
+		this.ect = pub;
 		System.out.println("Empreinte Carbon Bus : " + empbus + " g de CO2");
+		this.ecb = empbus;
 		System.out.println("Empreinte Carbon trotinettes electriques : "+ emptrot +" g de CO2");
+		this.ectt = emptrot;
 		double emppub = pub + empbus + emptrot ;
 		this.setEcpub(emppub);
 		System.out.println("Empreinte Carbon des transports publics : " + emppub + " g de CO2");
 		double priv = (nc * kilo ) * (193 * npass/3);
 		double empmot = (9 * nmoo) * (168/2);
 		System.out.println("Empreinte Carbon des voitures  : " + priv + " g de CO2");
+		this.ecc = priv;
 		System.out.println("Empreinte Carbon des motos : " + empmot + " g de CO2");
+		this.ecm = empmot;
 		double empglob = priv + empmot ; 
-		this.setEcpriv(empglob );
+		this.setEcpriv(empglob);
 		System.out.println("Empreinte Carbon des transports privés : " + empglob + " g de CO2");
 		double glob = emppub + empglob ;
 		System.out.println("Empreinte Carbon globale  : " + glob + " g de CO2");
@@ -191,11 +233,11 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 
 
 	public static void main(String[] args) {
-		//InfoEstimatedCarbon f = new InfoEstimatedCarbon(1,500,3,20,120,18,20,);
-		//double res = f.calculateCarbon();
+		InfoEstimatedCarbon f = new InfoEstimatedCarbon(1,500,3,20,200,50,20, 12, 20, 50, 30);
+		double res = f.calculateCarbon();
 		DecimalFormat df = new DecimalFormat ( ) ; 
 		df.setMaximumFractionDigits ( 2 ) ; 
-		//System.out.println("Résultat = " + df.format(res) + " Kg de CO2");
+		System.out.println("Résultat = " + df.format(res) + " Kg de CO2");
 		
 	}
 }

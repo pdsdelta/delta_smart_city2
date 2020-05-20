@@ -67,6 +67,12 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	private JLabel jtiecpriv = new JLabel();
 	private JLabel jtiecpub = new JLabel();
 	private JLabel jtiecnpass = new JLabel();
+	private JLabel jtiecnpass2 = new JLabel();
+	private JLabel jtiectram = new JLabel();
+	private JLabel jtiecbus = new JLabel();
+	private JLabel jtiectrot = new JLabel();
+	private JLabel jtieccar = new JLabel();
+	private JLabel jtiecmoto = new JLabel();
 	private static CarbonMenu instance = null ;
 
 	
@@ -134,8 +140,15 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			es.removeAll();
 			cg.removeAll();
 			p.removeAll();
-			getContentPane().remove(jtiecpriv);
+			getContentPane().remove(jtiectram);
+			getContentPane().remove(jtiecbus);
+			getContentPane().remove(jtiectrot);
 			getContentPane().remove(jtiecpub);
+			getContentPane().remove(jtiecnpass);
+			getContentPane().remove(jtieccar);
+			getContentPane().remove(jtiecmoto);
+			getContentPane().remove(jtiecpriv);
+			getContentPane().remove(jtiecnpass2);
 			getContentPane().remove(jtiec);
 			getContentPane().remove(es);
 			getContentPane().remove(p);
@@ -598,8 +611,15 @@ public class CarbonMenu extends JFrame implements ActionListener {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							getContentPane().remove(jtiecpriv);
+							getContentPane().remove(jtiectram);
+							getContentPane().remove(jtiecbus);
+							getContentPane().remove(jtiectrot);
 							getContentPane().remove(jtiecpub);
+							getContentPane().remove(jtiecnpass);
+							getContentPane().remove(jtieccar);
+							getContentPane().remove(jtiecmoto);
+							getContentPane().remove(jtiecpriv);
+							getContentPane().remove(jtiecnpass2);
 							getContentPane().remove(jtiec);
 							getContentPane().revalidate();
 							getContentPane().repaint();
@@ -627,8 +647,15 @@ public class CarbonMenu extends JFrame implements ActionListener {
 								if (np > 5) {
 									JOptionPane.showMessageDialog(null, "Le nombre de passager moyen ne doit pas dépasser 5 personnes");
 		
-									getContentPane().remove(jtiecpriv);
+									getContentPane().remove(jtiectram);
+									getContentPane().remove(jtiecbus);
+									getContentPane().remove(jtiectrot);
 									getContentPane().remove(jtiecpub);
+									getContentPane().remove(jtiecnpass);
+									getContentPane().remove(jtieccar);
+									getContentPane().remove(jtiecmoto);
+									getContentPane().remove(jtiecpriv);
+									getContentPane().remove(jtiecnpass2);
 									getContentPane().remove(jtiec);
 									getContentPane().revalidate();
 									getContentPane().repaint();
@@ -637,17 +664,30 @@ public class CarbonMenu extends JFrame implements ActionListener {
 								}else if (nv <= 0 || np < 0 || lt < 0 || hs < 0 || km < 0 || nm < 0 || ntt < 0 || nb <0) {
 									JOptionPane.showMessageDialog(null, "Les nombres doivent être positifs");
 									
-									getContentPane().remove(jtiecpriv);
+									getContentPane().remove(jtiectram);
+									getContentPane().remove(jtiecbus);
+									getContentPane().remove(jtiectrot);
 									getContentPane().remove(jtiecpub);
+									getContentPane().remove(jtiecnpass);
+									getContentPane().remove(jtieccar);
+									getContentPane().remove(jtiecmoto);
+									getContentPane().remove(jtiecpriv);
+									getContentPane().remove(jtiecnpass2);
 									getContentPane().remove(jtiec);
 									getContentPane().revalidate();
 									getContentPane().repaint();
 					
 								}else if (hs > 22) {
 									JOptionPane.showMessageDialog(null, "Le nombre d'heures de service ne doit pas dépasser 22");
-									
-									getContentPane().remove(jtiecpriv);
+									getContentPane().remove(jtiectram);
+									getContentPane().remove(jtiecbus);
+									getContentPane().remove(jtiectrot);
 									getContentPane().remove(jtiecpub);
+									getContentPane().remove(jtiecnpass);
+									getContentPane().remove(jtieccar);
+									getContentPane().remove(jtiecmoto);
+									getContentPane().remove(jtiecpriv);
+									getContentPane().remove(jtiecnpass2);
 									getContentPane().remove(jtiec);
 									getContentPane().revalidate();
 									getContentPane().repaint();
@@ -656,14 +696,27 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									DecimalFormat df = new DecimalFormat ( ) ; 
 									df.setMaximumFractionDigits ( 2 ) ; 
 									double glob = iec.calculateCarbon();
-									jtiecpub.setText("L'empreinte carbonne des voitures est éstimé à :" + df.format(iec.getEcpriv())+" Kg de CO2");
-									jtiecnpass.setText("Le nombre de passagers pour cette longueur de ligne est estimé à :" + iec.getNpp() + " passagers par jour");
-									jtiecpriv.setText("L'empreinte carbonne des tramways est éstimé à :" + df.format(iec.getEcpub())+" Kg de CO2");
-									jtiec.setText("L'empreinte carbonne globale est éstimé à : "+ df.format(glob) +" Kg de CO2");
-	
+									jtiectram.setText("L'empreinte carbonne des tramways est éstimée à :" + df.format(iec.getEct())+" Kg de CO2");
+									jtiecbus.setText("L'empreinte carbonne des bus est éstimée à :" + df.format(iec.getEcb())+" Kg de CO2");
+									jtiectrot.setText("L'empreinte carbonne des trotinettes éléctriques est éstimée à :" + df.format(iec.getEctt())+" Kg de CO2");
+									jtiecpub.setText("L'empreinte carbonne des transports publics est éstimée à :" + df.format(iec.getEcpub())+" Kg de CO2");
+									jtiecnpass.setText("************************************************************************");
+									jtieccar.setText("L'empreinte carbonne des voitures est éstimée à :" + df.format(iec.getEcc())+" Kg de CO2");
+									jtiecmoto.setText("L'empreinte carbonne des motos est éstimée à :" + df.format(iec.getEcm())+" Kg de CO2");
+									jtiecpriv.setText("L'empreinte carbonne des transports privées est éstimée à :" + df.format(iec.getEcpriv()) + " Kg de CO2");
+									jtiecnpass2.setText("************************************************************************");
+									jtiec.setText("L'empreinte carbonne globale est éstimée à : "+ df.format(glob) +" Kg de CO2");
+									
+									
+									getContentPane().add(jtiectram);
+									getContentPane().add(jtiecbus);
+									getContentPane().add(jtiectrot);
 									getContentPane().add(jtiecpub);
 									getContentPane().add(jtiecnpass);
+									getContentPane().add(jtieccar);
+									getContentPane().add(jtiecmoto);
 									getContentPane().add(jtiecpriv);
+									getContentPane().add(jtiecnpass2);
 									getContentPane().add(jtiec);
 									getContentPane().revalidate();
 									getContentPane().repaint();
@@ -672,8 +725,15 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							} catch (Exception e1) {
 								JOptionPane.showMessageDialog(null, "Veuillez entrer des nombre");
 								iec =null ;
-								getContentPane().remove(jtiecpriv);
+								getContentPane().remove(jtiectram);
+								getContentPane().remove(jtiecbus);
+								getContentPane().remove(jtiectrot);
 								getContentPane().remove(jtiecpub);
+								getContentPane().remove(jtiecnpass);
+								getContentPane().remove(jtieccar);
+								getContentPane().remove(jtiecmoto);
+								getContentPane().remove(jtiecpriv);
+								getContentPane().remove(jtiecnpass2);
 								getContentPane().remove(jtiec);
 								getContentPane().revalidate();
 								getContentPane().repaint();
