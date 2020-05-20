@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import org.json.JSONException;
 
 public class capteur1 extends JFrame{
-
+	private capteur6 f;
 	
 	public capteur1() throws UnknownHostException, IOException, JSONException{
 		
@@ -39,7 +39,12 @@ public class capteur1 extends JFrame{
 		JButton Bouton = new JButton("Valider");
 		Bouton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				try {
+					f = new capteur6();
+				} catch (IOException | JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		this.add(panel1);

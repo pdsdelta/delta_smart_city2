@@ -29,7 +29,8 @@ public class capteur3 extends JFrame{
 		JButton Bouton = new JButton("Valider");
 		Bouton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				//System.exit(0);
+				dispose();
 			}
 		});
 		this.add(panel1);
