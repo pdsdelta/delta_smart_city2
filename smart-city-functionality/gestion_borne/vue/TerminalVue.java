@@ -24,9 +24,16 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuItem;
 
 public class TerminalVue {
-	
+
 	functionalityServer server;
 	//connection socket
 	private Socket clientSocket;
@@ -73,6 +80,21 @@ public class TerminalVue {
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
+		JMenuBar menuBar= new JMenuBar();
+		JMenu menu= new JMenu("Configuration");
+		JMenuItem menuItem = new JMenuItem("Voiture Admis");
+		menuItem.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					SetMaxVoiture(evt);
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		menuBar.add(menuItem);
+		frame.setJMenuBar(menuBar);
 		JButton btnAddTerminal = new JButton("Ajouter Une Borne");
 		btnAddTerminal.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,6 +145,13 @@ public class TerminalVue {
 	private void AddTerminal(java.awt.event.ActionEvent evt) {                                           
 		new TerminalAddVue().setVisible(true);
 	} 
+	private void SetMaxVoiture(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {
+		JOptionPane jop= new JOptionPane();
+		String num = jop.showInputDialog(null,"Entrez le numero de voiture admis",JOptionPane.QUESTION_MESSAGE);
+		int y = Integer.parseInt(num);
+		TerminalDAO data  = new TerminalDAO(server);
+		data.SetNbrMaxVoiture(y);
+	}
 	private void DeleteTerminal(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {                                           
 		JOptionPane jop= new JOptionPane();
 		String num = jop.showInputDialog(null,"Entrez le numero de la borne à supprimer",JOptionPane.QUESTION_MESSAGE);
@@ -131,4 +160,5 @@ public class TerminalVue {
 		Terminal borne= data.find(y);
 		data.delete(borne);
 	}
+	
 }
