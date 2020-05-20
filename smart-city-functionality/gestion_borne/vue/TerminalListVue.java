@@ -6,6 +6,8 @@
 package gestion_borne.vue;
 
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -24,13 +26,14 @@ public class TerminalListVue extends javax.swing.JDialog {
      * Creates new form DListeUtilisateur
      */
 	private functionalityServer server;
-    public TerminalListVue(java.awt.Frame parent, boolean modal) throws SQLException, ClassNotFoundException {
+    public TerminalListVue(java.awt.Frame parent, boolean modal) throws SQLException, ClassNotFoundException, UnknownHostException, IOException {
         super(parent, modal);
         initComponents();
         
-        DAO data = new TerminalDAO(server); 
+        TerminalDAO data = new TerminalDAO(server); 
         
         List<Terminal> lt = data.getAll();
+        data.startConnection("172.31.249.22", 2400);
         Terminal borne = null; 
         int col = 5;
         int lig = lt.size();

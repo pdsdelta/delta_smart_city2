@@ -48,7 +48,7 @@ public class TerminalDAO extends DAO<Terminal>{
 	public String create(Terminal obj) throws SQLException  {
 		int res=0;
 
-        String json ="";
+        
 		String query = "INSERT INTO Terminal (longitude, latitude, isActive, status,city) " + "VALUES (?, ?, ?, ?,?)";
 		try {
 			pstmt = this.connect.prepareStatement(query);
@@ -63,10 +63,10 @@ public class TerminalDAO extends DAO<Terminal>{
 			e.printStackTrace();
 		}
 
-		json  ="{request:{ operation_type: CREATE_TERMINAL, target: Terminal , longitude: "+ obj.getLongitude() + ", latitude "+obj.getLatitude() +"}} " ;
-        System.out.println(json);
+		this.json  ="{request:{ operation_type: CREATE_TERMINAL, target: Terminal , longitude: "+ obj.getLongitude() + ", latitude :"+obj.getLatitude() +"}} " ;
+        
 		if(res==1) {
-			return json;
+			return this.json;
 		}else {
 			return null;
 		}

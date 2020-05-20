@@ -87,7 +87,7 @@ public class TerminalVue {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
 					SetMaxVoiture(evt);
-				} catch (ClassNotFoundException | SQLException e) {
+				} catch (ClassNotFoundException | SQLException | IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -115,6 +115,12 @@ public class TerminalVue {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});
@@ -126,7 +132,7 @@ public class TerminalVue {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
 					ListeTerminal(evt);
-				} catch (ClassNotFoundException | SQLException e) {
+				} catch (ClassNotFoundException | SQLException | IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -139,26 +145,28 @@ public class TerminalVue {
 		btnModifyTerminal.setBounds(314, 115, 290, 28);
 		panel.add(btnModifyTerminal);
 	}
-	private void ListeTerminal(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {                                           
+	private void ListeTerminal(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException, UnknownHostException, IOException {                                           
 		new TerminalListVue(frame, true).setVisible(true);
 	}
 	private void AddTerminal(java.awt.event.ActionEvent evt) {                                           
 		new TerminalAddVue().setVisible(true);
 	} 
-	private void SetMaxVoiture(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {
+	private void SetMaxVoiture(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException, UnknownHostException, IOException {
 		JOptionPane jop= new JOptionPane();
 		String num = jop.showInputDialog(null,"Entrez le numero de voiture admis",JOptionPane.QUESTION_MESSAGE);
 		int y = Integer.parseInt(num);
 		TerminalDAO data  = new TerminalDAO(server);
 		data.SetNbrMaxVoiture(y);
+		data.startConnection("172.31.249.22", 2400);
 	}
-	private void DeleteTerminal(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {                                           
+	private void DeleteTerminal(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException, UnknownHostException, IOException {                                           
 		JOptionPane jop= new JOptionPane();
 		String num = jop.showInputDialog(null,"Entrez le numero de la borne à supprimer",JOptionPane.QUESTION_MESSAGE);
 		int y = Integer.parseInt(num); 
 		TerminalDAO data = new TerminalDAO(server); 
 		Terminal borne= data.find(y);
 		data.delete(borne);
+		data.startConnection("172.31.249.22", 2400);
 	}
 	
 }

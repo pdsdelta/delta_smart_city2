@@ -108,12 +108,11 @@ public class TerminalAddVue extends JDialog {
 	private void okButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException, UnknownHostException, IOException {                                           
 		// TODO add your handling code here:
 		this.data = new TerminalDAO(server);
-		
 		Terminal borne = new Terminal();
 		borne.setLongitude(Integer.parseInt(tfLongitude.getText()));
 		borne.setLatitude(Integer.parseInt(tfLatitude.getText()));
 		String result=data.create(borne);
-		this.data.startConnection("172.31.249.22", 2400);
+		data.startConnection("172.31.249.22", 2400);
 		if((result!=null)) {
 			this.resultat.setText("Ajout Reussi");
 		}else {
