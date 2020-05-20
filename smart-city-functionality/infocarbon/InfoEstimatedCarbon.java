@@ -184,8 +184,9 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 		System.out.println("Nombre de voitures : "+ nc);
 		System.out.println("Nombre de passagers moyen par voiture : "+ npass);
 		System.out.println("Distance moyenne parcouru par les voitures : "+ kilo + " Km");
-		System.out.println("Calcul de l'empreinte carbonne associée à ces paramètres");
 		System.out.println("Nombre de motos : "+ nmoo);
+		System.out.println("Calcul de l'empreinte carbonne associée à ces paramètres");
+		
 		int npmoyen = np / nt;
 		double pub = (20 * hours) * nt * ((3.2/10000) * npmoyen/nt);
 		double empbus = (nbb*kmbb)*(110);
@@ -200,7 +201,7 @@ public class InfoEstimatedCarbon extends InfoCarbon {
 		this.setEcpub(emppub);
 		System.out.println("Empreinte Carbon des transports publics : " + emppub + " g de CO2");
 		double priv = (nc * kilo ) * (193 * npass/3);
-		double empmot = (9 * nmoo) * (168/2);
+		double empmot = (6 * nmoo) * (168/2);
 		System.out.println("Empreinte Carbon des voitures  : " + priv + " g de CO2");
 		this.ecc = priv;
 		System.out.println("Empreinte Carbon des motos : " + empmot + " g de CO2");

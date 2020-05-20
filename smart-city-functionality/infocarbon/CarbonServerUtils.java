@@ -89,23 +89,33 @@ public class CarbonServerUtils {
 		String resultat= "{Table: publictransportstat, Action : GET_GLOBAL_CARBON , Status: ";
 		System.out.println("Récupérations des informations concernant les transports privées");
     	String privateTr = getNbCars(date);
+    	String privateMo = getNbMotos(date);
     	System.out.println("----------------------------------------------------------------");
     	System.out.println("Récupérations des informations concernant les transports public");
     	String publicTr = getNbTram();
+    	String publicBus = getNbBus(date);
     	JSONObject objpriv =new JSONObject(privateTr);
+    	JSONObject objprivmo =new JSONObject(privateMo);
     	JSONObject objpub =new JSONObject(publicTr);
+    	JSONObject objpubbus =new JSONObject(publicBus);
     	String statusPriv = objpriv.getString("Status");
+    	String statusPrivMo = objprivmo.getString("Status");
     	String statusPub = objpub.getString("Status") ;
-    	if(statusPriv.equals("success") && statusPub.equals("success") ) {
+    	String statusPubPub = objpubbus.getString("Status") ;
+    	if(statusPriv.equals("success") && statusPub.equals("success") && statusPrivMo.equals("success") && statusPubPub.equals("success")) {
     		System.out.println("----------------------------------------------------------------");
     		System.out.println("On a bien des informations sur les deux types de transports");
     		resultat= resultat + statusPriv;
     		JSONArray arrpr = objpriv.getJSONArray("Data");
     		int nbCars = arrpr.getJSONObject(0).getInt("NbCars");
+    		JSONArray arrprmo = objpriv.getJSONArray("Data");
+    		int nbMotos = arrprmo.getJSONObject(0).getInt("NbMotos");
     		JSONArray arrpu = objpub.getJSONArray("Data");
         	int nbTram = arrpu.getJSONObject(0).getInt("NbTram");
         	int longueurreseau = arrpu.getJSONObject(0).getInt("LengthLine");
-        	resultat= resultat + ", Data: [{ NbCars :" + nbCars +", NbTram :" + nbTram + ",LengthLine :" + longueurreseau+"}]} " ;
+        	JSONArray arrpubu = objpubbus.getJSONArray("Data");
+        	int nbBus = arrpubu.getJSONObject(0).getInt("NbTram");
+        	resultat= resultat + ", Data: [{ NbCars :" + nbCars +", NbMotos :" + nbMotos +", NbTram :" + nbTram + ",LengthLine :" + longueurreseau + ",NbBus :" + nbBus + "}]} " ;
         	
     	}else {
     		resultat = resultat + "failed , Data: [{ empty : true }]}";
@@ -118,7 +128,7 @@ public class CarbonServerUtils {
 
 	
 	public String getNbCars(String date) throws JSONException, JsonProcessingException {
-    	String resultat= "{Table: publictransportstat, Action : GET_NB_CARS , Status: ";
+    	String resultat= "{Table: carstats, Action : GET_NB_CARS , Status: ";
     	String query = "select nbcars from carstats where idcity = 1 and dateof = '" + date + "' ;"  ;
     	String status ="failed";
     	System.out.println("Requette : "+query);
@@ -129,6 +139,60 @@ public class CarbonServerUtils {
 				int nbCars = rs.getInt("nbcars");
 				status = "success";
 				resultat =  resultat+ status +", Data: [{ NbCars :" + nbCars + "}]}";
+				
+			}else {
+				status ="empty";
+				resultat = resultat + status + ", Data: [{ empty : true }]}" ;
+			}
+    	}catch(SQLException ex) {
+    		ex.printStackTrace();
+    		resultat =  resultat + status + ", Data: [{ empty : true }]}" ;
+    	}
+    	System.out.println("Résultat: " +resultat);
+    	return resultat;
+    	
+    	
+    }
+	
+	public String getNbMotos(String date) throws JSONException, JsonProcessingException {
+    	String resultat= "{Table: motostats, Action : GET_NB_MOTOS , Status: ";
+    	String query = "select nbmotos from motostats where idcity = 1 and dateof = '" + date + "' ;"  ;
+    	String status ="failed";
+    	System.out.println("Requette : "+query);
+    	try {
+			stm = connect.createStatement();
+			rs = stm.executeQuery(query);
+			if(rs.next()) {
+				int nbMotos = rs.getInt("nbmotos");
+				status = "success";
+				resultat =  resultat+ status +", Data: [{ NbMotos :" + nbMotos + "}]}";
+				
+			}else {
+				status ="empty";
+				resultat = resultat + status + ", Data: [{ empty : true }]}" ;
+			}
+    	}catch(SQLException ex) {
+    		ex.printStackTrace();
+    		resultat =  resultat + status + ", Data: [{ empty : true }]}" ;
+    	}
+    	System.out.println("Résultat: " +resultat);
+    	return resultat;
+    	
+    	
+    }
+	
+	public String getNbBus(String date) throws JSONException, JsonProcessingException {
+    	String resultat= "{Table: busstats, Action : GET_NB_MOTOS , Status: ";
+    	String query = "select nbmotos from bustats where idcity = 1 and dateof = '" + date + "' ;"  ;
+    	String status ="failed";
+    	System.out.println("Requette : "+query);
+    	try {
+			stm = connect.createStatement();
+			rs = stm.executeQuery(query);
+			if(rs.next()) {
+				int nbBus = rs.getInt("nbbus");
+				status = "success";
+				resultat =  resultat+ status +", Data: [{ NbBus :" + nbBus + "}]}";
 				
 			}else {
 				status ="empty";
