@@ -119,7 +119,7 @@ public class CarbonServerUtils {
 	
 	public String getNbCars(String date) throws JSONException, JsonProcessingException {
     	String resultat= "{Table: publictransportstat, Action : GET_NB_CARS , Status: ";
-    	String query = "select nbcars from publictransportstat where idcity = 1 and dateof = '" + date + "' ;"  ;
+    	String query = "select nbcars from carstats where idcity = 1 and dateof = '" + date + "' ;"  ;
     	String status ="failed";
     	System.out.println("Requette : "+query);
     	try {
