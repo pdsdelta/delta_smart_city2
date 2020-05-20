@@ -38,20 +38,23 @@ import org.json.JSONException;
 		panel1.setLayout(new FlowLayout());
 		panel1.setBackground(Color.white);
 		JLabel label1 = new JLabel("Veuillez déterminer l'intervalle des relevés");
-		jtf.getText();
-		Integer jtf1 = (Integer) jtf.getValue();
+		JTextField textField = new JTextField();
+		textField.setColumns(5); //On lui donne un nombre de colonnes à afficher
+		//jtf.getText();
+		//Integer jtf1 = (Integer) jtf.getValue();
 		//int jtf2 = jtf1 * 1000;
 		//TestTimer(jtf2);
 		JLabel label2 = new JLabel("en secondes");
 		JButton btnNewButton = new JButton("Valider");
-//	btnNewButton.addActionListener(new ActionListener() {
-//		public void actionPerformed(ActionEvent e) {
-//			
-//		}
-//	});
+		btnNewButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+		}
+	});
 	this.add(panel1);
 	panel1.add(label1);
-	panel1.add(jtf);
+	panel1.add(textField);
+	//panel1.add(jtf);
 	panel1.add(label2);
 	panel1.add(btnNewButton);
 	

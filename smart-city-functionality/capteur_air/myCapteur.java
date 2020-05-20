@@ -75,6 +75,7 @@ public class myCapteur extends JFrame{
 	private JMenuItem case3 = new JMenuItem("Ajuster les seuils suivant les quartiers");
 	private JMenuItem case4 = new JMenuItem("Déterminer l'intervalle de relevé");
 	private JMenuItem case5 = new JMenuItem("Apercevoir l'historique des relevés");	
+	
 
 	private Socket clientSocket;
 	private PrintWriter out;
@@ -98,7 +99,6 @@ public class myCapteur extends JFrame{
 
  // interface central
   public myCapteur() throws UnknownHostException, IOException, JSONException{
-    	boolean alerte = true;
     	setTitle("Déterminer qualité d'air");
     	setSize(400, 200);
     	setLocationRelativeTo(null);
@@ -121,58 +121,63 @@ public class myCapteur extends JFrame{
 
 		case1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					b = new capteur1();
-				} catch (IOException | JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					try {
+						selectquartier();
+						//b = new capteur1();
+					} catch (IOException | JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		});
 
 		case2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-				c = new capteur2();
-				} catch (IOException | JSONException e) {
+				//try {
+					indiceville();
+				//c = new capteur2();
+				//} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					//e.printStackTrace();
+				//}
 
 			}
 		});
 
 		case3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-				d = new capteur3();
-				} catch (IOException | JSONException e) {
-					// TODO Auto-generated catch block
-				e.printStackTrace();
-				}
+//				try {
+//				d = new capteur3();
+				configseuil();
+//				} catch (IOException | JSONException e) {
+//					// TODO Auto-generated catch block
+//				e.printStackTrace();
+//				}
 
 			}
 		});
 
 		case4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					a = new capteur4();
-				} catch (IOException | JSONException e) {
+				//try {
+					getintervalle();
+					//a = new capteur4();
+				//} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				//	e.printStackTrace();
+				//}
 			}
 		});
 
 		case5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-				e = new capteur5();
-				} catch (IOException | JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					}
+//				try {
+//				e = new capteur5();
+				 Histor();
+//				} catch (IOException | JSONException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//					}
 			}
 		});
 		
@@ -225,11 +230,50 @@ public class myCapteur extends JFrame{
 //}
 //    	    
   //}
-
-    
+  
+  //sélectionner quartier
+  public JFrame selectquartier() throws UnknownHostException, IOException, JSONException{
+	JFrame a = new JFrame();
+	a.setTitle("sélectionner quartier");
+	a.setSize(400, 400);
+	a.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	a.setLocationRelativeTo(null);
+	a.setVisible(true);
+	JPanel panel1 = new JPanel();
+	panel1.setLayout(new FlowLayout());
+	panel1.setBackground(Color.white);
+	JLabel label1 = new JLabel("Choisissez le quartier souhaité: ");
+//	Object[] element1 = getconfigcapteur();
+//	JComboBox liste1 = new JComboBox(element1);
+	JLabel label2 = new JLabel(
+			"Par défaut les seuils des quartiers sont de 4 mais ils peuvent être changeable dans configuration du capteur");
+	JButton Bouton = new JButton("Valider");
+	Bouton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				indicequartier();
+			} catch (IOException | JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	});
+	a.add(panel1);
+	panel1.add(label1);
+//	panel1.add(liste1);
+	panel1.add(label2);
+	panel1.add(Bouton);
+	return a;
+  }
+	
     //interface indice ville
-    public void indiceville(){
-    	
+    public JFrame indiceville(){
+    	JFrame a = new JFrame();
+    	a.setTitle("deuxième fenetre");
+		a.setSize(400, 400);
+		a.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		a.setLocationRelativeTo(null);
+		a.setVisible(true);
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
         panel.setBackground(Color.white);
@@ -249,9 +293,60 @@ public class myCapteur extends JFrame{
                       + "<p>"
                       + "Donc un indice ATMO de "  
                       +"</body></html>" );
+        a.add(panel);
         panel.add(label1);
+        return a;
       }
     
+  public JFrame configseuil() { 
+	JFrame a = new JFrame();  
+    a.setTitle("sélectionner quartier");
+	a.setSize(400, 400);
+	a.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	a.setLocationRelativeTo(null);
+	a.setVisible(true);
+	JPanel panel1 = new JPanel();
+	panel1.setLayout(new FlowLayout());
+	panel1.setBackground(Color.white);
+	JLabel label1 = new JLabel("Déterminer les nouveaux seuils des quartiers:\n ");
+	JButton Bouton = new JButton("Valider");
+	Bouton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			//System.exit(0);
+			dispose();
+		}
+	});
+	a.add(panel1);
+	panel1.add(label1);
+	panel1.add(Bouton);
+	return a;
+  }
+  
+	public JFrame Histor() {
+		JFrame a = new JFrame();
+		a.setTitle("Historique");
+		a.setSize(400, 400);
+		a.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		a.setLocationRelativeTo(null);
+		a.setVisible(true);
+		JPanel panel1 = new JPanel();
+		panel1.setLayout(new FlowLayout());
+		panel1.setBackground(Color.white);
+		JLabel label1 = new JLabel();
+		label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>"
+				+ "Un relevé de 7 sur l'ï¿½chelle d'indice ATMO" 
+				+ "<p>" 
+				+ "dans le quartier  " // + quartier
+				+ "<p>" 
+				+ "le " 
+				+ "<p>" 
+				+ "<p>" 
+				+ "</body></html>");
+		a.add(panel1);
+		panel1.add(label1);
+		return a;
+	}
+  
    //alerte
     public int getalerte(int alerte1) throws UnknownHostException, IOException, JSONException {
     	//A faire
@@ -289,7 +384,7 @@ public class myCapteur extends JFrame{
 
 		if(arr.length() == 0) {
 			System.out.println("Il n'y a pas d'informations en base dans le capteur d'air");
-			this.dispose();
+			dispose();
 			throw new noDataInBase();
 		}
 
@@ -320,7 +415,7 @@ public class myCapteur extends JFrame{
 
 		if(arr.length() == 0) {
 			System.out.println("Il n'y a pas d'informations en base dans le capteur d'air");
-			this.dispose();
+			dispose();
 			throw new noDataInBase();
 		}
 
@@ -342,7 +437,13 @@ public class myCapteur extends JFrame{
 		timer.schedule(new myTask(), 0, a);
 	}
     
-	public JPanel getintervalle() {
+	public JFrame getintervalle() {
+		JFrame a = new JFrame();
+		a.setTitle("sélectionner quartier");
+		a.setSize(400, 400);
+		a.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		a.setLocationRelativeTo(null);
+		a.setVisible(true);
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new FlowLayout());
 		panel1.setBackground(Color.white);
@@ -358,11 +459,12 @@ public class myCapteur extends JFrame{
 
 			}
 		});
+		a.add(panel1);
 		panel1.add(label1);
 		panel1.add(jtf);
 		panel1.add(label2);
 		panel1.add(btnNewButton);
-		return panel1;
+		return a;
 	}
     
    public void getindiceville(int jtf2){
@@ -382,7 +484,13 @@ public class myCapteur extends JFrame{
 	}
 	
 	//interface indice du quartier 
-	public JPanel indicequartier() throws UnknownHostException, IOException, JSONException {
+	public JFrame indicequartier() throws UnknownHostException, IOException, JSONException {
+		JFrame b = new JFrame();
+		b.setTitle("sélectionner quartier");
+		b.setSize(400, 400);
+		b.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		b.setLocationRelativeTo(null);
+		b.setVisible(true);
 		int a = getCalculIndice();
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new FlowLayout());
@@ -403,6 +511,7 @@ public class myCapteur extends JFrame{
 		label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
                  + "Nous avons un indice ATMO de " +a+ " pour le quartier sélectionné"
                  +"</body></html>" );
+		b.add(panel2);
 		panel2.add(bouton1);
 		panel2.add(label1);
 		return panel2;
@@ -673,7 +782,7 @@ public class myCapteur extends JFrame{
 
 		if(arr.length() == 0) {
 			System.out.println("Il n'y a pas d'informations en base sur la ville");
-			this.dispose();
+			dispose();
 			throw new noDataInBase();
 		}
 
@@ -717,10 +826,12 @@ public class myCapteur extends JFrame{
 	}
 
 
+
 	public static void main(String[] args) throws JSONException, UnknownHostException, IOException { 
 		myCapteur a = new myCapteur();
 		//a.startConnection("172.31.249.22", 2400);
-		a.addSetquartier();
+		//capteur6 b = new capteur6();
+		//b.getalerte(2);
 		}
 }
 

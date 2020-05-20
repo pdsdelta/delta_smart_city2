@@ -129,8 +129,8 @@ public class functionalityClient extends JFrame{
 	//Fontionalit� Martin 
 	public void chargeTramFonctionality() throws UnknownHostException, IOException, JSONException{
 		this.dispose();
-		mapInterface map = new mapInterface(0);
-		map.startConnection("172.31.249.22", 2400, 0); //Adresse + port serveur commun nom jar : delta_smart_city2_functionality
+		mapInterface map = new mapInterface(5);
+		map.startConnection("172.31.249.22", 2400, 0);
 	}
 
 	public static void main(String[]args) {
