@@ -52,7 +52,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-class myCapteur extends JFrame{
+public class myCapteur extends JFrame{
 	/**
 	 * 
 	 */
