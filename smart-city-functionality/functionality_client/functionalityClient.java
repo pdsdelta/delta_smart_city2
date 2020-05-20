@@ -18,7 +18,7 @@ import gestion_borne.vue.MotionSensorVue;
 import gestion_borne.vue.TerminalVue;
 import infocarbon.CarbonInfo;
 import tram_line.mapInterface;
-//import capteur_air.myCapteur;
+import capteur_air.myCapteur;
 
 
 
@@ -26,7 +26,7 @@ public class functionalityClient extends JFrame{
 	private JPanel pan = new JPanel();
 	private JButton boutonCity = new JButton("FonctionnalitÃ© RÃ©seau de transport");
 	private JButton boutonCarbon = new JButton("FonctionnalitÃ© Empreinte carbonne");
-	private JButton boutonAircapteur = new JButton("Fonctionnalitee Qualitï¿½ d'air");
+	private JButton boutonAircapteur = new JButton("Fonctionnalitee Qualité d'air");
 	private JButton boutonAnalyseIndicateur  = new JButton("Fonctionnalitee Analyse_indicateur");
 	private JButton boutonTerminal = new JButton("Configuration Borne Retractable");
 	private JButton boutonMotionSensor = new JButton("Configuration Detecteur de vehicule");
@@ -81,12 +81,17 @@ public class functionalityClient extends JFrame{
 			}        
 		});
 		//Fontionalitee Julien
-		/*
-		 * boutonAircapteur.addActionListener(new ActionListener(){ public void
-		 * actionPerformed(ActionEvent arg0) {
-		 * System.out.println("Ouverture de la page de qualitï¿½ d'air "); myCapteur
-		 * client = new myCapteur(); client.afficheMenuAndGetJson(); } });
-		 */
+		boutonAircapteur.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("j'affiche le menu de qualité d'air ");
+				try {
+					myCapteur a = new myCapteur();
+				} catch (IOException | JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}        
+		});
 		
 			
 
