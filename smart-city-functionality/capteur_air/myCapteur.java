@@ -58,6 +58,10 @@ class myCapteur extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	private capteur4 a;
+	private capteur1 b;
+	private capteur2 c;
+	private capteur3 d;
+	private capteur5 e;
 	private JComboBox liste1;
 	private JFormattedTextField jtf = new JFormattedTextField(NumberFormat.getIntegerInstance());
 	private JMenuBar menu = new JMenuBar();
@@ -69,8 +73,9 @@ class myCapteur extends JFrame{
 	private JMenuItem case2 = new JMenuItem("Indice de la ville");
 	private JMenuItem case3 = new JMenuItem("Ajuster les seuils suivant les quartiers");
 	private JMenuItem case4 = new JMenuItem("Déterminer l'intervalle de relevé");
+	private JMenuItem case5 = new JMenuItem("Apercevoir l'historique des relevés");	
 
-	private Socket clientSocket; 
+	private Socket clientSocket;
 	private PrintWriter out;
 	private BufferedReader in;
 
@@ -80,12 +85,13 @@ class myCapteur extends JFrame{
 		out = new PrintWriter(clientSocket.getOutputStream(), true);
 		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-		while(true) {
+		//while(true) {
 			out.println(toSend);
 			String response = in.readLine();
 			System.out.println("***** RÃ©sultat ******\n");
 			System.out.println(this.showresultquartier(response));
-		}
+		//}
+		
 	}
 
  // interface central
@@ -98,34 +104,10 @@ class myCapteur extends JFrame{
     	    
     	    //On initialise nos menus      
 		this.onglet1.add(case1);
-
-    	    //On ajoute les ï¿½lï¿½ments dans notre sous-menu
-    	   // this.test1_2.add(jcmi1);
-    	    //this.test1_2.add(jcmi2);
-    	    //Ajout d'un sï¿½parateur
-    	    //this.test1_2.addSeparator();
-    	    //On met nos radios dans un ButtonGroup
-    	    //ButtonGroup bg = new ButtonGroup();
-    	    //bg.add(jrmi1);
-    	    //bg.add(jrmi1);
-    	    //On prï¿½sï¿½lectionne la premiï¿½re radio
-    	    //jrmi1.setSelected(true);
-
-    	    //this.test1_2.add(jrmi1);
-    	    //this.test1_2.add(jrmi2);
-
-    	    //Ajout du sous-menu dans notre menu
-    	    //this.test1.add(this.test1_2);
-    	    //Ajout d'un sï¿½parateur
-    	    //this.onglet1.addSeparator();
-    	    //item2.addActionListener(new ActionListener(){
-    	      //public void actionPerformed(ActionEvent arg0) {
-    	        //System.exit(0);
-    	      //}        
-    	    //});
 		this.onglet1.add(case2);
 		this.onglet2.add(case3);
 		this.onglet2.add(case4);
+		this.onglet3.add(case5);
 
     	    //L'ordre d'ajout va dï¿½terminer l'ordre d'apparition dans le menu de gauche ï¿½ droite
     	    //Le premier ajoutï¿½ sera tout ï¿½ gauche de la barre de menu et inversement pour le dernier
@@ -138,7 +120,7 @@ class myCapteur extends JFrame{
 		case1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					getselectquartier();
+					b = new capteur1();
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -148,49 +130,47 @@ class myCapteur extends JFrame{
 
 		case2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			//	try {
-					indiceville();
-			//	} catch (IOException | JSONException e) {
+				try {
+				c = new capteur2();
+				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
-				//	e.printStackTrace();
-			//	}
+					e.printStackTrace();
+				}
 
 			}
 		});
 
 		case3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//try {
-					// generateMapUnSave();
-				//} catch (IOException e) {
+				try {
+				d = new capteur3();
+				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
-				//	e.printStackTrace();
-				//}
+				e.printStackTrace();
+				}
 
 			}
 		});
 
 		case4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-//				try {
-				a = new capteur4();
-//				} catch (IOException | JSONException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-
+				try {
+					a = new capteur4();
+				} catch (IOException | JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
-		onglet3.addActionListener(new ActionListener() {
+		case5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-//				try {
-//					gethistorique();
-//				} catch (IOException | JSONException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-
+				try {
+				e = new capteur5();
+				} catch (IOException | JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					}
 			}
 		});
 		
@@ -246,7 +226,7 @@ class myCapteur extends JFrame{
 
     
     //interface indice ville
-    public  JPanel indiceville(){
+    public void indiceville(){
     	
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
@@ -268,7 +248,6 @@ class myCapteur extends JFrame{
                       + "Donc un indice ATMO de "  
                       +"</body></html>" );
         panel.add(label1);
-        return panel;
       }
     
    //alerte
@@ -384,55 +363,18 @@ class myCapteur extends JFrame{
 		return panel1;
 	}
     
-   // public  void getindiceville(){
-    	//a = new capteur4();
-//		JPanel panel1 = new JPanel();
-//		panel1.setLayout(new FlowLayout());
-//		panel1.setBackground(Color.white);	
-//		JLabel label1 = new JLabel("Veuillez dï¿½terminer l'intervalle des relevï¿½s");
-//		jtf.getText();
-//		int jtf1 = (Integer)jtf.getValue();
-//		int jtf2 = jtf1 * 1000;
-//		TestTimer(jtf2);
-//		JLabel label2 = new JLabel("en secondes");
-//		JButton btnNewButton = new JButton("Valider");
-//		btnNewButton.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				
-//			}
-//		});
-//		panel1.add(label1);
-//		panel1.add(jtf);
-//		panel1.add(label2);
-//		panel1.add(btnNewButton);
-//		return panel1;
-  //}
+   public void getindiceville(int jtf2){
+		int jtf3 = jtf2 * 1000;
+		TestTimer(jtf3);
+	}
 
     
 //interface sélectionner quartier
-	public JPanel getselectquartier() throws UnknownHostException, IOException, JSONException {
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new FlowLayout());
-		panel1.setBackground(Color.white);
-		JLabel label1 = new JLabel("Choisissez le quartier souhaité: ");
+	public void getselectquartier() throws UnknownHostException, IOException, JSONException {
 		Object[] element1 = getconfigcapteur();
 		liste1 = new JComboBox(element1);
-		panel1.add(liste1);
-		JLabel label2 = new JLabel(
-				"Par défaut les seuils des quartiers sont de 4 mais ils peuvent être changeable dans configuration du capteur");
-		JButton Bouton = new JButton("Valider");
-		Bouton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		panel1.add(label1);
-		panel1.add(liste1);
-		panel1.add(label2);
-		panel1.add(Bouton);
-		return panel1;
 	}
-
+	
 	public JComboBox getListe1(){
 		return liste1;
 	}
@@ -469,20 +411,20 @@ class myCapteur extends JFrame{
 
 //historique
 	//A corriger
-    public JPanel gethistorique(){
-        JPanel panel1 = new JPanel();
-       	panel1.setLayout(new FlowLayout());
-        panel1.setBackground(Color.white);	
-        JLabel label1 = new JLabel();
-		/*
-		 * for(int i = 0; i < ; i++) { label1.setText("Un relevï¿½ de"); }
-		 * label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" +
-		 * "Un relevï¿½ de " + + "sur l'ï¿½chelle d'indice ATMO" + "<p>" +
-		 * "dans le quartier  " + quartier + "<p>" + "le " + date + "<p>" + "ï¿½ " + date
-		 * + "<p>" +"</body></html>" ); panel1.add(label1);
-		 */
-        return panel1;
-    }
+//	public JPanel gethistorique(){
+//        JPanel panel1 = new JPanel();
+//       	panel1.setLayout(new FlowLayout());
+//        panel1.setBackground(Color.white);	
+//        JLabel label1 = new JLabel();
+//		
+//		 for(int i = 0; i < ; i++) { label1.setText("Un relevï¿½ de"); }
+//		  label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" +
+//		 "Un relevï¿½ de " + + "sur l'ï¿½chelle d'indice ATMO" + "<p>" +
+//		  "dans le quartier  " + quartier + "<p>" + "le " + date + "<p>" + "ï¿½ " + date
+//		  + "<p>" +"</body></html>" ); panel1.add(label1);
+//		
+//        return panel1;
+//    }
 
 
 //    public void getseuil() {
@@ -770,7 +712,8 @@ class myCapteur extends JFrame{
 
 	}
 
-	public String[] getconfigcapteur() throws UnknownHostException, IOException, JSONException{
+	//public class getcapteur {
+	public String[] getconfigcapteur()throws UnknownHostException, IOException, JSONException{
 		int a = 0;
 		getnumquart(a);
 		String[] myArray = new String[20];
