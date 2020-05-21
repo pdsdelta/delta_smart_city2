@@ -111,7 +111,12 @@ class threadFunctionality extends Thread {
 				query = s.getGlobalCarbonne(date);
 				this.response = query;
 			}
+<<<<<<< HEAD
 			// Requete concernant les analyses des indicateurs
+=======
+// Requete concernant les analyses des indicateurs
+			
+>>>>>>> parent of 1213ce4... Revert "update"
 			// 1 CAPTEURAIR
 			if(operationType.equals( "infoCapteurair"))
 			{
@@ -153,6 +158,7 @@ class threadFunctionality extends Thread {
 			// 9TAUX DE DEPASSEMENT DE SEUIL
 			if(operationType.equals( "emprientecarbone"))
 			{
+<<<<<<< HEAD
 				this.response="{request:{operation_type:tauxDepAtmo, table:myCapteur, status: SUCCESS}}";}
 
 			//Action concernant la simulation de circulation de voiture
@@ -162,6 +168,66 @@ class threadFunctionality extends Thread {
 			}else if(operationType.equals("sortir")) {
 				AlgorithmeBorne algo= new AlgorithmeBorne();
 				this.response=algo.TraitementSortie(this.mapJson);
+=======
+		this.response="{request:{operation_type:tauxDepAtmo, table:myCapteur, status: SUCCESS}}";}
+			//10 nbr d'alerte
+			
+			if(operationType.equals( "etatalerte"))
+			{
+		this.response="{request:{operation_type:etatalerte, table:myCapteur, status: SUCCESS}}";}
+			
+						//Action concernant la simulation de circulation de voiture
+						if(operationType.equals("entrer")) {
+							AlgorithmeBorne algo= new AlgorithmeBorne();
+							this.response=algo.TraitementEntrer(this.mapJson);
+						}else if(operationType.equals("sortir")) {
+							AlgorithmeBorne algo= new AlgorithmeBorne();
+							this.response=algo.TraitementSortie(this.mapJson);
+						}
+				// Requï¿½te concernant les dï¿½tecteurs de vï¿½hicules
+				if (operationType.equals("CREATE_SENSOR")) {
+					this.response  ="{request:{ operation_type: CREATE_SENSOR, target: MotionSensor, status: Success}} " ;
+				} else if (operationType.equals("DELETE_SENSOR")) {
+					this.response  ="{request:{ operation_type: DELETE_SENSOR, target: MotionSensor, status: Success}} " ;
+				} else if (operationType.equals("ALL_SENSOR")) {
+					this.response  ="{request:{ operation_type: ALL_SENSOR, target: MotionSensor, status: Success}} " ;
+				} else if (operationType.equals("SELECT_SENSOR")) {
+					this.response  ="{request:{ operation_type: SELECT_SENSOR, target: MotionSensor, status: Success}} " ;
+				}  else if (operationType.equals("UPDATE_SENSOR")) {
+					this.response  ="{request:{ operation_type: UPDATE_SENSOR, target: MotionSensor, status: Success}} " ;
+
+				}
+				// Requï¿½te concernant les bornes retractables
+				if (operationType.equals("CREATE_TERMINAL")) {
+					this.response  ="{request:{ operation_type: CREATE_TERMINAL, target: Terminal, status: Success}} " ;
+				} else if (operationType.equals("DELETE_TERMINAL")) {
+					this.response  ="{request:{ operation_type: DELETE_TERMINAL, target: Terminal, status: Success}} " ;
+				} else if (operationType.equals("ALL_TERMINAL")) {
+					this.response  ="{request:{ operation_type: ALL_TERMINAL, target: Terminal, status: Success}} " ;
+				} else if (operationType.equals("SELECT_TERMINAL")) {
+					this.response  ="{request:{ operation_type: SELECT_TERMINAL, target: city, status: Success}} " ;
+				} else if (operationType.equals("SET_CITY")) {
+					this.response  ="{request:{ operation_type: SET_CITY, target: Terminal, status: Success}} " ;
+				} else if (operationType.equals("UPDATE_TERMINAL")) {
+					this.response  ="{request:{ operation_type: UPDATE_TERMINAL, target: Terminal, status: Success}} " ;
+
+				}
+				// Rajouter ici vos operation_type avec vos mï¿½thodes :)
+
+				if(operationType.equals("INFOCITY")) {
+					sizecity();
+				}else if(operationType.equals("INFOINDATMO")) {
+					indice();
+				}else if(operationType.equals("INFOSEUIL")) {
+					seuilquartier();
+				}else if(operationType.equals("ADDQUARTIER")) {
+					insertquartier();
+				}
+
+			} catch (JSONException e) {
+
+				e.printStackTrace();
+>>>>>>> parent of 1213ce4... Revert "update"
 			}
 			// Requï¿½te concernant les dï¿½tecteurs de vï¿½hicules
 			if (operationType.equals("CREATE_SENSOR")) {
