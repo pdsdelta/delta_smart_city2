@@ -10,8 +10,14 @@ public class city {
 	int nombreMaxVoiture;
 	int seuilAtmoCity;
 	double tailleCity;
+	int Alert=0;
 	
-	
+	public int getAlert() {
+		return Alert;
+	}
+	public void setAlert(int alert) {
+		Alert = alert;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
