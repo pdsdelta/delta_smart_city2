@@ -97,11 +97,12 @@ class threadFunctionality extends Thread {
 			} else if (operationType.equals("GET_PRIVATE_CARBON")) {//INFO CARBON PRIVATE TRANSPORT request
 				String date = request.getString("date");
 				CarbonServerUtils s = new CarbonServerUtils(this.connect, this.stm, this.rs, this.pstmt);
-				query = s.getNbCars(date);
+				query = s.getPrivateCarbonne(date);
 				this.response = query;
 			}else if (operationType.equals("GET_PUBLIC_CARBON")) {//INFO CARBON PUBLIC TRANSPORT requet
+				String date = request.getString("date");
 				CarbonServerUtils s = new CarbonServerUtils(this.connect, this.stm, this.rs, this.pstmt);
-				query = s.getNbTram();
+				query = s.getPublicCarbonne(date);
 				this.response = query;
 			}else if (operationType.equals("GET_GLOBAL_CARBON")) {//INFO CARBON request
 				String date = request.getString("date");

@@ -125,7 +125,63 @@ public class CarbonServerUtils {
     	
     }
 	
+	public String getPublicCarbonne(String date) throws JSONException, JsonProcessingException {
+		String resultat= "{Table: publictransportstat, Action : GET_PUBLIC_CARBON , Status: ";
+    	System.out.println("----------------------------------------------------------------");
+    	System.out.println("Récupérations des informations concernant les transports public");
+    	String publicTr = getNbTram();
+    	String publicBus = getNbBus(date);
+    	JSONObject objpub =new JSONObject(publicTr);
+    	JSONObject objpubbus =new JSONObject(publicBus);
+    	String statusPub = objpub.getString("Status") ;
+    	String statusPubPub = objpubbus.getString("Status") ;
+    	if(statusPub.equals("success") && statusPubPub.equals("success")) {
+    		System.out.println("----------------------------------------------------------------");
+    		System.out.println("On a bien des informations sur les deux types de transports");
+    		resultat= resultat + statusPubPub;
+    		JSONArray arrpu = objpub.getJSONArray("Data");
+        	int nbTram = arrpu.getJSONObject(0).getInt("NbTram");
+        	int longueurreseau = arrpu.getJSONObject(0).getInt("LengthLine");
+        	JSONArray arrpubu = objpubbus.getJSONArray("Data");
+        	int nbBus = arrpubu.getJSONObject(0).getInt("NbBus");
+        	resultat= resultat + ", Data: [{ NbTram :" + nbTram + ",LengthLine :" + longueurreseau + ",NbBus :" + nbBus + "}]} " ;
+        	
+    	}else {
+    		resultat = resultat + "failed , Data: [{ empty : true }]}";
+    	}
+    	
+		return resultat;
+    	
+    }
+	
 
+	public String getPrivateCarbonne(String date) throws JSONException, JsonProcessingException {
+		String resultat= "{Table: publictransportstat, Action : GET_PRIVATE_CARBON , Status: ";
+		System.out.println("Récupérations des informations concernant les transports privées");
+    	String privateTr = getNbCars(date);
+    	String privateMo = getNbMotos(date);
+    	System.out.println("----------------------------------------------------------------");
+    	JSONObject objpriv =new JSONObject(privateTr);
+    	JSONObject objprivmo =new JSONObject(privateMo);
+    	String statusPriv = objpriv.getString("Status");
+    	String statusPrivMo = objprivmo.getString("Status");
+    	if(statusPriv.equals("success") && statusPrivMo.equals("success")) {
+    		System.out.println("----------------------------------------------------------------");
+    		System.out.println("On a bien des informations sur les deux types de transports");
+    		resultat= resultat + statusPriv;
+    		JSONArray arrpr = objpriv.getJSONArray("Data");
+    		int nbCars = arrpr.getJSONObject(0).getInt("NbCars");
+    		JSONArray arrprmo = objprivmo.getJSONArray("Data");
+    		int nbMotos = arrprmo.getJSONObject(0).getInt("NbMotos");
+        	resultat= resultat + ", Data: [{ NbCars :" + nbCars +", NbMotos :" + nbMotos + "}]} " ;
+        	
+    	}else {
+    		resultat = resultat + "failed , Data: [{ empty : true }]}";
+    	}
+    	
+		return resultat;
+    	
+    }
 	
 	public String getNbCars(String date) throws JSONException, JsonProcessingException {
     	String resultat= "{Table: carstats, Action : GET_NB_CARS , Status: ";
