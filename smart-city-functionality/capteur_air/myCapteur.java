@@ -58,11 +58,12 @@ public class myCapteur extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private capteur4 a;
-	private capteur1 b;
-	private capteur2 c;
-	private capteur3 d;
-	private capteur5 e;
+	private static Object json;
+//	private capteur4 a;
+//	private capteur1 b;
+//	private capteur2 c;
+//	private capteur3 d;
+//	private capteur5 e;
 	private JComboBox liste1;
 	private JFormattedTextField jtf = new JFormattedTextField(NumberFormat.getIntegerInstance());
 	private JMenuBar menu = new JMenuBar();
@@ -81,7 +82,7 @@ public class myCapteur extends JFrame{
 	private PrintWriter out;
 	private BufferedReader in;
 
-	public void startConnection(String ip, int port, String json) throws UnknownHostException, IOException, JSONException {
+	public void startConnection(String ip, int port , String json) throws UnknownHostException, IOException, JSONException {
 		String toSend = json;
 		clientSocket = new Socket(ip, port);
 		out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -90,8 +91,10 @@ public class myCapteur extends JFrame{
 		//while(true) {
 			out.println(toSend);
 			String response = in.readLine();
-			System.out.println("***** RÃ©sultat ******\n");
-			System.out.println(this.showresultquartier(response));
+			System.out.println("***** Résultat ******\n");
+			//System.out.println(this.showresultquartier(response));
+			//System.out.println(this.showresultindice(response));
+//			System.out.println(this.showresultseuil(response));
 			System.out.println(this.addSetquartier());
 		//}
 		
@@ -243,8 +246,13 @@ public class myCapteur extends JFrame{
 	panel1.setLayout(new FlowLayout());
 	panel1.setBackground(Color.white);
 	JLabel label1 = new JLabel("Choisissez le quartier souhaité: ");
+	//String[] elements = getconfigcapteur();
 //	Object[] element1 = getconfigcapteur();
-//	JComboBox liste1 = new JComboBox(element1);
+	//JComboBox liste1 = new JComboBox(elements);
+	JComboBox liste1 = new JComboBox (); //Création d'une liste déroulante.
+	liste1.addItem("Choix 1");
+	liste1.addItem("Choix 2");
+	liste1.addItem("Choix 3"); //Ajout de choix à cette liste déroulante.
 	JLabel label2 = new JLabel(
 			"Par défaut les seuils des quartiers sont de 4 mais ils peuvent être changeable dans configuration du capteur");
 	JButton Bouton = new JButton("Valider");
@@ -252,6 +260,7 @@ public class myCapteur extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			try {
 				indicequartier();
+				dispose();
 			} catch (IOException | JSONException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -260,11 +269,14 @@ public class myCapteur extends JFrame{
 	});
 	a.add(panel1);
 	panel1.add(label1);
-//	panel1.add(liste1);
+	panel1.add(liste1);
 	panel1.add(label2);
 	panel1.add(Bouton);
 	return a;
   }
+	public JComboBox getListe1(){
+		return liste1;
+	}
 	
     //interface indice ville
     public JFrame indiceville(){
@@ -348,17 +360,18 @@ public class myCapteur extends JFrame{
 	}
   
    //alerte
-    public int getalerte(int alerte1) throws UnknownHostException, IOException, JSONException {
+    public int getalerte() throws UnknownHostException, IOException, JSONException {
     	//A faire
     	//getseuil();
     	//A modifier
     	//getcalculIndice();
-    	CapteurAir indice = new CapteurAir();
+    	int alerte1 = 0;
     	getindice();
-    	int a =indice.getIndice();
-    	District seuil = new District();
-    	getindice();
-    	int b =seuil.getSeuilQuartierATMO();
+    	int a =indiceATMO.getIndice();
+    	System.out.println(a);
+    	getdistrictseuil();
+    	int b =seuildistrict.getSeuilQuartierATMO();
+    	System.out.println(b);
 	
     	if(b < a) {
     		alerte1 = 1;
@@ -370,7 +383,7 @@ public class myCapteur extends JFrame{
 
     public void getindice() throws UnknownHostException, IOException, JSONException{
     	String json;
-    	json  ="{request:{ operation_type: INFOINDATMO, target: capteurair  }}";
+    	json  ="{request:{ operation_type: INFOINDATMO, target: capteurair }}";
     	this.startConnection("172.31.249.22", 2400, json);
     }
 
@@ -419,7 +432,7 @@ public class myCapteur extends JFrame{
 			throw new noDataInBase();
 		}
 
-		seuildistrict.setSeuilQuartierATMO(arr.getJSONObject(0).getInt("seuildistrict"));
+		seuildistrict.setSeuilQuartierATMO(arr.getJSONObject(0).getInt("seuilQuartierATMO"));
 
 		System.out.println(seuildistrict.getSeuilQuartierATMO());
 
@@ -432,6 +445,8 @@ public class myCapteur extends JFrame{
     
     	//intervalle relevé
 	public void TestTimer(int a) {
+		int jtf2 = a * 1000;
+		TestTimer(jtf2);
 		Timer timer;
 		timer = new Timer();
 		timer.schedule(new myTask(), 0, a);
@@ -449,14 +464,13 @@ public class myCapteur extends JFrame{
 		panel1.setBackground(Color.white);
 		JLabel label1 = new JLabel("Veuillez déterminer l'intervalle des relevés");
 		jtf.getText();
-		int jtf1 = (Integer) jtf.getValue();
-		int jtf2 = jtf1 * 1000;
-		TestTimer(jtf2);
 		JLabel label2 = new JLabel("en secondes");
 		JButton btnNewButton = new JButton("Valider");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				dispose();
+//				int jtf1 = (Integer) jtf.getValue();
+//				TestTimer(jtf1);
 			}
 		});
 		a.add(panel1);
@@ -472,17 +486,6 @@ public class myCapteur extends JFrame{
 		TestTimer(jtf3);
 	}
 
-    
-//interface sélectionner quartier
-	public void getselectquartier() throws UnknownHostException, IOException, JSONException {
-		Object[] element1 = getconfigcapteur();
-		liste1 = new JComboBox(element1);
-	}
-	
-	public JComboBox getListe1(){
-		return liste1;
-	}
-	
 	//interface indice du quartier 
 	public JFrame indicequartier() throws UnknownHostException, IOException, JSONException {
 		JFrame b = new JFrame();
@@ -496,12 +499,15 @@ public class myCapteur extends JFrame{
 		panel2.setLayout(new FlowLayout());
 		panel2.setBackground(Color.white);
 		JButton bouton1;
-		if (getalerte(1) == 1) {
+		int c = 5;
+		int d = 4;
+		//int c = getalerte();
+		if (c < d) {
 			bouton1 = new JButton("Alerte !!! L'indice relevé est supérieur au seuil");
     	    getContentPane().add(bouton1, "North");
     	    getContentPane().setLayout(null);
     	    bouton1.setBackground(Color.red);
-		} else {
+		}else {
 			bouton1 = new JButton("Tout va bien, aucun problème détecté");
     	    getContentPane().add(bouton1, "North");
     	    getContentPane().setLayout(null);
@@ -514,7 +520,7 @@ public class myCapteur extends JFrame{
 		b.add(panel2);
 		panel2.add(bouton1);
 		panel2.add(label1);
-		return panel2;
+		return b;
 	}
 
 	
@@ -769,7 +775,7 @@ public class myCapteur extends JFrame{
     	String json;
     	int idcity = 1;
     	json  ="{request:{ operation_type: INFOCITY, target: station , idcity: "+ idcity + "}} " ;
-    	this.startConnection("172.31.249.22", 2400, json);
+    	this.startConnection("172.31.249.22", 2400,json);
     }
 
 	city tailleQuartier = new city();
@@ -796,15 +802,17 @@ public class myCapteur extends JFrame{
 		return res;
 
 	}
-
-	//public class getcapteur {
+	
+	
 	public String[] getconfigcapteur()throws UnknownHostException, IOException, JSONException{
 		int a = getnumquart();
-		String[] myArray = new String[20];
-		for(int i = 1; i < a + 1; i++) {
+		String[] myArray = new String[a];
+		for(int i = 0; i < a ; i++) {
 			myArray[i] = "Quartier_" + i;
-			System.out.println(myArray[i]);
+			System.out.println(" '"+myArray[i]+"',");
+			
 		}
+		
 		return myArray;
 	}
 	
@@ -816,12 +824,12 @@ public class myCapteur extends JFrame{
 		int a = 4;
 		String json= "";
 	
-		util.setId(idCity1);
-		util.setName(Quartier1);
-		util.setSeuilQuartierATMO(a);
+		util.setId(1);
+		util.setName("quart");
+		util.setSeuilQuartierATMO(4);
 		
-		json  ="{request:{ operation_type: ADDquartier, target: district , id: "+util.getId() + ", name: "+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() +"}} " ;
-		this.startConnection("172.31.249.22", 2400, json);
+		json  ="{request:{ operation_type: ADDQUARTIER, target: district , id: "+util.getId() + ", name: "+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() +"}} " ;
+		this.startConnection("172.31.249.22", 2400,json);
 		return json;
 	}
 
@@ -829,6 +837,8 @@ public class myCapteur extends JFrame{
 
 	public static void main(String[] args) throws JSONException, UnknownHostException, IOException { 
 		myCapteur a = new myCapteur();
+		a.addSetquartier();
+		//a.getalerte();
 		//a.startConnection("172.31.249.22", 2400);
 		//capteur6 b = new capteur6();
 		//b.getalerte(2);
