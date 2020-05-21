@@ -157,9 +157,10 @@ public class Indicator {
 		System.out.println("je vais recuperer le nbr totale de  motionsensor en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		String resultat= "{Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}";
+		String resultat= "{request:{ operation_type:infoMotionsensor, Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}}";
 		//	this.finalResponse = resultat;
-		resultat = resultat +count+ "}" ;
+		resultat = resultat;
+		this.json=resultat;
 		System.out.println(resultat);
 		return resultat ;
 
@@ -207,9 +208,10 @@ public class Indicator {
 		System.out.println("je vais recuperer le nbr totale de  station en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		String resultat= "{Table: station, Action : Infostation ,  Data: "+count+"}";
+		String resultat= "{  request:{ operation_type:Infostation, Table: station, Action : Infostation ,  Data: "+count+"}}";
 		//this.finalResponse = resultat;
-		resultat = resultat + count + "}" ;
+		resultat = resultat ;
+		this.json=resultat;
 		System.out.println(resultat);
 		return resultat ;
 	}
@@ -252,10 +254,12 @@ public class Indicator {
 		System.out.println("je vais recuperer le nbr totale de voiture en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		String resultat= "{Table: InfoGlobalCarbon, Action : nbcars,  Data: " +count+"}";
+		String resultat= "{request:{ operation_type:nbcars , Table: InfoGlobalCarbon, Action : nbcars,  Data: " +count+"}}";
 		//this.finalResponse = resultat;
-		resultat = resultat + count + "}" ;
+		resultat = resultat;
+		this.json=resultat;
 		System.out.println(resultat);
+		
 		return resultat;
 	}
 	// 5 numbr TRAM
@@ -300,10 +304,12 @@ public class Indicator {
 		System.out.println("je vais recuperer le nbr tram en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		String resultat= "{Table: station, Action : informationTram,  Data: "+count+"}";
+		String resultat= "{request:{ operation_type: informationTram ,Table: station, Action : informationTram,  Data: "+count+"}}";
 		//	this.finalResponse = resultat;
-		resultat = resultat + count + "}" ;
+		resultat = resultat ;
 		System.out.println(resultat);
+		this.json=resultat;
+		
 		return resultat;
 	}
 
@@ -346,10 +352,11 @@ public class Indicator {
 		System.out.println("je vais recuperer le nbr borneen bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		String resultat= "{Table: terminal, Action : informationBorne,  Data: "+count+"}";
+		String resultat= "{   request:{ operation_type: informationBorne , Table: terminal, Action : informationBorne,  Data: "+count+"}}";
 		//	this.finalResponse = resultat;
-		resultat = resultat + count + "}" ;
+		resultat = resultat  ;
 		System.out.println(resultat);
+		this.json=resultat;
 		return resultat;
 
 	}
@@ -392,10 +399,11 @@ public class Indicator {
 		System.out.println("je vais recuperer lempreinte de carbon bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		String resultat= "{Table: carboninfo, Action :emprientecarbone ,  Data: "+count+"}";
+		String resultat= "{request:{ operation_type: emprientecarbone ,Table: carboninfo, Action :emprientecarbone ,  Data: "+count+"}}";
 		//	this.finalResponse = resultat;
-		resultat = resultat + count + "}" ;
+		resultat = resultat  ;
 		System.out.println(resultat);
+		this.json=resultat;
 		return resultat;
 
 	}
@@ -454,8 +462,9 @@ public class Indicator {
 
 		return res;
 	}
+	
 
-	// taux de pollution dan la ville
+	//8 taux de pollution dan la ville
 
 	/**
 	 * @return
@@ -499,14 +508,15 @@ public class Indicator {
 		System.out.println("je vais recuperer le nbr totale de  station en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		String resultat= "{Table: myCapteur, Action : tauxATMO ,  Data: "+count+"}";
+		String resultat= "{request:{ operation_type: tauxATMO,Table: myCapteur, Action : tauxATMO ,  Data: "+count+"}}";
 		//this.finalResponse = resultat;
-		resultat = resultat + count + "}" ;
+		resultat = resultat  ;
 		System.out.println(resultat);
+		this.json=resultat;
 		return resultat ;
 	}
 
-	// taux de depassement de deuild'ATMO
+	// 9taux de depassement de deuild'ATMO
 
 	/**
 	 * @return
@@ -550,10 +560,11 @@ public class Indicator {
 		System.out.println("je vais recuperer le nbr totale de  station en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		String resultat= "{Table: myCapteur, Action :tauxDepAtmo  ,  Data: "+count+"}";
+		String resultat= "{request:{ operation_type:tauxDepAtmo ,Table: myCapteur, Action :tauxDepAtmo  ,  Data: "+count+"}}";
 		//this.finalResponse = resultat;
-		resultat = resultat + count + "}" ;
+		resultat = resultat  ;
 		System.out.println(resultat);
+		this.json=resultat;
 		return resultat ;
 	}
 

@@ -20,6 +20,7 @@ import functionality_server.functionalityServer;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class Statistics extends JFrame {
@@ -50,10 +51,13 @@ public class Statistics extends JFrame {
 				}
 				try {
 					String jsonReceived = objet.tauxDepAtmo();
+					objet.startConnection("172.31.249.22", 2400);
 					JSONObject obj = new JSONObject(jsonReceived);
+					JSONObject objet1= obj.getJSONObject("request");
+					 
 					 int data= obj.getInt("Data");
 					JOptionPane.showMessageDialog(null, "le taux de dépassemnt de seuil d'ATMO est : " + data);
-				} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+				} catch (HeadlessException| JSONException | SQLException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -85,10 +89,13 @@ public class Statistics extends JFrame {
 				}
 				try {
 					String jsonReceived = objet.tauxATMO();
+					objet.startConnection("172.31.249.22", 2400);
 					JSONObject obj = new JSONObject(jsonReceived);
-					 int data= obj.getInt("Data");
+					JSONObject objet1= obj.getJSONObject("request");
+					 
+					 int data= objet1.getInt("Data");
 					JOptionPane.showMessageDialog(null, "le taux d'ATMO dans la ville est : " + data);
-				} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+				} catch (HeadlessException  | JSONException | SQLException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}

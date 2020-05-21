@@ -111,12 +111,50 @@ class threadFunctionality extends Thread {
 				query = s.getGlobalCarbonne(date);
 				this.response = query;
 			}
-
+// Requete concernant les analyses des indicateurs
+			// 1 CAPTEURAIR
 			if(operationType.equals( "infoCapteurair"))
 					{
 				this.response="{request:{operation_type: infoCapteurair, table: district, status: SUCCESS}}";}
-
-
+            // 2 MOTION SENSOR
+			if(operationType.equals( "infoMotionsensor"))
+			{
+		this.response="{request:{operation_type:infoMotionsensor, table: motionsensor, status: SUCCESS}}";}
+			
+			//3  NUMBRE DE STATION
+			if(operationType.equals( "Infostationr"))
+			{
+		this.response="{request:{operation_type:Infostation, table: station, status: SUCCESS}}";}
+			
+			//4 NUMBRE DE cars
+			if(operationType.equals( "nbcars"))
+			{
+		this.response="{request:{operation_type:nbcars, table: InfoGlobalCarbon, status: SUCCESS}}";}
+			
+			//5 numbre tram
+			if(operationType.equals( "informationTram"))
+			{
+		this.response="{request:{operation_type:informationTram, table: station, status: SUCCESS}}";}
+			
+			 //6numbre de borne
+			if(operationType.equals( "informationBorne"))
+			{
+		this.response="{request:{operation_type:informationBorne, table:terminal, status: SUCCESS}}";}
+			
+			// 7 EMPREINTE DE CARBONE
+			
+			if(operationType.equals( "emprientecarbone"))
+			{
+		this.response="{request:{operation_type:emprientecarbone, table:carboninfo, status: SUCCESS}}";}
+			// 8TAUX DATMO
+			if(operationType.equals( "emprientecarbone"))
+			{
+		this.response="{request:{operation_type:tauxATMO, table:myCapteur, status: SUCCESS}}";}
+			// 9TAUX DE DEPASSEMENT DE SEUIL
+			if(operationType.equals( "emprientecarbone"))
+			{
+		this.response="{request:{operation_type:tauxDepAtmo, table:myCapteur, status: SUCCESS}}";}
+			
 						//Action concernant la simulation de circulation de voiture
 						if(operationType.equals("entrer")) {
 							AlgorithmeBorne algo= new AlgorithmeBorne();

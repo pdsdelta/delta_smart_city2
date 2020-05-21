@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.HeadlessException;
 import java.awt.image.*;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -102,9 +103,11 @@ public class fenetre1 extends JFrame {
 						}
 						try {
 							String jsonReceived = objet.informotionsensor();
+							objet.startConnection("172.31.249.22", 2400);
 							JSONObject obj = new JSONObject(jsonReceived);
+							JSONObject objet1= obj.getJSONObject("request");
+							 int data= objet1.getInt("Data");
 							
-							int	data = obj.getInt("Data");
 							JOptionPane.showMessageDialog(null, "le nombre de motionSensor est :" + data);
 							
 							
@@ -118,6 +121,12 @@ public class fenetre1 extends JFrame {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (UnknownHostException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
@@ -141,12 +150,15 @@ public class fenetre1 extends JFrame {
 							e2.printStackTrace();
 						}
 						try {
-							String jsonReceived = objet.infostation();
-							JSONObject obj = new JSONObject(jsonReceived);
 							
-							int	data = obj.getInt("Data");
+							String jsonReceived = objet.infostation();
+							objet.startConnection("172.31.249.22", 2400);
+							JSONObject obj = new JSONObject(jsonReceived);
+							JSONObject objet1= obj.getJSONObject("request");
+							int	data = objet1.getInt("Data");
+							
 							JOptionPane.showMessageDialog(null, "le nombre de station est :" + data);
-						} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+						} catch (HeadlessException | JSONException | SQLException | IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
@@ -179,12 +191,15 @@ public class fenetre1 extends JFrame {
 							String date = dateFormat.format(dateChooser.getDate());
 									//"-"+String.valueOf(dateChooser.getDate().getMonth()+1)+"-"+String.valueOf(dateChooser.getDate().getDay());
 							System.out.println("hello "+date);
+							
 							String jsonReceived = objet.nbcars(date);
+							objet.startConnection("172.31.249.22", 2400);
 							JSONObject obj = new JSONObject(jsonReceived );
-							 
-							int data = obj.getInt("Data");
+							JSONObject objet1= obj.getJSONObject("request");
+							int data = objet1.getInt("Data");
+							
 							JOptionPane.showMessageDialog(null, "le nombre de car present dans la ville est :" + data);
-						} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+						} catch (HeadlessException | JSONException | SQLException | IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
@@ -209,11 +224,13 @@ public class fenetre1 extends JFrame {
 							}
 							try { 
 								String jsonReceived = objet.informationTram();
+								objet.startConnection("172.31.249.22", 2400);
 								JSONObject obj = new JSONObject(jsonReceived );
-								 
-								int data = obj.getInt("Data");
+								JSONObject objet1= obj.getJSONObject("request");
+								int data = objet1.getInt("Data");
+								
 								JOptionPane.showMessageDialog(null, "le nombre de tram est :" +data);
-							} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+							} catch (HeadlessException | JSONException | SQLException | IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
@@ -243,12 +260,13 @@ public class fenetre1 extends JFrame {
 						}
 						try {
 							String jsonReceived = objet.emprientecarbone();
+							objet.startConnection("172.31.249.22", 2400);
 							System.out.println("hello "+jsonReceived);
 							JSONObject obj = new JSONObject(jsonReceived );
-							 
-							int data = obj.getInt("Data");
+							JSONObject objet1= obj.getJSONObject("request");
+							int data = objet1.getInt("Data");
 							JOptionPane.showMessageDialog(null, "l'empreinte de carbone est :" + data);
-						} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+						} catch (HeadlessException | JSONException | SQLException | IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
@@ -290,11 +308,13 @@ public class fenetre1 extends JFrame {
 						}
 						try {
 							String jsonReceived = objet.informationBorne();
+							objet.startConnection("172.31.249.22", 2400);
 							JSONObject obj = new JSONObject(jsonReceived );
+							JSONObject objet1= obj.getJSONObject("request");
 							 
-							int data = obj.getInt("Data");
+							int data = objet1.getInt("Data");
 							JOptionPane.showMessageDialog(null, "le nombre de borne  est :" + data);
-						} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+						} catch (HeadlessException| JSONException | SQLException | IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
