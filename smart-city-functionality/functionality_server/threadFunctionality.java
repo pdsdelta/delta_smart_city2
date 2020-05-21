@@ -112,6 +112,7 @@ class threadFunctionality extends Thread {
 				this.response = query;
 			}
 // Requete concernant les analyses des indicateurs
+			
 			// 1 CAPTEURAIR
 			if(operationType.equals( "infoCapteurair"))
 					{
@@ -154,6 +155,11 @@ class threadFunctionality extends Thread {
 			if(operationType.equals( "emprientecarbone"))
 			{
 		this.response="{request:{operation_type:tauxDepAtmo, table:myCapteur, status: SUCCESS}}";}
+			//10 nbr d'alerte
+			
+			if(operationType.equals( "etatalerte"))
+			{
+		this.response="{request:{operation_type:etatalerte, table:myCapteur, status: SUCCESS}}";}
 			
 						//Action concernant la simulation de circulation de voiture
 						if(operationType.equals("entrer")) {
