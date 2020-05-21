@@ -141,7 +141,7 @@ class threadFunctionality extends Thread {
 			} else if (operationType.equals("ALL_TERMINAL")) {
 				this.response  ="{request:{ operation_type: ALL_TERMINAL, target: Terminal, status: Success}} " ;
 			} else if (operationType.equals("SELECT_TERMINAL")) {
-				this.response  ="{request:{ operation_type: SELECT_TERMINAL, target: Terminal, status: Success}} " ;
+				this.response  ="{request:{ operation_type: SELECT_TERMINAL, target: city, status: Success}} " ;
 			} else if (operationType.equals("SET_CITY")) {
 				this.response  ="{request:{ operation_type: SET_CITY, target: Terminal, status: Success}} " ;
 			} else if (operationType.equals("UPDATE_TERMINAL")) {

@@ -31,6 +31,7 @@ public class AlgorithmeBorne {
 	public static HashSet<Objet> infoVoitures = new HashSet<Objet>();
 	//Variable comptant le nombre de voiture dans la ville
 	public static AtomicInteger PlacesOccupees= new AtomicInteger();
+	int capacity =0;
 
 	//Methode traitant les requêtes d'entrée dans la ville provenant du serveur
 	public synchronized String TraitementEntrer(String json) throws JSONException, ClassNotFoundException, SQLException {
@@ -122,14 +123,14 @@ public class AlgorithmeBorne {
 		else  {
 			synchronized(this) {
 				//On incremente le nombre de places Occupee
-				this.PlacesOccupees.incrementAndGet() ;
+				this.setCapacity(this.PlacesOccupees.incrementAndGet() );
 				//La borne se baisse: status=0;
 				borne.setStatus(0);
 				System.out.println("La borne s'est baisse, status: "+borne.getStatus());
 				System.out.println("Alarme: "+borne.getCity().getAlert());
 				//On ajoute l'objet au tableau d'objet de la ville
 				this.infoVoitures.add(objet);
-				System.out.format("[Borne %s]: Objet acceptée, il reste %d places \n", borne.getNumero(), this.places());
+				System.out.format("[Borne %s]: Objet acceptée, il reste %d places \n", borne.getNumero(), this.getCapacity());
 				System.out.format("Voiture Garees  :\n"+this.infoVoitures.size());
 				System.out.println(this.infoVoitures.size());
 				return (true) ; 
@@ -140,13 +141,22 @@ public class AlgorithmeBorne {
 	//Methode permettant de faire sortir un objet (voiture) de la ville
 	public synchronized boolean sortir() throws JSONException, ClassNotFoundException, SQLException {
 		//Decrementation du nombre de voiture dans la ville
-		this.PlacesOccupees.decrementAndGet();
+		this.setCapacity(this.PlacesOccupees.decrementAndGet());
 		//On retire la voiture du tableau
 		this.infoVoitures.remove(1) ;
-		System.out.format("Borne : Une voiture est sortie, reste  %d places\n" ,this.places());
+		System.out.format("Borne : Une voiture est sortie, reste  %d places\n" ,this.getCapacity());
 		//System.out.format("Voiture Garees :\n"+this.infoVoitures.size());
 		return true;
 
 	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
 
 }
