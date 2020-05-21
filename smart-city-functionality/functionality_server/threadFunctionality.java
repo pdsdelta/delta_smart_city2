@@ -148,6 +148,12 @@ class threadFunctionality extends Thread {
 
 			if(operationType.equals("INFOCITY")) {
 				sizecity();
+			}else if(operationType.equals("INFOINDATMO")) {
+				indice();
+			}else if(operationType.equals("INFOSEUIL")) {
+				seuilquartier();
+			}else if(operationType.equals("ADDQUARTIER")) {
+				insertquartier();
 			}
 
 		} catch (JSONException e) {
@@ -351,8 +357,8 @@ class threadFunctionality extends Thread {
 		return resultat;
 	}
 
-	public String indiceATMO() throws JSONException, JsonProcessingException {
-		String resultat = "{Table: capteurair, Action : INFOINDATMO ,  Data: ";
+	public String indice() throws JSONException, JsonProcessingException {
+		String resultat = "{Table: capteurair, Action : INFOINDATMO ";
 		List<CapteurAir> res = new ArrayList<CapteurAir>();
 		String json = this.mapJson;
 		JSONObject obj = new JSONObject(json);
@@ -372,7 +378,7 @@ class threadFunctionality extends Thread {
 		}
 		System.out.println("je vais recuperer des infos capteurair en bdd");
 		ObjectMapper mapper = new ObjectMapper();
-		resultat = resultat + mapper.writeValueAsString(res) + "}";
+		resultat = resultat + "DATA : [{"+mapper.writeValueAsString(res) + "}]}";
 		this.response = resultat;
 		return resultat;
 	}
@@ -444,7 +450,7 @@ class threadFunctionality extends Thread {
 	}
 	
 	public String insertquartier() throws JSONException {
-		String resultat = "{Table:district , Action: ADDquartier ";
+		String resultat = "{Table:district , Action: ADDQUARTIER ";
 		int res = 0;
 		String json = this.mapJson;
 		JSONObject obj = new JSONObject(json);
