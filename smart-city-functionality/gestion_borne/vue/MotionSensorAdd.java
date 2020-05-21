@@ -2,24 +2,24 @@ package gestion_borne.vue;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import functionality_server.functionalityServer;
 import gestion_borne.crud.MotionSensorDAO;
 import motionSensor.MotionSensor;
-
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.sql.SQLException;
-import java.awt.event.ActionEvent;
-
+/*
+ * Cette Classe est la classe représentant l'interface graphique d'ajout d'un détecteur de vehicule
+ * @author: DONFACK ANAELLE
+ */
 public class MotionSensorAdd extends JDialog {
 	public functionalityServer server;
 
@@ -103,6 +103,7 @@ public class MotionSensorAdd extends JDialog {
 			}
 		}
 	}
+	//Action du bouton ok de l'interface
 	private void okButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException, UnknownHostException, IOException {                                           
 		// TODO add your handling code here:
 		this.data = new MotionSensorDAO(server);

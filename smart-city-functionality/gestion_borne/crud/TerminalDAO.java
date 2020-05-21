@@ -24,11 +24,16 @@ import city.city;
 import connectionPool.DataSource;
 import functionality_server.functionalityServer;
 
+/*
+ * Cette classe permet de mener les operations de CRUD sur la table Terminal de notre
+ * base de données à travers le serveur
+ * AUTHOR: DONFACK ANAELLE
+ */
 public class TerminalDAO extends DAO<Terminal>{
-	Connection connection;
+
 	PreparedStatement pstmt;
-	Statement stm;
-	ResultSet rs;
+
+	//Variables de Communications avec le serveur
 	private String json;
 	private PrintWriter out;
 	private BufferedReader in;
@@ -44,11 +49,12 @@ public class TerminalDAO extends DAO<Terminal>{
 		System.out.println(json);
 	}
 
+	//Methode de création d'une borne
 	@Override
 	public String create(Terminal obj) throws SQLException  {
 		int res=0;
 
-        
+
 		String query = "INSERT INTO Terminal (longitude, latitude, isActive, status,city) " + "VALUES (?, ?, ?, ?,?)";
 		try {
 			pstmt = this.connect.prepareStatement(query);
@@ -64,7 +70,7 @@ public class TerminalDAO extends DAO<Terminal>{
 		}
 
 		this.json  ="{request:{ operation_type: CREATE_TERMINAL, target: Terminal , longitude: "+ obj.getLongitude() + ", latitude :"+obj.getLatitude() +"}} " ;
-        
+
 		if(res==1) {
 			return this.json;
 		}else {
@@ -74,6 +80,7 @@ public class TerminalDAO extends DAO<Terminal>{
 
 	}
 
+	//Methode de suppression d'une borne
 	@Override
 	public boolean delete(Terminal obj) {
 		try {
@@ -92,7 +99,7 @@ public class TerminalDAO extends DAO<Terminal>{
 	}
 
 
-
+	//Methode de Modification d'une borne
 	@Override
 	public boolean update(Terminal obj) {
 
@@ -117,7 +124,7 @@ public class TerminalDAO extends DAO<Terminal>{
 
 		}
 	}
-
+	//Methode de recherche d'une borne à partir de son numero
 	@Override
 	public Terminal find(int numero) {
 		Terminal terminal = new Terminal();      
@@ -149,57 +156,61 @@ public class TerminalDAO extends DAO<Terminal>{
 							result.getInt("numero"),
 							city);
 				}
-				}       
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			}       
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		this.json  ="{request:{ operation_type: SELECT_TERMINAL, target: Terminal , longitude: "+terminal.getLongitude() + "latitude, :"+terminal.getLatitude() +" ,Numero:"+terminal.getNumero()+"isActive: "+terminal.isActive()+"}} " ;
-			return terminal;
-		}
-		public List<Terminal> getAll() throws SQLException { 
-			List<Terminal> res = new ArrayList<Terminal>(); 
-			ResultSet result = this.connect.createStatement(
-					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Terminal");
-			while (result.next()) {
-				Terminal borne = new Terminal(); 
-
-				borne.setLongitude(result.getInt("longitude"));
-				borne.setLatitude(result.getInt("latitude"));
-				borne.setActive(result.getBoolean("isActive"));
-				borne.setStatus(result.getInt("status"));
-				borne.setNumero(result.getInt("numero"));
-				res.add(borne);
-
-			} 
-			this.json  ="{request:{ operation_type: ALL_TERMINAL, target: Terminal}} " ;
-			return res;
-		}
-		public String SetNbrMaxVoiture(int nombre){
-			int res=0;
-			String jsone="";
-			String query = "update city set nombremaxvoiture=? WHERE idcity= "+1; 
-			try { 
-				this.pstmt = this.connect.prepareStatement(query); 
-				this.pstmt.setInt(1, nombre);;
-				res = pstmt.executeUpdate(); 
-
-			} catch (SQLException ex) {
-				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
-			}
-			if(res==1) {
-				JSONObject requestDetails = new JSONObject();
-				requestDetails.put("operation_type", "UPDATE_NBR");
-				requestDetails.put("Target","city");
-				requestDetails.put("nbrmaxvoiture", nombre);
-				JSONObject voitureObject= null;
-				JSONObject request = new JSONObject(); 
-				request.put("request", requestDetails);
-				jsone = request.toString();
-			}else {
-				jsone=null;
-			}
-			this.json  ="{request:{ operation_type: SET_CITY, target: city ,nombremaxvoiture :"+nombre+"}} " ;
-			return jsone;
-		}
+		return terminal;
 	}
+
+	//METHODE QUI PERMET DE LISTER TOUTES LES BORNES DE LA VILLE
+	public List<Terminal> getAll() throws SQLException { 
+		List<Terminal> res = new ArrayList<Terminal>(); 
+		ResultSet result = this.connect.createStatement(
+				ResultSet.TYPE_SCROLL_INSENSITIVE,
+				ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Terminal");
+		while (result.next()) {
+			Terminal borne = new Terminal(); 
+
+			borne.setLongitude(result.getInt("longitude"));
+			borne.setLatitude(result.getInt("latitude"));
+			borne.setActive(result.getBoolean("isActive"));
+			borne.setStatus(result.getInt("status"));
+			borne.setNumero(result.getInt("numero"));
+			res.add(borne);
+
+		} 
+		this.json  ="{request:{ operation_type: ALL_TERMINAL, target: Terminal}} " ;
+		return res;
+	}
+	
+	//METHODE QUI PERMET DE MODIFIER LE NOMBRE DE VEHICULES MAXIMUM D'UNE VILLE
+	public String SetNbrMaxVoiture(int nombre){
+		int res=0;
+		String jsone="";
+		String query = "update city set nombremaxvoiture=? WHERE idcity= "+1; 
+		try { 
+			this.pstmt = this.connect.prepareStatement(query); 
+			this.pstmt.setInt(1, nombre);;
+			res = pstmt.executeUpdate(); 
+
+		} catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		if(res==1) {
+			JSONObject requestDetails = new JSONObject();
+			requestDetails.put("operation_type", "UPDATE_NBR");
+			requestDetails.put("Target","city");
+			requestDetails.put("nbrmaxvoiture", nombre);
+			JSONObject voitureObject= null;
+			JSONObject request = new JSONObject(); 
+			request.put("request", requestDetails);
+			jsone = request.toString();
+		}else {
+			jsone=null;
+		}
+		this.json  ="{request:{ operation_type: SET_CITY, target: city ,nombremaxvoiture :"+nombre+"}} " ;
+		return jsone;
+	}
+}

@@ -9,7 +9,7 @@ import org.json.simple.JSONArray;
  * @author : DONFACK ANAELLE
  */
 public interface MotionSensorFonction {
-	
+	//Methode qui permet de lire le fichier scenario 
 	public JSONArray readScenario();
 	
 	

@@ -14,7 +14,12 @@ import borne.Terminal;
 import functionality_server.functionalityServer;
 import gestion_borne.crud.DAO;
 import gestion_borne.crud.TerminalDAO;
-
+/**
+ * Cette classe est la classe qui contient l'algorithme de fonctionnement des bornes:
+ * Action : Baisser ou Sortie pour faire entrer ou sortir une voiture de la ville
+ * @author Annaelle Donfack
+ *
+ */
 public class AlgorithmeBorne {
 	public AlgorithmeBorne() throws ClassNotFoundException, SQLException {
 
@@ -22,13 +27,12 @@ public class AlgorithmeBorne {
 	functionalityServer server;
 	TerminalDAO data=new TerminalDAO(server)  ;
 	String toSend;
+	//Variable contenant les voitures dans la ville
 	public static HashSet<Objet> infoVoitures = new HashSet<Objet>();
+	//Variable comptant le nombre de voiture dans la ville
 	public static AtomicInteger PlacesOccupees= new AtomicInteger();
 
-
-	public void setCapacity(){ 
-
-	} 
+	//Methode traitant les requêtes d'entrée dans la ville provenant du serveur
 	public synchronized String TraitementEntrer(String json) throws JSONException, ClassNotFoundException, SQLException {
 		String Receive = json;
 		JSONObject request= new JSONObject(Receive);
@@ -53,6 +57,8 @@ public class AlgorithmeBorne {
 		System.out.println(this.toSend);
 		return this.toSend;
 	}
+
+	//Methode traitant les requêtes de sortie de la ville provenant du serveur
 	public synchronized String TraitementSortie(String json) throws JSONException, ClassNotFoundException, SQLException {
 
 		Objet voiture2= this.generateObjet(json);
@@ -63,13 +69,11 @@ public class AlgorithmeBorne {
 		requete2Details.put("latitude", voiture2.getLatitude());
 		requete2Details.put("numeroBorne", voiture2.getNumBorne());
 		requete2Details.put("status", "SUCCES");
-		if(this.sortir()) {
-			this.toSend=requete2.toString();
-
-			return this.toSend;
-		}else return null;
+		this.toSend=requete2.toString();
+		return this.toSend;
 	}
 
+	//Methode permettant de generer un objet provenant de la simulation du capteur envoyé par le serveur
 	public Objet generateObjet(String json) throws JSONException {
 		String receive= json;
 		JSONObject request= new JSONObject(receive);
@@ -82,12 +86,13 @@ public class AlgorithmeBorne {
 
 	}
 
+	//Methode qui renvoie le nombre de places de voiture encore disponible dans la ville
 	int places() throws ClassNotFoundException, SQLException{ 
 		Terminal terminal =data.find(1);
 		int size= this.PlacesOccupees.get();
 		return (terminal.getCity().getNombreMaxVoiture() - size); 
 	}
-
+	//Methode permettant de retrouver la borne par laquelle un objet veut circuler
 	public Terminal FindTerminal(Objet t) throws ClassNotFoundException, SQLException {
 
 		int numeroBorne= t.getNumBorne();
@@ -95,10 +100,16 @@ public class AlgorithmeBorne {
 		return t1;
 	}
 
+	//Methode permettant de determiner si oui ou non un objet peut entrer dans la ville
 	public  synchronized boolean entrer(Objet objet) throws ClassNotFoundException, SQLException{
 		Terminal borne=this.FindTerminal(objet);
+		/*
+		 * On verifie s'il le nombre de place disponibles dans la ville n'est pas inférieur ou egale à zero
+		 * et aussi si une alerte n'a pas ete lancé
+		 */
 		if  ((this.places() <=0 || borne.getCity().getAlert()==1 ) ){
 			synchronized(this) {
+				//Si l'une des conditions est constaté, on refuse l'acces de la voiture, la borne se lève
 				borne.setStatus(1);
 				System.out.println(this.PlacesOccupees);
 				System.out.println("La borne s'est leve, son status: "+borne.getStatus());
@@ -107,13 +118,16 @@ public class AlgorithmeBorne {
 				return(false) ;
 			}
 		}
+		//Si aucune alerte n'a ete lancé ou le nombre maximal n'a pas encore ete atteint
 		else  {
 			synchronized(this) {
-
+				//On incremente le nombre de places Occupee
 				this.PlacesOccupees.incrementAndGet() ;
+				//La borne se baisse: status=0;
 				borne.setStatus(0);
 				System.out.println("La borne s'est baisse, status: "+borne.getStatus());
 				System.out.println("Alarme: "+borne.getCity().getAlert());
+				//On ajoute l'objet au tableau d'objet de la ville
 				this.infoVoitures.add(objet);
 				System.out.format("[Borne %s]: Objet acceptée, il reste %d places \n", borne.getNumero(), this.places());
 				System.out.format("Voiture Garees  :\n"+this.infoVoitures.size());
@@ -122,15 +136,17 @@ public class AlgorithmeBorne {
 			}
 		}
 	}
+
+	//Methode permettant de faire sortir un objet (voiture) de la ville
 	public synchronized boolean sortir() throws JSONException, ClassNotFoundException, SQLException {
-
+		//Decrementation du nombre de voiture dans la ville
 		this.PlacesOccupees.decrementAndGet();
+		//On retire la voiture du tableau
 		this.infoVoitures.remove(1) ;
-			System.out.format("Borne : Une voiture est sortie, reste  %d places\n" ,this.places());
-			//System.out.format("Voiture Garees :\n"+this.infoVoitures.size());
+		System.out.format("Borne : Une voiture est sortie, reste  %d places\n" ,this.places());
+		//System.out.format("Voiture Garees :\n"+this.infoVoitures.size());
+		return true;
 
-			return true;
-		
 	}
 
 }

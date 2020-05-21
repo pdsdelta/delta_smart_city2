@@ -9,24 +9,29 @@ import java.net.UnknownHostException;
 
 import org.json.JSONException;
 import org.json.simple.JSONObject;
+/*
+ * Cette classe est la classe permettant de construire les objets envoyés par un detecteur de vehicules
+ * à travers le serveur
+ * Author : DONFACK ANAELLE
+ */
 
 public class Objet implements Runnable{
+	//Socket pour pouvoir communiquer avec le serveur
 	private Socket clientSocket;
 	private PrintWriter out;
-	private BufferedReader in;
-	String ReceiveJson;
 	String json;
 
 	private int longitude;
 	private int latitude;
+	//Variable du numero de borne par lequel l'objet circule
 	private int numBorne;
+	//Direction de l'objet
 	private String direction;
 
 	public Objet() {}
 	public void startConnection(String ip, int port) throws UnknownHostException, IOException, JSONException {
 		clientSocket = new Socket(ip, port);
 		out=new PrintWriter(this.clientSocket.getOutputStream(), true);
-		in=new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
 		out.println(json);
 		System.out.println(json);
 	}
@@ -61,9 +66,10 @@ public class Objet implements Runnable{
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
+	
+	//Methode permettant à la simulation de capteur d'envoyer une requête de sortie de vehicule au serveur
 	public synchronized String leave() {
 		String jsone=" ";
-		//this.setNumBorne(this.getNumBorne()+1);
 		JSONObject voitureDetails = new JSONObject();
 		voitureDetails.put("operation_type", "sortir");
 		voitureDetails.put("longitude", this.getLongitude());
@@ -78,8 +84,9 @@ public class Objet implements Runnable{
 	
 	@Override
 	public void  run() {
-		//le temps de sommeil dans la ville
+		
 		try {
+			//le temps de sommeil dans la ville
 			Thread.sleep((long)  (500000* Math.random()));
 			this.leave();
 			this.startConnection("127.0.0.1", 2400);

@@ -13,18 +13,15 @@ import java.util.List;
 
 import borne.Terminal;
 import functionality_server.functionalityServer;
-import gestion_borne.crud.DAO;
 import gestion_borne.crud.TerminalDAO;
 
 /**
- *
+ *Cette classe est l'interface graphique permettant d'afficher la liste des bornes de la ville
  * @author Anaelle
  */
 public class TerminalListVue extends javax.swing.JDialog {
 
-    /**
-     * Creates new form DListeUtilisateur
-     */
+    
 	private functionalityServer server;
     public TerminalListVue(java.awt.Frame parent, boolean modal) throws SQLException, ClassNotFoundException, UnknownHostException, IOException {
         super(parent, modal);

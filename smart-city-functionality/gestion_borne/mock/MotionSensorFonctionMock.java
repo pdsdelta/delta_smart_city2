@@ -24,23 +24,27 @@ import gestion_borne.crud.TerminalDAO;
 
 public class MotionSensorFonctionMock implements Runnable { 
 	
-
+//Variable Socket pour communiquer avec le serveur
 	private Socket clientSocket;
+	//variable pour envoyer des donnees au serveur
 	private PrintWriter out;
 	private BufferedReader in;
 	String json;
 	public MotionSensorFonctionMock(){
 		
 	}
+	//Methode pour commencer la communication avec le serveur 
 	public void startConnection(String ip, int port) throws UnknownHostException, IOException {
 		clientSocket = new Socket(ip, port);
 		out=new PrintWriter(this.clientSocket.getOutputStream(), true);
 		in=new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+		//Envoi de donnee au serveur
 		out.println(json);
 		System.out.println(json);
 	}
 
-	public String rentrer() throws InterruptedException{	
+	//Methode pour recuperer le json à envoyer
+	public String JSON() throws InterruptedException{	
 		JSONArray scenario=readScenario();
 		Iterator<JSONObject> iterator =scenario.iterator();
 		while(iterator.hasNext()) {
@@ -53,6 +57,7 @@ public class MotionSensorFonctionMock implements Runnable {
 		}
 		return json;
 	}
+	//Methode pour lire le fichier de simulation
 	public JSONArray readScenario() {
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
@@ -76,7 +81,7 @@ public class MotionSensorFonctionMock implements Runnable {
 	public void run(){ 
 		try {
 			while(true){
-				this.rentrer();
+				this.JSON();
 				this.startConnection( "172.31.249.22",2400);
 				Thread.sleep((long)  (50000* Math.random()));
 			}}
