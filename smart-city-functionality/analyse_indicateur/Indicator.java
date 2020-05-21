@@ -29,6 +29,7 @@ import infocarbon.InfoGlobalCarbon;
 import motionSensor.MotionSensor;
 import station.station;
 import transportation.PublicTransport;
+import CapteurAir.CapteurAir;
 
 
 
@@ -535,7 +536,7 @@ public class Indicator {
 		Statement stmt3 = this.connect.createStatement();
 		int count = 0;
 
-		ResultSet rs3 = stmt3.executeQuery("select cast( (((indicereleve/seuilquartieratmo)-1)*100)as FLOAT) as tauxDepassement" + 
+		ResultSet rs3 = stmt3.executeQuery("select cast( (((indicereleve/seuilquartieratmo)-1)*100)as FLOAT) as tauxDepAtmo" + 
 				" from historique H, district D, capteurair CA " + 
 				"where CA.idcapteur = H.idhistoric " + 
 				"and H.idhistoric = D.id;" + "");
@@ -568,5 +569,105 @@ public class Indicator {
 		return resultat ;
 	}
 
+	// 10 numbre d'alerte 
+
+		/**
+		 * @return
+		 * @throws JSONException
+		 * @throws JsonProcessingException
+		 * @throws SQLException 
+		 */
+		public String etatalerte () throws JSONException, JsonProcessingException, SQLException {
+
+
+			//List<station> res = new ArrayList<station>();
+			//String json = this.jsonClient;	
+			//JSONObject obj = new JSONObject(json);
+			//JSONObject request = obj.getJSONObject("request");
+
+			Statement stmt3 = this.connect.createStatement();
+			int count = 0;
+
+			ResultSet rs3 = stmt3.executeQuery("select count (etatalerte) from district where etatalerte=1  ");
+			while(rs3.next()){
+
+				count = rs3.getInt("etatalerte");
+			}
+			//	int numberstation = request.getInt("id");
+			//					String query= "SELECT numberstation from station";
+			//					try {
+			//						pstmt = connect.prepareStatement(query);
+			//						//	pstmt.setInt(1, numberstation);
+			//						rs = pstmt.executeQuery();
+			//						while(rs.next()) {
+			//							station utilStation = new station();
+			//							utilStation.setNumberStation(rs.getInt(1));
+			//							res.add(utilStation); 
+			//						}
+			//					} catch (SQLException ex) {
+			//						System.out.println("Erreur infos numberstation!");
+			//					}
+			System.out.println("je vais recuperer le nbr totale d'alerte en bdd");
+			//ObjectMapper mapper = new ObjectMapper();
+			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+			String resultat= "{request:{ operation_type:etatalerte ,Table: myCapteur, Action :etatalerte ,  Data: "+count+"}}";
+			//this.finalResponse = resultat;
+			resultat = resultat  ;
+			System.out.println(resultat);
+			this.json=resultat;
+			return resultat ;
+		}
+
+		
+		// CAPTEURAIR ACTIF 
+		/**
+		 * @return
+		 * @throws JSONException
+		 * @throws JsonProcessingException
+		 * @throws SQLException 
+		 */
+
+		public String capteurairActif(String date) throws JSONException, JsonProcessingException, SQLException{
+
+
+			List<CapteurAir> res = new ArrayList<CapteurAir>();
+
+
+			//JSONObject obj = new JSONObject(json);
+			//JSONObject request = obj.getJSONObject("request");
+			Statement stm3= this.connect.createStatement();
+			int count = 0;
+ 
+			ResultSet rs3 = stm3.executeQuery("SELECT namecapteur FROM capteurair where datereleve = '"+date+ "\'");
+			while(rs3.next()){
+				count = rs3.getInt("namecapteur");
+
+			}
+			//		int id = request.getInt("id");
+			//		String query= "SELECT count(id) from district";
+			//
+			//		try {
+			//			pstmt = connect.prepareStatement(query);
+			//			pstmt.setInt(1, id);
+			//			rs = pstmt.executeQuery();
+			//			while(rs.next()) {
+			//				District utilStation = new District();
+			//				utilStation.setId(rs.getInt(1));   
+			//				res.add(utilStation);
+			//			}
+			//		} catch (SQLException ex) {
+			//
+			//			System.out.println("");
+			//		}
+			System.out.println("je vais recuperer le numbr totale de capetur d'air en bdd");
+			//ObjectMapper mapper = new ObjectMapper();
+			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+			String resultat= "{request:{ operation_type:capteurairActif , Table: capteurair, Action : capteurairActif   ,  Data: "+count+"}}";
+			//this.finalResponse = resultat;
+			resultat = resultat ;
+			this.json=resultat;
+			System.out.println(resultat);
+			return resultat ;
+		} 
 
 }

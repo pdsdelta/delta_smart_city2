@@ -38,6 +38,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JCalendar;
+import java.awt.Font;
 
 public class fenetre1 extends JFrame {
 	public fenetre1() {
@@ -294,6 +295,11 @@ public class fenetre1 extends JFrame {
 				});
 				statistics.setBounds(336, 284, 218, 35);
 				contentPane.add(statistics);
+				
+				JLabel lblNewLabel = new JLabel("    Bienvenue sur le site qui vous permettra de suivre le statut de votre ville");
+				lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
+				lblNewLabel.setBounds(127, 11, 454, 30);
+				contentPane.add(lblNewLabel);
 				
 				
 				

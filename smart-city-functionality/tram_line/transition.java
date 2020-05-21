@@ -15,15 +15,16 @@ class transition{
   static int nombreStation1;
   static int numberLine1;
   static int numberTram1;
-  static int longueurReseau1 = 0;
+  static int longueurReseau1;
   
-  public static void saveLlt(int longueur, int largeur, double mapTaille, int budgetStation, int nombreStation){
+  public static void saveLlt(int longueur, int largeur, double mapTaille, int budgetStation, int nombreStation, int longueurLigne){
 	  longueur1 = longueur;
 	  largeur1 = largeur;
 	  mapTaille1 = mapTaille;
 	  budgetStation1 = budgetStation;
 	  nombreStation1 = nombreStation;
-	  System.out.println(longueur1 + largeur1 + mapTaille1 + budgetStation1 + nombreStation1 + " save long" );
+	  longueurReseau1 = longueurLigne;   
+	  System.out.println(longueur1 + " " + largeur1 + " " + mapTaille1 + " " + budgetStation1 + " " + nombreStation1 + " " +  longueurReseau1 + " save long" );
   }
   public static void saveBT(String nomVille, int budgetCity){
 	  nameCity = nomVille;

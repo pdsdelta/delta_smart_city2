@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -22,6 +24,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
+import com.toedter.calendar.JDateChooser;
 
 public class Statistics extends JFrame {
 	private functionalityServer server;
@@ -34,6 +37,13 @@ public class Statistics extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		this.setVisible(true);
+		contentPane.setLayout(null);
+		
+
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setDateFormatString("yyyy-MM-dd");
+		dateChooser.setBounds(89, 186, 139, 20);
+		contentPane.add(dateChooser);
 		
 	// Taux de dépassement de seuil d'ATMO	
 		JButton tauxdépassemnetseuil = new JButton("taux de dépassement de seuil d'ATMO");
@@ -55,7 +65,7 @@ public class Statistics extends JFrame {
 					JSONObject obj = new JSONObject(jsonReceived);
 					JSONObject objet1= obj.getJSONObject("request");
 					 
-					 int data= obj.getInt("Data");
+					 int data= objet1.getInt("Data");
 					JOptionPane.showMessageDialog(null, "le taux de dépassemnt de seuil d'ATMO est : " + data);
 				} catch (HeadlessException| JSONException | SQLException | IOException e1) {
 					// TODO Auto-generated catch block
@@ -63,7 +73,6 @@ public class Statistics extends JFrame {
 				}
 			}
 		});
-		contentPane.setLayout(null);
 		
 		
 // Taux de pollution:
@@ -72,12 +81,76 @@ public class Statistics extends JFrame {
 		contentPane.add(tauxdepollution);
 		
 		JButton numberaletre = new JButton("numberalerte");
+		numberaletre.setBounds(44, 124, 253, 23);
 		numberaletre.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
+				
+				Indicator objet = null;
+				try {
+					objet = new Indicator(server);
+				} catch (ClassNotFoundException | SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				try {
+					String jsonReceived = objet.tauxATMO();
+					objet.startConnection("172.31.249.22", 2400);
+					JSONObject obj = new JSONObject(jsonReceived);
+					JSONObject objet1= obj.getJSONObject("request");
+					 
+					 int data= objet1.getInt("Data");
+					JOptionPane.showMessageDialog(null, "le nombre d'alerte  est : " + data);
+				} catch (HeadlessException  | JSONException | SQLException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
-		numberaletre.setBounds(44, 124, 253, 23);
 		contentPane.add(numberaletre);
+		
+		JButton capteurairActif = new JButton("capteurair Actif");
+		capteurairActif.setBounds(44, 162, 251, 23);
+		contentPane.add(capteurairActif);
+		capteurairActif.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Indicator objet = null;
+				try {
+					objet = new Indicator(server);
+				} catch (ClassNotFoundException | SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				try {
+					
+					/*calendrier.getDay()
+					calendar.getYear
+					calendar.getMonth()
+					//date='calendar.getYear-calendar.getMonth()-calendrier.getDay()';
+					date'2020-12-7'*/
+					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String date = dateFormat.format(dateChooser.getDate());
+							//"-"+String.valueOf(dateChooser.getDate().getMonth()+1)+"-"+String.valueOf(dateChooser.getDate().getDay());
+					System.out.println("hello "+date);
+					
+					String jsonReceived = objet.nbcars(date);
+					objet.startConnection("172.31.249.22", 2400);
+					JSONObject obj = new JSONObject(jsonReceived );
+					JSONObject objet1= obj.getJSONObject("request");
+					int data = objet1.getInt("Data");
+					
+					JOptionPane.showMessageDialog(null, "le capteur d'air actif  est :" + data);
+				} catch (HeadlessException | JSONException | SQLException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		
+		
 		tauxdepollution.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Indicator objet = null;

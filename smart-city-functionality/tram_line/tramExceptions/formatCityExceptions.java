@@ -10,7 +10,7 @@ import tram_line.mapInterface;
 public class formatCityExceptions extends Error{
     
 	public formatCityExceptions() {
-		mapInterface map = new mapInterface(0);
+		mapInterface map = new mapInterface(5);
 		JOptionPane messageTypeError;
 		messageTypeError = new JOptionPane();
 		messageTypeError.showMessageDialog(null, "Attention, la longueur doit être supérieur à la largeur", "Attention", JOptionPane.WARNING_MESSAGE);
