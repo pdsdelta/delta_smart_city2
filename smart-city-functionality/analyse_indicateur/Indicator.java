@@ -535,7 +535,7 @@ public class Indicator {
 		Statement stmt3 = this.connect.createStatement();
 		int count = 0;
 
-		ResultSet rs3 = stmt3.executeQuery("select cast( (((indicereleve/seuilquartieratmo)-1)*100)as FLOAT) as tauxDepAtmo" + 
+		ResultSet rs3 = stmt3.executeQuery("select cast( (((indicereleve/seuilquartieratmo)-1)*100)as FLOAT) as tauxDepassement" + 
 				" from historique H, district D, capteurair CA " + 
 				"where CA.idcapteur = H.idhistoric " + 
 				"and H.idhistoric = D.id;" + "");
@@ -567,55 +567,6 @@ public class Indicator {
 		this.json=resultat;
 		return resultat ;
 	}
-
-	// 10 numbre d'alerte 
-
-		/**
-		 * @return
-		 * @throws JSONException
-		 * @throws JsonProcessingException
-		 * @throws SQLException 
-		 */
-		public String etatalerte () throws JSONException, JsonProcessingException, SQLException {
-
-
-			//List<station> res = new ArrayList<station>();
-			//String json = this.jsonClient;	
-			//JSONObject obj = new JSONObject(json);
-			//JSONObject request = obj.getJSONObject("request");
-
-			Statement stmt3 = this.connect.createStatement();
-			int count = 0;
-
-			ResultSet rs3 = stmt3.executeQuery("select count (etatalerte) from district where etatalerte=1  ");
-			while(rs3.next()){
-
-				count = rs3.getInt("etatalerte");
-			}
-			//	int numberstation = request.getInt("id");
-			//					String query= "SELECT numberstation from station";
-			//					try {
-			//						pstmt = connect.prepareStatement(query);
-			//						//	pstmt.setInt(1, numberstation);
-			//						rs = pstmt.executeQuery();
-			//						while(rs.next()) {
-			//							station utilStation = new station();
-			//							utilStation.setNumberStation(rs.getInt(1));
-			//							res.add(utilStation); 
-			//						}
-			//					} catch (SQLException ex) {
-			//						System.out.println("Erreur infos numberstation!");
-			//					}
-			System.out.println("je vais recuperer le nbr totale d'alerte en bdd");
-			//ObjectMapper mapper = new ObjectMapper();
-			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-			String resultat= "{request:{ operation_type:etatalerte ,Table: myCapteur, Action :etatalerte ,  Data: "+count+"}}";
-			//this.finalResponse = resultat;
-			resultat = resultat  ;
-			System.out.println(resultat);
-			this.json=resultat;
-			return resultat ;
-		}
 
 
 }

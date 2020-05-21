@@ -55,7 +55,7 @@ public class Statistics extends JFrame {
 					JSONObject obj = new JSONObject(jsonReceived);
 					JSONObject objet1= obj.getJSONObject("request");
 					 
-					 int data= objet1.getInt("Data");
+					 int data= obj.getInt("Data");
 					JOptionPane.showMessageDialog(null, "le taux de dépassemnt de seuil d'ATMO est : " + data);
 				} catch (HeadlessException| JSONException | SQLException | IOException e1) {
 					// TODO Auto-generated catch block
@@ -73,34 +73,11 @@ public class Statistics extends JFrame {
 		
 		JButton numberaletre = new JButton("numberalerte");
 		numberaletre.addActionListener(new ActionListener() {
-			
 			public void actionPerformed(ActionEvent e) {
-				
-				Indicator objet = null;
-				try {
-					objet = new Indicator(server);
-				} catch (ClassNotFoundException | SQLException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				try {
-					String jsonReceived = objet.tauxATMO();
-					objet.startConnection("172.31.249.22", 2400);
-					JSONObject obj = new JSONObject(jsonReceived);
-					JSONObject objet1= obj.getJSONObject("request");
-					 
-					 int data= objet1.getInt("Data");
-					JOptionPane.showMessageDialog(null, "le nombre d'alerte  est : " + data);
-				} catch (HeadlessException  | JSONException | SQLException | IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
 			}
 		});
 		numberaletre.setBounds(44, 124, 253, 23);
 		contentPane.add(numberaletre);
-		
 		tauxdepollution.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Indicator objet = null;
