@@ -21,6 +21,7 @@ import borne.Terminal;
 import connectionPool.DataSource;
 import district.District;
 import functionality_server.functionalityServer;
+import infocarbon.InfoCarbon;
 import infocarbon.InfoGlobalCarbon;
 import motionSensor.MotionSensor;
 import station.station;
@@ -218,7 +219,7 @@ public class Indicator {
 //		JSONObject request = obj.getJSONObject("request");
 		Statement stmt3 = this.connect.createStatement();
 		int count = 0;
-		ResultSet rs3 = stmt3.executeQuery("SELECT nbcars FROM publictransportstat where dateof = '"+date+ " ");
+		ResultSet rs3 = stmt3.executeQuery("SELECT nbcars FROM carstats where dateof = '"+date+ "\'");
 		while(rs3.next()){
 			count = rs3.getInt("nbcars");
 		}
@@ -342,7 +343,51 @@ public class Indicator {
 			
 		}
 		
-		
+		                                             // 7 lempreinte de carbone
+				/**
+				 * @return
+				 * @throws JSONException
+				 * @throws JsonProcessingException
+				 * @throws SQLException 
+				 */
+				public String emprientecarbone() throws JSONException, JsonProcessingException, SQLException {
+
+					List<InfoCarbon> res = new ArrayList<InfoCarbon>();
+					//String json = this.jsonClient;	
+					//JSONObject obj = new JSONObject(json);
+					//JSONObject request = obj.getJSONObject("request");
+
+					Statement stmt3 = this.connect.createStatement();
+					int count = 0;
+
+					ResultSet rs3 = stmt3.executeQuery("select empreintecarbone from carboninfo");
+					while(rs3.next()){
+						count = rs3.getInt("empreintecarbone");
+					}
+					//int id = request.getInt("id");
+					//String query= "SELECT count(id) from motionsensor";
+					//		try {
+					//			pstmt = connect.prepareStatement(query);
+					//			pstmt.setInt(1, id);
+					//			rs = pstmt.executeQuery();
+					//			while(rs.next()) {
+					//			MotionSensor utilStation = new MotionSensor();
+					//			utilStation.setId(rs.getInt(1));
+					//			res.add(utilStation);
+					//			}
+					//		} catch (SQLException ex) {
+					//			System.out.println("Erreur infos motionsensor!");
+					//		}
+					System.out.println("je vais recuperer lempreinte de carbon bdd");
+					//ObjectMapper mapper = new ObjectMapper();
+					//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+					String resultat= "{Table: carboninfo, Action :emprientecarbone ,  Data: "+count+"}";
+				//	this.finalResponse = resultat;
+				resultat = resultat + count + "}" ;
+				System.out.println(resultat);
+					return resultat;
+					
+				}
 		
 		
 		
@@ -398,7 +443,108 @@ public class Indicator {
 
 			return res;
 		}
-
 		
+		// taux de pollution dan la ville
+
+		/**
+		 * @return
+		 * @throws JSONException
+		 * @throws JsonProcessingException
+		 * @throws SQLException 
+		 */
+		public String tauxATMO() throws JSONException, JsonProcessingException, SQLException {
+			
+			
+			//List<station> res = new ArrayList<station>();
+			//String json = this.jsonClient;	
+			//JSONObject obj = new JSONObject(json);
+			//JSONObject request = obj.getJSONObject("request");
+			
+			Statement stmt3 = this.connect.createStatement();
+			int count = 0;
+
+			ResultSet rs3 = stmt3.executeQuery("select cast((indicereleve/seuilquartieratmo) as FLOAT) as tauxAtmo " + 
+					"from historique H, district D, capteurair CA" + 
+					" where CA.idcapteur = H.idhistoric" + 
+					" and H.idhistoric = D.id;" + "");
+			while(rs3.next()){
+
+				count = rs3.getInt("tauxAtmo");
+			}
+			//	int numberstation = request.getInt("id");
+//			String query= "SELECT numberstation from station";
+//			try {
+//				pstmt = connect.prepareStatement(query);
+//				//	pstmt.setInt(1, numberstation);
+//				rs = pstmt.executeQuery();
+//				while(rs.next()) {
+//					station utilStation = new station();
+//					utilStation.setNumberStation(rs.getInt(1));
+//					res.add(utilStation); 
+//				}
+//			} catch (SQLException ex) {
+//				System.out.println("Erreur infos numberstation!");
+//			}
+			System.out.println("je vais recuperer le nbr totale de  station en bdd");
+			//ObjectMapper mapper = new ObjectMapper();
+			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+			String resultat= "{Table: myCapteur, Action : tauxATMO ,  Data: "+count+"}";
+			//this.finalResponse = resultat;
+			resultat = resultat + count + "}" ;
+			System.out.println(resultat);
+			 return resultat ;
+		}
+
+		// taux de depassement de deuild'ATMO
+
+				/**
+				 * @return
+				 * @throws JSONException
+				 * @throws JsonProcessingException
+				 * @throws SQLException 
+				 */
+				public String tauxDepAtmo() throws JSONException, JsonProcessingException, SQLException {
+					
+					
+					//List<station> res = new ArrayList<station>();
+					//String json = this.jsonClient;	
+					//JSONObject obj = new JSONObject(json);
+					//JSONObject request = obj.getJSONObject("request");
+					
+					Statement stmt3 = this.connect.createStatement();
+					int count = 0;
+
+					ResultSet rs3 = stmt3.executeQuery("select cast( (((indicereleve/seuilquartieratmo)-1)*100)as FLOAT) as tauxDepassement" + 
+							" from historique H, district D, capteurair CA " + 
+							"where CA.idcapteur = H.idhistoric " + 
+							"and H.idhistoric = D.id;" + "");
+					while(rs3.next()){
+
+						count = rs3.getInt("tauxDepAtmo");
+					}
+					//	int numberstation = request.getInt("id");
+//					String query= "SELECT numberstation from station";
+//					try {
+//						pstmt = connect.prepareStatement(query);
+//						//	pstmt.setInt(1, numberstation);
+//						rs = pstmt.executeQuery();
+//						while(rs.next()) {
+//							station utilStation = new station();
+//							utilStation.setNumberStation(rs.getInt(1));
+//							res.add(utilStation); 
+//						}
+//					} catch (SQLException ex) {
+//						System.out.println("Erreur infos numberstation!");
+//					}
+					System.out.println("je vais recuperer le nbr totale de  station en bdd");
+					//ObjectMapper mapper = new ObjectMapper();
+					//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+					String resultat= "{Table: myCapteur, Action :tauxDepAtmo  ,  Data: "+count+"}";
+					//this.finalResponse = resultat;
+					resultat = resultat + count + "}" ;
+					System.out.println(resultat);
+					 return resultat ;
+				}
+
 		
 }

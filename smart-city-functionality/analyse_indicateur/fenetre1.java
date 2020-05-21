@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import functionality_server.functionalityServer;
 import gestion_borne.vue.TerminalListVue;
+import infocarbon.CarbonInfo;
 
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
@@ -41,7 +42,7 @@ public class fenetre1 extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 795, 413);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.LIGHT_GRAY);
+		contentPane.setBackground(SystemColor.inactiveCaption);
 		setContentPane(contentPane);
 		this.setVisible(true);
 
@@ -153,8 +154,8 @@ public class fenetre1 extends JFrame {
 				numberCar.setBounds(87, 132, 218, 35);
 				contentPane.add(numberCar);
 				numberCar.setBackground(SystemColor.inactiveCaption);
-				numberCar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+				numberCar.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent e) {
 						Indicator objet = null;
 						try {
 							objet = new Indicator(server);
@@ -219,9 +220,58 @@ public class fenetre1 extends JFrame {
 				NumberBorne.setBounds(336, 216, 218, 35);
 				contentPane.add(NumberBorne);
 				NumberBorne.setBackground(SystemColor.inactiveCaption);
+		
+				// 7 EMPREINTE CARBONE	
+				
+				JButton empreinteCarbone = new JButton("empreinte de carbone");
+				empreinteCarbone.setBounds(87, 284, 218, 35);
+				contentPane.add(empreinteCarbone);
+				empreinteCarbone.setBackground(SystemColor.inactiveCaption);
+				empreinteCarbone.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						Indicator objet = null;
+						try {
+							objet = new Indicator(server);
+						} catch (ClassNotFoundException | SQLException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						try {
+							String jsonReceived = objet.emprientecarbone();
+							System.out.println("hello "+jsonReceived);
+							JSONObject obj = new JSONObject(jsonReceived );
+							 
+							int data = obj.getInt("Data");
+							JOptionPane.showMessageDialog(null, "l'empreinte de carbone est :" + data);
+						} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					
+						
+						
+					}
+				});
+				
+				
+				
 				
 			
 				contentPane.add(dateChooser);
+				
+				JButton statistics = new JButton("statistics");
+				statistics.setBackground(SystemColor.inactiveCaption);
+				statistics.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Statistics statistics = new Statistics();
+						
+					}
+				});
+				statistics.setBounds(336, 284, 218, 35);
+				contentPane.add(statistics);
+				
+				
+				
 				NumberBorne.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						Indicator objet = null;
@@ -266,6 +316,7 @@ public class fenetre1 extends JFrame {
 	private void ListeMotionSensor(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {                                           
 		new Nbr_motionSensor(this, true).setVisible(true);
 	}
+	
 	
 	
 	
