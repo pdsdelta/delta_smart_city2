@@ -10,7 +10,7 @@ import tram_line.mapInterface;
 public class noDataInBase extends Error{
     
 	public noDataInBase() {
-		mapInterface map = new mapInterface(0);
+		mapInterface map = new mapInterface(5);
 		JOptionPane messageTypeError;
 		messageTypeError = new JOptionPane();
 		messageTypeError.showMessageDialog(null, "Il n'y a aucune ville en base ! \n merci d'enregistrer une ville", "Attention", JOptionPane.WARNING_MESSAGE);

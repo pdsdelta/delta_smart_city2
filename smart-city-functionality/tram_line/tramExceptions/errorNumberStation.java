@@ -10,7 +10,7 @@ import tram_line.mapInterface;
 public class errorNumberStation extends Error{
     
 	public errorNumberStation() {
-		mapInterface map = new mapInterface(0);
+		mapInterface map = new mapInterface(5);
 		JOptionPane messageTypeError;
 		messageTypeError = new JOptionPane();
 		messageTypeError.showMessageDialog(null, "Attention, vous ne pouvez pas générer un réseau avec une seule station ! ", "Attention", JOptionPane.WARNING_MESSAGE);
