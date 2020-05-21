@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.HeadlessException;
 import java.awt.image.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -63,16 +64,20 @@ public class fenetre1 extends JFrame {
 				Indicator objet = null;
 				try {
 					objet = new Indicator(server);
+					
+					
 				} catch (ClassNotFoundException | SQLException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 				try {
 					String jsonReceived = objet.informationcapteurAir();
-					JSONObject obj = new JSONObject(jsonReceived);
-					 int data= obj.getInt("Data");
+					objet.startConnection("172.31.249.22", 2400);
+					JSONObject obj = new JSONObject(jsonReceived); 
+					JSONObject objet1= obj.getJSONObject("request");
+					 int data= objet1.getInt("Data");
 					JOptionPane.showMessageDialog(null, "le nombre de capteur d'air est : " + data);
-				} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
+				} catch (HeadlessException | JSONException | SQLException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -262,7 +267,9 @@ public class fenetre1 extends JFrame {
 				JButton statistics = new JButton("statistics");
 				statistics.setBackground(SystemColor.inactiveCaption);
 				statistics.addActionListener(new ActionListener() {
+					
 					public void actionPerformed(ActionEvent e) {
+						
 						Statistics statistics = new Statistics();
 						
 					}

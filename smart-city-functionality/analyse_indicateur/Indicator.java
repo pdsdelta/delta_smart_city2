@@ -1,8 +1,11 @@
 package analyse_indicateur;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,6 +38,7 @@ public class Indicator {
 	private Socket clientSocket;
 	private PrintWriter out;
 	private BufferedReader in;
+	private String json;
 	private String jsonClient ;
 
 	private ObjectMapper jacksonObjectMapper;
@@ -53,7 +57,13 @@ public class Indicator {
 		this.connect=connection.getConnection();
 	}
 
-                                                       // 1 numbr de capteur air
+	public void startConnection(String ip, int port) throws UnknownHostException, IOException {
+		clientSocket = new Socket(ip, port);
+		out=new PrintWriter(this.clientSocket.getOutputStream(), true);
+		in=new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+		out.println(json);
+
+	}                                                   // 1 numbr de capteur air
 	/**
 	 * @return
 	 * @throws JSONException
@@ -63,47 +73,48 @@ public class Indicator {
 
 	public String informationcapteurAir() throws JSONException, JsonProcessingException, SQLException{
 
-		
+
 		List<District> res = new ArrayList<District>();
-		
-			
+
+
 		//JSONObject obj = new JSONObject(json);
 		//JSONObject request = obj.getJSONObject("request");
 		Statement stm3= this.connect.createStatement();
 		int count = 0;
-				
+
 		ResultSet rs3 = stm3.executeQuery("SELECT COUNT(id) AS total FROM district");
 		while(rs3.next()){
-		  count = rs3.getInt("total");
-			
+			count = rs3.getInt("total");
+
 		}
-//		int id = request.getInt("id");
-//		String query= "SELECT count(id) from district";
-//
-//		try {
-//			pstmt = connect.prepareStatement(query);
-//			pstmt.setInt(1, id);
-//			rs = pstmt.executeQuery();
-//			while(rs.next()) {
-//				District utilStation = new District();
-//				utilStation.setId(rs.getInt(1));   
-//				res.add(utilStation);
-//			}
-//		} catch (SQLException ex) {
-//
-//			System.out.println("");
-//		}
+		//		int id = request.getInt("id");
+		//		String query= "SELECT count(id) from district";
+		//
+		//		try {
+		//			pstmt = connect.prepareStatement(query);
+		//			pstmt.setInt(1, id);
+		//			rs = pstmt.executeQuery();
+		//			while(rs.next()) {
+		//				District utilStation = new District();
+		//				utilStation.setId(rs.getInt(1));   
+		//				res.add(utilStation);
+		//			}
+		//		} catch (SQLException ex) {
+		//
+		//			System.out.println("");
+		//		}
 		System.out.println("je vais recuperer le numbr totale de capetur d'air en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-	String resultat= "{Table: district, Action : infoCapteurair   ,  Data: "+count+"}";
+		String resultat= "{request:{ operation_type:infoCapteurair , Table: district, Action : infoCapteurair   ,  Data: "+count+"}}";
 		//this.finalResponse = resultat;
-		resultat = resultat + count +"}";
-		 System.out.println(resultat);
-		 return resultat ;
+		resultat = resultat ;
+		this.json=resultat;
+		System.out.println(resultat);
+		return resultat ;
 	} 
 
-	                                                   // 2 numbr totale de motion sensor
+	// 2 numbr totale de motion sensor
 	//select count(id) from motionsensor; ==>12
 
 	/**
@@ -125,7 +136,7 @@ public class Indicator {
 
 		ResultSet rs3 = stmt3.executeQuery("SELECT COUNT(*) AS total FROM motionsensor");
 		while(rs3.next()){
-		
+
 
 			count = rs3.getInt("total");
 		}
@@ -146,17 +157,17 @@ public class Indicator {
 		System.out.println("je vais recuperer le nbr totale de  motionsensor en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-	String resultat= "{Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}";
-	//	this.finalResponse = resultat;
-	resultat = resultat +count+ "}" ;
-	System.out.println(resultat);
-		 return resultat ;
-		
+		String resultat= "{Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}";
+		//	this.finalResponse = resultat;
+		resultat = resultat +count+ "}" ;
+		System.out.println(resultat);
+		return resultat ;
+
 	}
 
-	                                                  //3 numbr totale des stations
+	//3 numbr totale des stations
 	//select numberstation from station ==> 10
-	
+
 	/**
 	 * @return
 	 * @throws JSONException
@@ -164,13 +175,13 @@ public class Indicator {
 	 * @throws SQLException 
 	 */
 	public String infostation() throws JSONException, JsonProcessingException, SQLException {
-		
-		
+
+
 		List<station> res = new ArrayList<station>();
 		//String json = this.jsonClient;	
 		//JSONObject obj = new JSONObject(json);
 		//JSONObject request = obj.getJSONObject("request");
-		
+
 		Statement stmt3 = this.connect.createStatement();
 		int count = 0;
 
@@ -180,19 +191,19 @@ public class Indicator {
 			count = rs3.getInt("numberstation");
 		}
 		//	int numberstation = request.getInt("id");
-//		String query= "SELECT numberstation from station";
-//		try {
-//			pstmt = connect.prepareStatement(query);
-//			//	pstmt.setInt(1, numberstation);
-//			rs = pstmt.executeQuery();
-//			while(rs.next()) {
-//				station utilStation = new station();
-//				utilStation.setNumberStation(rs.getInt(1));
-//				res.add(utilStation); 
-//			}
-//		} catch (SQLException ex) {
-//			System.out.println("Erreur infos numberstation!");
-//		}
+		//		String query= "SELECT numberstation from station";
+		//		try {
+		//			pstmt = connect.prepareStatement(query);
+		//			//	pstmt.setInt(1, numberstation);
+		//			rs = pstmt.executeQuery();
+		//			while(rs.next()) {
+		//				station utilStation = new station();
+		//				utilStation.setNumberStation(rs.getInt(1));
+		//				res.add(utilStation); 
+		//			}
+		//		} catch (SQLException ex) {
+		//			System.out.println("Erreur infos numberstation!");
+		//		}
 		System.out.println("je vais recuperer le nbr totale de  station en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
@@ -200,10 +211,10 @@ public class Indicator {
 		//this.finalResponse = resultat;
 		resultat = resultat + count + "}" ;
 		System.out.println(resultat);
-		 return resultat ;
+		return resultat ;
 	}
 
-	                                   // 4 numbr totale de voiture present dans la ville avec la date
+	// 4 numbr totale de voiture present dans la ville avec la date
 	//select (nbcars,dateof) from publictransportstat;==>(2000,2020-05-12)
 
 	/**
@@ -214,30 +225,30 @@ public class Indicator {
 	 */
 	public String nbcars(String date) throws JSONException, JsonProcessingException, SQLException {
 		List<InfoGlobalCarbon> res = new ArrayList<InfoGlobalCarbon>();
-//		String json = this.jsonClient;	
-//		JSONObject obj = new JSONObject(json);
-//		JSONObject request = obj.getJSONObject("request");
+		//		String json = this.jsonClient;	
+		//		JSONObject obj = new JSONObject(json);
+		//		JSONObject request = obj.getJSONObject("request");
 		Statement stmt3 = this.connect.createStatement();
 		int count = 0;
 		ResultSet rs3 = stmt3.executeQuery("SELECT nbcars FROM carstats where dateof = '"+date+ "\'");
 		while(rs3.next()){
 			count = rs3.getInt("nbcars");
 		}
-//		int nbcars= request.getInt("nbcars");
-//		int dateof= request.getInt("dateof");
-//		String query= "select nbcars,dateof from publictransportstat";
-//		try {
-//			pstmt = connect.prepareStatement(query);
-//			pstmt.setInt(1, nbcars);
-//			rs = pstmt.executeQuery();
-//			while(rs.next()) {
-//				InfoGlobalCarbon utilStation = new InfoGlobalCarbon();
-//				utilStation.setNbCars(rs.getInt(1));
-//				res.add(utilStation);
-//			}
-//		} catch (SQLException ex) {
-//			System.out.println("Erreur infos number cars!");
-//		}
+		//		int nbcars= request.getInt("nbcars");
+		//		int dateof= request.getInt("dateof");
+		//		String query= "select nbcars,dateof from publictransportstat";
+		//		try {
+		//			pstmt = connect.prepareStatement(query);
+		//			pstmt.setInt(1, nbcars);
+		//			rs = pstmt.executeQuery();
+		//			while(rs.next()) {
+		//				InfoGlobalCarbon utilStation = new InfoGlobalCarbon();
+		//				utilStation.setNbCars(rs.getInt(1));
+		//				res.add(utilStation);
+		//			}
+		//		} catch (SQLException ex) {
+		//			System.out.println("Erreur infos number cars!");
+		//		}
 		System.out.println("je vais recuperer le nbr totale de voiture en bdd");
 		//ObjectMapper mapper = new ObjectMapper();
 		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
@@ -245,306 +256,306 @@ public class Indicator {
 		//this.finalResponse = resultat;
 		resultat = resultat + count + "}" ;
 		System.out.println(resultat);
-			return resultat;
+		return resultat;
 	}
-	                                                    // 5 numbr TRAM
-		//select numbertram from station; ==>
+	// 5 numbr TRAM
+	//select numbertram from station; ==>
 
-		/**
-		 * @return
-		 * @throws JSONException
-		 * @throws JsonProcessingException
-		 * @throws SQLException 
-		 */
-		public String informationTram() throws JSONException, JsonProcessingException, SQLException {
+	/**
+	 * @return
+	 * @throws JSONException
+	 * @throws JsonProcessingException
+	 * @throws SQLException 
+	 */
+	public String informationTram() throws JSONException, JsonProcessingException, SQLException {
 
-			List<station> res = new ArrayList<station>();
-			//String json = this.jsonClient;	
-			//JSONObject obj = new JSONObject(json);
-			//JSONObject request = obj.getJSONObject("request");
+		List<station> res = new ArrayList<station>();
+		//String json = this.jsonClient;	
+		//JSONObject obj = new JSONObject(json);
+		//JSONObject request = obj.getJSONObject("request");
 
 
-			Statement stmt3 = this.connect.createStatement();
-			int count = 0;
+		Statement stmt3 = this.connect.createStatement();
+		int count = 0;
 
-			ResultSet rs3 = stmt3.executeQuery("select numbertram  from station ");
-			while(rs3.next()){                                                                            
+		ResultSet rs3 = stmt3.executeQuery("select numbertram  from station ");
+		while(rs3.next()){                                                                            
 
-				count = rs3.getInt("numbertram");
-			}
-			//int id = request.getInt("id");
-			//String query= "SELECT count(id) from motionsensor";
-			//		try {
-			//			pstmt = connect.prepareStatement(query);
-			//			pstmt.setInt(1, id);
-			//			rs = pstmt.executeQuery();
-			//			while(rs.next()) {
-			//			MotionSensor utilStation = new MotionSensor();
-			//			utilStation.setId(rs.getInt(1));
-			//			res.add(utilStation);
-			//			}
-			//		} catch (SQLException ex) {
-			//			System.out.println("Erreur infos motionsensor!");
-			//		}
-			System.out.println("je vais recuperer le nbr tram en bdd");
-			//ObjectMapper mapper = new ObjectMapper();
-			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-		String resultat= "{Table: station, Action : informationTram,  Data: "+count+"}";
-		//	this.finalResponse = resultat;
-			resultat = resultat + count + "}" ;
-		System.out.println(resultat);
-			return resultat;
+			count = rs3.getInt("numbertram");
 		}
-  
-		                                                 // 6 number borne
-		/**
-		 * @return
-		 * @throws JSONException
-		 * @throws JsonProcessingException
-		 * @throws SQLException 
-		 */
-		public String informationBorne() throws JSONException, JsonProcessingException, SQLException {
-
-			List<Terminal> res = new ArrayList<Terminal>();
-			//String json = this.jsonClient;	
-			//JSONObject obj = new JSONObject(json);
-			//JSONObject request = obj.getJSONObject("request");
-
-			Statement stmt3 = this.connect.createStatement();
-			int count = 0;
-
-			ResultSet rs3 = stmt3.executeQuery("select count(*) as total from terminal");//select id from terminal where status=1;
-			while(rs3.next()){
-
-				count = rs3.getInt("total");
-			}
-			//int id = request.getInt("id");
-			//String query= "SELECT count(id) from motionsensor";
-			//		try {
-			//			pstmt = connect.prepareStatement(query);
-			//			pstmt.setInt(1, id);
-			//			rs = pstmt.executeQuery();
-			//			while(rs.next()) {
-			//			MotionSensor utilStation = new MotionSensor();
-			//			utilStation.setId(rs.getInt(1));
-			//			res.add(utilStation);
-			//			}
-			//		} catch (SQLException ex) {
-			//			System.out.println("Erreur infos motionsensor!");
-			//		}
-			System.out.println("je vais recuperer le nbr borneen bdd");
-			//ObjectMapper mapper = new ObjectMapper();
-			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-			String resultat= "{Table: terminal, Action : informationBorne,  Data: "+count+"}";
+		//int id = request.getInt("id");
+		//String query= "SELECT count(id) from motionsensor";
+		//		try {
+		//			pstmt = connect.prepareStatement(query);
+		//			pstmt.setInt(1, id);
+		//			rs = pstmt.executeQuery();
+		//			while(rs.next()) {
+		//			MotionSensor utilStation = new MotionSensor();
+		//			utilStation.setId(rs.getInt(1));
+		//			res.add(utilStation);
+		//			}
+		//		} catch (SQLException ex) {
+		//			System.out.println("Erreur infos motionsensor!");
+		//		}
+		System.out.println("je vais recuperer le nbr tram en bdd");
+		//ObjectMapper mapper = new ObjectMapper();
+		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+		String resultat= "{Table: station, Action : informationTram,  Data: "+count+"}";
 		//	this.finalResponse = resultat;
 		resultat = resultat + count + "}" ;
 		System.out.println(resultat);
-			return resultat;
-			
+		return resultat;
+	}
+
+	// 6 number borne
+	/**
+	 * @return
+	 * @throws JSONException
+	 * @throws JsonProcessingException
+	 * @throws SQLException 
+	 */
+	public String informationBorne() throws JSONException, JsonProcessingException, SQLException {
+
+		List<Terminal> res = new ArrayList<Terminal>();
+		//String json = this.jsonClient;	
+		//JSONObject obj = new JSONObject(json);
+		//JSONObject request = obj.getJSONObject("request");
+
+		Statement stmt3 = this.connect.createStatement();
+		int count = 0;
+
+		ResultSet rs3 = stmt3.executeQuery("select count(*) as total from terminal");//select id from terminal where status=1;
+		while(rs3.next()){
+
+			count = rs3.getInt("total");
 		}
-		
-		                                             // 7 lempreinte de carbone
-				/**
-				 * @return
-				 * @throws JSONException
-				 * @throws JsonProcessingException
-				 * @throws SQLException 
-				 */
-				public String emprientecarbone() throws JSONException, JsonProcessingException, SQLException {
+		//int id = request.getInt("id");
+		//String query= "SELECT count(id) from motionsensor";
+		//		try {
+		//			pstmt = connect.prepareStatement(query);
+		//			pstmt.setInt(1, id);
+		//			rs = pstmt.executeQuery();
+		//			while(rs.next()) {
+		//			MotionSensor utilStation = new MotionSensor();
+		//			utilStation.setId(rs.getInt(1));
+		//			res.add(utilStation);
+		//			}
+		//		} catch (SQLException ex) {
+		//			System.out.println("Erreur infos motionsensor!");
+		//		}
+		System.out.println("je vais recuperer le nbr borneen bdd");
+		//ObjectMapper mapper = new ObjectMapper();
+		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+		String resultat= "{Table: terminal, Action : informationBorne,  Data: "+count+"}";
+		//	this.finalResponse = resultat;
+		resultat = resultat + count + "}" ;
+		System.out.println(resultat);
+		return resultat;
 
-					List<InfoCarbon> res = new ArrayList<InfoCarbon>();
-					//String json = this.jsonClient;	
-					//JSONObject obj = new JSONObject(json);
-					//JSONObject request = obj.getJSONObject("request");
+	}
 
-					Statement stmt3 = this.connect.createStatement();
-					int count = 0;
+	// 7 lempreinte de carbone
+	/**
+	 * @return
+	 * @throws JSONException
+	 * @throws JsonProcessingException
+	 * @throws SQLException 
+	 */
+	public String emprientecarbone() throws JSONException, JsonProcessingException, SQLException {
 
-					ResultSet rs3 = stmt3.executeQuery("select empreintecarbone from carboninfo");
-					while(rs3.next()){
-						count = rs3.getInt("empreintecarbone");
-					}
-					//int id = request.getInt("id");
-					//String query= "SELECT count(id) from motionsensor";
-					//		try {
-					//			pstmt = connect.prepareStatement(query);
-					//			pstmt.setInt(1, id);
-					//			rs = pstmt.executeQuery();
-					//			while(rs.next()) {
-					//			MotionSensor utilStation = new MotionSensor();
-					//			utilStation.setId(rs.getInt(1));
-					//			res.add(utilStation);
-					//			}
-					//		} catch (SQLException ex) {
-					//			System.out.println("Erreur infos motionsensor!");
-					//		}
-					System.out.println("je vais recuperer lempreinte de carbon bdd");
-					//ObjectMapper mapper = new ObjectMapper();
-					//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-					String resultat= "{Table: carboninfo, Action :emprientecarbone ,  Data: "+count+"}";
-				//	this.finalResponse = resultat;
-				resultat = resultat + count + "}" ;
-				System.out.println(resultat);
-					return resultat;
-					
-				}
-		
-		
-		
-		/**
-		 * @return
-		 * @throws JSONException
-		 * @throws JsonProcessingException
-		 * @throws SQLException 
-		 */
-		public List<MotionSensor> getAllMotion() throws SQLException { 
-			List<MotionSensor> res = new ArrayList<MotionSensor>(); 
-			ResultSet result = this.connect.createStatement(
-					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM motionsensor where isActive = true");
-			while (result.next()) {
-				MotionSensor captor = new MotionSensor(); 
+		List<InfoCarbon> res = new ArrayList<InfoCarbon>();
+		//String json = this.jsonClient;	
+		//JSONObject obj = new JSONObject(json);
+		//JSONObject request = obj.getJSONObject("request");
 
-				captor.setLongitude(result.getInt("longitude"));
-				captor.setLatitude(result.getInt("latitude"));
-				captor.setActive(result.getBoolean("isActive"));
-				captor.setNumero(result.getInt("numero"));
-				res.add(captor);
+		Statement stmt3 = this.connect.createStatement();
+		int count = 0;
 
-			} 
-
-			return res;
+		ResultSet rs3 = stmt3.executeQuery("select empreintecarbone from carboninfo");
+		while(rs3.next()){
+			count = rs3.getInt("empreintecarbone");
 		}
-		
-				
-		
-		/**
-		 * @return
-		 * @throws JSONException
-		 * @throws JsonProcessingException
-		 * @throws SQLException 
-		 */
-		public List<Terminal> getAll() throws SQLException { 
-			List<Terminal> res = new ArrayList<Terminal>(); 
-			ResultSet result = this.connect.createStatement(
-					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Terminal where status = 1");
-			while (result.next()) {
-				Terminal borne = new Terminal(); 
+		//int id = request.getInt("id");
+		//String query= "SELECT count(id) from motionsensor";
+		//		try {
+		//			pstmt = connect.prepareStatement(query);
+		//			pstmt.setInt(1, id);
+		//			rs = pstmt.executeQuery();
+		//			while(rs.next()) {
+		//			MotionSensor utilStation = new MotionSensor();
+		//			utilStation.setId(rs.getInt(1));
+		//			res.add(utilStation);
+		//			}
+		//		} catch (SQLException ex) {
+		//			System.out.println("Erreur infos motionsensor!");
+		//		}
+		System.out.println("je vais recuperer lempreinte de carbon bdd");
+		//ObjectMapper mapper = new ObjectMapper();
+		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+		String resultat= "{Table: carboninfo, Action :emprientecarbone ,  Data: "+count+"}";
+		//	this.finalResponse = resultat;
+		resultat = resultat + count + "}" ;
+		System.out.println(resultat);
+		return resultat;
 
-				borne.setLongitude(result.getInt("longitude"));
-				borne.setLatitude(result.getInt("latitude"));
-				borne.setActive(result.getBoolean("isActive"));
-				borne.setStatus(result.getInt("status"));
-				borne.setNumero(result.getInt("numero"));
-				res.add(borne);
+	}
 
-			} 
 
-			return res;
+
+	/**
+	 * @return
+	 * @throws JSONException
+	 * @throws JsonProcessingException
+	 * @throws SQLException 
+	 */
+	public List<MotionSensor> getAllMotion() throws SQLException { 
+		List<MotionSensor> res = new ArrayList<MotionSensor>(); 
+		ResultSet result = this.connect.createStatement(
+				ResultSet.TYPE_SCROLL_INSENSITIVE,
+				ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM motionsensor where isActive = true");
+		while (result.next()) {
+			MotionSensor captor = new MotionSensor(); 
+
+			captor.setLongitude(result.getInt("longitude"));
+			captor.setLatitude(result.getInt("latitude"));
+			captor.setActive(result.getBoolean("isActive"));
+			captor.setNumero(result.getInt("numero"));
+			res.add(captor);
+
+		} 
+
+		return res;
+	}
+
+
+
+	/**
+	 * @return
+	 * @throws JSONException
+	 * @throws JsonProcessingException
+	 * @throws SQLException 
+	 */
+	public List<Terminal> getAll() throws SQLException { 
+		List<Terminal> res = new ArrayList<Terminal>(); 
+		ResultSet result = this.connect.createStatement(
+				ResultSet.TYPE_SCROLL_INSENSITIVE,
+				ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Terminal where status = 1");
+		while (result.next()) {
+			Terminal borne = new Terminal(); 
+
+			borne.setLongitude(result.getInt("longitude"));
+			borne.setLatitude(result.getInt("latitude"));
+			borne.setActive(result.getBoolean("isActive"));
+			borne.setStatus(result.getInt("status"));
+			borne.setNumero(result.getInt("numero"));
+			res.add(borne);
+
+		} 
+
+		return res;
+	}
+
+	// taux de pollution dan la ville
+
+	/**
+	 * @return
+	 * @throws JSONException
+	 * @throws JsonProcessingException
+	 * @throws SQLException 
+	 */
+	public String tauxATMO() throws JSONException, JsonProcessingException, SQLException {
+
+
+		//List<station> res = new ArrayList<station>();
+		//String json = this.jsonClient;	
+		//JSONObject obj = new JSONObject(json);
+		//JSONObject request = obj.getJSONObject("request");
+
+		Statement stmt3 = this.connect.createStatement();
+		int count = 0;
+
+		ResultSet rs3 = stmt3.executeQuery("select cast((indicereleve/seuilquartieratmo) as FLOAT) as tauxAtmo " + 
+				"from historique H, district D, capteurair CA" + 
+				" where CA.idcapteur = H.idhistoric" + 
+				" and H.idhistoric = D.id;" + "");
+		while(rs3.next()){
+
+			count = rs3.getInt("tauxAtmo");
 		}
-		
-		// taux de pollution dan la ville
+		//	int numberstation = request.getInt("id");
+		//			String query= "SELECT numberstation from station";
+		//			try {
+		//				pstmt = connect.prepareStatement(query);
+		//				//	pstmt.setInt(1, numberstation);
+		//				rs = pstmt.executeQuery();
+		//				while(rs.next()) {
+		//					station utilStation = new station();
+		//					utilStation.setNumberStation(rs.getInt(1));
+		//					res.add(utilStation); 
+		//				}
+		//			} catch (SQLException ex) {
+		//				System.out.println("Erreur infos numberstation!");
+		//			}
+		System.out.println("je vais recuperer le nbr totale de  station en bdd");
+		//ObjectMapper mapper = new ObjectMapper();
+		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+		String resultat= "{Table: myCapteur, Action : tauxATMO ,  Data: "+count+"}";
+		//this.finalResponse = resultat;
+		resultat = resultat + count + "}" ;
+		System.out.println(resultat);
+		return resultat ;
+	}
 
-		/**
-		 * @return
-		 * @throws JSONException
-		 * @throws JsonProcessingException
-		 * @throws SQLException 
-		 */
-		public String tauxATMO() throws JSONException, JsonProcessingException, SQLException {
-			
-			
-			//List<station> res = new ArrayList<station>();
-			//String json = this.jsonClient;	
-			//JSONObject obj = new JSONObject(json);
-			//JSONObject request = obj.getJSONObject("request");
-			
-			Statement stmt3 = this.connect.createStatement();
-			int count = 0;
+	// taux de depassement de deuild'ATMO
 
-			ResultSet rs3 = stmt3.executeQuery("select cast((indicereleve/seuilquartieratmo) as FLOAT) as tauxAtmo " + 
-					"from historique H, district D, capteurair CA" + 
-					" where CA.idcapteur = H.idhistoric" + 
-					" and H.idhistoric = D.id;" + "");
-			while(rs3.next()){
+	/**
+	 * @return
+	 * @throws JSONException
+	 * @throws JsonProcessingException
+	 * @throws SQLException 
+	 */
+	public String tauxDepAtmo() throws JSONException, JsonProcessingException, SQLException {
 
-				count = rs3.getInt("tauxAtmo");
-			}
-			//	int numberstation = request.getInt("id");
-//			String query= "SELECT numberstation from station";
-//			try {
-//				pstmt = connect.prepareStatement(query);
-//				//	pstmt.setInt(1, numberstation);
-//				rs = pstmt.executeQuery();
-//				while(rs.next()) {
-//					station utilStation = new station();
-//					utilStation.setNumberStation(rs.getInt(1));
-//					res.add(utilStation); 
-//				}
-//			} catch (SQLException ex) {
-//				System.out.println("Erreur infos numberstation!");
-//			}
-			System.out.println("je vais recuperer le nbr totale de  station en bdd");
-			//ObjectMapper mapper = new ObjectMapper();
-			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-			String resultat= "{Table: myCapteur, Action : tauxATMO ,  Data: "+count+"}";
-			//this.finalResponse = resultat;
-			resultat = resultat + count + "}" ;
-			System.out.println(resultat);
-			 return resultat ;
+
+		//List<station> res = new ArrayList<station>();
+		//String json = this.jsonClient;	
+		//JSONObject obj = new JSONObject(json);
+		//JSONObject request = obj.getJSONObject("request");
+
+		Statement stmt3 = this.connect.createStatement();
+		int count = 0;
+
+		ResultSet rs3 = stmt3.executeQuery("select cast( (((indicereleve/seuilquartieratmo)-1)*100)as FLOAT) as tauxDepassement" + 
+				" from historique H, district D, capteurair CA " + 
+				"where CA.idcapteur = H.idhistoric " + 
+				"and H.idhistoric = D.id;" + "");
+		while(rs3.next()){
+
+			count = rs3.getInt("tauxDepAtmo");
 		}
+		//	int numberstation = request.getInt("id");
+		//					String query= "SELECT numberstation from station";
+		//					try {
+		//						pstmt = connect.prepareStatement(query);
+		//						//	pstmt.setInt(1, numberstation);
+		//						rs = pstmt.executeQuery();
+		//						while(rs.next()) {
+		//							station utilStation = new station();
+		//							utilStation.setNumberStation(rs.getInt(1));
+		//							res.add(utilStation); 
+		//						}
+		//					} catch (SQLException ex) {
+		//						System.out.println("Erreur infos numberstation!");
+		//					}
+		System.out.println("je vais recuperer le nbr totale de  station en bdd");
+		//ObjectMapper mapper = new ObjectMapper();
+		//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+		String resultat= "{Table: myCapteur, Action :tauxDepAtmo  ,  Data: "+count+"}";
+		//this.finalResponse = resultat;
+		resultat = resultat + count + "}" ;
+		System.out.println(resultat);
+		return resultat ;
+	}
 
-		// taux de depassement de deuild'ATMO
 
-				/**
-				 * @return
-				 * @throws JSONException
-				 * @throws JsonProcessingException
-				 * @throws SQLException 
-				 */
-				public String tauxDepAtmo() throws JSONException, JsonProcessingException, SQLException {
-					
-					
-					//List<station> res = new ArrayList<station>();
-					//String json = this.jsonClient;	
-					//JSONObject obj = new JSONObject(json);
-					//JSONObject request = obj.getJSONObject("request");
-					
-					Statement stmt3 = this.connect.createStatement();
-					int count = 0;
-
-					ResultSet rs3 = stmt3.executeQuery("select cast( (((indicereleve/seuilquartieratmo)-1)*100)as FLOAT) as tauxDepassement" + 
-							" from historique H, district D, capteurair CA " + 
-							"where CA.idcapteur = H.idhistoric " + 
-							"and H.idhistoric = D.id;" + "");
-					while(rs3.next()){
-
-						count = rs3.getInt("tauxDepAtmo");
-					}
-					//	int numberstation = request.getInt("id");
-//					String query= "SELECT numberstation from station";
-//					try {
-//						pstmt = connect.prepareStatement(query);
-//						//	pstmt.setInt(1, numberstation);
-//						rs = pstmt.executeQuery();
-//						while(rs.next()) {
-//							station utilStation = new station();
-//							utilStation.setNumberStation(rs.getInt(1));
-//							res.add(utilStation); 
-//						}
-//					} catch (SQLException ex) {
-//						System.out.println("Erreur infos numberstation!");
-//					}
-					System.out.println("je vais recuperer le nbr totale de  station en bdd");
-					//ObjectMapper mapper = new ObjectMapper();
-					//resultat =  resultat + mapper.writeValueAsString(res) + "}";
-					String resultat= "{Table: myCapteur, Action :tauxDepAtmo  ,  Data: "+count+"}";
-					//this.finalResponse = resultat;
-					resultat = resultat + count + "}" ;
-					System.out.println(resultat);
-					 return resultat ;
-				}
-
-		
 }

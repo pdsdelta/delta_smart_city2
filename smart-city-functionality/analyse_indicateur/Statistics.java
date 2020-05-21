@@ -66,6 +66,14 @@ public class Statistics extends JFrame {
 		JButton tauxdepollution = new JButton("taux d'ATMO  dans la ville");
 		tauxdepollution.setBounds(44, 11, 253, 23);
 		contentPane.add(tauxdepollution);
+		
+		JButton numberaletre = new JButton("numberalerte");
+		numberaletre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		numberaletre.setBounds(44, 124, 253, 23);
+		contentPane.add(numberaletre);
 		tauxdepollution.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Indicator objet = null;
@@ -79,7 +87,7 @@ public class Statistics extends JFrame {
 					String jsonReceived = objet.tauxATMO();
 					JSONObject obj = new JSONObject(jsonReceived);
 					 int data= obj.getInt("Data");
-					JOptionPane.showMessageDialog(null, "le taux d'ATMO est : " + data);
+					JOptionPane.showMessageDialog(null, "le taux d'ATMO dans la ville est : " + data);
 				} catch (HeadlessException | JsonProcessingException | JSONException | SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -105,8 +113,4 @@ public static void main(String[] args) {
 		}
 	});
 }
-
-/**
- * Create the frame.
- */
 }
