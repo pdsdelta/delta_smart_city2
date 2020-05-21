@@ -784,7 +784,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									getContentPane().repaint();
 					
 				
-								}else if (nv <= 0 || np < 0 || lt < 0 || hs < 0 || km < 0 || nm < 0 || ntt < 0 || nb <0) {
+								}else if (nv < 0 || np < 0 || lt < 0 || hs < 0 || km < 0 || nm < 0 || ntt < 0 || nb <0) {
 									JOptionPane.showMessageDialog(null, "Les nombres doivent être positifs");
 									getContentPane().remove(jtiectram);
 									getContentPane().remove(jtiecbus);

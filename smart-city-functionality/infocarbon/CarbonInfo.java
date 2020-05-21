@@ -6,15 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
-
 import org.json.JSONException;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import client.CityClient;
-import usefull.Order;
-import user.Users;
 
 public class CarbonInfo {
 	private Socket clientSocket;
