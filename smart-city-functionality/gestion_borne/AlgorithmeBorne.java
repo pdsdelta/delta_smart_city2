@@ -42,20 +42,19 @@ public class AlgorithmeBorne {
 		JSONObject requete= new JSONObject();
 		JSONObject requeteDetails= new JSONObject();
 		requeteDetails.put("operation_type", "entrer");
-		requeteDetails.put("longitude", voiture.getLongitude());
-		requeteDetails.put("latitude", voiture.getLatitude());
+
 		requeteDetails.put("numeroBorne", voiture.getNumBorne());
 
 		if(this.entrer(voiture)) {
 			requeteDetails.put("status", "SUCCES");
-
+			System.out.println("Une voiture vient d'entrer");
+			voiture.run();
 		}else {
+			System.out.println("Une voiture a ete refuse d'acces");
 			requeteDetails.put("status", "REJECT");
 		}
 		requete.put("request", requeteDetails);
 		this.toSend=requete.toString();
-		voiture.run();
-		System.out.println(this.toSend);
 		return this.toSend;
 	}
 
@@ -65,12 +64,12 @@ public class AlgorithmeBorne {
 		Objet voiture2= this.generateObjet(json);
 		JSONObject requete2= new JSONObject();
 		JSONObject requete2Details= new JSONObject();
-		requete2Details.put("operation_type", "entrer");
-		requete2Details.put("longitude", voiture2.getLongitude());
-		requete2Details.put("latitude", voiture2.getLatitude());
+		requete2Details.put("operation_type", "sortir");
 		requete2Details.put("numeroBorne", voiture2.getNumBorne());
 		requete2Details.put("status", "SUCCES");
+		requete2.put("request", requete2Details);
 		this.toSend=requete2.toString();
+		System.out.println("Une voiture vient de sortir");
 		return this.toSend;
 	}
 
@@ -112,7 +111,6 @@ public class AlgorithmeBorne {
 			synchronized(this) {
 				//Si l'une des conditions est constaté, on refuse l'acces de la voiture, la borne se lève
 				borne.setStatus(1);
-				System.out.println(this.PlacesOccupees);
 				System.out.println("La borne s'est leve, son status: "+borne.getStatus());
 				System.out.println("Alarme: "+borne.getCity().getAlert());
 				System.out.format("[Borne %s]: Objet refusée, il reste  %d places  \n", borne.getNumero(),this.places());
@@ -123,7 +121,8 @@ public class AlgorithmeBorne {
 		else  {
 			synchronized(this) {
 				//On incremente le nombre de places Occupee
-				this.setCapacity(this.PlacesOccupees.incrementAndGet() );
+				int size=this.PlacesOccupees.incrementAndGet();
+				this.setCapacity(size );
 				//La borne se baisse: status=0;
 				borne.setStatus(0);
 				System.out.println("La borne s'est baisse, status: "+borne.getStatus());
