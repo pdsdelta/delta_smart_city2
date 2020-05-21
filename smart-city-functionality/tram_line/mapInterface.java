@@ -54,22 +54,22 @@ public class mapInterface extends JFrame {
       in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
       if (alpha == 1) {		
     	  toSend = this.addSetCity();
-    	  System.out.print("je vais enregistrer la ville");
+    	  System.out.print("je vais enregistrer la ville avec ce Json : " + toSend);
 	  	  out.println(toSend);
       }else if(alpha == 2) {
     	  toSend = this.getInformations();
-    	  System.out.println("je vais recuperer des informations sur la ville");
+    	  System.out.println("je vais recuperer des informations sur la ville avec ce Json : " + toSend);
 	  	  out.println(toSend);
     	  String response = in.readLine();
 	      System.out.println("***** Resultat ******\n");
 	      System.out.println(this.showResultCity(response));
       }else if (alpha ==3) {
     	  toSend = this.addSetStation();
-    	  System.out.println("Je vais enregistrer des informations sur les stations");
+    	  System.out.println("Je vais enregistrer des informations sur les stations avec ce Json : " + toSend);
     	  out.println(toSend);
       }else if (alpha ==4) {
     	  toSend = this.getInfoStation();
-    	  System.out.println("je vais récupérer des informations sur les stations");
+    	  System.out.println("je vais récupérer des informations sur les stations avec ce Json : " + toSend);
     	  out.println(toSend);
     	  String response = in.readLine();
 	      System.out.println("***** Resultat ******\n");
@@ -89,7 +89,7 @@ public class mapInterface extends JFrame {
     if (a == 1) {
       nomVille = option.monString("Veuillez entrer le nom de la ville : ");
       this.setTitle("Carte de " + nomVille);
-      budgetCity = option.monInt("Veuillez entrer le budget de la ville : ");
+      budgetCity = option.monInt("Veuillez entrer le budget de la ville dédié au réseau de Tramways : ");
       transition.saveBT(nomVille,budgetCity);
       } else{
       this.setTitle("Carte de " + transition.nameCity);
@@ -172,7 +172,9 @@ public class mapInterface extends JFrame {
     this.setJMenuBar(menuBar);
     
     
-    
+    if(a == 5) {
+    	this.setContentPane(showNewHome());
+    }
     if (a == 1){
     System.out.println("je genere la carte en appelant createMapUnSave");
     this.add(new createMapUnSave());
@@ -386,6 +388,7 @@ public class mapInterface extends JFrame {
         return panel1;
       }
     
+    //Montre les informations des stations
     public  JPanel showInformationStation(){
 
     	JPanel panel2 = new JPanel();
@@ -407,9 +410,34 @@ public class mapInterface extends JFrame {
        return panel2;
       }
     
+    //Informations sur la nouvelle page
+    public JPanel showNewHome() {
+    	JPanel panel3 = new JPanel();
+    	panel3.setLayout(new FlowLayout());
+    	panel3.setBackground(Color.white);	
+    	JLabel label3 = new JLabel();
+    	label3.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>"
+                      + "<B>Bonjour et bienvenue sur la fonctionnalité de gestion du réseau de Tramways de la ville.</B>"
+                      + "<p>"   
+                      + "Depuis cette page vous pourrez : "
+                      + "<p>"
+                      + " - Ajouter une nouvelle ville et générer un nouveau réseau de Tramways." 
+                      + "<p>"
+                      + " - Consulter des informations sur la ville une fois que celle-ci aura été créée."
+                      + "<p>"
+                      + " - Consulter des informations sur le réseau de Tramways."
+                      + "<p>"
+                      + " - Une fois que la ville aura été générée, vous pourrez égalment consulter la ville et le réseau de Tramways autant que  vous le desirez"
+                      + "<p>"
+                      + "Toute léquipe vous souhaite une agréable expérience."
+                      +"</body></html>" );
+       panel3.add(label3);
+       return panel3;
+    }
+    
    //méthode main 
    public static void main(String[] args) throws UnknownHostException, IOException, JSONException{
-    mapInterface map = new mapInterface(0);
+    mapInterface map = new mapInterface(5);
     map.startConnection("172.31.249.22", 2400, 0);
   }
 }

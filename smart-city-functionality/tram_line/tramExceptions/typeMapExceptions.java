@@ -10,10 +10,10 @@ import tram_line.mapInterface;
 public class typeMapExceptions extends Error{
     
 	public typeMapExceptions() {
-		mapInterface map = new mapInterface(0);
+		mapInterface map = new mapInterface(5);
 		JOptionPane messageTypeError;
 		messageTypeError = new JOptionPane();
-		messageTypeError.showMessageDialog(null, "Attention, vous devez rentrer un nombre", "Attention", JOptionPane.WARNING_MESSAGE);
+		messageTypeError.showMessageDialog(null, "Attention, vous devez entrer un nombre entier !", "Attention", JOptionPane.WARNING_MESSAGE);
 		System.out.println("exception de type format!");
 	}
 }
