@@ -29,6 +29,7 @@ import infocarbon.InfoGlobalCarbon;
 import motionSensor.MotionSensor;
 import station.station;
 import transportation.PublicTransport;
+import CapteurAir.CapteurAir;
 
 
 
@@ -617,5 +618,56 @@ public class Indicator {
 			return resultat ;
 		}
 
+		
+		// CAPTEURAIR ACTIF 
+		/**
+		 * @return
+		 * @throws JSONException
+		 * @throws JsonProcessingException
+		 * @throws SQLException 
+		 */
+
+		public String capteurairActif(String date) throws JSONException, JsonProcessingException, SQLException{
+
+
+			List<CapteurAir> res = new ArrayList<CapteurAir>();
+
+
+			//JSONObject obj = new JSONObject(json);
+			//JSONObject request = obj.getJSONObject("request");
+			Statement stm3= this.connect.createStatement();
+			int count = 0;
+ 
+			ResultSet rs3 = stm3.executeQuery("SELECT namecapteur FROM capteurair where datereleve = '"+date+ "\'");
+			while(rs3.next()){
+				count = rs3.getInt("namecapteur");
+
+			}
+			//		int id = request.getInt("id");
+			//		String query= "SELECT count(id) from district";
+			//
+			//		try {
+			//			pstmt = connect.prepareStatement(query);
+			//			pstmt.setInt(1, id);
+			//			rs = pstmt.executeQuery();
+			//			while(rs.next()) {
+			//				District utilStation = new District();
+			//				utilStation.setId(rs.getInt(1));   
+			//				res.add(utilStation);
+			//			}
+			//		} catch (SQLException ex) {
+			//
+			//			System.out.println("");
+			//		}
+			System.out.println("je vais recuperer le numbr totale de capetur d'air en bdd");
+			//ObjectMapper mapper = new ObjectMapper();
+			//resultat =  resultat + mapper.writeValueAsString(res) + "}";
+			String resultat= "{request:{ operation_type:capteurairActif , Table: capteurair, Action : capteurairActif   ,  Data: "+count+"}}";
+			//this.finalResponse = resultat;
+			resultat = resultat ;
+			this.json=resultat;
+			System.out.println(resultat);
+			return resultat ;
+		} 
 
 }
