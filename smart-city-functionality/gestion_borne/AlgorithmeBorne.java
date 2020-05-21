@@ -68,8 +68,10 @@ public class AlgorithmeBorne {
 		requete2Details.put("numeroBorne", voiture2.getNumBorne());
 		requete2Details.put("status", "SUCCES");
 		requete2.put("request", requete2Details);
-		this.toSend=requete2.toString();
-		System.out.println("Une voiture vient de sortir");
+		if(this.sortir()) {
+			this.toSend=requete2.toString();
+			System.out.println("Une voiture vient de sortir");
+		}
 		return this.toSend;
 	}
 
@@ -89,7 +91,7 @@ public class AlgorithmeBorne {
 	//Methode qui renvoie le nombre de places de voiture encore disponible dans la ville
 	int places() throws ClassNotFoundException, SQLException{ 
 		Terminal terminal =data.find(1);
-		int size= this.PlacesOccupees.get();
+		int size= this.getCapacity();
 		return (terminal.getCity().getNombreMaxVoiture() - size); 
 	}
 	//Methode permettant de retrouver la borne par laquelle un objet veut circuler
@@ -108,42 +110,44 @@ public class AlgorithmeBorne {
 		 * et aussi si une alerte n'a pas ete lancé
 		 */
 		if  ((this.places() <=0 || borne.getCity().getAlert()==1 ) ){
-			synchronized(this) {
-				//Si l'une des conditions est constaté, on refuse l'acces de la voiture, la borne se lève
-				borne.setStatus(1);
-				System.out.println("La borne s'est leve, son status: "+borne.getStatus());
-				System.out.println("Alarme: "+borne.getCity().getAlert());
-				System.out.format("[Borne %s]: Objet refusée, il reste  %d places  \n", borne.getNumero(),this.places());
-				return(false) ;
-			}
+
+			//Si l'une des conditions est constaté, on refuse l'acces de la voiture, la borne se lève
+			borne.setStatus(1);
+			System.out.println("La borne s'est leve, son status: "+borne.getStatus());
+			System.out.println("Alarme: "+borne.getCity().getAlert());
+			System.out.format("[Borne %s]: Objet refusée, il reste  %d places  \n", borne.getNumero(),this.places());
+			return(false) ;
+
 		}
 		//Si aucune alerte n'a ete lancé ou le nombre maximal n'a pas encore ete atteint
-		else  {
-			synchronized(this) {
-				//On incremente le nombre de places Occupee
-				int size=this.PlacesOccupees.incrementAndGet();
-				this.setCapacity(size );
-				//La borne se baisse: status=0;
-				borne.setStatus(0);
-				System.out.println("La borne s'est baisse, status: "+borne.getStatus());
-				System.out.println("Alarme: "+borne.getCity().getAlert());
-				//On ajoute l'objet au tableau d'objet de la ville
-				this.infoVoitures.add(objet);
-				System.out.format("[Borne %s]: Objet acceptée, il reste %d places \n", borne.getNumero(), this.getCapacity());
-				System.out.format("Voiture Garees  :\n"+this.infoVoitures.size());
-				System.out.println(this.infoVoitures.size());
-				return (true) ; 
+		else   {
+			if(this.places()>0 || borne.getCity().getAlert()==0) {
+			//On incremente le nombre de places Occupee
+			int size=this.PlacesOccupees.incrementAndGet();
+			this.setCapacity(size );
+			//La borne se baisse: status=0;
+			borne.setStatus(0);
+			System.out.println("La borne s'est baisse, status: "+borne.getStatus());
+			System.out.println("Alarme: "+borne.getCity().getAlert());
+			//On ajoute l'objet au tableau d'objet de la ville
+			this.infoVoitures.add(objet);
+			System.out.format("[Borne %s]: Objet acceptée, il reste %d places \n", borne.getNumero(), this.places());
+			System.out.format("Voiture Garees  :\n"+this.infoVoitures.size());
 			}
+			return (true) ; 
+
 		}
 	}
 
 	//Methode permettant de faire sortir un objet (voiture) de la ville
 	public synchronized boolean sortir() throws JSONException, ClassNotFoundException, SQLException {
 		//Decrementation du nombre de voiture dans la ville
-		this.setCapacity(this.PlacesOccupees.decrementAndGet());
+
+		int size=this.PlacesOccupees.decrementAndGet();
+		this.setCapacity(size);
 		//On retire la voiture du tableau
 		this.infoVoitures.remove(1) ;
-		System.out.format("Borne : Une voiture est sortie, reste  %d places\n" ,this.getCapacity());
+		System.out.format("Borne : Une voiture est sortie, reste  %d places\n" ,this.places());
 		//System.out.format("Voiture Garees :\n"+this.infoVoitures.size());
 		return true;
 
