@@ -1,18 +1,7 @@
 package gestion_borne.vue;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import functionality_server.functionalityServer;
-import gestion_borne.crud.DAO;
-import gestion_borne.crud.MotionSensorDAO;
-import motionSensor.MotionSensor;
-
 import java.awt.BorderLayout;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,17 +9,20 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
-import javax.swing.JInternalFrame;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import functionality_server.functionalityServer;
+import gestion_borne.crud.MotionSensorDAO;
+import motionSensor.MotionSensor;
 
 public class MotionSensorVue {
 	private functionalityServer server;
 
-	//connection socket
-	private Socket clientSocket;
-	private PrintWriter out;
-	private BufferedReader in;
+	
 	private JFrame frame;
 	/**
 	 * Launch the application.
@@ -47,12 +39,7 @@ public class MotionSensorVue {
 			}
 		});
 	}
-	public void startConnection(String ip, int port) throws UnknownHostException, IOException {
-		clientSocket = new Socket(ip, port);
-		out = new PrintWriter(clientSocket.getOutputStream(), true);
-		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-	}
-
+	
 	/**
 	 * Create the application.
 	 */
@@ -104,8 +91,10 @@ public class MotionSensorVue {
 			}
 		});
 		btnDeleteSensor.setBounds(224, 44, 158, 28);
+		//Ajout du boutout DeleteSensor au panneau
 		panel.add(btnDeleteSensor);
 
+		
 		JButton btnListSensor = new JButton("Liste des Detecteurs");
 		btnListSensor.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,7 +108,7 @@ public class MotionSensorVue {
 		});
 		btnListSensor.setBounds(54, 115, 136, 28);
 		panel.add(btnListSensor);
-
+        //Creation du bouton de modification detecteur
 		JButton btnModifySensor = new JButton("Modifier un Detecteur");
 		btnModifySensor.setBounds(224, 115, 158, 28);
 		panel.add(btnModifySensor);

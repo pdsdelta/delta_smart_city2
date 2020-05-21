@@ -27,6 +27,7 @@ import CapteurAir.CapteurAir;
 import city.city;
 import connectionPool.DataSource;
 import district.District;
+import gestion_borne.AlgorithmeBorne;
 import gestion_borne.mock.MotionSensorFonctionMock;
 import infocarbon.CarbonServerUtils;
 import station.station;
@@ -77,7 +78,7 @@ class threadFunctionality extends Thread {
 
 	}
 
-	public String generateSQL() throws IOException {
+	public String generateSQL() throws IOException, ClassNotFoundException, SQLException {
 
 		String json = this.mapJson;
 		String query = "bad request";
@@ -97,11 +98,12 @@ class threadFunctionality extends Thread {
 			} else if (operationType.equals("GET_PRIVATE_CARBON")) {//INFO CARBON PRIVATE TRANSPORT request
 				String date = request.getString("date");
 				CarbonServerUtils s = new CarbonServerUtils(this.connect, this.stm, this.rs, this.pstmt);
-				query = s.getNbCars(date);
+				query = s.getPrivateCarbonne(date);
 				this.response = query;
 			}else if (operationType.equals("GET_PUBLIC_CARBON")) {//INFO CARBON PUBLIC TRANSPORT requet
+				String date = request.getString("date");
 				CarbonServerUtils s = new CarbonServerUtils(this.connect, this.stm, this.rs, this.pstmt);
-				query = s.getNbTram();
+				query = s.getPublicCarbonne(date);
 				this.response = query;
 			}else if (operationType.equals("GET_GLOBAL_CARBON")) {//INFO CARBON request
 				String date = request.getString("date");
@@ -112,9 +114,11 @@ class threadFunctionality extends Thread {
 
 			//Action concernant la simulation de circulation de voiture
 			if(operationType.equals("entrer")) {
-				constructVoiture();
+				AlgorithmeBorne algo= new AlgorithmeBorne();
+				this.response=algo.TraitementEntrer(this.mapJson);
 			}else if(operationType.equals("sortir")) {
-				RemoveVoiture();
+				AlgorithmeBorne algo= new AlgorithmeBorne();
+				this.response=algo.TraitementSortie(this.mapJson);
 			}
 			// Requ�te concernant les d�tecteurs de v�hicules
 			if (operationType.equals("CREATE_SENSOR")) {
@@ -491,32 +495,5 @@ class threadFunctionality extends Thread {
 	}
 	
 
-	public String constructVoiture() throws JSONException{
-		String resultat ="{Table: Voiture, Action : CREATE, ";
-		String receive= this.mapJson;
-		JSONObject request= new JSONObject(receive);
-		JSONObject voiture= request.getJSONObject("request");
-		int longitude= voiture.getInt("longitude");
-		int latitude= voiture.getInt("latitude");
-		MotionSensorFonctionMock voit = new MotionSensorFonctionMock(
-				longitude,
-				latitude);
-		resultat= resultat+ "Data: {longitude :"+longitude+", latitude:"+latitude+"}}";
-
-		this.response=resultat;
-		System.out.println(this.response);
-		return response;
-	}
-	public String RemoveVoiture() throws JSONException{
-		String receive= this.mapJson;
-		String resultat ="{Table: Voiture, Action : REMOVE, ";
-		JSONObject request= new JSONObject(receive);
-		JSONObject voiture= request.getJSONObject("request");
-		int longitude= voiture.getInt("longitude");
-		int latitude= voiture.getInt("latitude");
-		resultat= resultat+ "Data: {longitude :"+longitude+", latitude:"+latitude+"}}";
-		this.response=resultat;
-		System.out.println(this.response);
-		return response;
-	}
+	
 }

@@ -18,11 +18,15 @@ import city.city;
 import functionality_server.functionalityServer;
 import motionSensor.MotionSensor;
 
+/*
+ * Cette classe permet de mener les operations de CRUD sur la table MotionSensor de notre
+ * base de données à travers le serveur
+ */
 public class MotionSensorDAO extends DAO<MotionSensor> {
-	Connection connection;
+
 	PreparedStatement pstmt;
-	Statement stm;
-	ResultSet rs;
+
+	//Variables de communication avec le serveur
 	private Socket clientSocket;
 	private PrintWriter out;
 	private BufferedReader in;
@@ -31,6 +35,7 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 	public MotionSensorDAO(functionalityServer server) throws ClassNotFoundException, SQLException {
 		super(server);
 	}
+	//Methode permettant de se connecter au serveur
 	public void startConnection(String ip, int port) throws UnknownHostException, IOException {
 		clientSocket = new Socket(ip, port);
 		out=new PrintWriter(this.clientSocket.getOutputStream(), true);
@@ -38,6 +43,8 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 		out.println(json);
 		System.out.println(json);
 	}
+
+	//Methode de creation d'un MotionSensor
 	@Override
 	public String create(MotionSensor obj) throws SQLException  {
 		int res=0;
@@ -65,6 +72,7 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 
 	}
 
+	//Methode de Suppression d'un MotionSensor
 	@Override
 	public boolean delete(MotionSensor obj) {
 		try {
@@ -83,14 +91,14 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 	}
 
 
-
+	//Methode de modification d'un MotionSensor
 	@Override
 	public boolean update(MotionSensor obj) {
 
 		int res=0;
 		String query = "update MotionSensor set longitude =?,latitude =? AND isActive=?  WHERE numero= "+obj.getNumero(); 
 		try { 
-			
+
 			this.pstmt = connect.prepareStatement(query); 
 			this.pstmt.setInt(1,  obj.getLongitude());
 			this.pstmt.setInt(2,  obj.getLatitude());
@@ -109,6 +117,7 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 		}
 
 	}
+	//Methode de recherche d'un MotionSensor à partir de son numero
 	@Override
 	public MotionSensor find(int numero) {
 		MotionSensor captor = new MotionSensor();      
@@ -146,6 +155,7 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 		return captor;
 	}
 
+	//Methode qui permet de lister tous les MotionSensor de la ville
 	@Override
 	public List<MotionSensor> getAll() throws SQLException { 
 

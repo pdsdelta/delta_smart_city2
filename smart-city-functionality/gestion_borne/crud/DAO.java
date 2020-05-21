@@ -8,7 +8,10 @@ import city.city;
 import connectionPool.DataSource;
 import functionality_server.functionalityServer;
 import server.CityServer;
-
+/*
+ * Cette classe est la classe qui nous permettra de faire les actions de CRUD
+ * de notre BD
+ */
 public abstract class DAO<T> {
 	protected functionalityServer server;
 	protected Connection connect;

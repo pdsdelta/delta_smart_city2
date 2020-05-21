@@ -30,13 +30,13 @@ public class CarbonClientUtils {
 	    		case "GET_NB_TRAM":
 	    			int nbTram = arr.getJSONObject(0).getInt("NbTram");
 	            	int longueurreseau = arr.getJSONObject(0).getInt("LengthLine");
-	            	res = new InfoPublicCarbon(1,nbTram,longueurreseau);
+	            	res = new InfoPublicCarbon(1,nbTram,longueurreseau,0);
 	            	int nbBus = 0 ;
 	            	
 	    			break;
 	    		case "GET_NB_CARS":
 	    			int nbCars = arr.getJSONObject(0).getInt("NbCars");
-	    			res = new InfoPrivateCarbon(1,nbCars);
+	    			res = new InfoPrivateCarbon(1,nbCars,0);
 	    			int nbMotos = 0;
 					break;
 	    		case "GET_GLOBAL_CARBON" :
@@ -46,6 +46,17 @@ public class CarbonClientUtils {
 	            	nbCars = arr.getJSONObject(0).getInt("NbCars");
 	            	nbMotos = arr.getJSONObject(0).getInt("NbMotos");
 	            	res = new InfoGlobalCarbon(1,nbCars, nbTram, longueurreseau,nbBus,nbMotos);
+	    			break;
+	    		case "GET_PUBLIC_CARBON" :
+	    			nbTram = arr.getJSONObject(0).getInt("NbTram");
+	            	longueurreseau = arr.getJSONObject(0).getInt("LengthLine");
+	            	nbBus = arr.getJSONObject(0).getInt("NbBus");
+	            	res = new InfoPublicCarbon(1,nbTram, longueurreseau,nbBus);
+	    			break;
+	    		case "GET_PRIVATE_CARBON" :
+	    			nbCars = arr.getJSONObject(0).getInt("NbCars");
+	            	nbMotos = arr.getJSONObject(0).getInt("NbMotos");
+	            	res = new InfoPrivateCarbon(1,nbCars,nbMotos);
 	    			break;
 	    			
 	    		default:

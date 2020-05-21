@@ -110,7 +110,7 @@ public class InfoGlobalCarbon extends InfoCarbon{
 		}
 		
 		double pub = ((20 * nh) * nt) * ((3.2/10000) * npmoyen/nt);
-		this.ecm = pub;
+		this.ect = pub;
 		double empbus = (nb*25)*(110);
 		this.ecb = empbus;
 		System.out.println("Empreinte Carbon des Tramways : " + pub + " g de CO2");

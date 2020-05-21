@@ -18,49 +18,33 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import borne.Terminal;
 import functionality_server.functionalityServer;
 import gestion_borne.crud.TerminalDAO;
 
 
 public class MotionSensorFonctionMock implements Runnable { 
-	String nom;
-	int longitude;
-	int latitude;
-	Terminal park;
-	String json;
-
+	
+//Variable Socket pour communiquer avec le serveur
 	private Socket clientSocket;
+	//variable pour envoyer des donnees au serveur
 	private PrintWriter out;
 	private BufferedReader in;
-	public MotionSensorFonctionMock(String name, Terminal park){
-		this.nom=name; 
-		this.park=park; 
-		this.longitude=8;
-		this.latitude=7;
+	String json;
+	public MotionSensorFonctionMock(){
+		
 	}
-
-	public MotionSensorFonctionMock(int longitude,int latitude){
-		this.longitude=longitude;
-		this.latitude=latitude;
-	}
+	//Methode pour commencer la communication avec le serveur 
 	public void startConnection(String ip, int port) throws UnknownHostException, IOException {
 		clientSocket = new Socket(ip, port);
 		out=new PrintWriter(this.clientSocket.getOutputStream(), true);
 		in=new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+		//Envoi de donnee au serveur
 		out.println(json);
 		System.out.println(json);
 	}
-	public String toString(){ return this.nom;} 
 
-	public String rentrer() throws InterruptedException{	
-		while (!(this.park.accept(this)))
-		{
-			//le temps que la voiture demeure hors de la ville
-			Thread.sleep((long)  (1000* Math.random()));
-			//Après ce temps de sommeil il redemande à rentrer
-			System.out.format("[%s]  : Je redemande à rentrer  \n", this.nom);
-		}
+	//Methode pour recuperer le json à envoyer
+	public String JSON() throws InterruptedException{	
 		JSONArray scenario=readScenario();
 		Iterator<JSONObject> iterator =scenario.iterator();
 		while(iterator.hasNext()) {
@@ -68,11 +52,12 @@ public class MotionSensorFonctionMock implements Runnable {
 			voiture= iterator.next();
 			//Get object voiture
 			JSONObject voitureObject = (JSONObject) voiture.get("request");
-			json=voiture.toString();
+			this.json=voiture.toString();
+			
 		}
-		
 		return json;
 	}
+	//Methode pour lire le fichier de simulation
 	public JSONArray readScenario() {
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
@@ -82,7 +67,7 @@ public class MotionSensorFonctionMock implements Runnable {
 			//Read JSON file
 			Object obj = jsonParser.parse(reader);
 			voitureList = (JSONArray) obj;
-			System.out.println(voitureList);
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -94,19 +79,11 @@ public class MotionSensorFonctionMock implements Runnable {
 
 	}
 	public void run(){ 
-		System.out.format("[%s]: Je débute !  \n", this.nom);
 		try {
-
 			while(true){
+				this.JSON();
+				this.startConnection( "172.31.249.22",2400);
 				Thread.sleep((long)  (50000* Math.random()));
-				System.out.format("[%s]: Je demande à rentrer  \n", this.nom);
-				this.rentrer();
-				System.out.format("[%s]: Je viens d'entrer \n", this.nom);
-				//le temps de sommeil dans la ville
-				Thread.sleep((long)  (50000* Math.random()));
-				System.out.format("[%s]: Je demande à sortir  \n", this.nom);
-				json=this.park.leave(this);  
-                this.startConnection( "172.31.249.22",2400);
 			}}
 		catch (InterruptedException e) {
 			e.printStackTrace();	} catch (UnknownHostException e) {
@@ -118,38 +95,17 @@ public class MotionSensorFonctionMock implements Runnable {
 		}
 	}
 
-	public int getLongitude() {
-		return longitude;
-	}
-	public void setLongitude(int longitude) {
-		this.longitude = longitude;
-	}
-	public int getLatitude() {
-		return latitude;
-	}
-	public void setLatitude(int latitude) {
-		this.latitude = latitude;
-	}
-
-	public String getNom() {
-		return nom;
-	}
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
+	
+	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		functionalityServer server = new functionalityServer();
-		TerminalDAO data= new TerminalDAO(server);
-		int nbVoitures=15; 
-
-		Terminal t= data.find(1);
+		
+		int nbVoitures=2; 
 		Thread MesVoitures[] = new Thread[nbVoitures];
-		Thread MesVoiture[] = new Thread[nbVoitures];
-		for (int i =0; i< nbVoitures; i++){
-			MesVoitures[i]= new Thread(new MotionSensorFonctionMock(String.format("Voit %d ", i) , t));
-			MesVoiture[i]= new Thread(new MotionSensorFonctionMock(String.format("Voit %d ", i) , t));
+		
+		for (int i =1; i< nbVoitures; i++){
+			MesVoitures[i]= new Thread(new MotionSensorFonctionMock());
 			MesVoitures[i].start();
-			MesVoiture[i].start();
+			
 		}
 		
 
