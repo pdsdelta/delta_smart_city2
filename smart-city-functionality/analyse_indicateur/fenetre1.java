@@ -48,7 +48,11 @@ public class fenetre1 extends JFrame {
 		contentPane.setBackground(SystemColor.inactiveCaption);
 		setContentPane(contentPane);
 		this.setVisible(true);
-
+		
+		JDateChooser dateChooser_1 = new JDateChooser();
+		dateChooser_1.setDateFormatString("yyyy-MM-dd");
+		dateChooser_1.setBounds(127, 318, 139, 20);
+		contentPane.add(dateChooser_1);
 		
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setDateFormatString("yyyy-MM-dd");
@@ -174,6 +178,7 @@ public class fenetre1 extends JFrame {
 				numberCar.setBackground(SystemColor.inactiveCaption);
 				numberCar.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent e) {
+						
 						Indicator objet = null;
 						try {
 							objet = new Indicator(server);
@@ -198,9 +203,12 @@ public class fenetre1 extends JFrame {
 							JSONObject obj = new JSONObject(jsonReceived );
 							JSONObject objet1= obj.getJSONObject("request");
 							int data = objet1.getInt("Data");
-							
-							JOptionPane.showMessageDialog(null, "le nombre de car present dans la ville est :" + data);
+							if(data == 0) {
+							JOptionPane.showMessageDialog(null, "aucune nouvelle voiture n'est détectée ");
+							}else{JOptionPane.showMessageDialog(null, "le nombre de car present dans la ville est :" + data);
+							  }
 						} catch (HeadlessException | JSONException | SQLException | IOException e1) {
+							
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
@@ -253,21 +261,40 @@ public class fenetre1 extends JFrame {
 				empreinteCarbone.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						Indicator objet = null;
+						
 						try {
+							
 							objet = new Indicator(server);
 						} catch (ClassNotFoundException | SQLException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 						try {
-							String jsonReceived = objet.emprientecarbone();
+							/*calendrier.getDay()
+							calendar.getYear
+							calendar.getMonth()
+							//date='calendar.getYear-calendar.getMonth()-calendrier.getDay()';
+							date'2020-12-7'*/
+							DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+							String date = dateFormat.format(dateChooser_1.getDate());
+									//"-"+String.valueOf(dateChooser.getDate().getMonth()+1)+"-"+String.valueOf(dateChooser.getDate().getDay());
+							System.out.println("hello "+date);
+							
+							
+							
+							String jsonReceived = objet.emprientecarbone(date);
 							objet.startConnection("172.31.249.22", 2400);
 							System.out.println("hello "+jsonReceived);
 							JSONObject obj = new JSONObject(jsonReceived );
 							JSONObject objet1= obj.getJSONObject("request");
 							int data = objet1.getInt("Data");
-							JOptionPane.showMessageDialog(null, "l'empreinte de carbone est :" + data);
+							if(data==0) {
+								JOptionPane.showMessageDialog(null, "aucune nouvelle empreinte carbone n'est donnée ");
+							}else {JOptionPane.showMessageDialog(null, "l'empreinte de carbone est :" + data+"kg");
+							}
+						
 						} catch (HeadlessException | JSONException | SQLException | IOException e1) {
+						//	JOptionPane.showMessageDialog(null, );
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
@@ -296,10 +323,15 @@ public class fenetre1 extends JFrame {
 				statistics.setBounds(336, 284, 218, 35);
 				contentPane.add(statistics);
 				
-				JLabel lblNewLabel = new JLabel("    Bienvenue sur le site qui vous permettra de suivre le statut de votre ville");
+				JLabel lblNewLabel = new JLabel("    Bienvenue sur le site qui vous permettra de consulter les donner de la ville");
 				lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
 				lblNewLabel.setBounds(127, 11, 454, 30);
 				contentPane.add(lblNewLabel);
+				
+				JLabel lblNewLabel_1 = new JLabel("  Les informations :");
+				lblNewLabel_1.setBounds(0, 41, 113, 14);
+				contentPane.add(lblNewLabel_1);
+				
 				
 				
 				

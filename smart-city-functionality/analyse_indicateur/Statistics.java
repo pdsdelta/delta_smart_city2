@@ -25,11 +25,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JLabel;
+import java.awt.SystemColor;
 
 public class Statistics extends JFrame {
 	private functionalityServer server;
 	
 	public Statistics() {
+		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -47,7 +50,7 @@ public class Statistics extends JFrame {
 		
 	// Taux de dépassement de seuil d'ATMO	
 		JButton tauxdépassemnetseuil = new JButton("taux de dépassement de seuil d'ATMO");
-		tauxdépassemnetseuil.setBounds(44, 69, 253, 23);
+		tauxdépassemnetseuil.setBounds(44, 90, 253, 23);
 		contentPane.add(tauxdépassemnetseuil);
 		tauxdépassemnetseuil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -77,7 +80,7 @@ public class Statistics extends JFrame {
 		
 // Taux de pollution:
 		JButton tauxdepollution = new JButton("taux d'ATMO  dans la ville");
-		tauxdepollution.setBounds(44, 11, 253, 23);
+		tauxdepollution.setBounds(44, 54, 253, 23);
 		contentPane.add(tauxdepollution);
 		
 		JButton numberaletre = new JButton("numberalerte");
@@ -108,11 +111,18 @@ public class Statistics extends JFrame {
 				
 			}
 		});
+		//numbre d'alerte
 		contentPane.add(numberaletre);
 		
 		JButton capteurairActif = new JButton("capteurair Actif");
 		capteurairActif.setBounds(44, 162, 251, 23);
 		contentPane.add(capteurairActif);
+		
+		JLabel lblNewLabel = new JLabel("  Les statistiques");
+		lblNewLabel.setBackground(SystemColor.windowText);
+		lblNewLabel.setBounds(112, 29, 226, 14);
+		contentPane.add(lblNewLabel);
+		
 		capteurairActif.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Indicator objet = null;
@@ -134,14 +144,17 @@ public class Statistics extends JFrame {
 							//"-"+String.valueOf(dateChooser.getDate().getMonth()+1)+"-"+String.valueOf(dateChooser.getDate().getDay());
 					System.out.println("hello "+date);
 					
-					String jsonReceived = objet.nbcars(date);
+					String jsonReceived = objet.capteurairActif (date);
 					objet.startConnection("172.31.249.22", 2400);
 					JSONObject obj = new JSONObject(jsonReceived );
 					JSONObject objet1= obj.getJSONObject("request");
 					int data = objet1.getInt("Data");
-					
-					JOptionPane.showMessageDialog(null, "le capteur d'air actif  est :" + data);
-				} catch (HeadlessException | JSONException | SQLException | IOException e1) {
+			if(data==0) {
+			    JOptionPane.showMessageDialog(null, "aucun capteurair n'est activée");
+			}else{JOptionPane.showMessageDialog(null, "le capteur d'air actif  est :" + data);
+			}
+			}
+				 catch (HeadlessException | JSONException | SQLException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
