@@ -89,7 +89,7 @@ public class Objet implements Runnable{
 			//le temps de sommeil dans la ville
 			Thread.sleep((long)  (500000* Math.random()));
 			this.leave();
-			this.startConnection("127.0.0.1", 2400);
+			this.startConnection("172.31.249.22", 2400);
 		} catch (InterruptedException | IOException | JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

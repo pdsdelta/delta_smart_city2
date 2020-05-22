@@ -29,9 +29,9 @@ public class AlgorithmeBorne {
 	TerminalDAO data=new TerminalDAO(server)  ;
 	String toSend;
 	//Variable contenant les voitures dans la ville
-	public static ArrayList<Objet> infoVoitures = new ArrayList <Objet>();
+	static ArrayList<Objet> infoVoitures = new ArrayList <Objet>();
 	//Variable comptant le nombre de voiture dans la ville
-	public static AtomicInteger PlacesOccupees= new AtomicInteger();
+	static  int PlacesOccupees;
 	int capacity =0;
 
 	//Methode traitant les requêtes d'entrée dans la ville provenant du serveur
@@ -93,7 +93,8 @@ public class AlgorithmeBorne {
 	int places() throws ClassNotFoundException, SQLException{ 
 		Terminal terminal =data.find(1);
 		int size= this.getCapacity();
-		return (terminal.getCity().getNombreMaxVoiture() - size); 
+		int nombre=terminal.getCity().getNombreMaxVoiture() - this.PlacesOccupees;
+		return nombre; 
 	}
 	//Methode permettant de retrouver la borne par laquelle un objet veut circuler
 	public Terminal FindTerminal(Objet t) throws ClassNotFoundException, SQLException {
@@ -106,26 +107,16 @@ public class AlgorithmeBorne {
 	//Methode permettant de determiner si oui ou non un objet peut entrer dans la ville
 	public  synchronized boolean entrer(Objet objet) throws ClassNotFoundException, SQLException{
 		Terminal borne=this.FindTerminal(objet);
+		boolean result=false;
 		/*
 		 * On verifie s'il le nombre de place disponibles dans la ville n'est pas inférieur ou egale à zero
 		 * et aussi si une alerte n'a pas ete lancé
 		 */
-		if  ((this.places() ==0 || borne.getCity().getAlert()==1 ) ){
-
-			//Si l'une des conditions est constaté, on refuse l'acces de la voiture, la borne se lève
-			borne.setStatus(1);
-			System.out.println("La borne s'est leve, son status: "+borne.getStatus());
-			System.out.println("Alarme: "+borne.getCity().getAlert());
-			System.out.format("[Borne %s]: Objet refusée, il reste  %d places  \n", borne.getNumero(),this.places());
-			return(false) ;
-
-		}
-		//Si aucune alerte n'a ete lancé ou le nombre maximal n'a pas encore ete atteint
-		else   {
-			if(this.places()>0 || this.places()==1) {
+		if  ((this.places()>0 && borne.getCity().getAlert()==0) ){
 			//On incremente le nombre de places Occupee
-			int size=this.PlacesOccupees.incrementAndGet();
-			this.setCapacity(size );
+			this.PlacesOccupees++;
+			//int size=this.PlacesOccupees.incrementAndGet();
+			//this.setCapacity(size );
 			//La borne se baisse: status=0;
 			borne.setStatus(0);
 			System.out.println("La borne s'est baisse, status: "+borne.getStatus());
@@ -133,23 +124,39 @@ public class AlgorithmeBorne {
 			//On ajoute l'objet au tableau d'objet de la ville
 			this.infoVoitures.add(objet);
 			System.out.format("[Borne %s]: Objet acceptée, il reste %d places \n", borne.getNumero(), this.places());
-			System.out.println("Voiture Garees  :"+this.infoVoitures.size());
-			}
-			return (true) ; 
+			System.out.println("Voiture Garees  :"+this.PlacesOccupees);
+
+			result=true;
 
 		}
+		//Si aucune alerte n'a ete lancé ou le nombre maximal n'a pas encore ete atteint
+		else if((this.places()>0 && borne.getCity().getAlert()==1)) {
+			
+				//Si l'une des conditions est constaté, on refuse l'acces de la voiture, la borne se lève
+				borne.setStatus(1);
+				System.out.println("La borne s'est leve, son status: "+borne.getStatus());
+				System.out.println("Alarme: "+borne.getCity().getAlert());
+				System.out.format("[Borne %s]: Objet refusée, il reste  %d places  \n", borne.getNumero(),this.places());
+
+			
+
+			result=false;
+		}
+		return result;
 	}
 
 	//Methode permettant de faire sortir un objet (voiture) de la ville
 	public synchronized boolean sortir() throws JSONException, ClassNotFoundException, SQLException {
 		Objet o= this.infoVoitures.get(1);
 		//Decrementation du nombre de voiture dans la ville
-		int size=this.PlacesOccupees.decrementAndGet();
-		this.setCapacity(size);
+		this.PlacesOccupees--;
+
+		//int size=this.PlacesOccupees.decrementAndGet();
+		//this.setCapacity(size);
 		//On retire la voiture du tableau
 		this.infoVoitures.remove(o);
 		System.out.format("Borne : Une voiture est sortie, reste  %d places\n" ,this.places());
-		System.out.println("Voiture Garees  :"+this.infoVoitures.size());
+		System.out.println("Voiture Garees  :"+this.PlacesOccupees);
 		//System.out.format("Voiture Garees :\n"+this.infoVoitures.size());
 		return true;
 
