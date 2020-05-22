@@ -317,7 +317,6 @@ public class myCapteur extends JFrame{
 	JLabel label1 = new JLabel("Déterminer les nouveaux seuils des quartiers:\n ");
 	JTextField textField = new JTextField();
 	textField.setColumns(2);
-	int c =getnumquart();
 	JComboBox<String> liste1 = new JComboBox<String> (); //Création d'une liste déroulante.
 	int b = getnumquart();
 	if(b == 3) {
@@ -388,7 +387,6 @@ public class myCapteur extends JFrame{
 		b.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		b.setLocationRelativeTo(null);
 		b.setVisible(true);
-		int a = getCalculIndice();
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new FlowLayout());
 		panel2.setBackground(Color.white);
@@ -413,7 +411,7 @@ public class myCapteur extends JFrame{
 		}
 		JLabel label1 = new JLabel();
 		label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
-               + "Nous avons un indice ATMO de " + a + " pour le quartier sélectionné"
+               + "Nous avons un indice ATMO de " + c + " pour le quartier sélectionné"
                +"</body></html>" );
 		b.add(panel2);
 		panel2.add(bouton1);
@@ -670,8 +668,6 @@ public class myCapteur extends JFrame{
 
 	public int seuil() {
 		int a = 4;
-		a++;
-		
 		return a;
 	}
 	
