@@ -60,9 +60,9 @@ public class fenetre1 extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.setLayout(null);
 												
-	//1number capteur d'air
-	   JButton numberCapteurair = new JButton("  nombre de capteurAir totale :");
-	   numberCapteurair.setBounds(67, 59, 238, 35);
+	//1number de capteur d'air
+	   JButton numberCapteurair = new JButton("number capteurAir");
+	   numberCapteurair.setBounds(87, 59, 218, 35);
 		contentPane.add(numberCapteurair);
 		numberCapteurair.setBackground(SystemColor.inactiveCaption);
 		numberCapteurair.addActionListener(new ActionListener() {
@@ -92,8 +92,8 @@ public class fenetre1 extends JFrame {
 
 		
 	//2number motion sensor
-				JButton NumberMotionsensor = new JButton(" nombre totale de capteurs de mouvement :");
-				NumberMotionsensor.setBounds(336, 132, 245, 35);
+				JButton NumberMotionsensor = new JButton("number motionSensor");
+				NumberMotionsensor.setBounds(336, 132, 218, 35);
 				contentPane.add(NumberMotionsensor);
 				NumberMotionsensor.setBackground(SystemColor.inactiveCaption);
 				
@@ -139,9 +139,9 @@ public class fenetre1 extends JFrame {
 				});
 		
 				
-        // 3number  station		
-				JButton NumberStation = new JButton("  nombre totale de station :");
-				NumberStation.setBounds(336, 59, 245, 35);
+        // 3number de station		
+				JButton NumberStation = new JButton("number station");
+				NumberStation.setBounds(336, 59, 218, 35);
 				contentPane.add(NumberStation);
 				NumberStation.setBackground(SystemColor.inactiveCaption);
 				NumberStation.addActionListener(new ActionListener() {
@@ -172,8 +172,8 @@ public class fenetre1 extends JFrame {
 				
 	//4 NUMBER CAR	 calendrier
 				
-				JButton numberCar = new JButton("nombre de voiture pr\u00E9sente dans la ville :");
-				numberCar.setBounds(67, 132, 238, 35);
+				JButton numberCar = new JButton("number Car");
+				numberCar.setBounds(87, 132, 218, 35);
 				contentPane.add(numberCar);
 				numberCar.setBackground(SystemColor.inactiveCaption);
 				numberCar.addActionListener(new java.awt.event.ActionListener() {
@@ -217,8 +217,8 @@ public class fenetre1 extends JFrame {
 				});						
 				
 	//5 NUMBER TRAM	
-				JButton numbrTram = new JButton(" nombre de tram :");
-				numbrTram.setBounds(67, 216, 238, 35);
+				JButton numbrTram = new JButton("number Tram");
+				numbrTram.setBounds(87, 216, 218, 35);
 				contentPane.add(numbrTram);
 				numbrTram.setBackground(SystemColor.inactiveCaption);
 				numbrTram.addActionListener(new ActionListener() {
@@ -247,15 +247,15 @@ public class fenetre1 extends JFrame {
 				});					
 				
 	// 6 NUMBER BORNE	
-				JButton NumberBorne = new JButton("nombre de borne active");
-				NumberBorne.setBounds(336, 216, 245, 35);
+				JButton NumberBorne = new JButton("number borne");
+				NumberBorne.setBounds(336, 216, 218, 35);
 				contentPane.add(NumberBorne);
 				NumberBorne.setBackground(SystemColor.inactiveCaption);
 		
 				// 7 EMPREINTE CARBONE	
 				
 				JButton empreinteCarbone = new JButton("empreinte de carbone");
-				empreinteCarbone.setBounds(67, 284, 238, 35);
+				empreinteCarbone.setBounds(87, 284, 218, 35);
 				contentPane.add(empreinteCarbone);
 				empreinteCarbone.setBackground(SystemColor.inactiveCaption);
 				empreinteCarbone.addActionListener(new java.awt.event.ActionListener() {
@@ -310,7 +310,7 @@ public class fenetre1 extends JFrame {
 			
 				contentPane.add(dateChooser);
 				
-				JButton statistics = new JButton(" Les statistiques :");
+				JButton statistics = new JButton("statistics");
 				statistics.setBackground(SystemColor.inactiveCaption);
 				statistics.addActionListener(new ActionListener() {
 					
@@ -320,7 +320,7 @@ public class fenetre1 extends JFrame {
 						
 					}
 				});
-				statistics.setBounds(336, 284, 245, 35);
+				statistics.setBounds(336, 284, 218, 35);
 				contentPane.add(statistics);
 				
 				JLabel lblNewLabel = new JLabel("    Bienvenue sur le site qui vous permettra de consulter les donner de la ville");
