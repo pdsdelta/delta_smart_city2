@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 public class CarbonClientUtils {
 
-	
+	//METHOD WICH TRANSLATE THE RESPONSE OF THE SERVER TO AN INFOCARBON OBJECT
 	public static InfoCarbon readJsontoObject(String jsonResponse) throws JSONException {
 		InfoCarbon res = null ;
     	//String res = "Aucune donnée";
@@ -52,6 +52,9 @@ public class CarbonClientUtils {
 	    			nbCars = arr.getJSONObject(0).getInt("NbCars");
 	            	nbMotos = arr.getJSONObject(0).getInt("NbMotos");
 	            	res = new InfoPrivateCarbon(1,nbCars,nbMotos);
+	    			break;
+	    		case "PUT_CARBON" :
+	    			System.out.println("Empreinte stocké correctement en base");
 	    			break;
 	    			
 	    		default:

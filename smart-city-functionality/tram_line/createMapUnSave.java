@@ -11,6 +11,7 @@ import tram_line.tramExceptions.formatCityExceptions;
 import tram_line.tramExceptions.errorBudgetExceptions;
 import tram_line.tramExceptions.errorNumberStation;
 import tram_line.tramExceptions.unexpectedHeight;
+import tram_line.tramExceptions.unexpectedHeightMin;
 
 class createMapUnSave extends JPanel {
   int longueur = ((option.monInt("Veuillez entrer la longueur de la ville en km : ")) * 100);
@@ -25,11 +26,15 @@ class createMapUnSave extends JPanel {
   int x,y;
   double z = 1;
 
-  public createMapUnSave() throws formatCityExceptions, errorBudgetExceptions, errorNumberStation{
+  public createMapUnSave() throws formatCityExceptions, errorBudgetExceptions, errorNumberStation, unexpectedHeightMin{
     System.out.println("je suis dans la methode createMapUnSave"); 
     if(largeur > longueur) {
     	throw new formatCityExceptions();
     }
+    if((longueur == 0)||(largeur == 0)) {
+    	throw new unexpectedHeightMin();
+    }
+    
     if(budgetStation > budgetCity) {
     	throw new errorBudgetExceptions();
     }

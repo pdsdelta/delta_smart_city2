@@ -13,6 +13,8 @@ public abstract class InfoCarbon {
 		this.idCity = idCity;
 	}
 	
+	
+	//ABSTRACT METHOD WICH CALCULATE THE CARBON FOOTPRINT
 	public abstract double calculateCarbon() ;
 	
 	

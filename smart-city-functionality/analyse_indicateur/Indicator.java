@@ -369,7 +369,7 @@ public class Indicator {
 	 * @throws JsonProcessingException
 	 * @throws SQLException 
 	 */
-	public String emprientecarbone() throws JSONException, JsonProcessingException, SQLException {
+	public String emprientecarbone(String date) throws JSONException, JsonProcessingException, SQLException {
 
 		List<InfoCarbon> res = new ArrayList<InfoCarbon>();
 		//String json = this.jsonClient;	
@@ -379,7 +379,7 @@ public class Indicator {
 		Statement stmt3 = this.connect.createStatement();
 		int count = 0;
 
-		ResultSet rs3 = stmt3.executeQuery("select empreintecarbone from carboninfo");
+		ResultSet rs3 = stmt3.executeQuery("select empreintecarbone from carboninfo where date='"+date+"\'");
 		while(rs3.next()){
 			count = rs3.getInt("empreintecarbone");
 		}
