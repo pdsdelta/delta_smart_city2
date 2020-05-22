@@ -136,7 +136,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		Object o = event.getSource();
 		if (o == rb1) {
-			
+			//Action on the button "CALCULER"
 			DecimalFormat df = new DecimalFormat ( ) ; 
 			df.setMaximumFractionDigits ( 2 ) ; 
 			es.removeAll();
@@ -165,18 +165,22 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			getContentPane().repaint();
 			b1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					//WHEN CLICK ON YESTERDAY CALCULATE BUTTON
 					cg.removeAll();
 					//getContentPane().add(cg);
 					Users u = new Users();
 					co = new CarbonOrder(1,u);
 					String res;
 					try {
+						//GENERATING THE JSON
 						res = co.generateJson();
 						System.out.println("Calcul de l'empreinte carbonne globale pour hier");
 						System.out.println("Le json qui va etre envoyé au serveur");
 						System.out.println(res);
 						jsonClient=res;
+						//SENDING THE JSON TO THE SERVER
 						String resp = CarbonInfo.getInstance().sendMessage(res);
+						//GETTING THE RESPONSE
 						InfoGlobalCarbon ic = (InfoGlobalCarbon) CarbonInfo.getInstance().responseToInfoCarbon(resp);
 						if(ic==null) {
 							JLabel emp = new JLabel("Aucune donnée pour la date d'hier");
@@ -184,6 +188,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							getContentPane().add(cg);
 						}else {
 							cg.removeAll();
+							//CALCULATE THE CARBON FOOTPRINT
 							double resul = ic.calculateCarbon();
 							jtiectram.setText("L'empreinte carbonne des tramways est éstimée à :" + df.format(ic.getEct())+" Kg de CO2");
 							jtiecbus.setText("L'empreinte carbonne des bus est éstimée à :" + df.format(ic.getEcb())+" Kg de CO2");
@@ -200,6 +205,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 							String daSql = dateFormatSQL.format(yesterday());
 							co3.setDate(daSql);
 							String resPut = co3.generateJson();
+							//PUTTING THE CARBON VALUE IN DATABASE
 							String response = CarbonInfo.getInstance().sendMessage(resPut);
 							cg.add(jtiectram);
 							cg.add(jtiecbus);
@@ -269,11 +275,14 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									co2.setDate(dSql);
 									String res;
 									try {
+										//GENERATING JSON
 										res = co2.generateJson();
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
 										jsonClient = res;
+										//SENDING THE JSON
 										String resp = CarbonInfo.getInstance().sendMessage(res);
+										//GETTING THE RESPONSE
 										InfoGlobalCarbon ic = (InfoGlobalCarbon) CarbonInfo.getInstance().responseToInfoCarbon(resp);
 										if(ic==null) {
 											JLabel emp = new JLabel("Aucune donnée pour la date :  "+ d);
@@ -295,6 +304,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 											String daSql = dateFormatSQL.format(dd);
 											co3.setDate(daSql);
 											String resPut = co3.generateJson();
+											//PUTING CARBON VALUE ON DATABASE
 											String response = CarbonInfo.getInstance().sendMessage(resPut);
 											cg.add(jtiectram);
 											cg.add(jtiecbus);
@@ -395,12 +405,15 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									co2.setDate(dSql);
 									String res;
 									try {
+										//GENERATING JSON TO SEND
 										res = co2.generateJson();
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
 										jsonClient = res;
 										//CarbonInfo.getInstance().afficheMenuAndGetJson();
+										//SENDING JSON TO THE SERVER
 										String resp = CarbonInfo.getInstance().sendMessage(res);
+										//GETTING RESPONSE
 										InfoPublicCarbon icpub = (InfoPublicCarbon) CarbonInfo.getInstance().responseToInfoCarbon(resp);
 										if(icpub==null) {
 											JLabel emp = new JLabel("Aucune donnée pour la date :  "+ d);
@@ -502,17 +515,21 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									co2.setDate(dSql);
 									String res;
 									try {
+										//GENERATING JSON TO SEND TO THE SERVER
 										res = co2.generateJson();
 										System.out.println("Le json qui va etre envoyé au serveur : ");
 										System.out.println(res);
 										jsonClient = res;
+										//SENDING JSON
 										String resp = CarbonInfo.getInstance().sendMessage(res);
+										//GETTING RESPONSE
 										InfoPrivateCarbon ic = (InfoPrivateCarbon) CarbonInfo.getInstance().responseToInfoCarbon(resp);
 										if(ic==null) {
 											JLabel emp = new JLabel("Aucune donnée trouvée pour la date : "+ d);
 											cg.add(emp);
 										}else {
 											cg.removeAll();
+											//CALCULATE CARBON FOOTPRINT
 											double resul = ic.calculateCarbon();
 											jtieccar.setText("L'empreinte carbonne des voitures est éstimée à :" + df.format(ic.getEcc())+" Kg de CO2");
 											jtiecmoto.setText("L'empreinte carbonne des motos est éstimée à :" + df.format(ic.getEcm())+" Kg de CO2");
@@ -569,7 +586,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			setVisible(true);
 		}
 		if (o == rb2) {
-			System.out.println("JE SUIS DANS LE BOUTON 2");
+			//Action on the button "ESTIMER"
 			cg.removeAll();
 			p.removeAll();
 			es.removeAll();
@@ -596,7 +613,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			getContentPane().repaint();
 			b5.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("JE SUIS DANS LE BOUTON ESTIMER");
+					//WHEN CLICK on the button "ESTIMER L'EMPREINTE CARBONE"
 					getContentPane().remove(jtiectram);
 					getContentPane().remove(jtiecbus);
 					getContentPane().remove(jtiectrot);
@@ -726,7 +743,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							System.out.println("JE SUIS DANS LE BOUTON ESTIMER");
+							//WHEN CLICK ON "CALCULER"
 							getContentPane().remove(jtiectram);
 							getContentPane().remove(jtiecbus);
 							getContentPane().remove(jtiectrot);
@@ -750,7 +767,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 			
 							try {
 								System.out.println("JE SUIS DANS LE début du TRY ");
-								
+								//GETTING INPUT VALUES
 								nv = Integer.parseInt(nCars.getText());
 								nCars.setText("");
 								System.out.println(nv);
@@ -781,7 +798,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 								kmb = Double.parseDouble(nkmb.getText());
 								nkmb.setText("");
 								System.out.println(kmb);
-								
+								//ERRORS TREATMENT
 								if (np > 5) {
 									JOptionPane.showMessageDialog(null, "Le nombre de passager moyen ne doit pas dépasser 5 personnes");
 									iec = null ;
@@ -829,7 +846,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									getContentPane().revalidate();
 									getContentPane().repaint();
 								}else {
-									System.out.println("JE SUIS DANS LE DERNIER ELSE ");
+									//THE PARAMETERS ARE ACCEPTED
 									getContentPane().remove(jtiectram);
 									getContentPane().remove(jtiecbus);
 									getContentPane().remove(jtiectrot);
@@ -843,9 +860,11 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									getContentPane().revalidate();
 									getContentPane().repaint();
 									iec = null;
+									//CREATING CARBON INFO
 									iec = new InfoEstimatedCarbon(1,nv,np,km,nm,ntt,nt,lt,hs,nb,kmb);
 									DecimalFormat df = new DecimalFormat ( ) ; 
 									df.setMaximumFractionDigits ( 2 ) ; 
+									//CALCULATE THE CARBON FOOTPRINT
 									double glob = iec.calculateCarbon();
 									jtiectram.setText("L'empreinte carbonne des tramways est éstimée à :" + df.format(iec.getEct())+" Kg de CO2");
 									jtiecbus.setText("L'empreinte carbonne des bus est éstimée à :" + df.format(iec.getEcb())+" Kg de CO2");
@@ -871,11 +890,11 @@ public class CarbonMenu extends JFrame implements ActionListener {
 									getContentPane().add(jtiec);
 									getContentPane().revalidate();
 									getContentPane().repaint();
-									System.out.println("JE SUIS DANS LA FIN DU  DERNIER ELSE ");
+									
 								}
 								
 							} catch (Exception e1) {
-								System.out.println("JE SUIS DANS LE CATCH");
+								
 								JOptionPane.showMessageDialog(null, "Veuillez entrer des nombre");
 								iec =null ;
 								/*
@@ -886,7 +905,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 								 * getContentPane().remove(jtiecnpass2); getContentPane().remove(jtiec);
 								 * getContentPane().revalidate(); getContentPane().repaint();
 								 */
-								System.out.println("JE SUIS A LA FIN DU  CATCH");
+								
 							}
 							
 							
@@ -969,6 +988,7 @@ public class CarbonMenu extends JFrame implements ActionListener {
 	       
 	   }
 	
+	//Function wich return the date of yesterday
 	public Date yesterday() {
 	    final Calendar cal = Calendar.getInstance();
 	    cal.add(Calendar.DATE, -1);

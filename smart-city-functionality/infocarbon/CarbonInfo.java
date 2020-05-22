@@ -49,6 +49,7 @@ public class CarbonInfo {
         return resp;
     }
     
+    //METHOD WICH TAKE THE JSON RESPONSE AND GENERAT THE INFO CARBON OBJECT TO SEND TO THE CLIENT
     public InfoCarbon responseToInfoCarbon(String Json) {
     	InfoCarbon res = null;
 		try {
