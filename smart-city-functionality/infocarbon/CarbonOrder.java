@@ -17,7 +17,9 @@ import java.util.Calendar;
 import java.util.Date;  
 import user.Users;
 
-
+/*
+ * Class wich
+ */
 public class CarbonOrder {
 	
 	private int numOrder;
@@ -46,6 +48,7 @@ public class CarbonOrder {
 		this.dateToSend = dateToSend;
 	}
 	
+	//METHOD WICH ALLOWS TO GENERATE THE JSON TO SEND TO THE SERVER
 	public String generateJson() throws JsonProcessingException {
 		
 

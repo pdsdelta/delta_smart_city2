@@ -80,7 +80,7 @@ public class CarbonServerUtils {
 		this.connection = connection;
 	}
 
-	//Functions
+	//METHOD WICH ALLOWS TO GET CARBON INFORMATIONS OF ALL TRANSPORTS 
 	public String getGlobalCarbonne(String date) throws JSONException, JsonProcessingException {
 		String resultat= "{Table: publictransportstat, Action : GET_GLOBAL_CARBON , Status: ";
 		System.out.println("Récupérations des informations concernant les transports privées");
@@ -121,6 +121,7 @@ public class CarbonServerUtils {
     	
     }
 	
+	//METHOD WICH ALLOWS TO GET CARBON INFORMATIONS OF PUBLIC TRANSPORTS 
 	public String getPublicCarbonne(String date) throws JSONException, JsonProcessingException {
 		String resultat= "{Table: publictransportstat, Action : GET_PUBLIC_CARBON , Status: ";
     	System.out.println("----------------------------------------------------------------");
@@ -150,7 +151,7 @@ public class CarbonServerUtils {
     	
     }
 	
-
+	//METHOD WICH ALLOWS TO GET CARBON INFORMATIONS OF PRIVATE TRANSPORTS 
 	public String getPrivateCarbonne(String date) throws JSONException, JsonProcessingException {
 		String resultat= "{Table: publictransportstat, Action : GET_PRIVATE_CARBON , Status: ";
 		System.out.println("Récupérations des informations concernant les transports privées");
@@ -179,6 +180,7 @@ public class CarbonServerUtils {
     	
     }
 	
+	//METHOD WICH ALLOWS TO GET NUMBERS OF CARS 
 	public String getNbCars(String date) throws JSONException, JsonProcessingException {
     	String resultat= "{Table: carstats, Action : GET_NB_CARS , Status: ";
     	String query = "select nbcars from carstats where idcity = 1 and dateof = '" + date + "' ;"  ;
@@ -206,6 +208,7 @@ public class CarbonServerUtils {
     	
     }
 	
+	//METHOD WICH ALLOWS TO GET NUMBERS OF MOTOS
 	public String getNbMotos(String date) throws JSONException, JsonProcessingException {
     	String resultat= "{Table: motostats, Action : GET_NB_MOTOS , Status: ";
     	String query = "select nbmotos from motostats where idcity = 1 and dateof = '" + date + "' ;"  ;
@@ -233,6 +236,7 @@ public class CarbonServerUtils {
     	
     }
 	
+	//METHOD WICH ALLOWS TO GET NUMBERS OF BUS
 	public String getNbBus(String date) throws JSONException, JsonProcessingException {
     	String resultat= "{Table: busstats, Action : GET_NB_BUS , Status: ";
     	String query = "select nbbus from busstats where idcity = 1 and dateof = '" + date + "' ;"  ;
@@ -260,6 +264,7 @@ public class CarbonServerUtils {
     	
     }
 	
+	//METHOD WICH ALLOWS TO GET NUMBERS OF TRAMWAYS 
 	public String getNbTram() throws JSONException, JsonProcessingException {
     	String resultat= "{Table: station, Action : GET_NB_TRAM ,  Status: ";
     	String query = "select numbertram ,longueurreseau from station where idstation = 1 ;"  ;
@@ -290,6 +295,7 @@ public class CarbonServerUtils {
     	
     }
 	
+	//METHOD WICH INSERT A CARBON VALUE INTO THE TABLE carboninfo
 	public String putCarbonne(double carbon,String date) throws JSONException, JsonProcessingException {
 		String resultat= "{Table: carboninfo, Action : PUT_CARBON , Value :" + carbon +" , date : " + date +" , Status: ";
     	System.out.println("----------------------------------------------------------------");

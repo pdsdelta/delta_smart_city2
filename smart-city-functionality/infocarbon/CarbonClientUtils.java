@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 public class CarbonClientUtils {
 
-	
+	//METHOD WICH TRANSLATE THE RESPONSE OF THE SERVER TO AN INFOCARBON OBJECT
 	public static InfoCarbon readJsontoObject(String jsonResponse) throws JSONException {
 		InfoCarbon res = null ;
     	//String res = "Aucune donnée";
