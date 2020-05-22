@@ -85,7 +85,7 @@ public class Terminal {
 	}
 	@Override
 	public String toString() {
-		return "Terminal [id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", isActive=" + isActive
+		return "Terminal [ longitude=" + longitude + ", latitude=" + latitude + ", isActive=" + isActive
 				+ ", status=" + status + ", numero=" + numero + "]";
 	}
 }
