@@ -52,7 +52,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 public class myCapteur extends JFrame{
 	/**
 	 * 
@@ -69,13 +70,13 @@ public class myCapteur extends JFrame{
 	private JMenuBar menu = new JMenuBar();
 	private JMenu onglet1 = new JMenu("Déterminer la qualité d'air");
 	private JMenu onglet2 = new JMenu ("Configurer Capteur");
-	private JMenu onglet3 = new JMenu ("Historique");
+	//private JMenu onglet3 = new JMenu ("Historique");
 
 	private JMenuItem case1 = new JMenuItem("Selectionner Quartier");
 	private JMenuItem case2 = new JMenuItem("Indice de la ville");
 	private JMenuItem case3 = new JMenuItem("Ajuster les seuils suivant les quartiers");
 	private JMenuItem case4 = new JMenuItem("Déterminer l'intervalle de relevé");
-	private JMenuItem case5 = new JMenuItem("Apercevoir l'historique des relevés");
+	//private JMenuItem case5 = new JMenuItem("Apercevoir l'historique des relevés");
 	static DateFormat df = new SimpleDateFormat("EEEE d MMMM yyyy HH:mm:ss z G");
 	
 
@@ -114,13 +115,13 @@ public class myCapteur extends JFrame{
 		this.onglet1.add(case2);
 		this.onglet2.add(case3);
 		this.onglet2.add(case4);
-		this.onglet3.add(case5);
+		//this.onglet3.add(case5);
 
     	    //L'ordre d'ajout va dï¿½terminer l'ordre d'apparition dans le menu de gauche ï¿½ droite
     	    //Le premier ajoutï¿½ sera tout ï¿½ gauche de la barre de menu et inversement pour le dernier
 		this.menu.add(onglet1);
 		this.menu.add(onglet2);
-		this.menu.add(onglet3);
+		//this.menu.add(onglet3);
 		this.setJMenuBar(menu);
 		this.setVisible(true);
 
@@ -170,30 +171,33 @@ public class myCapteur extends JFrame{
 			}
 		});
 
-		case5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				 try {
-					Histor();
-				} catch (IOException | JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
+//		case5.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				 try {
+//					Histor();
+//				} catch (IOException | JSONException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 		
 		JPanel pres = new JPanel();
 		getContentPane().add(pres);
-		JLabel label = new JLabel("Bienvenue sur le site qui vous permettra de relevé la qualite d'air dans les quartiers et dans la ville");
-		String imgUrl="atmo.png";
-	    ImageIcon icone = new ImageIcon(imgUrl);
+		JLabel label = new JLabel();
+		label.setText("<html><body><p><p><p>"
+			+ "Bienvenue sur le site qui vous permettra de relevé la qualite d'air dans les quartiers et dans la ville" 
+			+ "<p>"+ "<p>" 
+			+ "Dans l'onglet 'Déterminer la qualité d'air' , vous pourrez apercevoir la qualité d'air dans un quartier précis ainsi que l'indice global de la ville" // + quartier
+			+ "<p>" + "<p>" 
+			+ "Dans l'onglet 'Configuration des capteurs', vous pourrez modifier le seuil des quartiers ainsi que l'intervalle des relevés de qualité d'air dans la ville"
+			+ "</body></html>");
 
 	  
 	     //Création de JLable avec un alignement gauche
-	     JLabel label1 = new JLabel(icone, JLabel.CENTER);
 	  
 	     //Création de JLable avec un alignement gauche
 		pres.add(label);
-		pres.add(label1);
 
 	}
   
@@ -243,6 +247,7 @@ public class myCapteur extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			try {
 				a.dispose();
+			     
 //				String selected = (String) ((myCapteur) a).getListe1().getSelectedItem();
 //				System.out.println(selected);
 				indicequartier();
@@ -278,7 +283,7 @@ public class myCapteur extends JFrame{
 		JLabel label2 = new JLabel();
 		int c = getnumquart();
 		if (c == 3) {
-		label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
+		label2.setText("<html><body><p><p><p>" + "Pour le quartier_0, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
 				+ "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>"+"<p>" + "Nous avons donc un indice dans la ville de 6"+ "</body></html>");
 	} else if (c == 6) {
 		label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
@@ -302,7 +307,7 @@ public class myCapteur extends JFrame{
   public JFrame configseuil() throws UnknownHostException, IOException, JSONException { 
 	JFrame a = new JFrame();  
     a.setTitle("sélectionner quartier");
-	a.setSize(400, 400);
+	a.setSize(450, 300);
 	a.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	a.setLocationRelativeTo(null);
 	a.setVisible(true);
@@ -310,83 +315,163 @@ public class myCapteur extends JFrame{
 	panel1.setLayout(new FlowLayout());
 	panel1.setBackground(Color.white);
 	JLabel label1 = new JLabel("Déterminer les nouveaux seuils des quartiers:\n ");
+	JTextField textField = new JTextField();
+	textField.setColumns(2);
 	int c =getnumquart();
-	JLabel label2 = new JLabel();
-			if(c == 3) {
-			label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0 " + "<p>" + "Pour le quartier_1" + "<p>"
-					+ "Pour le quartier_2" + "<p>" + "</body></html>");
-		} else if (c == 6) {
-			label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0 " + "<p>" + "Pour le quartier_1" + "<p>"
-					+ "Pour le quartier_2" + "<p>" + "Pour le quartier_3 " + "<p>" + "Pour le quartier_4" + "<p>"
-					+ "Pour le quartier_5" + "</body></html>");
-		} else if (c == 10) {
-			label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0 " + "<p>" + "Pour le quartier_1" + "<p>"+ "Pour le quartier_2" + "<p>" + "Pour le quartier_3 " + "<p>" + "Pour le quartier_4" + "<p>"
-					+ "Pour le quartier_5" + "<p>" + "Pour le quartier_6 " + "<p>" + "Pour le quartier_7" + "<p>"
-					+ "Pour le quartier_8" + "<p>" + "Pour le quartier_9 " + "</body></html>");
-
-		} else if (c == 15) {
-			label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0 " + "<p>" + "Pour le quartier_1" + "<p>"+ "Pour le quartier_2" + "<p>" + "Pour le quartier_3 " + "<p>" + "Pour le quartier_4" + "<p>"+ "Pour le quartier_5" + "<p>" + "Pour le quartier_6 " + "<p>" + "Pour le quartier_7" + "<p>"+ "Pour le quartier_8" + "<p>" + "Pour le quartier_9 " + "<p>" + "Pour le quartier_10" + "<p>"
-					+ "Pour le quartier_11" + "<p>" + "Pour le quartier_12" + "<p>" + "Pour le quartier_13" + "<p>"
-					+ "Pour le quartier_14" + "</body></html>");
-		} else if (c > 20) {
-			label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0 " + "<p>" + "Pour le quartier_1" + "<p>"+ "Pour le quartier_2" + "<p>" + "Pour le quartier_3 " + "<p>" + "Pour le quartier_4" + "<p>"+ "Pour le quartier_5" + "<p>" + "Pour le quartier_6 " + "<p>" + "Pour le quartier_7" + "<p>"+ "Pour le quartier_8" + "<p>" + "Pour le quartier_9 " + "<p>" + "Pour le quartier_10" + "<p>"+ "Pour le quartier_11" + "<p>" + "Pour le quartier_12" + "<p>" + "Pour le quartier_13" + "<p>"
-					+ "Pour le quartier_14" + "<p>" + "Pour le quartier_15" + "<p>" + "Pour le quartier_16" + "<p>"
-					+ "Pour le quartier_17" + "<p>" + "Pour le quartier_18" + "<p>" + "Pour le quartier_19"
-					+ "</body></html>");
-		}
+	JComboBox<String> liste1 = new JComboBox<String> (); //Création d'une liste déroulante.
+	int b = getnumquart();
+	if(b == 3) {
+		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");
+	}else if(b == 6) {
+		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");
+		liste1.addItem("Quartier_5");
+	}else if(b == 10) {
+		liste1.addItem("Quartier_0"); liste1.addItem("Quartier_1"); liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");
+		liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");liste1.addItem("Quartier_9");
+	}else if(b == 15) {
+		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");
+		liste1.addItem("Quartier_9");liste1.addItem("Quartier_10");liste1.addItem("Quartier_11");liste1.addItem("Quartier_12");liste1.addItem("Quartier_13");liste1.addItem("Quartier_14");
+	}else if(b > 20) {
+		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");
+		liste1.addItem("Quartier_9");liste1.addItem("Quartier_10");liste1.addItem("Quartier_11");liste1.addItem("Quartier_12");liste1.addItem("Quartier_13");liste1.addItem("Quartier_14");liste1.addItem("Quartier_15");liste1.addItem("Quartier_16");liste1.addItem("Quartier_17");
+		liste1.addItem("Quartier_18");liste1.addItem("Quartier_19");
+	}
+//	JLabel label2 = new JLabel();
+//			if(c == 3) {
+//			label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0 " + textField+ "<p>" + "Pour le quartier_1" +textField+"<p>"
+//					+ "Pour le quartier_2" + textField+ "<p>" + "</body></html>");
+//		} else if (c == 6) {
+//			label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0 " + textField+ "<p>" + "Pour le quartier_1" + textField+ "<p>"
+//					+ "Pour le quartier_2" + textField+"<p>" + "Pour le quartier_3 " + textField+ "<p>" + "Pour le quartier_4" +textField+ "<p>"
+//					+ "Pour le quartier_5" + textField+ "</body></html>");
+//		} else if (c == 10) {
+//			label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0 " + textField+ "<p>" + "Pour le quartier_1"+ textField+ "<p>"+ "Pour le quartier_2" + textField+ "<p>" + "Pour le quartier_3 " + textField+ "<p>" + "Pour le quartier_4" + textField+ "<p>"
+//					+ "Pour le quartier_5" + textField+ "<p>" + "Pour le quartier_6 " + textField+ "<p>" + "Pour le quartier_7" + textField+ "<p>"
+//					+ "Pour le quartier_8" + textField+ "<p>" + "Pour le quartier_9 " + textField+ "</body></html>");
+//
+//		} else if (c == 15) {
+//			label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0 " + "<p>" + "Pour le quartier_1" + "<p>"+ "Pour le quartier_2" + "<p>" + "Pour le quartier_3 " + "<p>" + "Pour le quartier_4" + "<p>"+ "Pour le quartier_5" + "<p>" + "Pour le quartier_6 " + "<p>" + "Pour le quartier_7" + "<p>"+ "Pour le quartier_8" + "<p>" + "Pour le quartier_9 " + "<p>" + "Pour le quartier_10" + "<p>"
+//					+ "Pour le quartier_11" + "<p>" + "Pour le quartier_12" + "<p>" + "Pour le quartier_13" + "<p>"
+//					+ "Pour le quartier_14" + "</body></html>");
+//		} else if (c > 20) {
+//			label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0 " + "<p>" + "Pour le quartier_1" + "<p>"+ "Pour le quartier_2" + "<p>" + "Pour le quartier_3 " + "<p>" + "Pour le quartier_4" + "<p>"+ "Pour le quartier_5" + "<p>" + "Pour le quartier_6 " + "<p>" + "Pour le quartier_7" + "<p>"+ "Pour le quartier_8" + "<p>" + "Pour le quartier_9 " + "<p>" + "Pour le quartier_10" + "<p>"+ "Pour le quartier_11" + "<p>" + "Pour le quartier_12" + "<p>" + "Pour le quartier_13" + "<p>"
+//					+ "Pour le quartier_14" + "<p>" + "Pour le quartier_15" + "<p>" + "Pour le quartier_16" + "<p>"
+//					+ "Pour le quartier_17" + "<p>" + "Pour le quartier_18" + "<p>" + "Pour le quartier_19"
+//					+ "</body></html>");
+//		}
 	JButton Bouton = new JButton("Valider");
 	Bouton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			//System.exit(0);
-			dispose();
+			a.dispose();
+			int z = Integer.parseInt(textField.getText());
+			try {
+				comparaison(z);
+			} catch (IOException | JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	});
 	a.add(panel1);
 	panel1.add(label1);
-	panel1.add(label2);
+	panel1.add(liste1);
+	panel1.add(textField);
 	panel1.add(Bouton);
 	return a;
   }
   
-	public JFrame Histor() throws UnknownHostException, IOException, JSONException {
-		JFrame a = new JFrame();
-		a.setTitle("Historique");
-		a.setSize(400, 400);
-		a.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		a.setLocationRelativeTo(null);
-		a.setVisible(true);
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new FlowLayout());
-		panel1.setBackground(Color.white);
-		String s = null;
-		for(int i = 0; i < 50; i++ ) {
-			String f = historique();
-			s = f + "\n";
-		}
-		//String f = historique();
-		JLabel label1 = new JLabel(s);
-//		JLabel label2 = new JLabel();
-//		Timer timer = new Timer();
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            public void run() {
-//               label2.setText(df.format(new Date()));
-//            }
-//        }, 0, 1000);
-//		label1.setText("<html><body><p><p><p><p><p><p>"
-//				+ "Un relevé de 7 sur l'échelle d'indice ATMO" 
-//				+ "<p>" 
-//				+ "dans le quartier  " // + quartier
-//				+ "<p>" 
-//				+ "le " 
-//				+ "<p>" 
-//				+ "<p>" 
-//				+ "</body></html>");
-		a.add(panel1);
-//		panel1.add(label2);
-		panel1.add(label1);
+  public JFrame comparaison(int s) throws UnknownHostException, IOException, JSONException {
+		JFrame b = new JFrame();
+		b.setTitle("sélectionner quartier");
+		b.setSize(400, 400);
+		b.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		b.setLocationRelativeTo(null);
+		b.setVisible(true);
+		int a = getCalculIndice();
+		JPanel panel2 = new JPanel();
+		panel2.setLayout(new FlowLayout());
+		panel2.setBackground(Color.white);
+		JButton bouton1;
+		//getindice();
+		//getdistrictseuil();
 		
-		return a;
+		int c = getCalculIndice(); //indiceATMO.getIndice();
+		//System.out.println("indiceATMO.getIndice()");
+		 //seuildistrict.getSeuilQuartierATMO();
+		//int c = getalerte();
+		if (c > s) {
+			bouton1 = new JButton("Alerte !!! L'indice relevé est supérieur au seuil");
+  	    getContentPane().add(bouton1, "North");
+  	    getContentPane().setLayout(null);
+  	    bouton1.setBackground(Color.red);
+		}else {
+			bouton1 = new JButton("Tout va bien, aucun problème détecté");
+  	    getContentPane().add(bouton1, "North");
+  	    getContentPane().setLayout(null);
+  	    bouton1.setBackground(Color.green);
+		}
+		JLabel label1 = new JLabel();
+		label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
+               + "Nous avons un indice ATMO de " + a + " pour le quartier sélectionné"
+               +"</body></html>" );
+		b.add(panel2);
+		panel2.add(bouton1);
+		panel2.add(label1);
+		return b;
 	}
+  
+ 
+//  public Comparaison(int a) {
+//	  int b = getCalculIndice();
+//	  int c = 0;
+//	  if (a > b){
+//		c = 0;
+//	  } else {
+//		c = 1;
+//	  }
+//	   c = getalerte();
+//  }
+  
+//	public JFrame Histor() throws UnknownHostException, IOException, JSONException {
+//		JFrame a = new JFrame();
+//		a.setTitle("Historique");
+//		a.setSize(400, 400);
+//		a.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		a.setLocationRelativeTo(null);
+//		a.setVisible(true);
+//		JPanel panel1 = new JPanel();
+//		panel1.setLayout(new FlowLayout());
+//		panel1.setBackground(Color.white);
+//		String s = null;
+//		for(int i = 0; i < 50; i++ ) {
+//			String f = historique();
+//			s = f + "\n";
+//		}
+//		//String f = historique();
+//		JLabel label1 = new JLabel(s);
+////		JLabel label2 = new JLabel();
+////		Timer timer = new Timer();
+////        timer.scheduleAtFixedRate(new TimerTask() {
+////            public void run() {
+////               label2.setText(df.format(new Date()));
+////            }
+////        }, 0, 1000);
+////		label1.setText("<html><body><p><p><p><p><p><p>"
+////				+ "Un relevé de 7 sur l'échelle d'indice ATMO" 
+////				+ "<p>" 
+////				+ "dans le quartier  " // + quartier
+////				+ "<p>" 
+////				+ "le " 
+////				+ "<p>" 
+////				+ "<p>" 
+////				+ "</body></html>");
+//		a.add(panel1);
+////		panel1.add(label2);
+//		panel1.add(label1);
+//		
+//		return a;
+//	}
 	
 //	public String Historique(int indice){
 //		
@@ -556,15 +641,17 @@ public class myCapteur extends JFrame{
 		JButton bouton1;
 		//getindice();
 		//getdistrictseuil();
-		int c = 4; //indiceATMO.getIndice();
+		
+		int c = seuil(); //indiceATMO.getIndice();
 		//System.out.println("indiceATMO.getIndice()");
-		int d = 3; //seuildistrict.getSeuilQuartierATMO();
+		int d = 6; //seuildistrict.getSeuilQuartierATMO();
 		//int c = getalerte();
 		if (d > c) {
 			bouton1 = new JButton("Alerte !!! L'indice relevé est supérieur au seuil");
     	    getContentPane().add(bouton1, "North");
     	    getContentPane().setLayout(null);
     	    bouton1.setBackground(Color.red);
+    	    c++;
 		}else {
 			bouton1 = new JButton("Tout va bien, aucun problème détecté");
     	    getContentPane().add(bouton1, "North");
@@ -581,6 +668,14 @@ public class myCapteur extends JFrame{
 		return b;
 	}
 
+	public int seuil() {
+		int a = 4;
+		a++;
+		
+		return a;
+	}
+	
+	
 	
 	
 
@@ -600,31 +695,6 @@ public class myCapteur extends JFrame{
 //		
 //        return panel1;
 //    }
-
-
-//    public void getseuil() {
-//private JComboBox liste1;
-//private JComboBox liste2;
-
-
-//private JPanel buildContentPane(){
-//JPanel panel = new JPanel();
-//panel.setLayout(new FlowLayout());
-
-//Object[] elements = new Object[];
-//getconfigurecapteur(elements);
-
-//liste1 = new JComboBox(elements);
-
-//panel.add(liste1);
-
-//JButton bouton = new JButton(new CopierAction(this, "OK"));
-
-//panel.add(bouton);
-
-//return panel;
-//}
-
 
 //   
 //    CapteurAir util = new CapteurAir();
@@ -796,7 +866,7 @@ public class myCapteur extends JFrame{
 				minVal = array[i];
 		}
 		//Historique(minVal);
-		System.out.print("\nIndiceATMO = " + minVal);
+		System.out.print("\nIndiceATMO = " + minVal+"\n\n");
 		return minVal;
 	}
       
