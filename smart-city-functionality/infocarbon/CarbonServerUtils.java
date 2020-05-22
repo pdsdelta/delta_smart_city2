@@ -290,16 +290,31 @@ public class CarbonServerUtils {
     	
     }
 	
-	
-	public static void main(String[] args) throws UnknownHostException, IOException, JSONException {
-    	
-		CarbonServerUtils s = new CarbonServerUtils();
-		System.out.println(s.getNbCars("2020-05-12"));
+	public String putCarbonne(double carbon,String date) throws JSONException, JsonProcessingException {
+		String resultat= "{Table: carboninfo, Action : PUT_CARBON , Value :" +carbon +" , date : " + date +" , Status: ";
+    	System.out.println("----------------------------------------------------------------");
+    	System.out.println("Stockage de l'empreinte carbonne dans la table carboninfo");
+    	String status ="failed";
+		String query = "insert into carboninfo(idcity, empreintecarbone, date) values(1,?,"+ date +"')";
 		
+		try {
+			pstmt = connect.prepareStatement(query);
+			pstmt.setDouble(1, carbon);
+			int res = pstmt.executeUpdate();
+			System.out.println("La requette SQL associée est : " + pstmt.toString() + "\n" );
+			if(res == 1) {
+				status = "success";
+			}else {
+				status ="failed";
+			}
+			resultat = resultat + status +" }";
+		} catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return resultat;
+	}
+    	
+    
         
-        
-     
-        
-        
-    }
+ 
 }

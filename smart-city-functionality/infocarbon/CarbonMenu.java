@@ -398,10 +398,17 @@ public class CarbonMenu extends JFrame implements ActionListener {
 											jtiecbus.setText("L'empreinte carbonne des bus est éstimée à :" + df.format(icpub.getEcb())+" Kg de CO2");
 											jtiecnpass.setText("************************************************************************");
 											JLabel emp = new JLabel("L'empreinte carbonne des transports publics est éstimée : "+ df.format(resul) + " Kg de CO2");
+											CarbonOrder co3 = new CarbonOrder(5,u);
+											co3.setCarbon(resul);
+											String daSql = dateFormatSQL.format(dd);
+											co3.setDate(daSql);
+											String resPut = co3.generateJson();
+											String response = CarbonInfo.getInstance().sendMessage(resPut);
 											cg.add(jtiectram);
 											cg.add(jtiecbus);
 											cg.add(jtiecnpass);
 											cg.add(emp);
+											
 			
 										}
 										getContentPane().add(cg);

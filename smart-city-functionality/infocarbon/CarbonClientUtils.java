@@ -53,6 +53,9 @@ public class CarbonClientUtils {
 	            	nbMotos = arr.getJSONObject(0).getInt("NbMotos");
 	            	res = new InfoPrivateCarbon(1,nbCars,nbMotos);
 	    			break;
+	    		case "PUT_CARBON" :
+	    			System.out.println("Empreinte stocké correctement en base");
+	    			break;
 	    			
 	    		default:
 	    			res = null;

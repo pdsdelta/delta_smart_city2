@@ -23,6 +23,7 @@ public class CarbonOrder {
 	private int numOrder;
 	private Users user;
 	private String dateToSend;
+	private double carbon ;
 	
 	public CarbonOrder(int numOrder, Users user) {
 		
@@ -30,6 +31,17 @@ public class CarbonOrder {
 		this.user = user;
 	}
 	
+	
+	public double getCarbon() {
+		return carbon;
+	}
+
+
+	public void setCarbon(double carbon) {
+		this.carbon = carbon;
+	}
+
+
 	public void setDate(String dateToSend) {
 		this.dateToSend = dateToSend;
 	}
@@ -42,6 +54,7 @@ public class CarbonOrder {
 		DateFormat dateFormatSQL = new SimpleDateFormat("yyyy-MM-dd");
 		Date dateToday = new Date(); 
 		String dateRequest;
+		double c = this.getCarbon();
 		switch(this.numOrder){
 		case 1 :
 			res  ="{request:{ operation_type: GET_GLOBAL_CARBON, date: "+ dateFormatSQL.format(yesterday()) +" }} " ;
@@ -55,7 +68,10 @@ public class CarbonOrder {
 		case 4 :
 			res ="{request:{ operation_type: GET_PRIVATE_CARBON, date: "+ dateToSend +" }}" ;
 			break;
-		case 5:
+		case 5 :
+			res ="{request:{ operation_type: PUT_CARBON, date: "+ dateToSend +" , carbon:"+ c +" }}" ;
+			break;
+		case 6:
 			Scanner read = new Scanner(System.in);
 			System.out.print("Estimation de l'empreinte carbonne \n");
 			boolean bool = true;
