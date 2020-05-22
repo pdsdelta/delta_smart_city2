@@ -48,7 +48,7 @@ public class Statistics extends JFrame {
 		dateChooser.setBounds(89, 186, 139, 20);
 		contentPane.add(dateChooser);
 		
-	// Taux de dépassement de seuil d'ATMO	
+	// Thershold depassement of pollution
 		JButton tauxdépassemnetseuil = new JButton("taux de dépassement de seuil d'ATMO");
 		tauxdépassemnetseuil.setBounds(44, 90, 253, 23);
 		contentPane.add(tauxdépassemnetseuil);
@@ -78,12 +78,12 @@ public class Statistics extends JFrame {
 		});
 		
 		
-// Taux de pollution:
+// Thershold ATMO:
 		JButton tauxdepollution = new JButton("taux d'ATMO  dans la ville");
 		tauxdepollution.setBounds(44, 54, 253, 23);
 		contentPane.add(tauxdepollution);
 		
-		JButton numberaletre = new JButton("numberalerte");
+		JButton numberaletre = new JButton("nombre d'alerte");
 		numberaletre.setBounds(44, 124, 253, 23);
 		numberaletre.addActionListener(new ActionListener() {
 			
@@ -111,10 +111,10 @@ public class Statistics extends JFrame {
 				
 			}
 		});
-		//numbre d'alerte
+		//numbre alerte
 		contentPane.add(numberaletre);
 		
-		JButton capteurairActif = new JButton("capteurair Actif");
+		JButton capteurairActif = new JButton(" capteur air active");
 		capteurairActif.setBounds(44, 162, 251, 23);
 		contentPane.add(capteurairActif);
 		
