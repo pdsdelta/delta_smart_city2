@@ -151,7 +151,7 @@ public class Statistics extends JFrame {
 					int data = objet1.getInt("Data");
 			if(data==0) {
 			    JOptionPane.showMessageDialog(null, "aucun capteurair n'est activée");
-			}else{JOptionPane.showMessageDialog(null, "le capteur d'air actif  est :" + data);
+			}else{JOptionPane.showMessageDialog(null, "le capteur d'air n'est activée  est :" + data);
 			}
 			}
 				 catch (HeadlessException | JSONException | SQLException | IOException e1) {
