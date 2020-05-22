@@ -65,7 +65,7 @@ public class TestAddMotionSensor {
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
 		JSONArray terminal = null;
-		try (FileReader reader = new FileReader("E:\\AddTerminal.json"))
+		try (FileReader reader = new FileReader("E:\\AddMotionSensor.json"))
 		{
 			//Read JSON file
 			Object obj = jsonParser.parse(reader);

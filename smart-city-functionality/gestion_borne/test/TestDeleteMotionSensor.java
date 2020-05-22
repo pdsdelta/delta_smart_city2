@@ -61,7 +61,7 @@ public class TestDeleteMotionSensor {
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
 		JSONArray terminal = null;
-		try (FileReader reader = new FileReader("E:\\DeleteTerminal.json"))
+		try (FileReader reader = new FileReader("E:\\DeleteMotionSensor.json"))
 		{
 			//Read JSON file
 			Object obj = jsonParser.parse(reader);
