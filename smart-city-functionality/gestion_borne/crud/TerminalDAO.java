@@ -58,8 +58,8 @@ public class TerminalDAO extends DAO<Terminal>{
 		String query = "INSERT INTO Terminal (longitude, latitude, isActive, status,city) " + "VALUES (?, ?, ?, ?,?)";
 		try {
 			pstmt = this.connect.prepareStatement(query);
-			pstmt.setLong(1, (long) obj.getLongitude());
-			pstmt.setLong(2, (long) obj.getLatitude());
+			pstmt.setInt(1,  obj.getLongitude());
+			pstmt.setInt(2,  obj.getLatitude());
 			pstmt.setBoolean(3, obj.isActive());
 			pstmt.setLong(4, obj.getStatus());
 			pstmt.setInt(5, 1);
@@ -184,7 +184,7 @@ public class TerminalDAO extends DAO<Terminal>{
 		this.json  ="{request:{ operation_type: ALL_TERMINAL, target: Terminal}} " ;
 		return res;
 	}
-	
+
 	//METHODE QUI PERMET DE MODIFIER LE NOMBRE DE VEHICULES MAXIMUM D'UNE VILLE
 	public String SetNbrMaxVoiture(int nombre){
 		int res=0;
@@ -213,4 +213,27 @@ public class TerminalDAO extends DAO<Terminal>{
 		this.json  ="{request:{ operation_type: SET_CITY, target: city ,nombremaxvoiture :"+nombre+"}} " ;
 		return jsone;
 	}
+
+	//METHODE QUI PERMET DE MODIFIER LE NOMBRE DE VEHICULES MAXIMUM D'UNE VILLE
+	public void StockNbrVoiture(int nbrCars){
+		int res=0;
+		String jsone="";
+		String query = "insert into carstats (idcity,nbcars,dateof)"+ "VALUES (?, ?, NOW())"; 
+		try { 
+			pstmt = this.connect.prepareStatement(query);
+			pstmt.setInt(1,  1);
+			pstmt.setInt(2,  nbrCars);
+			res = pstmt.executeUpdate(); 
+
+		} catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		if(res==1) {
+			System.out.println("reussi ssu");
+		}else
+			System.out.println("rate");
+
+	}
+
+
 }

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,7 +29,7 @@ public class AlgorithmeBorne {
 	TerminalDAO data=new TerminalDAO(server)  ;
 	String toSend;
 	//Variable contenant les voitures dans la ville
-	public static HashSet<Objet> infoVoitures = new HashSet<Objet>();
+	public static ArrayList<Objet> infoVoitures = new ArrayList <Objet>();
 	//Variable comptant le nombre de voiture dans la ville
 	public static AtomicInteger PlacesOccupees= new AtomicInteger();
 	int capacity =0;
@@ -109,7 +110,7 @@ public class AlgorithmeBorne {
 		 * On verifie s'il le nombre de place disponibles dans la ville n'est pas inférieur ou egale à zero
 		 * et aussi si une alerte n'a pas ete lancé
 		 */
-		if  ((this.places() <=0 || borne.getCity().getAlert()==1 ) ){
+		if  ((this.places() ==0 || borne.getCity().getAlert()==1 ) ){
 
 			//Si l'une des conditions est constaté, on refuse l'acces de la voiture, la borne se lève
 			borne.setStatus(1);
@@ -121,7 +122,7 @@ public class AlgorithmeBorne {
 		}
 		//Si aucune alerte n'a ete lancé ou le nombre maximal n'a pas encore ete atteint
 		else   {
-			if(this.places()>0 || borne.getCity().getAlert()==0) {
+			if(this.places()>0 || this.places()==1) {
 			//On incremente le nombre de places Occupee
 			int size=this.PlacesOccupees.incrementAndGet();
 			this.setCapacity(size );
@@ -132,7 +133,7 @@ public class AlgorithmeBorne {
 			//On ajoute l'objet au tableau d'objet de la ville
 			this.infoVoitures.add(objet);
 			System.out.format("[Borne %s]: Objet acceptée, il reste %d places \n", borne.getNumero(), this.places());
-			System.out.format("Voiture Garees  :\n"+this.infoVoitures.size());
+			System.out.println("Voiture Garees  :"+this.infoVoitures.size());
 			}
 			return (true) ; 
 
@@ -141,13 +142,14 @@ public class AlgorithmeBorne {
 
 	//Methode permettant de faire sortir un objet (voiture) de la ville
 	public synchronized boolean sortir() throws JSONException, ClassNotFoundException, SQLException {
+		Objet o= this.infoVoitures.get(1);
 		//Decrementation du nombre de voiture dans la ville
-
 		int size=this.PlacesOccupees.decrementAndGet();
 		this.setCapacity(size);
 		//On retire la voiture du tableau
-		this.infoVoitures.remove(1) ;
+		this.infoVoitures.remove(o);
 		System.out.format("Borne : Une voiture est sortie, reste  %d places\n" ,this.places());
+		System.out.println("Voiture Garees  :"+this.infoVoitures.size());
 		//System.out.format("Voiture Garees :\n"+this.infoVoitures.size());
 		return true;
 
