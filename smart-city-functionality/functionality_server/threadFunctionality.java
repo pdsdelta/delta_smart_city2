@@ -113,7 +113,8 @@ class threadFunctionality extends Thread {
 			}else if (operationType.equals("PUT_CARBON")) {//INFO CARBON request
 				String date = request.getString("date");
 				CarbonServerUtils s = new CarbonServerUtils(this.connect, this.stm, this.rs, this.pstmt);
-				query = s.putCarbonne(12, date);
+				double carbon = request.getDouble("carbon");
+				query = s.putCarbonne(carbon, date);
 				this.response = query;
 			}
 // Requete concernant les analyses des indicateurs
