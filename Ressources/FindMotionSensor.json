@@ -1,0 +1,4 @@
+[{"request":{"numero":1,"operation_type:":"SELECT_SENSOR"}},
+{"request":{"numero":2,"operation_type:":"SELECT_SENSOR"}},
+{"request":{"numero":3,"operation_type:":"SELECT_SENSOR"}},
+{"request":{"numero":4,"operation_type:":"SELECT_SENSOR"}}]
