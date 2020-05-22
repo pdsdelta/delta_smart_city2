@@ -189,8 +189,12 @@ public class mapInterface extends JFrame {
     if (a == 4) {
     this.setContentPane(showInformationStation());	
     }
-    this.setVisible(true);
-
+    
+    if(a == 10) {
+    	this.setVisible(false);
+    }else {
+    	this.setVisible(true);	
+    }
   }
   
   
@@ -329,6 +333,16 @@ public class mapInterface extends JFrame {
 				transition.longueur1 = util.getLongueurCity();
 				transition.nameCity = util.getNameCity();
 				transition.mapTaille1 = util.getTailleCity();
+				
+				System.out.println("J'ai récupéré ces informations en base à propos de la ville : ");
+				System.out.println("L'id de la ville est : " + util.getIdCity());
+				System.out.println("Le nom de la ville est : " + transition.nameCity);
+				System.out.println("le budget de la ville est : " + transition.budgetCity1);
+				System.out.println("La largeur de la ville est : " + transition.largeur1);
+				System.out.println("la longueur de la ville est : " + transition.longueur1);
+				System.out.println("la taille de la ville est : " + transition.mapTaille1);
+				
+				
 		return res;
 		
 	}
@@ -362,6 +376,14 @@ public class mapInterface extends JFrame {
 				transition.longueurReseau1 = utilStation.getLongueurReseau();
 				transition.numberTram1 = utilStation.getNumberTram();
 				transition.numberLine1 = utilStation.getNumberLine();
+				
+				System.out.println("J'ai récupéré ces informations en base à propos des stations : ");
+				System.out.println("L'id est : " + utilStation.getIdStation());
+				System.out.println("Le cout uniaire d'une station est : " + transition.budgetStation1);
+				System.out.println("Le nombre de station est : " + transition.nombreStation1);
+				System.out.println("La longueur du réseau est de " + transition.longueurReseau1 + "km");
+				System.out.println("Il y a " + transition.numberTram1 + " trams dans le reseau");
+				System.out.println("Il y a " + transition.numberLine1 + " lignes de trams dans le reseau");
 
 		return res;	
 	}

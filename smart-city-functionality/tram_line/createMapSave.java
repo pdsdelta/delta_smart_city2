@@ -8,7 +8,7 @@ import tram_line.tramExceptions.unexpectedHeight;
 import java.awt.*;
 import java.util.*;
 
-class createMapSave extends JPanel {
+public class createMapSave extends JPanel {
       int longueur;
       int largeur;
       int numberStation;
@@ -26,6 +26,7 @@ class createMapSave extends JPanel {
           repaint();
         }
         });
+        System.out.println("L'algorithme c'est terminé avec succès!");
       }
       @Override
       protected void paintComponent(Graphics g) { 

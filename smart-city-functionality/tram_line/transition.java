@@ -5,17 +5,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-class transition{
-  static int longueur1;
-  static int largeur1;
-  static double mapTaille1;
-  static String nameCity;
-  static int budgetCity1;
-  static int budgetStation1;
-  static int nombreStation1;
-  static int numberLine1;
-  static int numberTram1;
-  static int longueurReseau1;
+public class transition{
+  public static int longueur1;
+  public static int largeur1;
+  public static double mapTaille1;
+  public static String nameCity;
+  public static int budgetCity1;
+  public static int budgetStation1;
+  public static int nombreStation1;
+  public static int numberLine1;
+  public static int numberTram1;
+  public static int longueurReseau1;
   
   public static void saveLlt(int longueur, int largeur, double mapTaille, int budgetStation, int nombreStation, int longueurLigne){
 	  longueur1 = longueur;
