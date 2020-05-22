@@ -9,9 +9,6 @@ import java.net.UnknownHostException;
 import javax.swing.*;
 
 import org.json.JSONException;
-import org.postgresql.util.LruCache.CreateAction;
-import org.yaml.snakeyaml.Yaml;
-
 import tram_line.tramExceptions.typeMapExceptions;
 import tram_line.transition;
 import tram_line.mapInterface;
@@ -24,6 +21,8 @@ import java.util.*;
 public class testFile{
 	
 	public testFile() throws UnknownHostException, IOException, JSONException {
+		  System.out.println("Scenario 1: We are going to set values that a user could have entered with the interface to observe if the program works well. \n We will also test the station placement program to see if it ends without errors.");
+		  
 		  mapInterface test = new mapInterface(10);
 		  transition.longueur1 = 800;
 		  transition.largeur1 = 600;
@@ -42,7 +41,7 @@ public class testFile{
 		  test.startConnection("172.31.249.22", 2400, 2);
 		  test.startConnection("172.31.249.22", 2400, 4);
 		  
-		  
+		  System.out.println("If this message is displayed, the program has worked well. \n So the program correctly saved the data in the database and recovered it well. \n In addition, the algorithm is finished without errors.");
 	}
 
 	public static void main(String[]args) throws UnknownHostException, IOException, JSONException {
