@@ -83,7 +83,7 @@ public class MotionSensorFonctionMock implements Runnable {
 			while(true){
 				this.JSON();
 				this.startConnection( "172.31.249.22",2400);
-				Thread.sleep((long)  (50000* Math.random()));
+				Thread.sleep((long)  (5000* Math.random()));
 			}}
 		catch (InterruptedException e) {
 			e.printStackTrace();	} catch (UnknownHostException e) {
