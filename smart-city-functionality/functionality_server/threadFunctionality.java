@@ -522,7 +522,8 @@ class threadFunctionality extends Thread {
 			JSONObject request = obj.getJSONObject("request");
 			int id = request.getInt("id");
 			String name = request.getString("name");
-			int seuilQuartierATMO = request.getInt("seuilquartieratmo");
+			int seuilquartieratmo = request.getInt("seuilquartieratmo");
+			int etatalerte = request.getInt("etatalerte");
 
 			//String query = "delete from capteurair WHERE idcapteur=?";
 
@@ -535,13 +536,14 @@ class threadFunctionality extends Thread {
 			//			System.out.println("Erreur! addquartier");
 			//		}
 
-			String query = "INSERT INTO district (id, name, seuilquartieratmo) "
-					+ "VALUES (?,?,?)";
+			String query = "INSERT INTO district (id, name, seuilquartieratmo, etatalerte) "
+					+ "VALUES (?, ?, ?, ?)";
 			try {
 				pstmt = connect.prepareStatement(query);
 				pstmt.setInt(1, id);
-				pstmt.setString(1, name);
-				pstmt.setInt(1, seuilQuartierATMO);
+				pstmt.setString(2, name);
+				pstmt.setInt(3, seuilquartieratmo);
+				pstmt.setInt(4, etatalerte);
 				res = pstmt.executeUpdate();
 				System.out.println("operation ok\n");
 			} catch (SQLException ex) {
@@ -550,11 +552,8 @@ class threadFunctionality extends Thread {
 			System.out.println("je vais enregistrer en bdd");
 
 			resultat = resultat + "Data : [{  id: " + id + ", name: " + name
-					+ ", seuilquartieratmo : " + seuilQuartierATMO + "} ]}";
+					+ ", seuilquartieratmo : " + seuilquartieratmo + ", etatalerte : " + etatalerte + "} ]}";
 			this.response = resultat;
 			return resultat;
 		}
-
-
-
 	}

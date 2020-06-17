@@ -4,17 +4,17 @@ public class District {
 	
 	int id;
 	String name;
-	int seuilQuartierATMO;
-	int Etatalterte;
+	int seuilquartieratmo;
+	int etatalerte;
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Etatalterte;
+		result = prime * result + etatalerte;
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + seuilQuartierATMO;
+		result = prime * result + seuilquartieratmo;
 		return result;
 	}
 	@Override
@@ -26,7 +26,7 @@ public class District {
 		if (getClass() != obj.getClass())
 			return false;
 		District other = (District) obj;
-		if (Etatalterte != other.Etatalterte)
+		if (etatalerte != other.etatalerte)
 			return false;
 		if (id != other.id)
 			return false;
@@ -35,7 +35,7 @@ public class District {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (seuilQuartierATMO != other.seuilQuartierATMO)
+		if (seuilquartieratmo != other.seuilquartieratmo)
 			return false;
 		return true;
 	}
@@ -52,16 +52,16 @@ public class District {
 		this.name = name;
 	}
 	public int getSeuilQuartierATMO() {
-		return seuilQuartierATMO;
+		return seuilquartieratmo;
 	}
 	public void setSeuilQuartierATMO(int seuilQuartierATMO) {
-		this.seuilQuartierATMO = seuilQuartierATMO;
+		this.seuilquartieratmo = seuilQuartierATMO;
 	}
 	public int getEtatalterte() {
-		return Etatalterte;
+		return etatalerte;
 	}
-	public void setEtatalterte(int etatalterte) {
-		Etatalterte = etatalterte;
+	public void setEtatalterte(int etat) {
+		this.etatalerte = etat;
 	}
 
 }
