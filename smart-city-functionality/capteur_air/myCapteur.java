@@ -95,7 +95,7 @@ public class myCapteur extends JFrame{
 			out.println(toSend);
 			String response = in.readLine();
 			System.out.println("***** Résultat ******\n");
-			System.out.println(this.showresultquartier(response));
+			//System.out.println(this.showresultquartier(response));
 			//System.out.println(this.showresultindice(response));
 //			System.out.println(this.showresultseuil(response));
 			System.out.println(this.addSetquartier());
@@ -938,12 +938,13 @@ public class myCapteur extends JFrame{
 	
 	public void a() throws UnknownHostException, IOException, JSONException {
 		addSetquartier();
+		System.out.println("c'est A");
 	}
 	
 	District util = new District();
 	public String addSetquartier() throws UnknownHostException, IOException, JSONException {
 		int id = 1;
-		String name = "Quartier_0";
+		String name = "Quartier_1";
 		int seuilquartieratmo = 4;
 		int etatalerte = 1;
 		String json= "";
@@ -953,8 +954,11 @@ public class myCapteur extends JFrame{
 		util.setSeuilQuartierATMO(seuilquartieratmo);
 		util.setEtatalterte(etatalerte);
 		
-		json  ="{request:{ operation_type: ADDQUARTIER, target: district , id: "+util.getId() + ", name: "+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() + ", etatalerte : " + util.getEtatalterte() +"}} " ;
+		json  ="{request:{ operation_type: ADDQUARTIER, target: district , id: "+util.getId() + 
+				", name: "+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() + 
+				", etatalerte : " + util.getEtatalterte() +"}} " ;
 		this.startConnection("172.31.249.22", 2400,json);
+		System.out.println("c'est addsetquartier");
 		return json;
 	}
 

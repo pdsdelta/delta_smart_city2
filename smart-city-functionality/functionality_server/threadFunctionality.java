@@ -219,6 +219,7 @@ class threadFunctionality extends Thread {
 					seuilquartier();
 				}else if(operationType.equals("ADDQUARTIER")) {
 					insertquartier();
+					System.out.println("Operation type, Bien reçu");
 				}
 
 			} catch (JSONException e) {
@@ -515,8 +516,9 @@ class threadFunctionality extends Thread {
 		}
 
 		public String insertquartier() throws JSONException {
-			String resultat = "{Table:district , Action: ADDQUARTIER ";
-			int res = 0;
+			//String resultat = "{Table:district , Action: ADDQUARTIER ";
+			String resultat = "FIN";
+			//int res = 0;
 			String json = this.mapJson;
 			JSONObject obj = new JSONObject(json);
 			JSONObject request = obj.getJSONObject("request");
@@ -524,7 +526,7 @@ class threadFunctionality extends Thread {
 			String name = request.getString("name");
 			int seuilquartieratmo = request.getInt("seuilquartieratmo");
 			int etatalerte = request.getInt("etatalerte");
-
+			
 			//String query = "delete from capteurair WHERE idcapteur=?";
 
 			//		try {
@@ -536,23 +538,24 @@ class threadFunctionality extends Thread {
 			//			System.out.println("Erreur! addquartier");
 			//		}
 
-			String query = "INSERT INTO district (id, name, seuilquartieratmo, etatalerte) "
-					+ "VALUES (?, ?, ?, ?)";
+			//String query = "INSERT INTO district (id, name, seuilquartieratmo, etatalerte) "
+				//	+ "VALUES (?, ?, ?, ?)";
 			try {
-				pstmt = connect.prepareStatement(query);
+				pstmt = connect.prepareStatement("INSERT INTO district (id, name, seuilquartieratmo, etatalerte) VALUES (?, ?, ?, ?)");
 				pstmt.setInt(1, id);
 				pstmt.setString(2, name);
 				pstmt.setInt(3, seuilquartieratmo);
 				pstmt.setInt(4, etatalerte);
-				res = pstmt.executeUpdate();
+				pstmt.executeUpdate();
 				System.out.println("operation ok\n");
 			} catch (SQLException ex) {
 				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				ex.printStackTrace();
 			}
-			System.out.println("je vais enregistrer en bdd");
+			System.out.println("on est dans la méthode insert");
 
-			resultat = resultat + "Data : [{  id: " + id + ", name: " + name
-					+ ", seuilquartieratmo : " + seuilquartieratmo + ", etatalerte : " + etatalerte + "} ]}";
+			//resultat = resultat + "Data : [{  id: " + id + ", name: " + name
+				//	+ ", seuilquartieratmo : " + seuilquartieratmo + ", etatalerte : " + etatalerte + "} ]}";
 			this.response = resultat;
 			return resultat;
 		}
