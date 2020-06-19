@@ -516,8 +516,8 @@ class threadFunctionality extends Thread {
 		}
 
 		public String insertquartier() throws JSONException {
-			//String resultat = "{Table:district , Action: ADDQUARTIER ";
-			String resultat = "FIN";
+			String resultat = "{Table:district , Action: ADDQUARTIER ";
+			//String resultat = "FIN";
 			//int res = 0;
 			String json = this.mapJson;
 			JSONObject obj = new JSONObject(json);
@@ -554,8 +554,8 @@ class threadFunctionality extends Thread {
 			}
 			System.out.println("on est dans la méthode insert");
 
-			//resultat = resultat + "Data : [{  id: " + id + ", name: " + name
-				//	+ ", seuilquartieratmo : " + seuilquartieratmo + ", etatalerte : " + etatalerte + "} ]}";
+			resultat = resultat + "Data : [{  id: " + id + ", name: " + name
+					+ ", seuilquartieratmo : " + seuilquartieratmo + ", etatalerte : " + etatalerte + "} ]}";
 			this.response = resultat;
 			return resultat;
 		}

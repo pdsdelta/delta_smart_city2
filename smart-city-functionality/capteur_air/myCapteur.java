@@ -77,31 +77,26 @@ public class myCapteur extends JFrame{
 	private JMenuItem case3 = new JMenuItem("Ajuster les seuils suivant les quartiers");
 	private JMenuItem case4 = new JMenuItem("Déterminer l'intervalle de relevé");
 	//private JMenuItem case5 = new JMenuItem("Apercevoir l'historique des relevés");
-	static DateFormat df = new SimpleDateFormat("EEEE d MMMM yyyy HH:mm:ss z G");
 	
-
+	//String datetime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-M-yyyy hh:mm:ss"));
 	private Socket clientSocket;
 	private PrintWriter out;
 	private BufferedReader in;
 	private Object jtext;
 
-	public void startConnection(String ip, int port , String json) throws UnknownHostException, IOException, JSONException {
+	public String startConnection(String ip, int port , String json) throws UnknownHostException, IOException, JSONException {
 		String toSend = json;
 		clientSocket = new Socket(ip, port);
 		out = new PrintWriter(clientSocket.getOutputStream(), true);
 		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-		//while(true) {
-			out.println(toSend);
-			String response = in.readLine();
-			System.out.println("***** Résultat ******\n");
-			//System.out.println(this.showresultquartier(response));
-			//System.out.println(this.showresultindice(response));
-//			System.out.println(this.showresultseuil(response));
-			System.out.println(this.addSetquartier());
-		//}
-		
+		out.println(toSend);
+		String response = in.readLine();
+		System.out.println("***** Résultat ******\n");
+		return response;
 	}
+	
+	
 
  // interface central
   public myCapteur() throws UnknownHostException, IOException, JSONException{
@@ -151,6 +146,7 @@ public class myCapteur extends JFrame{
 		case3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					//showresultquartier();
 					configseuil();
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
@@ -362,6 +358,8 @@ public class myCapteur extends JFrame{
 	Bouton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			//System.exit(0);
+			String selected = (String) liste1.getSelectedItem();
+			System.out.println(selected);
 			a.dispose();
 			int z = Integer.parseInt(textField.getText());
 			try {
@@ -884,6 +882,7 @@ public class myCapteur extends JFrame{
     		Quartier = 10;
     	}else if(c >= 51 && 100 >= c) {
     		Quartier = 15;
+    		System.out.println("loulou");
     	}else if(c > 100) {
     		Quartier = 20;
     	}
@@ -894,8 +893,10 @@ public class myCapteur extends JFrame{
     public void getQuartier() throws UnknownHostException, IOException, JSONException{
     	String json;
     	int idcity = 1;
-    	json  ="{request:{ operation_type: INFOCITY, target: station , idcity: "+ idcity + "}} " ;
-    	this.startConnection("172.31.249.22", 2400,json);
+    	json  ="{request:{ operation_type: INFOCITY, target: city , idcity: "+ idcity + "}}" ;
+    	
+    	String jsonResponse = this.startConnection("172.31.249.22", 2400,json);
+    	this.showresultquartier(jsonResponse);
     }
 
 	city tailleQuartier = new city();
@@ -943,13 +944,13 @@ public class myCapteur extends JFrame{
 	
 	District util = new District();
 	public String addSetquartier() throws UnknownHostException, IOException, JSONException {
-		int id = 1;
-		String name = "Quartier_1";
+		//int id = 1;
+		String name = "Quartier_2";
 		int seuilquartieratmo = 4;
 		int etatalerte = 1;
 		String json= "";
 	
-		util.setId(id);
+		//util.setId(id);
 		util.setName(name);
 		util.setSeuilQuartierATMO(seuilquartieratmo);
 		util.setEtatalterte(etatalerte);

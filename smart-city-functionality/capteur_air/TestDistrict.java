@@ -11,8 +11,8 @@ import org.json.simple.parser.ParseException;
 
 public class TestDistrict {
 
-   public void insertHistoricalSensorPolluant (JSONObject JsonRecu, Connection c) throws ParseException, UnsupportedEncodingException, SQLException {
-   //public static void main(String args[]) {
+   //public void insertHistoricalSensorPolluant (JSONObject JsonRecu, Connection c) throws ParseException, UnsupportedEncodingException, SQLException {
+   public static void main(String args[]) {
       JSONParser parser = new JSONParser();
       
       try {
