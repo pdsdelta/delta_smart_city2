@@ -1,21 +1,18 @@
 package CapteurAir;
-import java.sql.Date;
 
 public class CapteurAir {
-	int idCapteur;
-	String nameCapteur;
-	Date dateReleve;
-	int IndiceATMO;
+	int idcapteur;
+	String datereleve;
+	int indiceatmo;
 	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + IndiceATMO;
-		result = prime * result + ((dateReleve == null) ? 0 : dateReleve.hashCode());
-		result = prime * result + idCapteur;
-		result = prime * result + ((nameCapteur == null) ? 0 : nameCapteur.hashCode());
+		result = prime * result + ((datereleve == null) ? 0 : datereleve.hashCode());
+		result = prime * result + idcapteur;
+		result = prime * result + indiceatmo;
 		return result;
 	}
 
@@ -28,48 +25,37 @@ public class CapteurAir {
 		if (getClass() != obj.getClass())
 			return false;
 		CapteurAir other = (CapteurAir) obj;
-		if (IndiceATMO != other.IndiceATMO)
-			return false;
-		if (dateReleve == null) {
-			if (other.dateReleve != null)
+		if (datereleve == null) {
+			if (other.datereleve != null)
 				return false;
-		} else if (!dateReleve.equals(other.dateReleve))
+		} else if (!datereleve.equals(other.datereleve))
 			return false;
-		if (idCapteur != other.idCapteur)
+		if (idcapteur != other.idcapteur)
 			return false;
-		if (nameCapteur == null) {
-			if (other.nameCapteur != null)
-				return false;
-		} else if (!nameCapteur.equals(other.nameCapteur))
+		if (indiceatmo != other.indiceatmo)
 			return false;
 		return true;
 	}
 
 	public int getId() {
-		return idCapteur;
+		return idcapteur;
 	}
 	
 	public void setId(int id) {
-		this.idCapteur = id;
-	}
-	public String getName() {
-		return nameCapteur;
-	}
-	public void setName(String name) {
-		this.nameCapteur = name;
+		this.idcapteur = id;
 	}
 	
-	public Date getDate() {
-		return dateReleve;
+	public String getDate() {
+		return datereleve;
 	}
-	public void setDate(Date date) {
-		this.dateReleve = date;
+	public void setDate(String date) {
+		this.datereleve = date;
 	}
 
 	public int getIndice() {
-		return IndiceATMO;
+		return indiceatmo;
 	}
 	public void setIndice(int indice) {
-		this.IndiceATMO = indice;
+		this.indiceatmo = indice;
 	}
 }

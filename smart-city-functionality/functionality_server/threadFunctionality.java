@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -215,8 +217,10 @@ class threadFunctionality extends Thread {
 					sizecity();
 				}else if(operationType.equals("INFOINDATMO")) {
 					indice();
-				}else if(operationType.equals("INFOSEUIL")) {
-					seuilquartier();
+				}else if(operationType.equals("CAPTEURAIR")) {
+					insertcapteur();
+					System.out.println("Très bien ");
+					
 				}else if(operationType.equals("ADDQUARTIER")) {
 					insertquartier();
 					System.out.println("Operation type, Bien reçu");
@@ -556,6 +560,37 @@ class threadFunctionality extends Thread {
 
 			resultat = resultat + "Data : [{  id: " + id + ", name: " + name
 					+ ", seuilquartieratmo : " + seuilquartieratmo + ", etatalerte : " + etatalerte + "} ]}";
+			this.response = resultat;
+			return resultat;
+		}
+		
+		public String insertcapteur() throws JSONException {
+			String resultat = "{Table:capteurair , Action: ADDCAPTEUR ";
+			//String resultat = "FIN";
+			//int res = 0;
+			String json = this.mapJson;
+			JSONObject obj = new JSONObject(json);
+			JSONObject request = obj.getJSONObject("request");
+			int idcapteur = request.getInt("idcapteur");
+			String datereleve = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-M-yyyy hh:mm:ss"));
+			//request.getString("datereleve");
+			int indiceatmo = request.getInt("indiceatmo");
+			
+			try {
+				pstmt = connect.prepareStatement("INSERT INTO capteurair (idcapteur, datereleve, indiceatmo) VALUES (?, ?, ?)");
+				pstmt.setInt(1, idcapteur);
+				pstmt.setString(2, datereleve);
+				pstmt.setInt(3, indiceatmo);
+				pstmt.executeUpdate();
+				System.out.println("operation ok\n");
+			} catch (SQLException ex) {
+				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				ex.printStackTrace();
+			}
+			System.out.println("on est dans la méthode insert");
+
+			resultat = resultat + "Data : [{  idcapteur: " + idcapteur + ", datereleve: " + datereleve
+					+ ", indiceatmo : " + indiceatmo + "} ]}";
 			this.response = resultat;
 			return resultat;
 		}
