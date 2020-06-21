@@ -1,5 +1,6 @@
 package gestion_borne.test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -61,7 +62,10 @@ public class TestDeleteMotionSensor {
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
 		JSONArray terminal = null;
-		try (FileReader reader = new FileReader("E:\\DeleteMotionSensor.json"))
+		File file = new File(
+				getClass().getClassLoader().getResource("DeleteMotionSensor.json").getFile()
+				);
+		try (FileReader reader = new FileReader(file))
 		{
 			//Read JSON file
 			Object obj = jsonParser.parse(reader);

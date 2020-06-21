@@ -1,5 +1,6 @@
 package gestion_borne.test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,9 +21,9 @@ public class TestAddTerminal {
 	public TestAddTerminal() {}
 	public void constructObject() throws ClassNotFoundException, SQLException {
 		JSONArray request = readScenario();
-	
-        //Iterate over employee array
-        request.forEach( voit -> {
+
+		//Iterate over employee array
+		request.forEach( voit -> {
 			try {
 				parseVoitureObject( (JSONObject) voit );
 			} catch (ClassNotFoundException e) {
@@ -33,42 +34,45 @@ public class TestAddTerminal {
 				e.printStackTrace();
 			}
 		} );
-		
-		
-		
-		
+
+
+
+
 	}
 	private static void parseVoitureObject(JSONObject requete) throws ClassNotFoundException, SQLException 
-    {
-		
-        //Get employee object within list
-        JSONObject borne = (JSONObject) requete.get("request");
-         
-        //Get longitude 
-        long longi =  (Long) borne.get("longitude");    
-       
-         
-        //Get latitude
-        long lati =  (Long) borne.get("latitude");  
-        int longitude= (int)longi;
-        int latitude =(int)lati;
-        Terminal objet = new Terminal(longitude,latitude);
-        data= new TerminalDAO(server);
+	{
+
+		//Get employee object within list
+		JSONObject borne = (JSONObject) requete.get("request");
+
+		//Get longitude 
+		long longi =  (Long) borne.get("longitude");    
+
+
+		//Get latitude
+		long lati =  (Long) borne.get("latitude");  
+		int longitude= (int)longi;
+		int latitude =(int)lati;
+		Terminal objet = new Terminal(longitude,latitude);
+		data= new TerminalDAO(server);
 		data.create(objet);
-       
-         
-        
-    }
+
+
+
+	}
 	public JSONArray readScenario() {
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
 		JSONArray terminal = null;
-		try (FileReader reader = new FileReader("E:\\AddTerminal.json"))
+		File file = new File(
+				getClass().getClassLoader().getResource("AddTerminal.json").getFile()
+				);
+		try (FileReader reader = new FileReader(file))
 		{
 			//Read JSON file
 			Object obj = jsonParser.parse(reader);
 			terminal = (JSONArray) obj;
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -81,7 +85,7 @@ public class TestAddTerminal {
 	}
 	public static void main (String args[]) {
 		TestAddTerminal  test = new TestAddTerminal();
-	     try {
+		try {
 			test.constructObject();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -90,6 +94,6 @@ public class TestAddTerminal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}
+	}
 
 }

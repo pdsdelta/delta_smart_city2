@@ -67,11 +67,11 @@ public class TestAddMotionSensor {
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
 		JSONArray terminal = null;
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		File input= null;
-        input = new File(classLoader.getResource("Ressources"+input.separator+"AddMotionSensor").getFile());
-
-		try (FileReader reader = new FileReader(input))
+		File file = new File(
+				getClass().getClassLoader().getResource("AddMotionSensor.json").getFile()
+				);
+        
+		try (FileReader reader = new FileReader(file))
 		{
 			//Read JSON file
 			Object obj = jsonParser.parse(reader);
