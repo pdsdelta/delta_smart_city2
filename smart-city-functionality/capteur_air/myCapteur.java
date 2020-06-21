@@ -329,6 +329,7 @@ public class myCapteur extends JFrame{
 			a.dispose();
 			int z = Integer.parseInt(textField.getText());
 			try {
+				upSetquartier(z,selected);
 				comparaison(z);
 			} catch (IOException | JSONException e1) {
 				// TODO Auto-generated catch block
@@ -906,6 +907,24 @@ public class myCapteur extends JFrame{
 		return (String) json;
 	}
 
+	public String upSetquartier(int a, String b) throws UnknownHostException, IOException, JSONException {
+		//int id = 1;
+			int seuilquartieratmo = a;
+			String name = b;
+		
+		String json= "";
+	
+		util.setName(name);
+		util.setSeuilQuartierATMO(seuilquartieratmo);
+		
+		
+		json  ="{request:{ operation_type: UPDATESEUIL, target: district , name:"+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() +"}} " ;
+		this.startConnection("172.31.249.22", 2400,json);
+		System.out.println("Nous allons modifier le seuil des quartiers");
+		return (String) json;
+	}
+
+	
 	 CapteurAir util1 = new CapteurAir();
 	public String addSetcapteur() throws UnknownHostException, IOException, JSONException {
 		//int id = 1;
@@ -935,7 +954,7 @@ public class myCapteur extends JFrame{
 		myCapteur b = new myCapteur();
 		//a.getconfigcapteur();
 		//a.getconfigcapteur();
-		 b.addSetcapteur();
+		// b.upSetquartier();
 		//a.getalerte();
 		//a.startConnection("172.31.249.22", 2400);
 		//capteur6 b = new capteur6();

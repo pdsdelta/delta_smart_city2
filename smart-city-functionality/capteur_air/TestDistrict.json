@@ -1,8 +1,6 @@
 {    
-    "studentDetails":{
 	"id":"7",
 	"name":"quartier0",
 	"seuilquartieratmo":"3",
 	"etatalerte":"1"
-     }
 }

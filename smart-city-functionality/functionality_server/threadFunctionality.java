@@ -224,6 +224,10 @@ class threadFunctionality extends Thread {
 				}else if(operationType.equals("ADDQUARTIER")) {
 					insertquartier();
 					System.out.println("Operation type, Bien reçu");
+					
+				}else if(operationType.equals("UPDATESEUIL")) {
+					updateseuil();
+					System.out.println("Super");
 				}
 
 			} catch (JSONException e) {
@@ -594,4 +598,34 @@ class threadFunctionality extends Thread {
 			this.response = resultat;
 			return resultat;
 		}
+		
+		public String updateseuil() throws JSONException {
+			String resultat = "{Table:district , Action: UPDATESEUIL ";
+			//String resultat = "FIN";
+			//int res = 0;
+			String json = this.mapJson;
+			JSONObject obj = new JSONObject(json);
+			JSONObject request = obj.getJSONObject("request");
+			String name = request.getString("name");
+			int seuilquartieratmo = request.getInt("seuilquartieratmo");
+			
+			
+			try {
+				pstmt = connect.prepareStatement("UPDATE district SET seuilquartieratmo = (?) WHERE name = (?)");
+				pstmt.setInt(1, seuilquartieratmo);
+				pstmt.setString(2, name);
+				pstmt.executeUpdate();
+				System.out.println("operation ok\n");
+			} catch (SQLException ex) {
+				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				ex.printStackTrace();
+			}
+			System.out.println("on est dans la méthode update");
+
+			resultat = resultat + "Data : [{  seuilquartieratmo: " + seuilquartieratmo +"} ]}";
+			this.response = resultat;
+			return resultat;
+		}
+		
+		
 	}
