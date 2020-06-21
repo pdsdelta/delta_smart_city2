@@ -1,5 +1,6 @@
 package gestion_borne.test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -63,7 +64,10 @@ public class TestFindMotionSensor {
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
 		JSONArray terminal = null;
-		try (FileReader reader = new FileReader("E:\\FindMotionSensor.json"))
+		File file = new File(
+				getClass().getClassLoader().getResource("FindMotionSensor.json").getFile()
+				);
+		try (FileReader reader = new FileReader(file))
 		{
 			//Read JSON file
 			Object obj = jsonParser.parse(reader);

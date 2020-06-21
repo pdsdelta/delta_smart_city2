@@ -15,53 +15,33 @@ import org.json.simple.parser.ParseException;
 public class TestDistrict {
 
    //public void insertHistoricalSensorPolluant (JSONObject JsonRecu, Connection c) throws ParseException, UnsupportedEncodingException, SQLException {
-   public static void main(String args[]) throws ParseException, UnsupportedEncodingException, JSONException {
-      //JSONParser parser = new JSONParser();
-        // Object obj = parser.parse(new FileReader("C:/Users/julie/Documents/TestDistrict.json"));
-         //JSONObject jsonObject = (JSONObject) parser.parse("{\"id\" : \"1\", \"name\" : \"Quartier_0\", \"seuilquartieratmo\" : \"4\", \"etatalerte\" : \"1\"}");
-         
-    	  StringBuffer sb = new StringBuffer();
-
-  		// lecture du JSON afin de mettre chaque ligne en chaîne de caractère
-  		InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("TestDistrict.json"); 
-  		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8")); 
-  		try {
-  			String temp; 
-  			while ((temp = bufferedReader.readLine()) != null) 
-  				sb.append(temp); 
-  		} catch (IOException e) {
-  			e.printStackTrace();
-  		} finally {
-  			try {
-  				bufferedReader.close();
-  			} catch (IOException e) {
-  				e.printStackTrace(); 
-  			}
-  		}
-  		String myjsonstring = sb.toString(); 
-  		JSONParser parser = new JSONParser(); 
-		JSONArray json = (JSONArray) parser.parse(myjsonstring); 
-		
-		; 
-		for (int i = 0; i < ((Map) json).size(); i++) {
-		 JSONObject jsonObject = (JSONObject) json.get(i);
-         String id = String.valueOf(jsonObject.get("id"));
-         String name = String.valueOf(jsonObject.get("name"));
-         String seuilquartieratmo = String.valueOf(jsonObject.get("seuilquartieratmo"));
-         String etatalerte = String.valueOf(jsonObject.get("etatalerte"));
-         //String name = (String) jsonObject.get("name");
-         //String seuilquartieratmo = (String) jsonObject.get("seuilquartieratmo");
-         //String etatalerte = (String) jsonObject.get("etatalerte");
-
-         System.out.println("ID : "+ id);
-         System.out.println("NOM : "+ name);
-         System.out.println("SEUIL : "+ seuilquartieratmo);
-         System.out.println("ALERTE : "+ etatalerte);
-         
-      //} catch (FileNotFoundException e) {
-      //   e.printStackTrace();
-     // } catch (IOException e) {
-      //   e.printStackTrace();
-		}
+   public static void main(String args[]) throws ParseException, JSONException, UnsupportedEncodingException {
+		//StringBuffer sb = new StringBuffer();
+	   ClassLoader classLoader = new TestDistrict().getClass().getClassLoader();
+	   String fileName = "capteur_air/TestDistrict.json";
+	   File file = new File(classLoader.getResource(fileName).getFile());
+	   
+	   JSONParser parser = new JSONParser();
+	   
+	   try {
+		   FileReader reader = new FileReader(file.getAbsolutePath());
+		   Object obj = parser.parse(reader);
+		   JSONObject jsonObj = (JSONObject) obj;
+		   //JSONObject studentDetails = (JSONObject)jsonObj.get("studentDetails");
+		   //JSONObject studentDetails = (JSONObject)jsonObj;
+		   //System.out.println("studentDetails :" +studentDetails.toJSONString());
+		   String id = (String) jsonObj.get("id");
+		   String name = (String) jsonObj.get("name");
+		   String seuilquartieratmo = (String) jsonObj.get("seuilquartieratmo");
+		   String etatalerte = (String) jsonObj.get("etatalerte");
+		   System.out.println("Id : "+ id);
+		   System.out.println("name : "+ name);
+		   System.out.println("seuilquartieratmo : "+ seuilquartieratmo);
+		   System.out.println("etatalerte : "+ etatalerte);
+		   
+	   }catch (Exception e) {
+		   e.printStackTrace();
+	   }
    }
+   
 }
