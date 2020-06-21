@@ -53,10 +53,8 @@ public class TestAlert {
        Terminal t;
         data= new TerminalDAO(server);
         t= data.find(numero);
-        t.getCity().setAlert(1);
-        System.out.println(t.getCity().getAlert());
-        System.out.println(t);
-         
+        
+        data.SetAlertCity();
         
     }
 	public JSONArray readScenario() {

@@ -213,6 +213,24 @@ public class TerminalDAO extends DAO<Terminal>{
 		this.json  ="{request:{ operation_type: SET_CITY, target: city ,nombremaxvoiture :"+nombre+"}} " ;
 		return jsone;
 	}
+	
+	//METHODE QUI PERMET DE MODIFIER LE NOMBRE DE VEHICULES MAXIMUM D'UNE VILLE
+	public void SetAlertCity(){
+		int res=0;
+		String jsone="";
+		String query = "update city set Alert=? WHERE idcity= "+1; 
+		try { 
+			this.pstmt = this.connect.prepareStatement(query); 
+			this.pstmt.setInt(1, 1);;
+			res = pstmt.executeUpdate(); 
+
+		} catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
+	
+		
+	}
 
 	//METHODE QUI PERMET DE MODIFIER LE NOMBRE DE VEHICULES MAXIMUM D'UNE VILLE
 	public void StockNbrVoiture(int nbrCars){

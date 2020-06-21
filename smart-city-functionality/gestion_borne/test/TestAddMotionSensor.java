@@ -1,8 +1,10 @@
 package gestion_borne.test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 
 import org.json.simple.JSONArray;
@@ -65,7 +67,11 @@ public class TestAddMotionSensor {
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
 		JSONArray terminal = null;
-		try (FileReader reader = new FileReader("E:\\AddMotionSensor.json"))
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		File input= null;
+        input = new File(classLoader.getResource("Ressources"+input.separator+"AddMotionSensor").getFile());
+
+		try (FileReader reader = new FileReader(input))
 		{
 			//Read JSON file
 			Object obj = jsonParser.parse(reader);
