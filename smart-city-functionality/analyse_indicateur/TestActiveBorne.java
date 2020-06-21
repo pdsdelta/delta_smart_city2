@@ -55,11 +55,14 @@ public class TestActiveBorne {
 	        //Get latitude
 	        long lati =  (Long) borne.get("latitude"); 
 	        //Get status
-	        long stat=  (Long) borne.get("status");  
+	        long stat=  (Long) borne.get("status");
+	        
 	        int longitude= (int)longi;
 	        int latitude =(int)lati;
 	        int status=(int)stat;
+	        
 	        Terminal objet = new Terminal(longitude,latitude);
+	        objet.setStatus(status);
 	        data= new TerminalDAO(server);
 			data.create(objet);
 	       
