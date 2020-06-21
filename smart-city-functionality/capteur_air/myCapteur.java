@@ -943,7 +943,3 @@ public class myCapteur extends JFrame{
 		}
 }
 
-
-
-
-
