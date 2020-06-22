@@ -39,6 +39,9 @@ public class TestDistrict {
 		   System.out.println("seuilquartieratmo : "+ seuilquartieratmo);
 		   System.out.println("etatalerte : "+ etatalerte);
 		   
+		   //addquartierj(id, name, seuilquartieratmo, etatalerte);
+		   Testj a = new Testj();
+		   a.addquartierj(id, name, seuilquartieratmo, etatalerte);
 	   }catch (Exception e) {
 		   e.printStackTrace();
 	   }
