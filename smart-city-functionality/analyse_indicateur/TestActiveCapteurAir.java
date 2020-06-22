@@ -11,14 +11,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import capteur_air.TestDistrict;
 
 public class TestActiveCapteurAir {
 	//public void insertHistoricalSensorPolluant (JSONObject JsonRecu, Connection c) throws ParseException, UnsupportedEncodingException, SQLException {
 	   public static void main(String args[]) throws ParseException, JSONException, UnsupportedEncodingException {
 			//StringBuffer sb = new StringBuffer();
-		   ClassLoader classLoader = new TestDistrict().getClass().getClassLoader();
-		   String fileName = "C:\\Users\\etudiant\\Desktop\\ActiveCapteurAir.json";
+		   ClassLoader classLoader = new TestActiveCapteurAir().getClass().getClassLoader();
+		   String fileName = "analyse_indicateur/ActiveCapteurAir.json";
 		   File file = new File(classLoader.getResource(fileName).getFile());
 		   
 		   JSONParser parser = new JSONParser();

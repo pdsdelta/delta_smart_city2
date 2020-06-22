@@ -363,10 +363,10 @@ public class Indicator {
 		Statement stmt3 = this.connect.createStatement();
 		int count = 0;
 
-		ResultSet rs3 = stmt3.executeQuery("select cast((indicereleve/seuilquartieratmo) as FLOAT) as tauxAtmo " + 
+		ResultSet rs3 = stmt3.executeQuery("select cast((indicerelever/seuilquartieratmo) as FLOAT) as tauxAtmo " + 
 				"from historique H, district D, capteurair CA" + 
-				" where CA.idcapteur = H.idhistoric" + 
-				" and H.idhistoric = D.id;" + "");
+				" where CA.idcapteur = H.idhistorique" + 
+				" and H.idhistorique = D.id;" + "");
 		while(rs3.next()){
 
 			count = rs3.getInt("tauxAtmo");
@@ -397,10 +397,10 @@ public class Indicator {
 		Statement stmt3 = this.connect.createStatement();
 		int count = 0;
 
-		ResultSet rs3 = stmt3.executeQuery("select cast( (((indicereleve/seuilquartieratmo)-1)*100)as FLOAT) as tauxDepAtmo" + 
+		ResultSet rs3 = stmt3.executeQuery("select cast( (((indicerelever/seuilquartieratmo)-1)*100)as FLOAT) as tauxDepAtmo" + 
 				" from historique H, district D, capteurair CA " + 
-				"where CA.idcapteur = H.idhistoric " + 
-				"and H.idhistoric = D.id;" + "");
+				"where CA.idcapteur = H.idhistorique " + 
+				"and H.idhistorique = D.id;" + "");
 		while(rs3.next()){
 
 			count = rs3.getInt("tauxDepAtmo");
