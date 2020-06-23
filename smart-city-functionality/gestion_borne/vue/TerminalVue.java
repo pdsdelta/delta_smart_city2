@@ -31,6 +31,7 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
+import javax.swing.JLabel;
 
 public class TerminalVue {
 
@@ -63,15 +64,19 @@ public class TerminalVue {
 
 	/**
 	 * Create the application.
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public TerminalVue() {
+	public TerminalVue() throws ClassNotFoundException, SQLException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	private void initialize() {
+	private void initialize() throws ClassNotFoundException, SQLException {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 684, 320);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -144,6 +149,16 @@ public class TerminalVue {
 		JButton btnModifyTerminal = new JButton("Modifier une Borne");
 		btnModifyTerminal.setBounds(314, 115, 290, 28);
 		panel.add(btnModifyTerminal);
+		TerminalDAO data = new TerminalDAO(server); 
+		Terminal borne= data.find(1);
+		int voitureAdmis = borne.getCity().getNombreMaxVoiture();
+		JLabel lblNewLabel = new JLabel("Voitures Admis :"+voitureAdmis);
+		lblNewLabel.setBounds(54, 180, 155, 21);
+		panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Voitures Pr\u00E9sents :");
+		lblNewLabel_1.setBounds(314, 184, 171, 21);
+		panel.add(lblNewLabel_1);
 	}
 	private void ListeTerminal(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException, UnknownHostException, IOException {                                           
 		new TerminalListVue(frame, true).setVisible(true);

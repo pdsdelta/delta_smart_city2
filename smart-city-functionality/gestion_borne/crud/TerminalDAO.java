@@ -221,7 +221,7 @@ public class TerminalDAO extends DAO<Terminal>{
 		String query = "update city set Alert=? WHERE idcity= "+1; 
 		try { 
 			this.pstmt = this.connect.prepareStatement(query); 
-			this.pstmt.setInt(1, 1);;
+			this.pstmt.setInt(1, 0);;
 			res = pstmt.executeUpdate(); 
 
 		} catch (SQLException ex) {
