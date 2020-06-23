@@ -228,6 +228,10 @@ class threadFunctionality extends Thread {
 				}else if(operationType.equals("UPDATESEUIL")) {
 					updateseuil();
 					System.out.println("Super");
+					
+				}else if(operationType.equals("UPDATECAPTEUR")) {
+					updatecapteur();
+					System.out.println("Valider");
 				}
 
 			} catch (JSONException e) {
@@ -579,12 +583,16 @@ class threadFunctionality extends Thread {
 			String datereleve = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-M-yyyy hh:mm:ss"));
 			//request.getString("datereleve");
 			int indiceatmo = request.getInt("indiceatmo");
+			String namecapteur = request.getString("namecapteur");
+			int intervalle = request.getInt("intervalle");
 			
 			try {
-				pstmt = connect.prepareStatement("INSERT INTO capteurair (idcapteur, datereleve, indiceatmo) VALUES (?, ?, ?)");
+				pstmt = connect.prepareStatement("INSERT INTO capteurair (idcapteur, datereleve, indiceatmo, namecapteur, intervalle) VALUES (?, ?, ?, ?, ?)");
 				pstmt.setInt(1, idcapteur);
 				pstmt.setString(2, datereleve);
 				pstmt.setInt(3, indiceatmo);
+				pstmt.setString(4, namecapteur);
+				pstmt.setInt(5, intervalle);
 				pstmt.executeUpdate();
 				System.out.println("operation ok\n");
 			} catch (SQLException ex) {
@@ -594,10 +602,11 @@ class threadFunctionality extends Thread {
 			System.out.println("on est dans la méthode insert");
 
 			resultat = resultat + "Data : [{  idcapteur: " + idcapteur + ", datereleve: " + datereleve
-					+ ", indiceatmo : " + indiceatmo + "} ]}";
+					+ ", indiceatmo : " + indiceatmo + ", namecapteur : " + namecapteur + ", intervalle : " + intervalle +"} ]}";
 			this.response = resultat;
 			return resultat;
 		}
+		
 		
 		public String updateseuil() throws JSONException {
 			String resultat = "{Table:district , Action: UPDATESEUIL ";
@@ -627,5 +636,30 @@ class threadFunctionality extends Thread {
 			return resultat;
 		}
 		
+		
+		public String updatecapteur() throws JSONException {
+			String resultat = "{Table:capteurair , Action: UPDATECAPTEUR ";
+			//String resultat = "FIN";
+			//int res = 0;
+			String json = this.mapJson;
+			JSONObject obj = new JSONObject(json);
+			JSONObject request = obj.getJSONObject("request");
+			int intervalle = request.getInt("intervalle");
+	
+			try {
+				pstmt = connect.prepareStatement("UPDATE capteurair SET intervalle = (?)");
+				pstmt.setInt(1, intervalle);
+				pstmt.executeUpdate();
+				System.out.println("operation ok\n");
+			} catch (SQLException ex) {
+				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				ex.printStackTrace();
+			}
+			System.out.println("on est dans la méthode update");
+
+			resultat = resultat + "Data : [{  intervalle: " + intervalle +"} ]}";
+			this.response = resultat;
+			return resultat;
+		}
 		
 	}

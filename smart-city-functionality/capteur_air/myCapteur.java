@@ -65,7 +65,7 @@ public class myCapteur extends JFrame{
 	private JComboBox liste1;
 	private JTextField jtf = new JTextField();
 	private JMenuBar menu = new JMenuBar();
-	private JMenu onglet1 = new JMenu("Déterminer la qualité d'air");
+	private JMenu onglet1 = new JMenu("Consulter la qualité d'air");
 	private JMenu onglet2 = new JMenu ("Configurer Capteur");
 	//private JMenu onglet3 = new JMenu ("Historique");
 
@@ -97,7 +97,7 @@ public class myCapteur extends JFrame{
 
  // interface central
   public myCapteur() throws UnknownHostException, IOException, JSONException{
-    	setTitle("Déterminer qualité d'air");
+    	setTitle("Consulter la qualité d'air");
     	setSize(400, 200);
     	setLocationRelativeTo(null);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -330,7 +330,7 @@ public class myCapteur extends JFrame{
 			int z = Integer.parseInt(textField.getText());
 			try {
 				upSetquartier(z,selected);
-				comparaison(z);
+				comparaison(z, selected);
 			} catch (IOException | JSONException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -345,7 +345,7 @@ public class myCapteur extends JFrame{
 	return a;
   }
   
-  public JFrame comparaison(int s) throws UnknownHostException, IOException, JSONException {
+  public JFrame comparaison(int s, String a) throws UnknownHostException, IOException, JSONException {
 		JFrame b = new JFrame();
 		b.setTitle("sélectionner quartier");
 		b.setSize(400, 400);
@@ -376,7 +376,7 @@ public class myCapteur extends JFrame{
 		}
 		JLabel label1 = new JLabel();
 		label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
-               + "Nous avons un indice ATMO de " + c + " pour le quartier sélectionné"
+               + "Nous avons un indice ATMO de " + c + " pour le quartier" + a
                +"</body></html>" );
 		b.add(panel2);
 		panel2.add(bouton1);
@@ -553,6 +553,12 @@ public class myCapteur extends JFrame{
 				a.dispose();
 				int jtf1 = Integer.parseInt(jtf.getText());
 				MyTask b = new MyTask(jtf1); 
+				try {
+					upSetcapteur(jtf1);
+				} catch (IOException | JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				 // lancement de ce thread par appel à sa méthode start()
 				b.start();
 				 // cette méthode rend immédiatement la main...
@@ -929,23 +935,40 @@ public class myCapteur extends JFrame{
 	public String addSetcapteur() throws UnknownHostException, IOException, JSONException {
 		//int id = 1;
 		//for(int i = 1; i <= ; i++) {
-			int idcapteur = 3;
+			int idcapteur = 7;
 			String datereleve = "l";
 			int indiceatmo = 4;
+			String namecapteur = "Capteur" + 1;
+			int intervalle = 2;
 		
 		String json= "";
 	
 		util1.setId(idcapteur);
 		util1.setDate(datereleve);
 		util1.setIndice(indiceatmo);
+		util1.setName(namecapteur);
+		util1.setIntervalle(intervalle);
 		
 		json  ="{request:{ operation_type: CAPTEURAIR, target: capteurair , idcapteur: "+util1.getId() + 
-				", datereleve: "+ util1.getDate() + ", indiceatmo : " + util1.getIndice() +"}} " ; 
+				", datereleve: "+ util1.getDate() + ", indiceatmo : " + util1.getIndice() + ", namecapteur : " + util1.getName() + ", intervalle : " + util1.getIntervalle() +"}} " ; 
 		this.startConnection("172.31.249.22", 2400,json);
 		System.out.println("Nous allons enregistrer un par un les capteurs");
 		
 		//}
 		return json;
+	}
+	
+	public String upSetcapteur(int a) throws UnknownHostException, IOException, JSONException {
+			int intervalle = a;
+		
+		String json= "";
+	
+		util1.setIntervalle(intervalle);
+		
+		json  ="{request:{ operation_type: UPDATECAPTEUR, target: capteurair , intervalle:"+ util1.getIntervalle() +"}} " ;
+		this.startConnection("172.31.249.22", 2400,json);
+		System.out.println("Nous allons modifier l'intervalle des relevés des capteurs");
+		return (String) json;
 	}
 
 	
@@ -954,8 +977,6 @@ public class myCapteur extends JFrame{
 		myCapteur b = new myCapteur();
 		//a.getconfigcapteur();
 		//a.getconfigcapteur();
-		// b.upSetquartier();
-		//a.getalerte();
 		//a.startConnection("172.31.249.22", 2400);
 		//capteur6 b = new capteur6();
 		//b.getalerte(2);

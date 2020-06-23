@@ -4,6 +4,8 @@ public class CapteurAir {
 	int idcapteur;
 	String datereleve;
 	int indiceatmo;
+	String namecapteur;
+	int intervalle;
 	
 
 	@Override
@@ -13,6 +15,8 @@ public class CapteurAir {
 		result = prime * result + ((datereleve == null) ? 0 : datereleve.hashCode());
 		result = prime * result + idcapteur;
 		result = prime * result + indiceatmo;
+		result = prime * result + intervalle;
+		result = prime * result + ((namecapteur == null) ? 0 : namecapteur.hashCode());
 		return result;
 	}
 
@@ -33,6 +37,13 @@ public class CapteurAir {
 		if (idcapteur != other.idcapteur)
 			return false;
 		if (indiceatmo != other.indiceatmo)
+			return false;
+		if (intervalle != other.intervalle)
+			return false;
+		if (namecapteur == null) {
+			if (other.namecapteur != null)
+				return false;
+		} else if (!namecapteur.equals(other.namecapteur))
 			return false;
 		return true;
 	}
@@ -57,5 +68,19 @@ public class CapteurAir {
 	}
 	public void setIndice(int indice) {
 		this.indiceatmo = indice;
+	}
+	
+	public String getName() {
+		return namecapteur;
+	}
+	public void setName(String name) {
+		this.namecapteur = name;
+	}
+	
+	public int getIntervalle() {
+		return intervalle;
+	}
+	public void setIntervalle(int interv) {
+		this.intervalle = interv;
 	}
 }
