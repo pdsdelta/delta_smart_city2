@@ -60,6 +60,7 @@ public class TerminalListVue extends javax.swing.JDialog {
     }
 });
         setLocationRelativeTo(this);
+       
     }
 
     /**
@@ -119,7 +120,7 @@ public class TerminalListVue extends javax.swing.JDialog {
     }// </editor-fold>                        
 
 
-
+  
     // Variables declaration - do not modify                     
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbListeUtilisateur;
