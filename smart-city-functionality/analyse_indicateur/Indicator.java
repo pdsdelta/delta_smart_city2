@@ -125,9 +125,9 @@ public class Indicator {
 		
 		System.out.println("je vais recuperer le nbr totale de  motionsensor en bdd");
 		
-		String resultat= "{request:{ operation_type:infoMotionsensor, Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}}";
+		String resultat= "{response:{ operation_type:infoMotionsensor, Table: motionsensor, Action : infoMotionsensor,  Data: "+count+"}}";
 		
-		resultat = resultat;
+		resultat  = resultat;
 		this.json=resultat;
 		System.out.println(resultat);
 		return resultat ;

@@ -11,7 +11,10 @@ import org.json.simple.parser.ParseException;
 
 import borne.Terminal;
 import functionality_server.functionalityServer;
+import gestion_borne.crud.MotionSensorDAO;
 import gestion_borne.crud.TerminalDAO;
+import motionSensor.MotionSensor;
+
 
 
 public class TestActiveBorne {
