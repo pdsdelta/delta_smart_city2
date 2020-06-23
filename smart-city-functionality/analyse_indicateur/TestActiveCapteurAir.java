@@ -12,6 +12,16 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
+import connectionPool.DataSource;
+import district.District;
+import functionality_server.functionalityServer;
+
+
+import motionSensor.MotionSensor;
+
+
+import CapteurAir.CapteurAir;
+
 public class TestActiveCapteurAir {
 	//public void insertHistoricalSensorPolluant (JSONObject JsonRecu, Connection c) throws ParseException, UnsupportedEncodingException, SQLException {
 	   public static void main(String args[]) throws ParseException, JSONException, UnsupportedEncodingException {

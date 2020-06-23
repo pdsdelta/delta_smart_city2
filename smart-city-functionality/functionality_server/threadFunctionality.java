@@ -169,7 +169,7 @@ class threadFunctionality extends Thread {
 			{
 		this.response="{request:{operation_type:etatalerte,�table:myCapteur, status: SUCCESS}}";}
 			
-			// capteurairActif
+			// 11capteurairActif
 
 			if(operationType.equals( "namecapteur"))
 			{
