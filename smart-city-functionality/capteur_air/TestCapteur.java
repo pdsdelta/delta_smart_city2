@@ -26,19 +26,19 @@ public class TestCapteur {
 			   //JSONObject studentDetails = (JSONObject)jsonObj;
 			   //System.out.println("studentDetails :" +studentDetails.toJSONString());
 			   String idcapteur = (String) jsonObj.get("idcapteur");
-			   String datereleve = (String) jsonObj.get("datereleve");
+			   //String datereleve = (String) jsonObj.get("datereleve");
 			   String indiceatmo = (String) jsonObj.get("indiceatmo");
 			   String namecapteur = (String) jsonObj.get("namecapteur");
 			   String intervalle = (String) jsonObj.get("intervalle");
 			   System.out.println("idcapteur : "+ idcapteur);
-			   System.out.println("datereleve : "+ datereleve);
+			   //System.out.println("datereleve : "+ datereleve);
 			   System.out.println("indiceatmo : "+ indiceatmo);
 			   System.out.println("namecapteur : "+ namecapteur);
 			   System.out.println("intervalle : "+ intervalle);
 			   
 			   //addquartierj(id, name, seuilquartieratmo, etatalerte);
 			   Testj a = new Testj();
-			   a.addcapteurj(idcapteur, datereleve, indiceatmo, namecapteur, intervalle);
+			   a.addcapteurj(idcapteur, indiceatmo, namecapteur, intervalle);
 		   }catch (Exception e) {
 			   e.printStackTrace();
 		   }
