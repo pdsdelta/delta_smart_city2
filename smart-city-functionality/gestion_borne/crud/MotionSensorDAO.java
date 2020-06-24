@@ -176,7 +176,26 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 		this.json  ="{request:{ operation_type: ALL_SENSOR, target: MotionSensor }} " ;
 		return res;
 	}
-}
 
+	public List<MotionSensor> findActive() throws SQLException {
+
+		List<MotionSensor> res = new ArrayList<MotionSensor>(); 
+		ResultSet result = this.connect.createStatement(
+				ResultSet.TYPE_SCROLL_INSENSITIVE,
+				ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM MotionSensor WHERE isActive = true " );
+		while (result.next()) {
+			MotionSensor captor = new MotionSensor(); 
+			//captor.setId(result.getInt("id"));
+			captor.setLongitude(result.getInt("longitude"));
+			captor.setLatitude(result.getInt("latitude"));
+			captor.setActive(result.getBoolean("isActive"));
+			captor.setNumero(result.getInt("numero"));
+			res.add(captor);
+		}
+
+		this.json  ="{request:{ operation_type: ALL_SENSOR, target: MotionSensor }} " ;
+		return res;
+	}
+}
 
 
