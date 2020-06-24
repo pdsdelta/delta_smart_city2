@@ -215,8 +215,8 @@ class threadFunctionality extends Thread {
 
 				if(operationType.equals("INFOCITY")) {
 					sizecity();
-				}else if(operationType.equals("INFOINDATMO")) {
-					indice();
+				}else if(operationType.equals("UPDATEINDICE")) {
+					updateindice();
 				}else if(operationType.equals("CAPTEURAIR")) {
 					insertcapteur();
 					System.out.println("Très bien ");
@@ -232,6 +232,10 @@ class threadFunctionality extends Thread {
 				}else if(operationType.equals("UPDATECAPTEUR")) {
 					updatecapteur();
 					System.out.println("Valider");
+					
+				}else if(operationType.equals("UPDATECITY")) {
+					updatecity();
+				System.out.println("Valider");
 				}
 
 			} catch (JSONException e) {
@@ -529,35 +533,18 @@ class threadFunctionality extends Thread {
 
 		public String insertquartier() throws JSONException {
 			String resultat = "{Table:district , Action: ADDQUARTIER ";
-			//String resultat = "FIN";
-			//int res = 0;
 			String json = this.mapJson;
 			JSONObject obj = new JSONObject(json);
 			JSONObject request = obj.getJSONObject("request");
 			int id = request.getInt("id");
 			String name = request.getString("name");
 			int seuilquartieratmo = request.getInt("seuilquartieratmo");
-			int etatalerte = request.getInt("etatalerte");
 			
-			//String query = "delete from capteurair WHERE idcapteur=?";
-
-			//		try {
-			//			pstmt = connect.prepareStatement(query);
-			//			pstmt.setInt(1, idCapteur);
-			//			pstmt.executeUpdate();
-			//			pstmt.close();
-			//		} catch (SQLException e) {
-			//			System.out.println("Erreur! addquartier");
-			//		}
-
-			//String query = "INSERT INTO district (id, name, seuilquartieratmo, etatalerte) "
-				//	+ "VALUES (?, ?, ?, ?)";
 			try {
-				pstmt = connect.prepareStatement("INSERT INTO district (id, name, seuilquartieratmo, etatalerte) VALUES (?, ?, ?, ?)");
+				pstmt = connect.prepareStatement("INSERT INTO district (id, name, seuilquartieratmo) VALUES (?, ?, ?)");
 				pstmt.setInt(1, id);
 				pstmt.setString(2, name);
 				pstmt.setInt(3, seuilquartieratmo);
-				pstmt.setInt(4, etatalerte);
 				pstmt.executeUpdate();
 				System.out.println("operation ok\n");
 			} catch (SQLException ex) {
@@ -567,7 +554,7 @@ class threadFunctionality extends Thread {
 			System.out.println("on est dans la méthode insert");
 
 			resultat = resultat + "Data : [{  id: " + id + ", name: " + name
-					+ ", seuilquartieratmo : " + seuilquartieratmo + ", etatalerte : " + etatalerte + "} ]}";
+					+ ", seuilquartieratmo : " + seuilquartieratmo + "} ]}";
 			this.response = resultat;
 			return resultat;
 		}
@@ -610,28 +597,59 @@ class threadFunctionality extends Thread {
 		
 		public String updateseuil() throws JSONException {
 			String resultat = "{Table:district , Action: UPDATESEUIL ";
-			//String resultat = "FIN";
-			//int res = 0;
 			String json = this.mapJson;
 			JSONObject obj = new JSONObject(json);
 			JSONObject request = obj.getJSONObject("request");
 			String name = request.getString("name");
 			int seuilquartieratmo = request.getInt("seuilquartieratmo");
+			int indiceatmo = request.getInt("indiceatmo");
+			int etatalerte = request.getInt("etatalerte");
 			
 			
 			try {
-				pstmt = connect.prepareStatement("UPDATE district SET seuilquartieratmo = (?) WHERE name = (?)");
+				pstmt = connect.prepareStatement("UPDATE district SET seuilquartieratmo = (?), indiceatmo = (?), etatalerte = (?) WHERE name = (?)");
 				pstmt.setInt(1, seuilquartieratmo);
-				pstmt.setString(2, name);
+				pstmt.setInt(2, indiceatmo);
+				pstmt.setInt(3, etatalerte);
+				pstmt.setString(4, name);
 				pstmt.executeUpdate();
 				System.out.println("operation ok\n");
 			} catch (SQLException ex) {
 				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 				ex.printStackTrace();
 			}
-			System.out.println("on est dans la méthode update");
+			System.out.println("on est dans la méthode updateseuil");
 
-			resultat = resultat + "Data : [{  seuilquartieratmo: " + seuilquartieratmo +"} ]}";
+			resultat = resultat + "Data : [{  seuilquartieratmo: " + seuilquartieratmo + ", indiceatmo: " + indiceatmo+ ", etatalerte: " + etatalerte+ "} ]}";
+			this.response = resultat;
+			return resultat;
+		}
+		
+		public String updateindice() throws JSONException {
+			String resultat = "{Table:district , Action: UPDATEINDICE ";
+			//String resultat = "FIN";
+			//int res = 0;
+			String json = this.mapJson;
+			JSONObject obj = new JSONObject(json);
+			JSONObject request = obj.getJSONObject("request");
+			String name = request.getString("name");
+			int indiceatmo = request.getInt("indiceatmo");
+			int etatalerte = request.getInt("etatalerte");
+			
+			try {
+				pstmt = connect.prepareStatement("UPDATE district SET indiceatmo = (?), etatalerte = (?) WHERE name = (?)");
+				pstmt.setInt(1, indiceatmo);
+				pstmt.setInt(2, etatalerte);
+				pstmt.setString(3, name);
+				pstmt.executeUpdate();
+				System.out.println("operation ok\n");
+			} catch (SQLException ex) {
+				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				ex.printStackTrace();
+			}
+			System.out.println("on est dans la méthode updateindice");
+
+			resultat = resultat + "Data : [{  indiceatmo: " + indiceatmo +", etatalerte: " + etatalerte+ "} ]}";
 			this.response = resultat;
 			return resultat;
 		}
@@ -639,8 +657,6 @@ class threadFunctionality extends Thread {
 		
 		public String updatecapteur() throws JSONException {
 			String resultat = "{Table:capteurair , Action: UPDATECAPTEUR ";
-			//String resultat = "FIN";
-			//int res = 0;
 			String json = this.mapJson;
 			JSONObject obj = new JSONObject(json);
 			JSONObject request = obj.getJSONObject("request");
@@ -662,4 +678,28 @@ class threadFunctionality extends Thread {
 			return resultat;
 		}
 		
+		public String updatecity() throws JSONException {
+			String resultat = "{Table:city , Action: UPDATECITY ";
+			String json = this.mapJson;
+			JSONObject obj = new JSONObject(json);
+			JSONObject request = obj.getJSONObject("request");
+			int idcity = request.getInt("idcity");
+			int seuilatmocity = request.getInt("seuilatmocity");
+	
+			try {
+				pstmt = connect.prepareStatement("UPDATE city SET seuilatmocity = (?) WHERE idcity = (?)");
+				pstmt.setInt(1,seuilatmocity);
+				pstmt.setInt(2,idcity);
+				pstmt.executeUpdate();
+				System.out.println("operation ok\n");
+			} catch (SQLException ex) {
+				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+				ex.printStackTrace();
+			}
+			System.out.println("on est dans la méthode update");
+
+			resultat = resultat + "Data : [{  seuilatmocity: " + seuilatmocity +"} ]}";
+			this.response = resultat;
+			return resultat;
+		}
 	}

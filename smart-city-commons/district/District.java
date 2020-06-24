@@ -5,7 +5,9 @@ public class District {
 	int id;
 	String name;
 	int seuilquartieratmo;
+	int indiceatmo;
 	int etatalerte;
+	
 	
 	@Override
 	public int hashCode() {
@@ -13,6 +15,7 @@ public class District {
 		int result = 1;
 		result = prime * result + etatalerte;
 		result = prime * result + id;
+		result = prime * result + indiceatmo;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + seuilquartieratmo;
 		return result;
@@ -29,6 +32,8 @@ public class District {
 		if (etatalerte != other.etatalerte)
 			return false;
 		if (id != other.id)
+			return false;
+		if (indiceatmo != other.indiceatmo)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -56,6 +61,12 @@ public class District {
 	}
 	public void setSeuilQuartierATMO(int seuilQuartierATMO) {
 		this.seuilquartieratmo = seuilQuartierATMO;
+	}
+	public int getIndice() {
+		return indiceatmo;
+	}
+	public void setIndice(int indice) {
+		this.indiceatmo = indice;
 	}
 	public int getEtatalterte() {
 		return etatalerte;

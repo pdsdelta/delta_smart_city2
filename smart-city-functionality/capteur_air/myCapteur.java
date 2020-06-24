@@ -121,7 +121,6 @@ public class myCapteur extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 					try {
 						selectquartier();
-						//b = new capteur1();
 					} catch (IOException | JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -200,8 +199,6 @@ public class myCapteur extends JFrame{
 	a.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	a.setLocationRelativeTo(null);
 	a.setVisible(true);
-	//String[] e = getconfigcapteur();
-	//Arrays.toString(e);
 	JPanel panel1 = new JPanel();
 	panel1.setLayout(new FlowLayout());
 	panel1.setBackground(Color.white);
@@ -227,6 +224,7 @@ public class myCapteur extends JFrame{
 
 	JLabel label2 = new JLabel(
 			"Par défaut les seuils des quartiers sont de 4 mais ils peuvent être changeable dans configuration du capteur");
+	addSetquartier(b);
 	JButton Bouton = new JButton("Valider");
 	Bouton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -285,6 +283,7 @@ public class myCapteur extends JFrame{
 	}
         a.add(panel);
         panel.add(label2);
+        upSetcity();
         return a;
       }
     
@@ -304,20 +303,20 @@ public class myCapteur extends JFrame{
 	JComboBox<String> liste1 = new JComboBox<String> (); //Création d'une liste déroulante.
 	int b = getnumquart();
 	if(b == 3) {
-		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");
+		liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");
 	}else if(b == 6) {
-		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");
-		liste1.addItem("Quartier_5");
+		liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");
+		liste1.addItem("Quartier_6");
 	}else if(b == 10) {
-		liste1.addItem("Quartier_0"); liste1.addItem("Quartier_1"); liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");
-		liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");liste1.addItem("Quartier_9");
+		liste1.addItem("Quartier_1"); liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");
+		liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");liste1.addItem("Quartier_9");liste1.addItem("Quartier_10");
 	}else if(b == 15) {
-		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");
-		liste1.addItem("Quartier_9");liste1.addItem("Quartier_10");liste1.addItem("Quartier_11");liste1.addItem("Quartier_12");liste1.addItem("Quartier_13");liste1.addItem("Quartier_14");
+		liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");
+		liste1.addItem("Quartier_9");liste1.addItem("Quartier_10");liste1.addItem("Quartier_11");liste1.addItem("Quartier_12");liste1.addItem("Quartier_13");liste1.addItem("Quartier_14");liste1.addItem("Quartier_15");
 	}else if(b > 20) {
-		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");
+		liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");
 		liste1.addItem("Quartier_9");liste1.addItem("Quartier_10");liste1.addItem("Quartier_11");liste1.addItem("Quartier_12");liste1.addItem("Quartier_13");liste1.addItem("Quartier_14");liste1.addItem("Quartier_15");liste1.addItem("Quartier_16");liste1.addItem("Quartier_17");
-		liste1.addItem("Quartier_18");liste1.addItem("Quartier_19");
+		liste1.addItem("Quartier_18");liste1.addItem("Quartier_19");liste1.addItem("Quartier_20");
 	}
 
 	JButton Bouton = new JButton("Valider");
@@ -329,7 +328,6 @@ public class myCapteur extends JFrame{
 			a.dispose();
 			int z = Integer.parseInt(textField.getText());
 			try {
-				upSetquartier(z,selected);
 				comparaison(z, selected);
 			} catch (IOException | JSONException e1) {
 				// TODO Auto-generated catch block
@@ -356,27 +354,25 @@ public class myCapteur extends JFrame{
 		panel2.setLayout(new FlowLayout());
 		panel2.setBackground(Color.white);
 		JButton bouton1;
-		//getindice();
-		//getdistrictseuil();
-		
-		int c = getCalculIndice(); //indiceATMO.getIndice();
-		//System.out.println("indiceATMO.getIndice()");
-		 //seuildistrict.getSeuilQuartierATMO();
-		//int c = getalerte();
+		int c = getCalculIndice(); 
 		if (c > s) {
 			bouton1 = new JButton("Alerte !!! L'indice relevé est supérieur au seuil");
   	    getContentPane().add(bouton1, "North");
   	    getContentPane().setLayout(null);
   	    bouton1.setBackground(Color.red);
+  	    int d = 1;
+  	    upSetquartier(s, a, c, d);
 		}else {
 			bouton1 = new JButton("Tout va bien, aucun problème détecté");
   	    getContentPane().add(bouton1, "North");
   	    getContentPane().setLayout(null);
   	    bouton1.setBackground(Color.green);
+  	    int d = 0;
+  	    upSetquartier(s,a, c, d);
 		}
 		JLabel label1 = new JLabel();
 		label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
-               + "Nous avons un indice ATMO de " + c + " pour le quartier" + a
+               + "Nous avons un indice ATMO de " + c + " pour le quartier " + a
                +"</body></html>" );
 		b.add(panel2);
 		panel2.add(bouton1);
@@ -554,7 +550,7 @@ public class myCapteur extends JFrame{
 				int jtf1 = Integer.parseInt(jtf.getText());
 				MyTask b = new MyTask(jtf1); 
 				try {
-					upSetcapteur(jtf1);
+					addSetcapteur(jtf1);
 				} catch (IOException | JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -614,12 +610,15 @@ public class myCapteur extends JFrame{
     	    getContentPane().add(bouton1, "North");
     	    getContentPane().setLayout(null);
     	    bouton1.setBackground(Color.red);
-    	    c++;
+    	    int d = 1;
+    	    upQuartierindice(e, a, d);
 		}else {
 			bouton1 = new JButton("Tout va bien, aucun problème détecté");
     	    getContentPane().add(bouton1, "North");
     	    getContentPane().setLayout(null);
     	    bouton1.setBackground(Color.green);
+    	    int d = 0;
+    	    upQuartierindice(e, a, d);
 		}
 		JLabel label1 = new JLabel();
 		label1.setText("<html><body><p><p><p><p><p><p><p><p><p><p><p><p>" 
@@ -847,7 +846,6 @@ public class myCapteur extends JFrame{
     	}else if(c > 100) {
     		Quartier = 20;
     	}
-    	addSetquartier(Quartier);
     	System.out.println("Il y a " +Quartier+ " quartiers dans la ville");
     	return Quartier;
     }
@@ -883,7 +881,6 @@ public class myCapteur extends JFrame{
 		res = u.toString();   
 
 		return res;
-
 	}
 	
 	
@@ -894,18 +891,15 @@ public class myCapteur extends JFrame{
 			int id = i;
 			String name = "Quartier_" + i;
 			int seuilquartieratmo = 4;
-			int etatalerte = 1;
 		
 		String json= "";
 	
 		util.setId(id);
 		util.setName(name);
 		util.setSeuilQuartierATMO(seuilquartieratmo);
-		util.setEtatalterte(etatalerte);
 		
 		json  ="{request:{ operation_type: ADDQUARTIER, target: district , id: "+util.getId() + 
-				", name: "+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() + 
-				", etatalerte : " + util.getEtatalterte() +"}} " ;
+				", name: "+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() + "}} " ;
 		this.startConnection("172.31.249.22", 2400,json);
 		System.out.println("Nous allons enregistrer un par un les quartiers");
 		
@@ -913,63 +907,99 @@ public class myCapteur extends JFrame{
 		return (String) json;
 	}
 
-	public String upSetquartier(int a, String b) throws UnknownHostException, IOException, JSONException {
-		//int id = 1;
+	
+	public String upQuartierindice(String c, int a, int b) throws UnknownHostException, IOException, JSONException {
+		String name = c;
+		int indiceatmo = a;
+		int etatalerte = b;
+		
+		String json= "";
+		
+		util.setName(name);
+		util.setIndice(indiceatmo);
+		util.setEtatalterte(etatalerte);
+		
+		
+		json  ="{request:{ operation_type: UPDATEINDICE, target: district , name:"+ util.getName() + ", indiceatmo:"+ util.getIndice() + ", etatalerte : "+ util.getEtatalterte() +"}} " ;
+		this.startConnection("172.31.249.22", 2400,json);
+		System.out.println("Nous allons modifier l'indice des quartiers");
+		return (String) json;
+	}
+	
+	
+	public String upSetquartier(int a, String b, int c, int d) throws UnknownHostException, IOException, JSONException {
 			int seuilquartieratmo = a;
 			String name = b;
+			int indiceatmo = c;
+			int etatalerte = d;
 		
 		String json= "";
 	
 		util.setName(name);
 		util.setSeuilQuartierATMO(seuilquartieratmo);
+		util.setIndice(indiceatmo);
+		util.setEtatalterte(etatalerte);
 		
-		
-		json  ="{request:{ operation_type: UPDATESEUIL, target: district , name:"+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() +"}} " ;
+		json  ="{request:{ operation_type: UPDATESEUIL, target: district , name:"+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() + ", indiceatmo : "+ util.getIndice() + ", etatalerte : "+ util.getEtatalterte() +"}} " ;
 		this.startConnection("172.31.249.22", 2400,json);
 		System.out.println("Nous allons modifier le seuil des quartiers");
 		return (String) json;
 	}
 
+	city util2 = new city();
+	public String upSetcity() throws UnknownHostException, IOException, JSONException {
+			int idcity = 1;
+			int seuilatmocity = 6;
+		
+		String json= "";
+	
+		util2.setIdCity(idcity);
+		util2.setSeuilAtmoCity(seuilatmocity);
+		
+		
+		json  ="{request:{ operation_type: UPDATECITY, target: city , idcity:"+ util2.getIdCity() + ", seuilatmocity : "+ util2.getSeuilAtmoCity() +"}} " ;
+		this.startConnection("172.31.249.22", 2400,json);
+		System.out.println("Nous allons modifier le seuil des quartiers");
+		return (String) json;
+	}
 	
 	 CapteurAir util1 = new CapteurAir();
-	public String addSetcapteur() throws UnknownHostException, IOException, JSONException {
-		//int id = 1;
-		//for(int i = 1; i <= ; i++) {
-			int idcapteur = 7;
-			String datereleve = "l";
-			int indiceatmo = 4;
-			String namecapteur = "Capteur" + 1;
-			int intervalle = 2;
+	public String addSetcapteur(int a) throws UnknownHostException, IOException, JSONException {
+		int c = getnumquart();
+		for(int i = 1; i <= c; i++) {
+			int idcapteur = i;
+			int indiceatmo = getCalculIndice();
+			String namecapteur = "Capteur" + i;
+			int intervalle = a;
 		
 		String json= "";
 	
 		util1.setId(idcapteur);
-		util1.setDate(datereleve);
 		util1.setIndice(indiceatmo);
 		util1.setName(namecapteur);
 		util1.setIntervalle(intervalle);
 		
 		json  ="{request:{ operation_type: CAPTEURAIR, target: capteurair , idcapteur: "+util1.getId() + 
-				", datereleve: "+ util1.getDate() + ", indiceatmo : " + util1.getIndice() + ", namecapteur : " + util1.getName() + ", intervalle : " + util1.getIntervalle() +"}} " ; 
+				", indiceatmo : " + util1.getIndice() + ", namecapteur : " + util1.getName() + ", intervalle : " + util1.getIntervalle() +"}} " ; 
 		this.startConnection("172.31.249.22", 2400,json);
 		System.out.println("Nous allons enregistrer un par un les capteurs");
 		
-		//}
-		return json;
-	}
-	
-	public String upSetcapteur(int a) throws UnknownHostException, IOException, JSONException {
-			int intervalle = a;
-		
-		String json= "";
-	
-		util1.setIntervalle(intervalle);
-		
-		json  ="{request:{ operation_type: UPDATECAPTEUR, target: capteurair , intervalle:"+ util1.getIntervalle() +"}} " ;
-		this.startConnection("172.31.249.22", 2400,json);
-		System.out.println("Nous allons modifier l'intervalle des relevés des capteurs");
+		}
 		return (String) json;
 	}
+	
+	//public String upSetcapteur() throws UnknownHostException, IOException, JSONException {
+		//	int intervalle = a;
+		
+		//String json= "";
+	
+		//util1.setIntervalle(intervalle);
+		
+		//json  ="{request:{ operation_type: UPDATECAPTEUR, target: capteurair , intervalle:"+ util1.getIntervalle() +"}} " ;
+		//this.startConnection("172.31.249.22", 2400,json);
+		//System.out.println("Nous allons modifier l'intervalle des relevés des capteurs");
+		//return (String) json;
+	//}
 
 	
 
