@@ -1,4 +1,5 @@
 package analyse_indicateur;
+
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +13,19 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
+import connectionPool.DataSource;
+import district.District;
+import functionality_server.functionalityServer;
+
+
+import motionSensor.MotionSensor;
+
+
+import CapteurAir.CapteurAir;
+import capteur_air.Testj;
+
 public class TestActiveCapteurAir {
+	
 	//public void insertHistoricalSensorPolluant (JSONObject JsonRecu, Connection c) throws ParseException, UnsupportedEncodingException, SQLException {
 	   public static void main(String args[]) throws ParseException, JSONException, UnsupportedEncodingException {
 			//StringBuffer sb = new StringBuffer();
@@ -38,6 +51,9 @@ public class TestActiveCapteurAir {
 			   System.out.println("seuilquartieratmo : "+ seuilquartieratmo);
 			   System.out.println("etatalerte : "+ etatalerte);
 			   
+			 //addquartierj(id, name, seuilquartieratmo, etatalerte);
+			   TestCapAir a = new TestCapAir();
+			   a.addquartierj(id, name, seuilquartieratmo, etatalerte);
 		   }catch (Exception e) {
 			   e.printStackTrace();
 		   }
