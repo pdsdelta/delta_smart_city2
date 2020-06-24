@@ -26,22 +26,18 @@ import capteur_air.Testj;
 
 public class TestActiveCapteurAir {
 	
-	//public void insertHistoricalSensorPolluant (JSONObject JsonRecu, Connection c) throws ParseException, UnsupportedEncodingException, SQLException {
+	
 	   public static void main(String args[]) throws ParseException, JSONException, UnsupportedEncodingException {
-			//StringBuffer sb = new StringBuffer();
-		   ClassLoader classLoader = new TestActiveCapteurAir().getClass().getClassLoader();
-		   String fileName = "analyse_indicateur/ActiveCapteurAir.json";
-		   File file = new File(classLoader.getResource(fileName).getFile());
+			
+		  
 		   
 		   JSONParser parser = new JSONParser();
 		   
 		   try {
-			   FileReader reader = new FileReader(file.getAbsolutePath());
+			   FileReader reader = new FileReader("C:\\Users\\etudiant\\Desktop\\ActiveCapteurAir.json");
 			   Object obj = parser.parse(reader);
 			   JSONObject jsonObj = (JSONObject) obj;
-			   //JSONObject studentDetails = (JSONObject)jsonObj.get("studentDetails");
-			   //JSONObject studentDetails = (JSONObject)jsonObj;
-			   //System.out.println("studentDetails :" +studentDetails.toJSONString());
+			   
 			   String id = (String) jsonObj.get("id");
 			   String name = (String) jsonObj.get("name");
 			   String seuilquartieratmo = (String) jsonObj.get("seuilquartieratmo");
@@ -51,7 +47,7 @@ public class TestActiveCapteurAir {
 			   System.out.println("seuilquartieratmo : "+ seuilquartieratmo);
 			   System.out.println("etatalerte : "+ etatalerte);
 			   
-			 //addquartierj(id, name, seuilquartieratmo, etatalerte);
+			
 			   TestCapAir a = new TestCapAir();
 			   a.addquartierj(id, name, seuilquartieratmo, etatalerte);
 		   }catch (Exception e) {
