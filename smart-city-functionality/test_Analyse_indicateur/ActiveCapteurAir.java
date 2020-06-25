@@ -1,33 +1,17 @@
-package analyse_indicateur;
+package test_Analyse_indicateur;
 
-import java.io.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Map;
+import java.io.FileReader;
+import java.io.UnsupportedEncodingException;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import analyse_indicateur.TestCapAir;
 
-import connectionPool.DataSource;
-import district.District;
-import functionality_server.functionalityServer;
-
-
-import motionSensor.MotionSensor;
-
-
-import CapteurAir.CapteurAir;
-import capteur_air.Testj;
-
-public class TestActiveCapteurAir {
-	
-	
-	   public static void main(String args[]) throws ParseException, JSONException, UnsupportedEncodingException {
+public class ActiveCapteurAir {
+	  public static void main(String args[]) throws ParseException, JSONException, UnsupportedEncodingException {
 			
 		  
 		   
