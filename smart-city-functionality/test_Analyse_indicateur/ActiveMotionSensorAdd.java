@@ -1,4 +1,7 @@
-package analyse_indicateur;
+package test_Analyse_indicateur;
+
+
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,11 +18,10 @@ import gestion_borne.crud.MotionSensorDAO;
 import gestion_borne.crud.TerminalDAO;
 import motionSensor.MotionSensor;
 
-
-public class TestActiveMotionSensor {
+public class ActiveMotionSensorAdd {
 	static MotionSensorDAO data;
 	static functionalityServer server;
-	public TestActiveMotionSensor() {}
+	public ActiveMotionSensorAdd() {}
 	public void constructObject() throws ClassNotFoundException, SQLException {
 		JSONArray request = readScenario();
 	
@@ -86,7 +88,7 @@ public class TestActiveMotionSensor {
 
 	}
 	public static void main (String args[]) {
-		TestActiveMotionSensor  test = new TestActiveMotionSensor();
+		ActiveMotionSensorAdd  test = new ActiveMotionSensorAdd();
 	     try {
 			test.constructObject();
 		} catch (ClassNotFoundException e) {
@@ -97,6 +99,7 @@ public class TestActiveMotionSensor {
 			e.printStackTrace();
 		}
 		}
+
 
 
 }
