@@ -46,6 +46,7 @@ import CapteurAir.CapteurAir;
 import client.CityClient;
 import connectionPool.DataSource;
 import district.District;
+import tram_line.transition;
 import tram_line.tramExceptions.noDataInBase;
 import user.Users;
 
@@ -152,12 +153,12 @@ public class myCapteur extends JFrame{
 
 		case4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//try {
-					getintervalle();
-				//} catch (IOException | JSONException e) {
-					// TODO Auto-generated catch block
-				//	e.printStackTrace();
-				//}
+					try {
+						getintervalle();
+					} catch (IOException | JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		});
 
@@ -530,9 +531,9 @@ public class myCapteur extends JFrame{
 //		timer.schedule(new myTask(), 0, jtf2);
 //	}
     
-	public JFrame getintervalle() {
+	public JFrame getintervalle() throws UnknownHostException, IOException, JSONException {
 		JFrame a = new JFrame();
-		a.setTitle("sélectionner quartier");
+		a.setTitle("sélectionner capteur");
 		a.setSize(400, 400);
 		a.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		a.setLocationRelativeTo(null);
@@ -541,20 +542,41 @@ public class myCapteur extends JFrame{
 		panel1.setLayout(new FlowLayout());
 		panel1.setBackground(Color.white);
 		JLabel label1 = new JLabel("Veuillez déterminer l'intervalle des relevés");
+		JComboBox<String> liste1 = new JComboBox<String> (); //Création d'une liste déroulante.
+		int b = getnumquart();
+		if(b == 3) {
+			liste1.addItem("Capteur_1");liste1.addItem("Capteur_2");liste1.addItem("Capteur_3");
+		}else if(b == 6) {
+			liste1.addItem("Capteur_1");liste1.addItem("Capteur_2");liste1.addItem("Capteur_3");liste1.addItem("Capteur_4");liste1.addItem("Capteur_5");
+			liste1.addItem("Capteur_6");
+		}else if(b == 10) {
+			liste1.addItem("Capteur_1"); liste1.addItem("Capteur_2");liste1.addItem("Capteur_3");liste1.addItem("Capteur_4");liste1.addItem("Capteur_5");liste1.addItem("Capteur_6");
+			liste1.addItem("Capteur_7");liste1.addItem("Capteur_8");liste1.addItem("Capteur_9");liste1.addItem("Capteur_10");
+		}else if(b == 15) {
+			liste1.addItem("Capteur_1");liste1.addItem("Capteur_2");liste1.addItem("Capteur_3");liste1.addItem("Capteur_4");liste1.addItem("Capteur_5");liste1.addItem("Capteur_6");liste1.addItem("Capteur_7");liste1.addItem("Capteur_8");
+			liste1.addItem("Capteur_9");liste1.addItem("Capteur_10");liste1.addItem("Capteur_11");liste1.addItem("Capteur_12");liste1.addItem("Capteur_13");liste1.addItem("Capteur_14");liste1.addItem("Capteur_15");
+		}else if(b > 20) {
+			liste1.addItem("Capteur_1");liste1.addItem("Capteur_2");liste1.addItem("Capteur_3");liste1.addItem("Capteur_4");liste1.addItem("Capteur_5");liste1.addItem("Capteur_6");liste1.addItem("Capteur_7");liste1.addItem("Capteur_8");
+			liste1.addItem("Capteur_9");liste1.addItem("Capteur_10");liste1.addItem("Capteur_11");liste1.addItem("Capteur_12");liste1.addItem("Capteur_13");liste1.addItem("Capteur_14");liste1.addItem("Capteur_15");liste1.addItem("Capteur_16");liste1.addItem("Capteur_17");
+			liste1.addItem("Capteur_18");liste1.addItem("Capteur_19");liste1.addItem("Capteur_20");
+		}
 		jtf.getText();
 		JLabel label2 = new JLabel("en secondes");
 		JButton btnNewButton = new JButton("Valider");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				a.dispose();
+				String select = (String) liste1.getSelectedItem();
+				//System.out.println(select);
+				//nomquartier(select);
 				int jtf1 = Integer.parseInt(jtf.getText());
-				MyTask b = new MyTask(jtf1); 
+				MyTask b = null;
 				try {
-					addSetcapteur(jtf1);
+					b = new MyTask(jtf1, select);
 				} catch (IOException | JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+				} 
 				 // lancement de ce thread par appel à sa méthode start()
 				b.start();
 				 // cette méthode rend immédiatement la main...
@@ -563,19 +585,21 @@ public class myCapteur extends JFrame{
 		});
 		a.add(panel1);
 		panel1.add(label1);
+		panel1.add(liste1);
 		panel1.add(jtf);
 		panel1.add(label2);
 		panel1.add(btnNewButton);
 		return a;
 	}
     
-//   public void getindiceville(int jtf2){
-//		int jtf3 = jtf2 * 1000;
-//		
-//		//TestTimer(jtf3);
-//	}
+	public String nomquartier(String a){
+		return a;
+	}
+	
+	
 	public String historique() throws UnknownHostException, IOException, JSONException {
-	   int b = getnumquart();
+	   //int b = getnumquart();
+		int b = 6;
 	   String s = null;
 	   if(b == 3) {
 		   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice();
@@ -683,17 +707,21 @@ public class myCapteur extends JFrame{
 	class MyTask  extends Thread {
 		// surcharge de la méthode run() de la classe Thread
 		private int a;
-		public MyTask(int a) {
+		private String b;
+		public MyTask(int a, String b) throws UnknownHostException, IOException, JSONException {
 			this.a = a * 1000;
+			this.b = b;
 		}
 	    public  void run() {
 	    	int n = 0;
-	    	while(n < 100) {
+	    	while(n < 10) {
 	         System.out.println("\n ATTENTE !") ;
 	          try {
 	            Thread.sleep(a);
 					try {
-						historique();
+						//historique();
+						addSetcapteur(a, n ,b);
+						n++;
 					} catch (IOException | JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -964,12 +992,12 @@ public class myCapteur extends JFrame{
 	}
 	
 	 CapteurAir util1 = new CapteurAir();
-	public String addSetcapteur(int a) throws UnknownHostException, IOException, JSONException {
-		int c = getnumquart();
-		for(int i = 1; i <= c; i++) {
-			int idcapteur = i;
+	public String addSetcapteur(int a, int c, String b) throws UnknownHostException, IOException, JSONException { 
+			int idcapteur = c;
 			int indiceatmo = getCalculIndice();
-			String namecapteur = "Capteur" + i;
+			String namecapteur = b;
+			System.out.println(b);
+			a = a / 1000;
 			int intervalle = a;
 		
 		String json= "";
@@ -983,8 +1011,6 @@ public class myCapteur extends JFrame{
 				", indiceatmo : " + util1.getIndice() + ", namecapteur : " + util1.getName() + ", intervalle : " + util1.getIntervalle() +"}} " ; 
 		this.startConnection("172.31.249.22", 2400,json);
 		System.out.println("Nous allons enregistrer un par un les capteurs");
-		
-		}
 		return (String) json;
 	}
 	
@@ -1000,16 +1026,61 @@ public class myCapteur extends JFrame{
 		//System.out.println("Nous allons modifier l'intervalle des relevés des capteurs");
 		//return (String) json;
 	//}
-
 	
+	    
+	    public void getHistorique() throws UnknownHostException, IOException, JSONException{
+	    	String json;
+	    	int idcapteur = 1;
+	    	json  ="{request:{ operation_type: INFOCAPTEUR, target: capteurair , idcapteur: "+ idcapteur + "}}" ;
+	    	
+	    	String jsonResponse = this.startConnection("172.31.249.22", 2400,json);
+	    	this.showresultcapteur(jsonResponse);
+	    }
+	   
+		public String showresultcapteur(String jsonResponse) throws JSONException, noDataInBase {
+			String res = "Empty";
+			JSONObject obj1 =new JSONObject(jsonResponse);
+			List<CapteurAir> u1 = new ArrayList<CapteurAir>();
+			System.out.println("DEBUT");
+			JSONArray arr1 = obj1.getJSONArray("Data");
 
+			if(arr1.length() == 0) {
+				System.out.println("Il n'y a pas d'informations en base sur le capteur");
+				dispose();
+				throw new noDataInBase();
+			}
+			util1.setIntervalle(arr1.getJSONObject(0).getInt("intervalle"));
+			System.out.println("intervalle: " +util1.getIntervalle()); 
+			util1.setDate(arr1.getJSONObject(0).getString("date"));
+			System.out.println("date: " +util1.getDate());
+			util1.setIndice(arr1.getJSONObject(0).getInt("indice"));
+			util1.setId(arr1.getJSONObject(0).getInt("id"));
+			util1.setName(arr1.getJSONObject(0).getString("name"));
+			//util1.setDate(arr1.getJSONObject(0).getString("datereleve"));
+			//util1.setIndice(arr1.getJSONObject(0).getInt("indiceatmo"));
+			//util1.setName(arr1.getJSONObject(0).getString("namecapteur"));
+			//util1.setIntervalle(arr1.getJSONObject(0).getInt("intervalle"));
+			
+			u1.add(util1);
+			res = u1.toString();
+
+			System.out.println("idcapteur: " +util1.getId());
+			System.out.println("date: " +util1.getDate());
+			System.out.println("indice: " +util1.getIndice());
+			System.out.println("name: " +util1.getName());
+			System.out.println("intervalle: " +util1.getIntervalle());   
+
+			return res;
+		}
+
+		
 	public static void main(String[] args) throws JSONException, UnknownHostException, IOException { 
 		myCapteur b = new myCapteur();
 		//a.getconfigcapteur();
 		//a.getconfigcapteur();
 		//a.startConnection("172.31.249.22", 2400);
 		//capteur6 b = new capteur6();
-		//b.getalerte(2);
+		b.getHistorique();
 		}
 }
 

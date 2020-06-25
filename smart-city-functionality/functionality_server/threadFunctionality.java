@@ -236,6 +236,10 @@ class threadFunctionality extends Thread {
 				}else if(operationType.equals("UPDATECITY")) {
 					updatecity();
 				System.out.println("Valider");
+				
+				}else if(operationType.equals("INFOCAPTEUR")) {
+					capteurair();
+				System.out.println("Valider");
 				}
 
 			} catch (JSONException e) {
@@ -699,6 +703,36 @@ class threadFunctionality extends Thread {
 			System.out.println("on est dans la méthode update");
 
 			resultat = resultat + "Data : [{  seuilatmocity: " + seuilatmocity +"} ]}";
+			this.response = resultat;
+			return resultat;
+		}
+		
+		public String capteurair() throws JSONException, JsonProcessingException {
+			String resultat = "{Table: capteurair, Action : INFOCAPTEUR ,  Data: ";
+			List<CapteurAir> res = new ArrayList<CapteurAir>();
+			String json = this.mapJson;
+			JSONObject obj = new JSONObject(json);
+			JSONObject request = obj.getJSONObject("request");
+			int idcapteur = request.getInt("idcapteur");
+			try {
+				pstmt = connect.prepareStatement("SELECT * FROM capteurair WHERE idcapteur = (?)");
+				pstmt.setInt(1, idcapteur);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					CapteurAir util = new CapteurAir();
+					util.setId(rs.getInt(1));
+					util.setDate(rs.getString(2));
+					util.setIndice(rs.getInt(3));
+					util.setName(rs.getString(4));
+					util.setIntervalle(rs.getInt(5));
+					res.add(util);
+				}
+			} catch (SQLException ex) {
+				System.out.println("Erreur infos capteur");
+			}
+			System.out.println("je vais recuperer des infos station en bdd");
+			ObjectMapper mapper = new ObjectMapper();
+			resultat = resultat + mapper.writeValueAsString(res) + "}";
 			this.response = resultat;
 			return resultat;
 		}
