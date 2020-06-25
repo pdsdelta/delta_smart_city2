@@ -10,10 +10,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import analyse_indicateur.TestActiveBorne;
+import test_Analyse_indicateur.ActiveBorneAdd;
 import borne.Terminal;
 import functionality_server.functionalityServer;
+import gestion_borne.crud.MotionSensorDAO;
 import gestion_borne.crud.TerminalDAO;
+import motionSensor.MotionSensor;
 
 public class ActiveBorneAdd {
 	static TerminalDAO data;

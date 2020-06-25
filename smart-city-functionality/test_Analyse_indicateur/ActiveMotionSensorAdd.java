@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import test_Analyse_indicateur.ActiveMotionSensorAdd;
 import borne.Terminal;
 import functionality_server.functionalityServer;
 import gestion_borne.crud.MotionSensorDAO;
