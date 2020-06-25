@@ -1,4 +1,4 @@
-package test_Analyse_indicateur;
+package analyse_indicateur.test;
 
 import java.io.FileReader;
 import java.io.UnsupportedEncodingException;
@@ -9,7 +9,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import analyse_indicateur.TestCapAir;
-
+import analyse_indicateur.test.ActiveCapteurAir;
 public class ActiveCapteurAir {
 	  public static void main(String args[]) throws ParseException, JSONException, UnsupportedEncodingException {
 			

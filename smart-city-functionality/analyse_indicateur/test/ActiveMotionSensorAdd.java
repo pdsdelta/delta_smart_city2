@@ -1,4 +1,4 @@
-package test_Analyse_indicateur;
+package analyse_indicateur.test;
 
 
 
@@ -12,7 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import test_Analyse_indicateur.ActiveMotionSensorAdd;
+import analyse_indicateur.test.ActiveMotionSensorAdd;
 import borne.Terminal;
 import functionality_server.functionalityServer;
 import gestion_borne.crud.MotionSensorDAO;

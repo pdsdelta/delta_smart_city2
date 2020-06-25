@@ -1,4 +1,4 @@
-package test_Analyse_indicateur;
+package analyse_indicateur.test;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import test_Analyse_indicateur.ActiveBorneAdd;
+import analyse_indicateur.test.ActiveBorneAdd;
 import borne.Terminal;
 import functionality_server.functionalityServer;
 import gestion_borne.crud.MotionSensorDAO;
