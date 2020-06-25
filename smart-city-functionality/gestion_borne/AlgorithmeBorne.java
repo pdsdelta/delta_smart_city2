@@ -170,5 +170,21 @@ public class AlgorithmeBorne {
 		this.capacity = capacity;
 	}
 
+	public static ArrayList<Objet> getInfoVoitures() {
+		return infoVoitures;
+	}
+
+	public static void setInfoVoitures(ArrayList<Objet> infoVoitures) {
+		AlgorithmeBorne.infoVoitures = infoVoitures;
+	}
+
+	public static int getPlacesOccupees() {
+		return PlacesOccupees;
+	}
+
+	public static void setPlacesOccupees(int placesOccupees) {
+		PlacesOccupees = placesOccupees;
+	}
+
 
 }

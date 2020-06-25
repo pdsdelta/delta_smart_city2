@@ -213,7 +213,7 @@ public class TerminalDAO extends DAO<Terminal>{
 		this.json  ="{request:{ operation_type: SET_CITY, target: city ,nombremaxvoiture :"+nombre+"}} " ;
 		return jsone;
 	}
-	
+
 	//METHODE QUI PERMET DE MODIFIER LE NOMBRE DE VEHICULES MAXIMUM D'UNE VILLE
 	public void SetAlertCity(){
 		int res=0;
@@ -227,9 +227,9 @@ public class TerminalDAO extends DAO<Terminal>{
 		} catch (SQLException ex) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
-	
-		
+
+
+
 	}
 
 	//METHODE QUI PERMET DE MODIFIER LE NOMBRE DE VEHICULES MAXIMUM D'UNE VILLE
@@ -251,6 +251,27 @@ public class TerminalDAO extends DAO<Terminal>{
 		}else
 			System.out.println("rate");
 
+	}
+
+	public List<Terminal> findActive(int numero) throws SQLException {
+
+		List<Terminal> res = new ArrayList<Terminal>(); 
+		ResultSet result = this.connect.createStatement(
+				ResultSet.TYPE_SCROLL_INSENSITIVE,
+				ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Terminal where status =" +numero);
+		while (result.next()) {
+			Terminal borne = new Terminal(); 
+
+			borne.setLongitude(result.getInt("longitude"));
+			borne.setLatitude(result.getInt("latitude"));
+			borne.setActive(result.getBoolean("isActive"));
+			borne.setStatus(result.getInt("status"));
+			borne.setNumero(result.getInt("numero"));
+			res.add(borne);
+
+		} 
+		this.json  ="{request:{ operation_type: ALL_TERMINAL, target: Terminal}} " ;
+		return res;
 	}
 
 

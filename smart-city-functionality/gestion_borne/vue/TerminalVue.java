@@ -92,7 +92,7 @@ public class TerminalVue {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
 					SetMaxVoiture(evt);
-					panel.updateUI();
+					frame.repaint();
 				} catch (ClassNotFoundException | SQLException | IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

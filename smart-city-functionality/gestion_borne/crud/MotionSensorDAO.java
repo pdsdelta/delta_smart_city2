@@ -177,8 +177,8 @@ public class MotionSensorDAO extends DAO<MotionSensor> {
 		return res;
 	}
 
-	public List<MotionSensor> findActive() throws SQLException {
-
+public List<MotionSensor> findActive() throws SQLException {
+		
 		List<MotionSensor> res = new ArrayList<MotionSensor>(); 
 		ResultSet result = this.connect.createStatement(
 				ResultSet.TYPE_SCROLL_INSENSITIVE,

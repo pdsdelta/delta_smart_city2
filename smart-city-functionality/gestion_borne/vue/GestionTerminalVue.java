@@ -15,7 +15,10 @@ import functionality_server.functionalityServer;
 import gestion_borne.crud.MotionSensorDAO;
 import gestion_borne.crud.TerminalDAO;
 import motionSensor.MotionSensor;
+
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import java.awt.Font;
 
@@ -29,18 +32,18 @@ import java.awt.Font;
  *
  * @author anaelle Donfack
  */
-public class GestionMotionSensorVue extends javax.swing.JFrame {
+public class GestionTerminalVue extends javax.swing.JFrame {
 
 	/**
 	 * Creates new form Gestion_des_Motion_Sensor
 	 */
 	private functionalityServer server;
-	MotionSensorDAO data = new MotionSensorDAO(server);
+	TerminalDAO data = new TerminalDAO(server);
 
 	Statement stm;
 	ResultSet Rs;
 	DefaultTableModel model=new DefaultTableModel();
-	public GestionMotionSensorVue() throws ClassNotFoundException, SQLException, UnknownHostException, IOException {
+	public GestionTerminalVue() throws ClassNotFoundException, SQLException, UnknownHostException, IOException {
 		initComponents();
 
 		model.addColumn("numero");
@@ -49,10 +52,10 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		model.addColumn("Fonctionnel");
 		model.addColumn("statut");
 
-		List<MotionSensor> lt = data.getAll();
+		List<Terminal> lt = data.getAll();
 		data.startConnection("172.31.249.22", 2400);
-		MotionSensor borne = null; 
-		int col = 4;
+		Terminal borne = null; 
+		int col = 5;
 		int lig = lt.size();
 
 		Object [][] listeUtil = new Object [lig][col]; 
@@ -62,23 +65,37 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 			listeUtil[i][1] = borne.getLongitude();
 			listeUtil[i][2] = borne.getLatitude();
 			listeUtil[i][3] = borne.isActive();
-			
+			listeUtil[i][4] = borne.getStatus();
 		}
 
 		tble.setModel(new javax.swing.table.DefaultTableModel(
 				listeUtil,
 				new String [] {
-						"NUMERO", "LONGITUDE", "LATITUDE", "FONCTIONNEL"
+						"NUMERO", "LONGITUDE", "LATITUDE", "FONCTIONNEL", "STATUS"
 				}
 				) {
 			boolean[] canEdit = new boolean [] {
-					false, false, false, false
+					false, false, false, false,false
 			};
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return canEdit [columnIndex];
 			}
 		});
+		
+		JLabel jLabel8 = new JLabel("Statut");
+		jLabel8.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		jLabel8.setBounds(40, 286, 60, 17);
+		getContentPane().add(jLabel8);
+		
+		txtsta = new JTextField();
+		txtsta.setBounds(174, 285, 96, 19);
+		getContentPane().add(txtsta);
+		txtsta.setColumns(10);
+		
+		
+		
+		
 	}
 
 	/**
@@ -95,6 +112,7 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		jButton3 = new javax.swing.JButton();
 		jButton4 = new javax.swing.JButton();
 		jButton5 = new javax.swing.JButton();
+		btnTrafic = new javax.swing.JButton();
 		//jButton6 = new javax.swing.JButton();
 		txtre = new javax.swing.JTextField();
 		jLabel6 = new javax.swing.JLabel();
@@ -104,10 +122,13 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		jLabel1 = new javax.swing.JLabel();
 		jLabel3 = new javax.swing.JLabel();
 		jLabel4 = new javax.swing.JLabel();
+		jLabel9 = new javax.swing.JLabel();
+		jLabel10 = new javax.swing.JLabel();
 		txtbr = new javax.swing.JComboBox();
 		txtpr = new javax.swing.JTextField();
 		txtno = new javax.swing.JTextField();
 		txtid = new javax.swing.JTextField();
+		txtsta = new javax.swing.JTextField();
 		jLabel7 = new javax.swing.JLabel();
 		jMenuBar1 = new javax.swing.JMenuBar();
 		jMenu1 = new javax.swing.JMenu();
@@ -116,6 +137,7 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		jMenuItem3 = new javax.swing.JMenuItem();
 		jMenuItem4 = new javax.swing.JMenuItem();
 		jMenuItem5 = new javax.swing.JMenuItem();
+		menuItem = new javax.swing.JMenuItem();
 		jMenu2 = new javax.swing.JMenu();
 		jMenuItem6 = new javax.swing.JMenuItem();
 
@@ -154,7 +176,7 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 			}
 		});
 		getContentPane().add(jButton3);
-		jButton3.setBounds(380, 380, 150, 40);
+		jButton3.setBounds(373, 350, 150, 40);
 
 		jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 		//jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icone/modifier.png"))); // NOI18N
@@ -188,6 +210,24 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		});
 		getContentPane().add(jButton5);
 		jButton5.setBounds(40, 400, 130, 40);
+		
+		btnTrafic.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		btnTrafic.setText("Trafic");
+		btnTrafic.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					btnTraficActionPerformed(evt);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		btnTrafic.setBounds(380, 400, 150, 33);
+		getContentPane().add(btnTrafic);
 
 		/*jButton6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 		jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icone/nouveau.png"))); // NOI18N
@@ -215,19 +255,33 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		txtre.setBounds(560, 380, 130, 30);
 
 		jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 48)); // NOI18N
-		jLabel6.setText("Detecteurs de Vehicules");
+		jLabel6.setText("Bornes Retractables");
 		getContentPane().add(jLabel6);
-		jLabel6.setBounds(76, 10, 569, 47);
+		jLabel6.setBounds(182, 10, 430, 70);
+		
+		//Terminal borne= this.data.find(3);
+		//int voitureAdmis = borne.getCity().getNombreMaxVoiture();
+		
+		jLabel9.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		jLabel9.setText("Voiture Admis : ");
+		jLabel9.setBounds(40, 72, 230, 23);
+		getContentPane().add(jLabel9);
 
+		
+		jLabel10.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		jLabel10.setText("Voitures Pr\u00E9sents :");
+		jLabel10.setBounds(332, 72, 238, 28);
+		getContentPane().add(jLabel10);
+		
 		tble.setModel(new javax.swing.table.DefaultTableModel(
 				new Object [][] {
-					{null, null, null, null},
-					{null, null, null, null},
-					{null, null, null, null},
-					{null, null, null, null}
+					{null, null, null, null, null},
+					{null, null, null, null, null},
+					{null, null, null, null, null},
+					{null, null, null, null, null}
 				},
 				new String [] {
-						"NUMERO", "LONGITUDE", "LATITUDE", "FONCTIONNEL"
+						"NUMERO", "LONGITUDE", "LATITUDE", "FONCTIONNEL", "STATUS"
 				}
 				)
 			
@@ -290,6 +344,21 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		getContentPane().add(jLabel7);
 		jLabel7.setBounds(0, 0, 760, 500);
 
+		
+		menuItem = new JMenuItem("Voiture Admis");
+		menuItem.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					SetMaxVoiture(evt);
+				
+				} catch (ClassNotFoundException | SQLException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		jMenu1.add(menuItem);
+		
 		jMenu1.setText("File");
 
 		jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
@@ -298,6 +367,7 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
 					jMenuItem1ActionPerformed(evt);
+					
 				} catch (SQLException | IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -379,14 +449,10 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 	}
 
 	private void afficher() throws UnknownHostException, IOException, SQLException{	
-		
-		
-		this.repaint();
-		
-		List<MotionSensor> lt = data.getAll();
+		List<Terminal> lt = data.getAll();
 		data.startConnection("172.31.249.22", 2400);
-		MotionSensor borne = null; 
-		int col = 4;
+		Terminal borne = null; 
+		int col = 5;
 		int lig = lt.size();
 
 		Object [][] listeUtil = new Object [lig][col]; 
@@ -396,17 +462,17 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 			listeUtil[i][1] = borne.getLongitude();
 			listeUtil[i][2] = borne.getLatitude();
 			listeUtil[i][3] = borne.isActive();
-			
+			listeUtil[i][4] = borne.getStatus();
 		}
 
 		tble.setModel(new javax.swing.table.DefaultTableModel(
 				listeUtil,
 				new String [] {
-						"NUMERO", "LONGITUDE", "LATITUDE", "FONCTIONNEL"
+						"NUMERO", "LONGITUDE", "LATITUDE", "FONCTIONNEL", "STATUS"
 				}
 				) {
 			boolean[] canEdit = new boolean [] {
-					false, false, false, false
+					false, false, false, false,false
 			};
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -429,10 +495,10 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 	}//GEN-LAST:event_tbleMouseClicked
 
 	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-		MotionSensor captor = new MotionSensor();
+		Terminal captor = new Terminal();
 		captor.setLongitude(Integer.parseInt(txtno.getText()));
 		captor.setLatitude(Integer.parseInt(txtpr.getText()));
-		
+		captor.setStatus(Integer.parseInt(txtsta.getText()));
 		captor.setActive(Boolean.parseBoolean(txtbr.getSelectedItem().toString()));
 
 		try{
@@ -462,7 +528,7 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		try { 
 			if (JOptionPane.showConfirmDialog (null,"confirmer la modification","modification",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
-				MotionSensor captor = new MotionSensor();
+				Terminal captor = new Terminal();
 				captor.setLongitude(Integer.parseInt(txtno.getText()));
 				captor.setLatitude(Integer.parseInt(txtpr.getText()));
 				captor.setNumero(Integer.parseInt(txtid.getText()));
@@ -487,7 +553,7 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 				if(txtid.getText().length() != 0){
 
 					int y = Integer.parseInt(txtid.getText());
-					MotionSensor captor= this.data.find(y);
+					Terminal captor= this.data.find(y);
 					this.data.delete(captor);
 					this.data.startConnection("172.31.249.22", 2400);
 					afficher();
@@ -524,10 +590,25 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		JOptionPane.showMessageDialog(null,e.getMessage());
 		}
 	}//GEN-LAST:event_jButton3ActionPerformed
+	
+	private void btnTraficActionPerformed(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {//GEN-FIRST:event_jButton3ActionPerformed
+		new TraficVue(this, true).setVisible(true);
+	}//GEN-LAST:event_btnTraficActionPerformed
+	
+	private void SetMaxVoiture(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException, UnknownHostException, IOException {
+		JOptionPane jop= new JOptionPane();
+		String num = jop.showInputDialog(null,"Entrez le numero de voiture admis",JOptionPane.QUESTION_MESSAGE);
+		int y = Integer.parseInt(num);
+		
+		this.data.SetNbrMaxVoiture(y);
+		data.startConnection("172.31.249.22", 2400);
+		this.jLabel9.setText("Voitures Admis : "+ y);
+		this.repaint();
+	}
 
 	private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, UnknownHostException, IOException {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
-		MotionSensor captor = new MotionSensor();
+		Terminal captor = new Terminal();
 		captor.setLongitude(Integer.parseInt(txtid.getText()));
 		captor.setLatitude(Integer.parseInt(txtno.getText()));
 
@@ -553,11 +634,11 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		try { 
 			if (JOptionPane.showConfirmDialog (null,"confirmer la modification","modification",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
-				MotionSensor captor = new MotionSensor();
+				Terminal captor = new Terminal();
 				captor.setLongitude(Integer.parseInt(txtno.getText()));
 				captor.setLatitude(Integer.parseInt(txtpr.getText()));
 				captor.setNumero(Integer.parseInt(txtid.getText()));
-				
+				captor.setStatus(Integer.parseInt(txtsta.getText()));
 				captor.setActive(Boolean.parseBoolean(txtbr.getSelectedItem().toString()));
 
 				Boolean result=this.data.update(captor);
@@ -592,10 +673,10 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 	private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
 		try {
 			model.setRowCount(0);// pour vider la list des client
-			List<MotionSensor> lt = this.data.findActive();
+			List<Terminal> lt = this.data.findActive(Integer.parseInt(txtre.getText()));
 			this.data.startConnection("172.31.249.22", 2400);
-			MotionSensor captor = null; 
-			int col = 4;
+			Terminal captor = null; 
+			int col = 5;
 			int lig = lt.size();
 
 			Object [][] listeUtil = new Object [lig][col]; 
@@ -605,13 +686,13 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 				listeUtil[i][1] = captor.getLongitude();
 				listeUtil[i][2] = captor.getLatitude();
 				listeUtil[i][3] = captor.isActive();
-				
+				listeUtil[i][4] = captor.getStatus();
 
 			}
 			tble.setModel(new javax.swing.table.DefaultTableModel(
 					listeUtil,
 					new String [] {
-							"NUMERO", "LONGITUDE", "LATITUDE", "FONCTIONNEL"
+							"NUMERO", "LONGITUDE", "LATITUDE", "FONCTIONNEL","STATUS"
 					}
 					)); 
 			if (model.getRowCount () == 0){JOptionPane.showMessageDialog(null,"il y a aucune Borne");
@@ -677,7 +758,7 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new GestionMotionSensorVue().setVisible(true);
+					new GestionTerminalVue().setVisible(true);
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -701,6 +782,7 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 	private javax.swing.JButton jButton3;
 	private javax.swing.JButton jButton4;
 	private javax.swing.JButton jButton5;
+	private javax.swing.JButton btnTrafic;
 	//private javax.swing.JButton jButton6;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
@@ -708,6 +790,8 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabel6;
 	private javax.swing.JLabel jLabel7;
+	private javax.swing.JLabel jLabel9;
+	private javax.swing.JLabel jLabel10;
 	private javax.swing.JMenu jMenu1;
 	private javax.swing.JMenu jMenu2;
 	private javax.swing.JMenuBar jMenuBar1;
@@ -717,6 +801,7 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 	private javax.swing.JMenuItem jMenuItem4;
 	private javax.swing.JMenuItem jMenuItem5;
 	private javax.swing.JMenuItem jMenuItem6;
+	private javax.swing.JMenuItem menuItem;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JTable tble;
 	private javax.swing.JComboBox txtbr;
@@ -724,6 +809,7 @@ public class GestionMotionSensorVue extends javax.swing.JFrame {
 	private javax.swing.JTextField txtno;
 	private javax.swing.JTextField txtpr;
 	private javax.swing.JTextField txtre;
+	private JTextField txtsta;
 }
 
 

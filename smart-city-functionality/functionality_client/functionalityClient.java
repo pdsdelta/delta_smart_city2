@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import org.json.JSONException;
 
 import analyse_indicateur.fenetre1;
+import gestion_borne.vue.GestionMotionSensorVue;
+import gestion_borne.vue.GestionTerminalVue;
 import gestion_borne.vue.MotionSensorVue;
 import gestion_borne.vue.TerminalVue;
 import infocarbon.CarbonInfo;
@@ -93,8 +95,8 @@ public class functionalityClient extends JFrame{
 				}
 			}        
 		});
-		
-			
+
+
 
 		//Fonctionalitee hiba UPDATE
 
@@ -110,26 +112,26 @@ public class functionalityClient extends JFrame{
 		boutonTerminal.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Lancement de l'ecran de configuration des bornes retractables");
-				TerminalVue affichage = null;
 				try {
-					affichage = new TerminalVue();
-				} catch (ClassNotFoundException | SQLException e) {
+					chargeBorneFonctionality();
+				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String[] args = null;
-				affichage.main(args);
+
 			}        
 		});
 		//Fonctionnalit� Analle: Gestion des detecteurs de vehicules
 		boutonMotionSensor.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Lancement de l'ecran de configuration des detecteurs de v�hicules");
-				MotionSensorVue i= new MotionSensorVue();
-				String[] args = null;
-				i.main(args);
+				try {
+					chargeMotionSensorFonctionality() ;
+				} catch (IOException | JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-			}        
+			} 
 		});
 
 	}
@@ -138,6 +140,32 @@ public class functionalityClient extends JFrame{
 		this.dispose();
 		mapInterface map = new mapInterface(5);
 		map.startConnection("172.31.249.22", 2400, 0);
+	}
+
+	public void chargeBorneFonctionality() throws UnknownHostException, IOException, JSONException{
+		
+		GestionTerminalVue affichage = null;
+		try {
+			affichage = new GestionTerminalVue();
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String[] args = null;
+		affichage.main(args);
+	}
+
+	public void chargeMotionSensorFonctionality() throws UnknownHostException, IOException, JSONException{
+		
+		GestionMotionSensorVue affichage = null;
+		try {
+			affichage = new GestionMotionSensorVue();
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String[] args = null;
+		affichage.main(args);
 	}
 
 	public static void main(String[]args) {
