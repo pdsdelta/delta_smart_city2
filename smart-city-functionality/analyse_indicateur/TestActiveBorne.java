@@ -67,8 +67,8 @@ public class TestActiveBorne {
 	        Terminal objet = new Terminal(longitude,latitude);
 	        objet.setStatus(status);
 	        data= new TerminalDAO(server);
-			data.create(objet);
-	       
+			
+	       System.out.println(data.create(objet));
 	         
 	        
 	    }

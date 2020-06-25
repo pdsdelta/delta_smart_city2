@@ -21,11 +21,12 @@ public class CalculMotionSensor {
 		Indicator objet = null;
 			objet = new Indicator(server);	
 			String jsonReceived = objet.informotionsensor();
-			objet.startConnection("172.31.249.22", 2400);
+			try{objet.startConnection("172.31.249.22", 2400);}catch(Exception e) {}
 			JSONObject obj = new JSONObject(jsonReceived);
 			JSONObject objet1= obj.getJSONObject("request");
 			int data= objet1.getInt("Data");
 			System.out.println(data);
 
 }
-	}
+	
+}

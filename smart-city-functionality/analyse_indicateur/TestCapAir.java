@@ -26,7 +26,7 @@ public class TestCapAir {
 
 		out.println(toSend);
 		String response = in.readLine();
-		System.out.println("***** Résultat ******\n");
+		
 		return response;
 	}
 	
@@ -50,8 +50,7 @@ public class TestCapAir {
 			 ", indiceatmo : "+ util1.getIndice() + 
 			", namecapteur : " + util1.getName() + ", intervalle : " + util1.getIntervalle() +"}} " ;
 	this.startConnection("172.31.249.22", 2400,json);
-	System.out.println("Nous allons enregistrer un par un les capteurs");
-	System.out.println("Fichier enregistré");
+	
 	return (String) json;
 	}
 	
@@ -73,8 +72,7 @@ public class TestCapAir {
 			", name: "+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() + 
 			", etatalerte : " + util.getEtatalterte() +"}} " ;
 	this.startConnection("172.31.249.22", 2400,json);
-	System.out.println("Nous allons enregistrer un par un les quartiers");
-	System.out.println("Fichier enregistré");
+	
 	return (String) json;
 	}
 	
