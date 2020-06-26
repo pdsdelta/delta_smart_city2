@@ -1,44 +1,30 @@
 package analyse_indicateur;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.HeadlessException;
-import java.awt.image.*;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.toedter.calendar.JDateChooser;
 
 import functionality_server.functionalityServer;
-import gestion_borne.vue.TerminalListVue;
-import infocarbon.CarbonInfo;
-
-import javax.swing.JButton;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-import java.awt.SystemColor;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JCalendar;
-import java.awt.Font;
 
 public class fenetre1 extends JFrame {
 	public fenetre1() {

@@ -26,14 +26,18 @@ public class SelectEmpreinteCarbone {
 		
 			
 			
-			  JSONParser parser = new JSONParser();
+			  
 			   
 			  
 				   FileReader reader = new FileReader("C:\\Users\\etudiant\\Desktop\\EmpreinteCarbone.json");
 				   
-				   JSONObject jsonObj = (JSONObject) parser.parse(reader);
+				   JSONParser jsonParser = new JSONParser();
+			        Object obj = jsonParser.parse(reader);
+			        JSONObject objet1 = (JSONObject) obj;
 
-				   String id = (String) jsonObj.get("date");
+				   
+				   
+				   String id = (String) objet1.get("date");
 				   String date = id;
 				   System.out.println(id);
 			  
@@ -46,8 +50,8 @@ public class SelectEmpreinteCarbone {
 			objet.startConnection("172.31.249.22", 2400);
 			System.out.println("hello "+jsonReceived);
 			JSONObject obj1 = new JSONObject(jsonReceived );
-			JSONObject objet1= obj1.getJSONObject("request");
-			int data = objet1.getInt("Data");
+			JSONObject objet11= obj1.getJSONObject("request");
+			int data = objet11.getInt("Data");
 			System.out.println(data);
 			
 			  
