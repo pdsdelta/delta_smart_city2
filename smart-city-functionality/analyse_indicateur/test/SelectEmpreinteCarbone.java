@@ -1,20 +1,19 @@
-package analyse_indicateur;
+package analyse_indicateur.test;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import analyse_indicateur.Indicator;
 import functionality_server.functionalityServer;
 
-public class TestEmpreinteCarbone {
+public class SelectEmpreinteCarbone {
 	static Indicator indice;
 	static functionalityServer server;
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, JSONException, UnknownHostException, IOException, ParseException {
@@ -55,4 +54,3 @@ public class TestEmpreinteCarbone {
 			   }
 	
 }
-

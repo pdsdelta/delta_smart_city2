@@ -1,0 +1,8 @@
+{
+"operation_type":"SELECT_EMPREINTE_CARBONE",
+"table":"carboninfo",
+"a":[
+
+"'2020-05-10'"
+]
+}

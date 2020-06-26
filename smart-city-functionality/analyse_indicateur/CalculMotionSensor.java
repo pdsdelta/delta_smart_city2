@@ -8,7 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-
+import analyse_indicateur.fenetre1;
+import analyse_indicateur.Indicator;
 import functionality_server.functionalityServer;
 
 public class CalculMotionSensor {
@@ -26,6 +27,7 @@ public class CalculMotionSensor {
 			JSONObject objet1= obj.getJSONObject("request");
 			int data= objet1.getInt("Data");
 			System.out.println(data);
+			
 
 }
 	

@@ -1,6 +1,10 @@
-{    
-	"id":"10",
-	"name":"quartier10",
-	"seuilquartieratmo":"2",
-    "etatalerte":"1"
+ 
+{
+   
+
+"operation_type":"COUNT_CAPTEURAIR",
+"table":"district",
+"a":[
+
+]
 }
