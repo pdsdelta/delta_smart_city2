@@ -1,4 +1,4 @@
-package analyse_indicateur;
+package analyse_indicateur.test;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -7,10 +7,8 @@ import java.sql.SQLException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
+import analyse_indicateur.Indicator;
 import functionality_server.functionalityServer;
-
 
 public class CalculBorne {
 	static Indicator indice;
@@ -29,5 +27,4 @@ public class CalculBorne {
 			System.out.println(data);
 
 }
-
 }
