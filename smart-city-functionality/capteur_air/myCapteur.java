@@ -396,9 +396,9 @@ public class myCapteur extends JFrame{
 		panel1.setBackground(Color.white);
 		int i =0;
 			String columns[] = {"Id", "date", "indice", "name", "intervalle"};
-		      String data[][] = new String[9][5];
+		      String data[][] = new String[10][5];
 		    int j = 1;
-		      while(i<9) {
+		      while(i<10) {
 		    	getHistorique(j);
 		        int b = util1.getId();
 		        String m = String.valueOf(b);
