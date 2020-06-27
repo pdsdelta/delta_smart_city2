@@ -1,0 +1,6 @@
+{
+"operation_type":"SELECT_TRAM",
+"table":"station",
+"idstation":"1"
+
+}

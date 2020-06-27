@@ -1,0 +1,5 @@
+{
+"operation_type":"SELECT_TRAM",
+"table":"carstats",
+"dateof":"2020-05-10"
+}

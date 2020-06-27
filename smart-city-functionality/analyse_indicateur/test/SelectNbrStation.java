@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import analyse_indicateur.test.TestStation;
+import analyse_indicateur.test.SelectNbrStation;
 import analyse_indicateur.Indicator;
 
 
@@ -25,7 +25,7 @@ import functionality_server.functionalityServer;
 
 
 
-public class TestStation {
+public class SelectNbrStation {
 	static Indicator indice;
 	static functionalityServer server;
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, JSONException, UnknownHostException, IOException, ParseException {
@@ -35,7 +35,7 @@ public class TestStation {
 	  
 	
 	
-	InputStream fis = new FileInputStream("smart-city-functionality/analyse_indicateur/test/TestStation.json");
+	InputStream fis = new FileInputStream("smart-city-functionality/analyse_indicateur/test/SelectNbrStation.json");
 	InputStreamReader ipsr = new InputStreamReader(fis);
 	BufferedReader br = new BufferedReader(ipsr);
 	String outjsonString = "";
