@@ -208,20 +208,20 @@ public class myCapteur extends JFrame{
 	JComboBox<String> liste1 = new JComboBox<String> (); //Création d'une liste déroulante.
 	int b = getnumquart();
 	if(b == 3) {
-		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");
+		liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_2");
 	}else if(b == 6) {
-		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");
-		liste1.addItem("Quartier_5");
+		liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");
+		liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");
 	}else if(b == 10) {
-		liste1.addItem("Quartier_0"); liste1.addItem("Quartier_1"); liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");
-		liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");liste1.addItem("Quartier_9");
+		liste1.addItem("Quartier_1"); liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");
+		liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");liste1.addItem("Quartier_9");liste1.addItem("Quartier_10");
 	}else if(b == 15) {
-		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");
-		liste1.addItem("Quartier_9");liste1.addItem("Quartier_10");liste1.addItem("Quartier_11");liste1.addItem("Quartier_12");liste1.addItem("Quartier_13");liste1.addItem("Quartier_14");
+		liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");
+		liste1.addItem("Quartier_9");liste1.addItem("Quartier_10");liste1.addItem("Quartier_11");liste1.addItem("Quartier_12");liste1.addItem("Quartier_13");liste1.addItem("Quartier_14");liste1.addItem("Quartier_15");
 	}else if(b > 20) {
-		liste1.addItem("Quartier_0");liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");
+		liste1.addItem("Quartier_1");liste1.addItem("Quartier_2");liste1.addItem("Quartier_3");liste1.addItem("Quartier_4");liste1.addItem("Quartier_5");liste1.addItem("Quartier_6");liste1.addItem("Quartier_7");liste1.addItem("Quartier_8");
 		liste1.addItem("Quartier_9");liste1.addItem("Quartier_10");liste1.addItem("Quartier_11");liste1.addItem("Quartier_12");liste1.addItem("Quartier_13");liste1.addItem("Quartier_14");liste1.addItem("Quartier_15");liste1.addItem("Quartier_16");liste1.addItem("Quartier_17");
-		liste1.addItem("Quartier_18");liste1.addItem("Quartier_19");
+		liste1.addItem("Quartier_18");liste1.addItem("Quartier_19");liste1.addItem("Quartier_20");
 	}
 
 	JLabel label2 = new JLabel(
@@ -267,21 +267,21 @@ public class myCapteur extends JFrame{
 		JLabel label2 = new JLabel();
 		int c = getnumquart();
 		if (c == 3) {
-		label2.setText("<html><body><p><p><p>" + "Pour le quartier_0, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
-				+ "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>"+"<p>" + "Nous avons donc un indice dans la ville de 6"+ "</body></html>");
+		label2.setText("<html><body><p><p><p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>"
+				+ "Pour le quartier_3, nous avons un indice de " +getCalculIndice()+ "<p>"+"<p>" + "Nous avons donc un indice dans la ville de 6"+ "</body></html>");
 	} else if (c == 6) {
-		label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
-				+ "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_3, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_4, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_5, nous avons un indice de " +getCalculIndice()+ "<p>"+"<p>" + "Nous avons donc un indice dans la ville de 6"+"</body></html>");
+		label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>"
+				+ "Pour le quartier_3, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_4, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_5, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_6, nous avons un indice de " +getCalculIndice()+ "<p>"+"<p>" + "Nous avons donc un indice dans la ville de 6"+"</body></html>");
 	} else if (c == 10) {
-		label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
-				+ "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_3, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_4, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_5, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_6, nous avons un indice de " +getCalculIndice()+"<p>"+"Pour le quartier_7, nous avons un indice de " +getCalculIndice()+"<p>" +"Pour le quartier_8, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_9, nous avons un indice de " +getCalculIndice()+ "<p>" + "Nous avons donc un indice dans la ville de 6"+"</body></html>");
+		label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
+				+ "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_3, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_4, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_5, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_6, nous avons un indice de " +getCalculIndice()+"<p>"+"Pour le quartier_7, nous avons un indice de " +getCalculIndice()+"<p>" +"Pour le quartier_8, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_9, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_10, nous avons un indice de " +getCalculIndice()+ "<p><p>"+ "Nous avons donc un indice dans la ville de 6"+"</body></html>");
 
 	} else if (c == 15) {
-		label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
-				+ "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_3, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_4, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_5, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_6, nous avons un indice de " +getCalculIndice()+"<p>"+"Pour le quartier_7, nous avons un indice de " +getCalculIndice()+"<p>" +"Pour le quartier_8, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_9, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_10, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_11, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_12, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_13, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_14, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Nous avons donc un indice dans la ville de 6"+"</body></html>");
+		label2.setText("<html><body><p><p><p><p><p>"  + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
+				+ "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_3, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_4, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_5, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_6, nous avons un indice de " +getCalculIndice()+"<p>"+"Pour le quartier_7, nous avons un indice de " +getCalculIndice()+"<p>" +"Pour le quartier_8, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_9, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_10, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_11, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_12, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_13, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_14, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_15, nous avons un indice de " +getCalculIndice()+ "<p><p>"+ "Nous avons donc un indice dans la ville de 6"+"</body></html>");
 	} else if (c > 20) {
-		label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_0, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
-				+ "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_3, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_4, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_5, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_6, nous avons un indice de " +getCalculIndice()+"<p>"+"Pour le quartier_7, nous avons un indice de " +getCalculIndice()+"<p>" +"Pour le quartier_8, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_9, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_10, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_11, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_12, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_13, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_14, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_15, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_16, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_17, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_18, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_19, nous avons un indice de " +getCalculIndice()+ "<p>" +"Nous avons donc un indice dans la ville de 6"+"</body></html>");
+		label2.setText("<html><body><p><p><p><p><p>" + "Pour le quartier_1, nous avons un indice de " +getCalculIndice()+ "<p>"
+				+ "Pour le quartier_2, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_3, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_4, nous avons un indice de " +getCalculIndice()+ "<p>"+"Pour le quartier_5, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_6, nous avons un indice de " +getCalculIndice()+"<p>"+"Pour le quartier_7, nous avons un indice de " +getCalculIndice()+"<p>" +"Pour le quartier_8, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_9, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_10, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_11, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_12, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_13, nous avons un indice de " +getCalculIndice()+ "<p>" + "Pour le quartier_14, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_15, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_16, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_17, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_18, nous avons un indice de " +getCalculIndice()+ "<p>" +"Pour le quartier_19, nous avons un indice de " +getCalculIndice()+ "<p>"+ "Pour le quartier_20, nous avons un indice de " +getCalculIndice()+ "<p><p>" +"Nous avons donc un indice dans la ville de 6"+"</body></html>");
 	}
         a.add(panel);
         panel.add(label2);
@@ -396,9 +396,9 @@ public class myCapteur extends JFrame{
 		panel1.setBackground(Color.white);
 		int i =0;
 			String columns[] = {"Id", "date", "indice", "name", "intervalle"};
-		      String data[][] = new String[10][5];
+		      String data[][] = new String[9][5];
 		    int j = 1;
-		      while(i< 10) {
+		      while(i<9) {
 		    	getHistorique(j);
 		        int b = util1.getId();
 		        String m = String.valueOf(b);
@@ -551,22 +551,22 @@ public class myCapteur extends JFrame{
 	}
 	
 	
-	public String historique() throws UnknownHostException, IOException, JSONException {
-		int b = 6;
-	   String s = null;
-	   if(b == 3) {
-		   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice();
-	   }else if(b ==6) {
-		   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_3, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_4, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_5, nous avons un indice de" +getCalculIndice();
-	   }else if (b==10) {
-		   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_3, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_4, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_5, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_6, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_7, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_8, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_9, nous avons un indice de" +getCalculIndice();
-	   }else if (b==15) {
-		   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_3, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_4, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_5, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_6, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_7, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_8, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_9, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_10, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_11, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_12, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_13, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_14, nous avons un indice de" +getCalculIndice();	   
-	   }else if (b ==20) {
-		   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_3, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_4, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_5, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_6, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_7, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_8, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_9, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_10, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_11, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_12, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_13, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_14, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_15, nous avons un indice de" +getCalculIndice()+"\n Pour le quartier_16, nous avons un indice de" +getCalculIndice()+"\n Pour le quartier_17, nous avons un indice de" +getCalculIndice()+"\n Pour le quartier_18, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_19, nous avons un indice de" +getCalculIndice();	
-	   }
-	   return s;
-   }
+	//public String historique() throws UnknownHostException, IOException, JSONException {
+		//int b = 6;
+	   //String s = null;
+	  // if(b == 3) {
+		//   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice();
+	   //}else if(b ==6) {
+		//   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_3, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_4, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_5, nous avons un indice de" +getCalculIndice();
+	   //}else if (b==10) {
+		//   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_3, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_4, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_5, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_6, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_7, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_8, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_9, nous avons un indice de" +getCalculIndice();
+	  // }else if (b==15) {
+		//   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_3, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_4, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_5, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_6, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_7, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_8, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_9, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_10, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_11, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_12, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_13, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_14, nous avons un indice de" +getCalculIndice();	   
+	  // }else if (b ==20) {
+		//   s = "Pour le quartier_0, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_1, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_2, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_3, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_4, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_5, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_6, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_7, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_8, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_9, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_10, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_11, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_12, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_13, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_14, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_15, nous avons un indice de" +getCalculIndice()+"\n Pour le quartier_16, nous avons un indice de" +getCalculIndice()+"\n Pour le quartier_17, nous avons un indice de" +getCalculIndice()+"\n Pour le quartier_18, nous avons un indice de" +getCalculIndice()+ "\n Pour le quartier_19, nous avons un indice de" +getCalculIndice();	
+	   //}
+	  // return s;
+   //}
 
 	//interface indice du quartier 
 	public JFrame indicequartier(String e) throws UnknownHostException, IOException, JSONException {
