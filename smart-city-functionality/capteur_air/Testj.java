@@ -58,22 +58,22 @@ public class Testj {
 	}
 	
 	District util = new District();
-	public String addquartierj(String a, String b, String c, String d) throws UnknownHostException, IOException, JSONException {
+	public String addquartierj(String a, String b, String c) throws UnknownHostException, IOException, JSONException {
 		int id =Integer.parseInt(a); 
 		String name = b;
 		int seuilquartieratmo = Integer.parseInt(c);
-		int etatalerte = Integer.parseInt(d);
+		//int etatalerte = Integer.parseInt(d);
 	
 	String json= "";
 
 	util.setId(id);
 	util.setName(name);
 	util.setSeuilQuartierATMO(seuilquartieratmo);
-	util.setEtatalterte(etatalerte);
+	//util.setEtatalterte(etatalerte);
 	
 	json  ="{request:{ operation_type: ADDQUARTIER, target: district , id: "+util.getId() + 
 			", name: "+ util.getName() + ", seuilquartieratmo : "+ util.getSeuilQuartierATMO() + 
-			", etatalerte : " + util.getEtatalterte() +"}} " ;
+			"}} " ;
 	this.startConnection("172.31.249.22", 2400,json);
 	System.out.println("Nous allons enregistrer un par un les quartiers");
 	System.out.println("Fichier enregistré");

@@ -33,15 +33,15 @@ public class TestDistrict {
 		   String id = (String) jsonObj.get("id");
 		   String name = (String) jsonObj.get("name");
 		   String seuilquartieratmo = (String) jsonObj.get("seuilquartieratmo");
-		   String etatalerte = (String) jsonObj.get("etatalerte");
+		   //String etatalerte = (String) jsonObj.get("etatalerte");
 		   System.out.println("Id : "+ id);
 		   System.out.println("name : "+ name);
 		   System.out.println("seuilquartieratmo : "+ seuilquartieratmo);
-		   System.out.println("etatalerte : "+ etatalerte);
+		   //System.out.println("etatalerte : "+ etatalerte);
 		   
 		   //addquartierj(id, name, seuilquartieratmo, etatalerte);
 		   Testj a = new Testj();
-		   a.addquartierj(id, name, seuilquartieratmo, etatalerte);
+		   a.addquartierj(id, name, seuilquartieratmo);
 	   }catch (Exception e) {
 		   e.printStackTrace();
 	   }

@@ -215,31 +215,35 @@ class threadFunctionality extends Thread {
 
 				if(operationType.equals("INFOCITY")) {
 					sizecity();
+					System.out.println("La méthode INFOCITY a été effectuée");
+					
 				}else if(operationType.equals("UPDATEINDICE")) {
 					updateindice();
+					System.out.println("La méthode UPDATEINDICE a été effectuée");	
+					
 				}else if(operationType.equals("CAPTEURAIR")) {
 					insertcapteur();
-					System.out.println("Très bien ");
+					System.out.println("La méthode CAPTEURAIR a été effectuée");
 					
 				}else if(operationType.equals("ADDQUARTIER")) {
 					insertquartier();
-					System.out.println("Operation type, Bien reçu");
+					System.out.println("La méthode ADDQUARTIER a été effectuée");
 					
 				}else if(operationType.equals("UPDATESEUIL")) {
 					updateseuil();
-					System.out.println("Super");
+					System.out.println("La méthode UPDATESEUIL a été effectuée");
 					
 				}else if(operationType.equals("UPDATECAPTEUR")) {
 					updatecapteur();
-					System.out.println("Valider");
+					System.out.println("La méthode UPDATECAPTEUR a été effectuée");
 					
 				}else if(operationType.equals("UPDATECITY")) {
 					updatecity();
-				System.out.println("Valider");
+				System.out.println("La méthode UPDATECITY a été effectuée");
 				
 				}else if(operationType.equals("INFOCAPTEUR")) {
 					capteurair();
-				System.out.println("Valider");
+				System.out.println("La méthode INFOCAPTEUR a été effectuée");
 				}
 
 			} catch (JSONException e) {
@@ -436,7 +440,7 @@ class threadFunctionality extends Thread {
 			} catch (SQLException ex) {
 				System.out.println("Erreur infos city!");
 			}
-			System.out.println("je vais recuperer des infos city en bdd");
+			System.out.println("Récupération des valeurs en bdd");
 			ObjectMapper mapper = new ObjectMapper();
 			resultat = resultat + mapper.writeValueAsString(res) + "}";
 			this.response = resultat;
@@ -555,7 +559,7 @@ class threadFunctionality extends Thread {
 				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 				ex.printStackTrace();
 			}
-			System.out.println("on est dans la méthode insert");
+			System.out.println("on est dans la méthode insertquartier");
 
 			resultat = resultat + "Data : [{  id: " + id + ", name: " + name
 					+ ", seuilquartieratmo : " + seuilquartieratmo + "} ]}";
@@ -590,7 +594,7 @@ class threadFunctionality extends Thread {
 				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 				ex.printStackTrace();
 			}
-			System.out.println("on est dans la méthode insert");
+			System.out.println("on est dans la méthode insertcapteur");
 
 			resultat = resultat + "Data : [{  idcapteur: " + idcapteur + ", datereleve: " + datereleve
 					+ ", indiceatmo : " + indiceatmo + ", namecapteur : " + namecapteur + ", intervalle : " + intervalle +"} ]}";
@@ -675,7 +679,7 @@ class threadFunctionality extends Thread {
 				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 				ex.printStackTrace();
 			}
-			System.out.println("on est dans la méthode update");
+			System.out.println("on est dans la méthode updatecapteurair");
 
 			resultat = resultat + "Data : [{  intervalle: " + intervalle +"} ]}";
 			this.response = resultat;
@@ -700,7 +704,7 @@ class threadFunctionality extends Thread {
 				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
 				ex.printStackTrace();
 			}
-			System.out.println("on est dans la méthode update");
+			System.out.println("on est dans la méthode updatecity");
 
 			resultat = resultat + "Data : [{  seuilatmocity: " + seuilatmocity +"} ]}";
 			this.response = resultat;
@@ -730,7 +734,7 @@ class threadFunctionality extends Thread {
 			} catch (SQLException ex) {
 				System.out.println("Erreur infos capteur");
 			}
-			System.out.println("je vais recuperer des infos station en bdd");
+			System.out.println("Récupération des valeurs en bdd");
 			ObjectMapper mapper = new ObjectMapper();
 			resultat = resultat + mapper.writeValueAsString(res) + "}";
 			this.response = resultat;
