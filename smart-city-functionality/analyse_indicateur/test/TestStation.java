@@ -1,8 +1,12 @@
 package analyse_indicateur.test;
 
 import java.awt.HeadlessException;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 
@@ -31,15 +35,19 @@ public class TestStation {
 	  
 	
 	
-	
-	  JSONParser parser = new JSONParser();
-	   
-	  
-		   FileReader reader = new FileReader("C:\\Users\\etudiant\\Desktop\\NomberStation.json");
-		   
-		   JSONObject jsonObj = (JSONObject) parser.parse(reader);
+	InputStream fis = new FileInputStream("smart-city-functionality/analyse_indicateur/test/TestStation.json");
+	InputStreamReader ipsr = new InputStreamReader(fis);
+	BufferedReader br = new BufferedReader(ipsr);
+	String outjsonString = "";
+	String s = "";
 
-		   String id = (String) jsonObj.get("numberstation");
+	while ((outjsonString = br.readLine()) != null) {
+		s = s + outjsonString;
+	}
+       JSONObject objet1 = new JSONObject(s);
+
+	 
+		   String id = (String) objet1.get("idstation");
 		   String numberstation = id;
 		   System.out.println(id);
 	  
@@ -48,10 +56,10 @@ public class TestStation {
 		String jsonReceived = objet.infostation();
 		objet.startConnection("172.31.249.22", 2400);
 		JSONObject obj = new JSONObject(jsonReceived);
-		JSONObject objet1= obj.getJSONObject("request");
-		int	data = objet1.getInt("Data");
+		JSONObject objet11= obj.getJSONObject("request");
+		int	data = objet11.getInt("Data");
 		
-		
+		System.out.println(data);
 	
 
 }

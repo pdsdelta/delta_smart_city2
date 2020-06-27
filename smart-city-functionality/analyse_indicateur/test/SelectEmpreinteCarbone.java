@@ -1,7 +1,11 @@
 package analyse_indicateur.test;
 
-import java.io.FileReader;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 
@@ -23,17 +27,16 @@ public class SelectEmpreinteCarbone {
 			
 			objet = new Indicator(server);
 		  
-		
-			
-			
-			  
-			   
-			  
-				   FileReader reader = new FileReader("C:\\Users\\etudiant\\Desktop\\EmpreinteCarbone.json");
-				   
-				   JSONParser jsonParser = new JSONParser();
-			        Object obj = jsonParser.parse(reader);
-			        JSONObject objet1 = (JSONObject) obj;
+			InputStream fis = new FileInputStream("smart-city-functionality/analyse_indicateur/test/SelectEmpreinteCarbone.json");
+			InputStreamReader ipsr = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(ipsr);
+			String outjsonString = "";
+			String s = "";
+
+			while ((outjsonString = br.readLine()) != null) {
+				s = s + outjsonString;
+			}
+		       JSONObject objet1 = new JSONObject(s);
 
 				   
 				   

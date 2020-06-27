@@ -1,8 +1,6 @@
 {
 "operation_type":"SELECT_STATION",
-"table":"city",
-"a":[
+"table":"station",
+"idstation":"1"
 
-"1"
-]
 }
