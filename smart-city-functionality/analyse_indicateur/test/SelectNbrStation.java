@@ -35,7 +35,7 @@ public class SelectNbrStation {
 	  
 	
 	
-	InputStream fis = new FileInputStream("smart-city-functionality/analyse_indicateur/test/SelectNbrStation.json");
+	InputStream fis = new FileInputStream("C:\\Users\\etudiant\\Desktop\\pds\\delta_smart_city2\\smart-city-functionality\\analyse_indicateur\\test\\SelectNbrStation.json");
 	InputStreamReader ipsr = new InputStreamReader(fis);
 	BufferedReader br = new BufferedReader(ipsr);
 	String outjsonString = "";

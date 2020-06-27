@@ -72,7 +72,7 @@ public class ActiveBorneAdd {
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
 		JSONArray terminal = null;
-		try (FileReader reader = new FileReader("smart-city-functionality/analyse_indicateur/test/ActiveBorneAdd.json"))
+		try (FileReader reader = new FileReader("C:\\Users\\etudiant\\Desktop\\pds\\delta_smart_city2\\smart-city-functionality\\analyse_indicateur\\test\\ActiveBorneAdd.json"))
 		{
 			//Read JSON file
 			Object obj = jsonParser.parse(reader);
