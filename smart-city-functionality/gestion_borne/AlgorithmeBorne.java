@@ -33,6 +33,8 @@ public class AlgorithmeBorne {
 	//Variable comptant le nombre de voiture dans la ville
 	static  int PlacesOccupees;
 	int capacity =0;
+   private int status;
+   private int alarme;
 
 	//Methode traitant les requêtes d'entrée dans la ville provenant du serveur
 	public synchronized String TraitementEntrer(String json) throws JSONException, ClassNotFoundException, SQLException {
@@ -119,8 +121,12 @@ public class AlgorithmeBorne {
 			//this.setCapacity(size );
 			//La borne se baisse: status=0;
 			borne.setStatus(0);
+			this.setStatus(borne.getStatus());
+			System.out.println(borne.getNumero());
+			this.data.update(borne);
 			System.out.println("La borne s'est baisse, status: "+borne.getStatus());
 			System.out.println("Alarme: "+borne.getCity().getAlert());
+			this.setAlarme(borne.getCity().getAlert());
 			//On ajoute l'objet au tableau d'objet de la ville
 			this.infoVoitures.add(objet);
 			System.out.format("[Borne %s]: Objet acceptée, il reste %d places \n", borne.getNumero(), this.places());
@@ -131,14 +137,19 @@ public class AlgorithmeBorne {
 		}
 		//Si aucune alerte n'a ete lancé ou le nombre maximal n'a pas encore ete atteint
 		else if((this.places()>0 && borne.getCity().getAlert()==1)) {
-			
-				//Si l'une des conditions est constaté, on refuse l'acces de la voiture, la borne se lève
-				borne.setStatus(1);
-				System.out.println("La borne s'est leve, son status: "+borne.getStatus());
-				System.out.println("Alarme: "+borne.getCity().getAlert());
-				System.out.format("[Borne %s]: Objet refusée, il reste  %d places  \n", borne.getNumero(),this.places());
 
-			
+
+			//Si l'une des conditions est constaté, on refuse l'acces de la voiture, la borne se lève
+			borne.setStatus(1);
+			this.setStatus(borne.getStatus());
+			System.out.println(borne.getNumero());
+			this.data.update(borne);
+			this.setAlarme(borne.getCity().getAlert());
+			System.out.println("La borne s'est leve, son status: "+borne.getStatus());
+			System.out.println("Alarme: "+borne.getCity().getAlert());
+			System.out.format("[Borne %s]: Objet refusée, il reste  %d places  \n", borne.getNumero(),this.places());
+
+
 
 			result=false;
 		}
@@ -150,7 +161,10 @@ public class AlgorithmeBorne {
 		Objet o= this.infoVoitures.get(1);
 		//Decrementation du nombre de voiture dans la ville
 		this.PlacesOccupees--;
-
+		Terminal borne=this.FindTerminal(o);
+		borne.setStatus(0);
+		this.setStatus(borne.getStatus());
+		this.data.update(borne);
 		//int size=this.PlacesOccupees.decrementAndGet();
 		//this.setCapacity(size);
 		//On retire la voiture du tableau
@@ -184,6 +198,22 @@ public class AlgorithmeBorne {
 
 	public static void setPlacesOccupees(int placesOccupees) {
 		PlacesOccupees = placesOccupees;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getAlarme() {
+		return alarme;
+	}
+
+	public void setAlarme(int alarme) {
+		this.alarme = alarme;
 	}
 
 

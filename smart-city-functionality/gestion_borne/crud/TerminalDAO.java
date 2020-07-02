@@ -148,6 +148,7 @@ public class TerminalDAO extends DAO<Terminal>{
 					city.setLongueurCity(i.getInt("longueurcity"));
 					city.setBudgetStation(i.getInt("budgetstation"));
 					city.setNombreMaxVoiture(i.getInt("nombremaxvoiture"));
+					city.setAlert(i.getInt("alert"));
 					terminal = new Terminal(
 							result.getInt("longitude"),
 							result.getInt("latitude"),
@@ -218,10 +219,10 @@ public class TerminalDAO extends DAO<Terminal>{
 	public void SetAlertCity(){
 		int res=0;
 		String jsone="";
-		String query = "update city set Alert=? WHERE idcity= "+1; 
+		String query = "update city set alert=? WHERE idcity= "+1; 
 		try { 
 			this.pstmt = this.connect.prepareStatement(query); 
-			this.pstmt.setInt(1, 0);;
+			this.pstmt.setInt(1, 1);
 			res = pstmt.executeUpdate(); 
 
 		} catch (SQLException ex) {

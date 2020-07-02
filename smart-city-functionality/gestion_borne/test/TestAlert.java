@@ -50,10 +50,12 @@ public class TestAlert {
         
         int numero= (int)longi;
    
-       Terminal t;
+       Terminal t = new Terminal();
+       
         data= new TerminalDAO(server);
         t= data.find(numero);
-        
+        t.getCity().setAlert(0);
+        System.out.println( t.getCity().getAlert());
         data.SetAlertCity();
         
     }

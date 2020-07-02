@@ -223,6 +223,9 @@ public class GestionTerminalVue extends javax.swing.JFrame {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});
@@ -591,8 +594,10 @@ public class GestionTerminalVue extends javax.swing.JFrame {
 		}
 	}//GEN-LAST:event_jButton3ActionPerformed
 	
-	private void btnTraficActionPerformed(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException {//GEN-FIRST:event_jButton3ActionPerformed
-		new TraficVue(this, true).setVisible(true);
+	private void btnTraficActionPerformed(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException, InterruptedException {//GEN-FIRST:event_jButton3ActionPerformed
+		TraficVue vue = new TraficVue();
+		String [] args = null;
+		vue.main(args);
 	}//GEN-LAST:event_btnTraficActionPerformed
 	
 	private void SetMaxVoiture(java.awt.event.ActionEvent evt) throws ClassNotFoundException, SQLException, UnknownHostException, IOException {
