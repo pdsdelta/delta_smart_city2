@@ -178,12 +178,16 @@ class threadFunctionality extends Thread {
 
 			//Action concernant la simulation de circulation de voiture
 			if(operationType.equals("entrer")) {
-				
-				AlgorithmeBorne algo= new AlgorithmeBorne();
-				this.response=algo.TraitementEntrer(this.mapJson);
+				TraficVue vue = new TraficVue();
+				this.response=vue.TraitementEntrer(this.mapJson);
+				//AlgorithmeBorne algo= new AlgorithmeBorne();
+				//this.response=algo.TraitementEntrer(this.mapJson);
 			}else if(operationType.equals("sortir")) {
-				AlgorithmeBorne algo= new AlgorithmeBorne();
-				this.response=algo.TraitementSortie(this.mapJson);
+				TraficVue vue = new TraficVue();
+				this.response=vue.TraitementSortie(this.mapJson);
+				//this.response=TraficVue.AlgorithmeBorne.TraitementSortie(this.mapJson);
+				//AlgorithmeBorne algo= new AlgorithmeBorne();
+				//this.response=algo.TraitementSortie(this.mapJson);
 			}
 			// Requ�te concernant les d�tecteurs de v�hicules
 			if (operationType.equals("CREATE_SENSOR")) {
