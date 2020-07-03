@@ -130,6 +130,7 @@ public class TraficVue extends Observable {
 			borne.setStatus(0);
 			this.status1=0;
 			this.setStatus(borne.getStatus());
+			data.StockNbrVoiture(this.getPlacesOccupees());
 			this.alarme1=borne.getCity().getAlert();
 			System.out.println(borne.getNumero());
 			this.data.update(borne);
@@ -173,6 +174,7 @@ public class TraficVue extends Observable {
 		//Decrementation du nombre de voiture dans la ville
 		this.PlacesOccupees--;
 		Terminal borne=this.FindTerminal(o);
+		data.StockNbrVoiture(this.getPlacesOccupees());
 		this.status1=1;
 		borne.setStatus(0);
 		this.setStatus(borne.getStatus());

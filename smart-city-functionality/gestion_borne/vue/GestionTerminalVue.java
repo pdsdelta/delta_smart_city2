@@ -412,6 +412,9 @@ public class GestionTerminalVue extends javax.swing.JFrame {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});
@@ -671,9 +674,10 @@ public class GestionTerminalVue extends javax.swing.JFrame {
 
 	}//GEN-LAST:event_jMenuItem3ActionPerformed
 
-	private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) throws UnknownHostException, IOException, SQLException {//GEN-FIRST:event_jMenuItem4ActionPerformed
-		afficher();        // TODO add your handling code here:
+	private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) throws UnknownHostException, IOException, SQLException, ClassNotFoundException {//GEN-FIRST:event_jMenuItem4ActionPerformed
+		new VoiturePresent(this, true).setVisible(true);       // TODO add your handling code here:
 	}//GEN-LAST:event_jMenuItem4ActionPerformed
+	
 
 	private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
 		try {
